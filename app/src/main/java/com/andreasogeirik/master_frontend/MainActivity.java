@@ -5,12 +5,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
-
-import java.net.URI;
-
-
 public class MainActivity extends ActionBarActivity {
 
     String url = "http://78.91.1.119:8080/";
@@ -19,13 +13,9 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
 
-
-
-        new GetRequest().execute(url + "test");
-
-
-
+//        new GetRequest().execute(url + "test");
 
         /*try {
             RestTemplate template = new RestTemplate();

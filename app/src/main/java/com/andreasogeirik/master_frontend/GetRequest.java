@@ -5,12 +5,10 @@ import android.os.AsyncTask;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.URL;
-
 /**
  * Created by eirikstadheim on 20/01/16.
  */
-class GetRequest extends AsyncTask<String, Integer, String> {
+public class GetRequest extends AsyncTask<String, Integer, String> {
     protected String doInBackground(String... urls) {
         RestTemplate template = new RestTemplate();
         template.getMessageConverters().add(new StringHttpMessageConverter());
