@@ -10,10 +10,16 @@ import org.springframework.web.client.RestTemplate;
  */
 public class GetRequest extends AsyncTask<String, Integer, String> {
     protected String doInBackground(String... urls) {
-        RestTemplate template = new RestTemplate();
-        template.getMessageConverters().add(new StringHttpMessageConverter());
-        String string = template.getForObject(urls[0], String.class);
-        return string;
+        try{
+            RestTemplate template = new RestTemplate();
+            template.getMessageConverters().add(new StringHttpMessageConverter());
+            String string = template.getForObject(urls[0], String.class);
+            return string;
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+            return "";
+        }
     }
 
     protected void onProgressUpdate(Integer... progress) {

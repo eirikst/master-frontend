@@ -8,14 +8,13 @@ import android.view.MenuItem;
 import android.widget.Button;
 
 import com.andreasogeirik.master_frontend.auth.login.LoginActivity;
+import com.andreasogeirik.master_frontend.util.Constants;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends ActionBarActivity {
-
-    String url = "http://78.91.1.119:8080/";
 
     @Bind(R.id.login) Button login;
 
@@ -26,17 +25,7 @@ public class MainActivity extends ActionBarActivity {
 
         ButterKnife.bind(this);
 
-
-//        new GetRequest().execute(url + "test");
-
-        /*try {
-            RestTemplate template = new RestTemplate();
-            JSONObject obj = template.getForObject(url + "test.json", JSONObject.class);
-            System.out.println(obj.get("content"));
-        }
-        catch(JSONException e) {
-            System.out.println(e.getMessage() + "bror, en feil skjedde");
-        }*/
+        new GetRequest().execute(Constants.BACKEND_URL + "greeting");
     }
 
 
