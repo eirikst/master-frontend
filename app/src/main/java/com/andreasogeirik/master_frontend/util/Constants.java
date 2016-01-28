@@ -7,5 +7,9 @@ import java.net.URL;
  */
 public class Constants {
     //URL
-    public static final String BACKEND_URL = "http://10.0.0.181:8080/";
+    //Home
+//    public static final String BACKEND_URL = "http://10.0.0.181:8080/";
+    //NTNU
+    public static final String BACKEND_URL = "http://10.20.54.183:8080/";
+
 }

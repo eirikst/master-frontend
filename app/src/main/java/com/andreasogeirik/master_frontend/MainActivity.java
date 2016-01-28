@@ -25,7 +25,7 @@ public class MainActivity extends ActionBarActivity {
 
         ButterKnife.bind(this);
 
-        new GetRequest().execute(Constants.BACKEND_URL + "greeting");
+//        new GetRequest().execute(Constants.BACKEND_URL + "greeting");
     }
 
 
