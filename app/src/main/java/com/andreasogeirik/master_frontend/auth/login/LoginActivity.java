@@ -3,27 +3,22 @@ package com.andreasogeirik.master_frontend.auth.login;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
-
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-
-import java.util.ArrayList;
-import java.util.List;
+import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.event.EventActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -60,14 +55,32 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
     }
 
     @Override
-    public void navigateToListActivity() {
-        finish();
+    public void navigateToListActivity(JSONObject object) {
+        showProgress(false);
+
+        String username = "";
+        String password = "";
+
+        try {
+            username = object.getString("username");
+            password = object.getString("password");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Intent intent = new Intent(LoginActivity.this, EventActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("username", username);
+        intent.putExtra("password", password);
+        startActivity(intent);
     }
 
     @Override
-    public void loginFailed() {
-        mPasswordView.setError(getString(R.string.error_incorrect_password));
-        mPasswordView.requestFocus();
+    public void loginFailed(String errorMessage) {
+        Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_LONG);
+        toast.show();
+        showProgress(false);
     }
 
     private void attemptLogin() {
@@ -118,12 +131,14 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
-        return email.contains("@");
+//        return email.contains("@");
+        return true;
     }
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+//        return password.length() > 4;
+        return true;
     }
 
     /**
