@@ -1,4 +1,4 @@
-package com.andreasogeirik.master_frontend.auth.login;
+package com.andreasogeirik.master_frontend.auth.login.interfaces;
 
 import org.json.JSONObject;
 

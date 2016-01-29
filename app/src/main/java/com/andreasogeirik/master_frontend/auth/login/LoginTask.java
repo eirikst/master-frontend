@@ -1,8 +1,8 @@
 package com.andreasogeirik.master_frontend.auth.login;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
+import com.andreasogeirik.master_frontend.auth.login.interfaces.OnLoginFinishedListener;
 import com.andreasogeirik.master_frontend.model.User;
 
 import org.json.JSONException;
@@ -12,7 +12,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
@@ -34,7 +33,7 @@ public class LoginTask extends AsyncTask<Void, Void, String> {
     protected String doInBackground(Void... params) {
         try {
             RestTemplate template = new RestTemplate();
-            ((SimpleClientHttpRequestFactory)template.getRequestFactory()).setConnectTimeout(1000*10);
+            ((SimpleClientHttpRequestFactory)template.getRequestFactory()).setConnectTimeout(1000 * 10);
 
             JSONObject request = new JSONObject();
             request.put("username", this.user.getUsername());

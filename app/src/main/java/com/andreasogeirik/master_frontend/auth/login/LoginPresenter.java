@@ -1,5 +1,8 @@
 package com.andreasogeirik.master_frontend.auth.login;
 
+import com.andreasogeirik.master_frontend.auth.login.interfaces.ILoginPresenter;
+import com.andreasogeirik.master_frontend.auth.login.interfaces.ILoginView;
+import com.andreasogeirik.master_frontend.auth.login.interfaces.OnLoginFinishedListener;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
 

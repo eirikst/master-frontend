@@ -1,36 +1,71 @@
 package com.andreasogeirik.master_frontend.event;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.andreasogeirik.master_frontend.util.CustomSwipeRefreshLayout;
 import com.andreasogeirik.master_frontend.R;
-import com.andreasogeirik.master_frontend.auth.login.LoginActivity;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class EventActivity extends AppCompatActivity {
+public class EventActivity extends AppCompatActivity implements CustomSwipeRefreshLayout.OnRefreshListener {
 
-    @Bind(R.id.username)
-    TextView username;
+    @Bind(R.id.swipe_container)
+    CustomSwipeRefreshLayout swipeContainer;
 
-    @Bind(R.id.password)
-    TextView password;
+    @Bind(R.id.listView)
+    ListView listView;
+
+    @Bind(R.id.empty_view)
+    TextView emptyView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
-
         ButterKnife.bind(this);
 
-        Intent mainActivityIntent = getIntent();
+        this.swipeContainer.setOnRefreshListener(this);
 
-        String username = mainActivityIntent.getExtras().getString("username");
-        String password = mainActivityIntent.getExtras().getString("password");
-        this.username.append(username);
-        this.password.append(password);
+        this.swipeContainer.setListView(this.listView);
+
+        this.listView.setEmptyView(this.emptyView);
+
+        loadDummyEvents();
+    }
+
+
+    public void loadDummyEvents(){
+        List<Map<String, String>> eventList = new ArrayList<>();
+
+        for (int i = 0; i < 20; i++) {
+            Map<String, String> event = new HashMap<>();
+            event.put("Event", "Event " + Integer.toString(i));
+            eventList.add(event);
+        }
+        SimpleAdapter simpleAdpt = new SimpleAdapter(this, eventList, android.R.layout.simple_list_item_1, new String[] {"Event"}, new int[] {android.R.id.text1});
+        this.listView.setEmptyView(this.emptyView);
+        this.listView.setAdapter(simpleAdpt);
+        this.swipeContainer.setRefreshing(false);
+    }
+
+    @Override
+    public void onRefresh() {
+        deleteItems();
+    }
+
+    public void deleteItems(){
+        this.listView.setAdapter(new SimpleAdapter(this, new ArrayList<Map<String, ?>>(), android.R.layout.simple_list_item_1, new String[] {"Event"}, new int[] {android.R.id.text1}));
+        swipeContainer.setRefreshing(false);
+
     }
 }

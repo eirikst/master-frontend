@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.auth.login.interfaces.ILoginView;
 import com.andreasogeirik.master_frontend.event.EventActivity;
 
 import org.json.JSONException;
