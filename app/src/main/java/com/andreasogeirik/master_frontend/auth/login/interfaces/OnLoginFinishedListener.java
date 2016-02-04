@@ -1,11 +1,8 @@
 package com.andreasogeirik.master_frontend.auth.login.interfaces;
-
-import org.json.JSONObject;
-
 /**
  * Created by Andreas on 28.01.2016.
  */
 public interface OnLoginFinishedListener {
-    void onError(String errorMessage);
-    void onSuccess(JSONObject object);
+    void onError(String error);
+    void onSuccess(String cookie);
 }

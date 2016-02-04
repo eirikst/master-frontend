@@ -3,68 +3,70 @@ package com.andreasogeirik.master_frontend.auth.login;
 import android.os.AsyncTask;
 
 import com.andreasogeirik.master_frontend.auth.login.interfaces.OnLoginFinishedListener;
-import com.andreasogeirik.master_frontend.model.User;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
+
+import java.net.SocketTimeoutException;
+import java.util.List;
 
 /**
  * Created by Andreas on 28.01.2016.
  */
-public class LoginTask extends AsyncTask<Void, Void, String> {
+public class LoginTask extends AsyncTask<Void, Void, ResponseEntity<String>> {
 
-    private User user;
+    private String email;
+    private String password;
     private String url;
     private OnLoginFinishedListener listener;
 
-    public LoginTask(User user, String url, OnLoginFinishedListener listener) {
-        this.user = user;
+    public LoginTask(String email, String password, String url, OnLoginFinishedListener listener) {
+        this.email = email;
+        this.password = password;
         this.url = url;
         this.listener = listener;
     }
 
-    protected String doInBackground(Void... params) {
+    protected ResponseEntity<String> doInBackground(Void... params) {
+        ResponseEntity<String> loginResponse;
+        RestTemplate template = new RestTemplate();
+        ((SimpleClientHttpRequestFactory) template.getRequestFactory()).setConnectTimeout(1000 * 10);
+        HttpHeaders headers = new HttpHeaders();
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add("username", this.email);
+        map.add("password", this.password);
+        HttpEntity<String> entity = new HttpEntity(map, headers);
         try {
-            RestTemplate template = new RestTemplate();
-            ((SimpleClientHttpRequestFactory)template.getRequestFactory()).setConnectTimeout(1000 * 10);
-
-            JSONObject request = new JSONObject();
-            request.put("username", this.user.getUsername());
-            request.put("password", this.user.getPassword());
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<String> entity = new HttpEntity(request.toString(), headers);
-            ResponseEntity<String> loginResponse = template.exchange(this.url, HttpMethod.POST, entity, String.class);
-            return loginResponse.getBody();
+            loginResponse = template.exchange(this.url, HttpMethod.POST, entity, String.class);
+            return loginResponse;
+        } catch (HttpClientErrorException clientException) {
+            clientException.getStatusCode();
+            loginResponse = new ResponseEntity(clientException.getStatusCode());
+            return loginResponse;
+        } catch (ResourceAccessException resourceException) {
+            return null;
         }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        return null;
     }
 
-    protected void onPostExecute(String responseBody) {
-
-        if (responseBody == null){
-            this.listener.onError("Could not retrieve data from server, check connection");
-        }
-        else{
-            try {
-                JSONObject object = new JSONObject(responseBody);
-                this.listener.onSuccess(object);
-            } catch (JSONException e) {
-                e.printStackTrace();
-                this.listener.onError("Could not transform response to JSON object");
+    protected void onPostExecute(ResponseEntity<String> loginResponse) {
+        if (loginResponse == null) {
+            this.listener.onError("Could not connect to the server, check connection");
+        } else {
+            HttpStatus statusCode = loginResponse.getStatusCode();
+            if (statusCode.equals(HttpStatus.FOUND)) {
+                this.listener.onSuccess(loginResponse.getHeaders().getFirst("Set-Cookie"));
+            } else {
+                this.listener.onError("The email or password doesn't match any account");
             }
         }
-        System.out.println(responseBody);
     }
 }

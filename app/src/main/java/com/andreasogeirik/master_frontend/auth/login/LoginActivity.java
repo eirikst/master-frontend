@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Build;
@@ -18,9 +19,6 @@ import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.auth.login.interfaces.ILoginView;
 import com.andreasogeirik.master_frontend.event.EventActivity;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -29,8 +27,8 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
 
     private LoginTask mAuthTask = null;
 
-    @Bind(R.id.username)
-    EditText mUsernameView;
+    @Bind(R.id.email)
+    EditText mEmailView;
     @Bind(R.id.login_form)
     View mLoginFormView;
     @Bind(R.id.login_progress)
@@ -56,25 +54,17 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
     }
 
     @Override
-    public void navigateToListActivity(JSONObject object) {
+    public void navigateToEventActivity(String cookie) {
         showProgress(false);
-
-        String username = "";
-        String password = "";
-
-        try {
-            username = object.getString("username");
-            password = object.getString("password");
-        } catch (JSONException e) {
-            e.printStackTrace();
+        // No cookie in header
+        if (cookie == null) {
+            return;
         }
-
+        saveCookie(cookie);
         Intent intent = new Intent(LoginActivity.this, EventActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("username", username);
-        intent.putExtra("password", password);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+        finish();
     }
 
     @Override
@@ -89,57 +79,33 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
             return;
         }
 
-        // Reset errors.
-        mUsernameView.setError(null);
+        mEmailView.setError(null);
         mPasswordView.setError(null);
 
-        // Store values at the time of the login attempt.
-        String email = mUsernameView.getText().toString();
+        String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
+        if (TextUtils.isEmpty(email)) {
+            mEmailView.setError(getString(R.string.error_field_required));
+            focusView = mEmailView;
+            cancel = true;
+        }
+
+        else if (TextUtils.isEmpty(password)) {
+            mPasswordView.setError(getString(R.string.error_empty_password));
             focusView = mPasswordView;
             cancel = true;
         }
 
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            mUsernameView.setError(getString(R.string.error_field_required));
-            focusView = mUsernameView;
-            cancel = true;
-        } else if (!isEmailValid(email)) {
-            mUsernameView.setError(getString(R.string.error_invalid_username));
-            focusView = mUsernameView;
-            cancel = true;
-        }
-
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
             showProgress(true);
             this.presenter.attemptLogin(email, password);
         }
-    }
-
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-//        return email.contains("@");
-        return true;
-    }
-
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-//        return password.length() > 4;
-        return true;
     }
 
     /**
@@ -176,6 +142,13 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
+    }
+
+    public void saveCookie(String cookie){
+        SharedPreferences preferences = getSharedPreferences("session", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("cookie", cookie);
+        editor.commit();
     }
 }
 

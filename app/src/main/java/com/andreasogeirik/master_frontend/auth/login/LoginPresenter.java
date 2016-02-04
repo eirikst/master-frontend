@@ -3,10 +3,7 @@ package com.andreasogeirik.master_frontend.auth.login;
 import com.andreasogeirik.master_frontend.auth.login.interfaces.ILoginPresenter;
 import com.andreasogeirik.master_frontend.auth.login.interfaces.ILoginView;
 import com.andreasogeirik.master_frontend.auth.login.interfaces.OnLoginFinishedListener;
-import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
-
-import org.json.JSONObject;
 
 /**
  * Created by Andreas on 26.01.2016.
@@ -20,9 +17,8 @@ public class LoginPresenter implements ILoginPresenter, OnLoginFinishedListener 
     }
 
     @Override
-    public void attemptLogin(String username, String password) {
-        User user = new User(username, password);
-        new LoginTask(user, Constants.BACKEND_URL  + "/account/login", this).execute();
+    public void attemptLogin(String email, String password) {
+        new LoginTask(email, password, Constants.BACKEND_URL  + "/login", this).execute();
     }
 
     @Override
@@ -31,7 +27,8 @@ public class LoginPresenter implements ILoginPresenter, OnLoginFinishedListener 
     }
 
     @Override
-    public void onSuccess(JSONObject object) {
-        this.view.navigateToListActivity(object);
+    public void onSuccess(String cookie) {
+
+        this.view.navigateToEventActivity(cookie);
     }
 }

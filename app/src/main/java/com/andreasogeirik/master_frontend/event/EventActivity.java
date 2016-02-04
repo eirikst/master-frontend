@@ -1,11 +1,16 @@
 package com.andreasogeirik.master_frontend.event;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.andreasogeirik.master_frontend.auth.login.LoginActivity;
 import com.andreasogeirik.master_frontend.util.CustomSwipeRefreshLayout;
 import com.andreasogeirik.master_frontend.R;
 
@@ -17,7 +22,7 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class EventActivity extends AppCompatActivity implements CustomSwipeRefreshLayout.OnRefreshListener {
+public class EventActivity extends Activity implements CustomSwipeRefreshLayout.OnRefreshListener {
 
     @Bind(R.id.swipe_container)
     CustomSwipeRefreshLayout swipeContainer;
@@ -30,6 +35,14 @@ public class EventActivity extends AppCompatActivity implements CustomSwipeRefre
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences prefs = getSharedPreferences("session", MODE_PRIVATE);
+        String cookie = prefs.getString("cookie", null);
+        if (cookie == null){
+            Intent i = new Intent(this, LoginActivity.class);
+            startActivity(i);
+            finish();
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
         ButterKnife.bind(this);
@@ -43,6 +56,10 @@ public class EventActivity extends AppCompatActivity implements CustomSwipeRefre
         loadDummyEvents();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
+    }
 
     public void loadDummyEvents(){
         List<Map<String, String>> eventList = new ArrayList<>();
@@ -66,6 +83,5 @@ public class EventActivity extends AppCompatActivity implements CustomSwipeRefre
     public void deleteItems(){
         this.listView.setAdapter(new SimpleAdapter(this, new ArrayList<Map<String, ?>>(), android.R.layout.simple_list_item_1, new String[] {"Event"}, new int[] {android.R.id.text1}));
         swipeContainer.setRefreshing(false);
-
     }
 }

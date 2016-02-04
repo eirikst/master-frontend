@@ -1,11 +1,9 @@
 package com.andreasogeirik.master_frontend.auth.login.interfaces;
 
-import org.json.JSONObject;
-
 /**
  * Created by Andreas on 26.01.2016.
  */
 public interface ILoginView {
-    void navigateToListActivity(JSONObject object);
+    void navigateToEventActivity(String cookie);
     void loginFailed(String errorMessage);
 }
