@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Build;
@@ -16,7 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
-import com.andreasogeirik.master_frontend.auth.login.interfaces.ILoginView;
+import com.andreasogeirik.master_frontend.auth.login.interfaces.LoginView;
 import com.andreasogeirik.master_frontend.event.EventActivity;
 import com.andreasogeirik.master_frontend.util.SessionManager;
 
@@ -24,7 +23,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LoginActivity extends AppCompatActivity implements ILoginView {
+public class LoginActivity extends AppCompatActivity implements LoginView {
 
     private LoginTask mAuthTask = null;
 
@@ -39,18 +38,18 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
     @Bind(R.id.sign_in_button)
     Button mSign_in_button;
 
-    LoginPresenter presenter;
+    LoginPresenterImpl presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        this.presenter = new LoginPresenter(this);
+        this.presenter = new LoginPresenterImpl(this);
     }
 
     @OnClick(R.id.sign_in_button)
-    public void onClick(View view) {
+    public void onClick() {
         attemptLogin();
     }
 

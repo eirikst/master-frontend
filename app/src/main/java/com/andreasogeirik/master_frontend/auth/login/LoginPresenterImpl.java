@@ -1,18 +1,18 @@
 package com.andreasogeirik.master_frontend.auth.login;
 
-import com.andreasogeirik.master_frontend.auth.login.interfaces.ILoginPresenter;
-import com.andreasogeirik.master_frontend.auth.login.interfaces.ILoginView;
+import com.andreasogeirik.master_frontend.auth.login.interfaces.LoginPresenter;
+import com.andreasogeirik.master_frontend.auth.login.interfaces.LoginView;
 import com.andreasogeirik.master_frontend.auth.login.interfaces.OnLoginFinishedListener;
 import com.andreasogeirik.master_frontend.util.Constants;
 
 /**
  * Created by Andreas on 26.01.2016.
  */
-public class LoginPresenter implements ILoginPresenter, OnLoginFinishedListener {
+public class LoginPresenterImpl implements LoginPresenter, OnLoginFinishedListener {
 
-    private ILoginView view;
+    private LoginView view;
 
-    public LoginPresenter(ILoginView loginView){
+    public LoginPresenterImpl(LoginView loginView){
         this.view = loginView;
     }
 
@@ -22,13 +22,12 @@ public class LoginPresenter implements ILoginPresenter, OnLoginFinishedListener 
     }
 
     @Override
-    public void onError(String errorMessage) {
+    public void onLoginError(String errorMessage) {
         this.view.loginFailed(errorMessage);
     }
 
     @Override
-    public void onSuccess(String cookie) {
-
+    public void onLoginSuccess(String cookie) {
         this.view.navigateToEventActivity(cookie);
     }
 }

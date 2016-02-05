@@ -56,13 +56,13 @@ public class LoginTask extends AsyncTask<Void, Void, ResponseEntity<String>> {
 
     protected void onPostExecute(ResponseEntity<String> loginResponse) {
         if (loginResponse == null) {
-            this.listener.onError("Could not connect to the server, check connection");
+            this.listener.onLoginError("Could not connect to the server, check connection");
         } else {
             HttpStatus statusCode = loginResponse.getStatusCode();
             if (statusCode.equals(HttpStatus.FOUND)) {
-                this.listener.onSuccess(loginResponse.getHeaders().getFirst("Set-Cookie"));
+                this.listener.onLoginSuccess(loginResponse.getHeaders().getFirst("Set-Cookie"));
             } else {
-                this.listener.onError("The email or password doesn't match any account");
+                this.listener.onLoginError("The email or password doesn't match any account");
             }
         }
     }
