@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.auth.login.interfaces.ILoginView;
 import com.andreasogeirik.master_frontend.event.EventActivity;
+import com.andreasogeirik.master_frontend.util.SessionManager;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -60,7 +61,8 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
         if (cookie == null) {
             return;
         }
-        saveCookie(cookie);
+
+        SessionManager.saveCookie(this, cookie);
         Intent intent = new Intent(LoginActivity.this, EventActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
@@ -142,13 +144,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
-    }
-
-    public void saveCookie(String cookie){
-        SharedPreferences preferences = getSharedPreferences("session", MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("cookie", cookie);
-        editor.commit();
     }
 }
 

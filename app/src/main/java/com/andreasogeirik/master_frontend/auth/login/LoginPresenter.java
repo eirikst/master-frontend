@@ -18,7 +18,7 @@ public class LoginPresenter implements ILoginPresenter, OnLoginFinishedListener 
 
     @Override
     public void attemptLogin(String email, String password) {
-        new LoginTask(email, password, Constants.BACKEND_URL  + "/login", this).execute();
+        new LoginTask(email, password, Constants.BACKEND_URL, this).execute();
     }
 
     @Override

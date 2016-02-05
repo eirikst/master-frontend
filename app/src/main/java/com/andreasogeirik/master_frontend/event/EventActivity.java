@@ -1,11 +1,12 @@
 package com.andreasogeirik.master_frontend.event;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.andreasogeirik.master_frontend.auth.login.LoginActivity;
 import com.andreasogeirik.master_frontend.util.CustomSwipeRefreshLayout;
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.util.SessionManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +24,7 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class EventActivity extends Activity implements CustomSwipeRefreshLayout.OnRefreshListener {
+public class EventActivity extends AppCompatActivity implements CustomSwipeRefreshLayout.OnRefreshListener {
 
     @Bind(R.id.swipe_container)
     CustomSwipeRefreshLayout swipeContainer;
@@ -33,10 +35,12 @@ public class EventActivity extends Activity implements CustomSwipeRefreshLayout.
     @Bind(R.id.empty_view)
     TextView emptyView;
 
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SharedPreferences prefs = getSharedPreferences("session", MODE_PRIVATE);
-        String cookie = prefs.getString("cookie", null);
+        String cookie = SessionManager.getCookie(this);
         if (cookie == null){
             Intent i = new Intent(this, LoginActivity.class);
             startActivity(i);
@@ -47,18 +51,33 @@ public class EventActivity extends Activity implements CustomSwipeRefreshLayout.
         setContentView(R.layout.activity_event);
         ButterKnife.bind(this);
 
+        setSupportActionBar(toolbar);
         this.swipeContainer.setOnRefreshListener(this);
-
         this.swipeContainer.setListView(this.listView);
-
         this.listView.setEmptyView(this.emptyView);
 
         loadDummyEvents();
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.sign_out:
+                SessionManager.signOut(this);
+                return true;
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
     }
 
     public void loadDummyEvents(){
@@ -81,7 +100,7 @@ public class EventActivity extends Activity implements CustomSwipeRefreshLayout.
     }
 
     public void deleteItems(){
-        this.listView.setAdapter(new SimpleAdapter(this, new ArrayList<Map<String, ?>>(), android.R.layout.simple_list_item_1, new String[] {"Event"}, new int[] {android.R.id.text1}));
+        this.listView.setAdapter(new SimpleAdapter(this, new ArrayList<Map<String, ?>>(), android.R.layout.simple_list_item_1, new String[]{"Event"}, new int[]{android.R.id.text1}));
         swipeContainer.setRefreshing(false);
     }
 }
