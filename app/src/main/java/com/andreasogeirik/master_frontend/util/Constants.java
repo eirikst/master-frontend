@@ -6,8 +6,8 @@ package com.andreasogeirik.master_frontend.util;
 public class Constants {
     //URL
     //Home
-//    public static final String BACKEND_URL = "http://10.0.0.181:8080/";
+    public static final String BACKEND_URL = "http://10.0.0.181:8080/";
     //NTNU
-    public static final String BACKEND_URL = "http://10.20.52.168:8080/";
+//    public static final String BACKEND_URL = "http://10.20.52.168:8080/";
 
 }

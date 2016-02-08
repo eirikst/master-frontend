@@ -40,6 +40,7 @@ public class LogoutTask extends AsyncTask<Void, Void, ResponseEntity<String>> {
     }
 
     protected void onPostExecute(ResponseEntity<String> loginResponse) {
+        System.out.println(loginResponse);
         // TODO: Sende svar hvis ingen kontakt med server
 //        if (loginResponse == null) {
 //            this.listener.onError("Could not connect to the server, check connection");

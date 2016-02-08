@@ -74,8 +74,6 @@ public class RegisterTask extends AsyncTask<Void, Void, ResponseEntity<String>> 
     }
 
     protected void onPostExecute(ResponseEntity<String> responseEntity) {
-
-        // TODO: Sende svar hvis ingen kontakt med server
         if (responseEntity == null) {
             this.listener.onRegisterError("Could not connect to the server, check connection");
             return;

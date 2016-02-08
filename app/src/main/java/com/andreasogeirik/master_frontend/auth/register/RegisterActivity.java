@@ -3,14 +3,14 @@ package com.andreasogeirik.master_frontend.auth.register;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.auth.register.interfaces.RegisterView;
+import com.andreasogeirik.master_frontend.util.ProgressBarManager;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -30,6 +30,8 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     EditText mLastnameView;
     @Bind(R.id.location)
     EditText mLocationView;
+    @Bind(R.id.error)
+    TextView mErrorMessage;
 
     @Bind(R.id.register_form)
     View mRegisterFormView;
@@ -41,6 +43,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     Button mRegister_button;
 
     RegisterPresenterImpl presenter;
+    ProgressBarManager progressBarManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,18 +51,18 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
         setContentView(R.layout.activity_register);
         ButterKnife.bind(this);
         this.presenter = new RegisterPresenterImpl(this);
+        this.progressBarManager = new ProgressBarManager(this, mRegisterFormView, mProgressView);
+
     }
 
     @OnClick(R.id.register_button)
     public void onClick() {
-        showProgress();
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
         String rePassword = mRePasswordView.getText().toString();
         String firstname = mFirstnameView.getText().toString();
         String lastname = mLastnameView.getText().toString();
         String location = mLocationView.getText().toString();
-
         presenter.validateCredentials(email, password, rePassword, firstname, lastname, location);
     }
 
@@ -74,57 +77,52 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
 
     @Override
     public void registrationFailed(String error) {
-        Toast toast = Toast.makeText(this, error, Toast.LENGTH_LONG);
-        toast.show();
+        mErrorMessage.setText(error);
+        mErrorMessage.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void showProgress() {
-
+        this.progressBarManager.showProgress(true);
     }
 
     @Override
     public void hideProgress() {
-
+        this.progressBarManager.showProgress(false);
     }
 
     @Override
     public void setEmailError(String error) {
         mEmailView.setError(error);
-        View focusView = null;
-        focusView = mEmailView;
+        View focusView = mEmailView;
         focusView.requestFocus();
     }
 
     @Override
     public void setPasswordError(String error) {
         mPasswordView.setError(error);
-        View focusView = null;
-        focusView = mPasswordView;
+        View focusView = mPasswordView;
         focusView.requestFocus();
     }
 
     @Override
     public void setFirstnameError(String error) {
         mFirstnameView.setError(error);
-        View focusView = null;
-        focusView = mFirstnameView;
+        View focusView = mFirstnameView;
         focusView.requestFocus();
     }
 
     @Override
     public void setLastnameError(String error) {
         mLastnameView.setError(error);
-        View focusView = null;
-        focusView = mLastnameView;
+        View focusView = mLastnameView;
         focusView.requestFocus();
     }
 
     @Override
     public void setLocationError(String error) {
         mLocationView.setError(error);
-        View focusView = null;
-        focusView = mLocationView;
+        View focusView = mLocationView;
         focusView.requestFocus();
     }
 }

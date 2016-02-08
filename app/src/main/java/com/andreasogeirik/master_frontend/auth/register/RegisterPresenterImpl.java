@@ -22,9 +22,6 @@ public class RegisterPresenterImpl implements RegisterPresenter, OnRegisterFinis
 
     @Override
     public void validateCredentials(String email, String password, String rePassword, String firstname, String lastname, String location) {
-        if (registerView != null){
-            registerView.showProgress();
-        }
 
         // TODO: Må forbedre validering med email regex, password policy, osv.
         if (TextUtils.isEmpty(email)){
@@ -32,6 +29,9 @@ public class RegisterPresenterImpl implements RegisterPresenter, OnRegisterFinis
         }
         else if (TextUtils.isEmpty(password)){
             registerView.setPasswordError("The password is empty");
+        }
+        else if (password.length() < 3){
+            registerView.setPasswordError("The password needs to be at least 3 characters long");
         }
         else if (!TextUtils.equals(password, rePassword)){
             registerView.setPasswordError("The passwords don't match");
@@ -46,12 +46,14 @@ public class RegisterPresenterImpl implements RegisterPresenter, OnRegisterFinis
             registerView.setLocationError("The location is empty");
         }
         else{
+            registerView.showProgress();
             new RegisterTask(email, password, firstname, lastname, location, Constants.BACKEND_URL, this).execute();
         }
     }
 
     @Override
     public void onRegisterError(String error) {
+        registerView.hideProgress();
         registerView.registrationFailed(error);
     }
 
