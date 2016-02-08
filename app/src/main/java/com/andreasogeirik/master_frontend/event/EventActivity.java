@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.andreasogeirik.master_frontend.MainActivity;
 import com.andreasogeirik.master_frontend.auth.login.LoginActivity;
 import com.andreasogeirik.master_frontend.util.CustomSwipeRefreshLayout;
 import com.andreasogeirik.master_frontend.R;
@@ -42,21 +43,20 @@ public class EventActivity extends AppCompatActivity implements CustomSwipeRefre
     protected void onCreate(Bundle savedInstanceState) {
         String cookie = SessionManager.getCookie(this);
         if (cookie == null){
-            Intent i = new Intent(this, LoginActivity.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
+            finish();
         }
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_event);
+            ButterKnife.bind(this);
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event);
-        ButterKnife.bind(this);
+            setSupportActionBar(toolbar);
+            this.swipeContainer.setOnRefreshListener(this);
+            this.swipeContainer.setListView(this.listView);
+            this.listView.setEmptyView(this.emptyView);
 
-        setSupportActionBar(toolbar);
-        this.swipeContainer.setOnRefreshListener(this);
-        this.swipeContainer.setListView(this.listView);
-        this.listView.setEmptyView(this.emptyView);
-
-        loadDummyEvents();
+            loadDummyEvents();
     }
 
     @Override
