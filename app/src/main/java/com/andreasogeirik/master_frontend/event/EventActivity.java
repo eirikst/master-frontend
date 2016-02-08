@@ -43,8 +43,8 @@ public class EventActivity extends AppCompatActivity implements CustomSwipeRefre
         String cookie = SessionManager.getCookie(this);
         if (cookie == null){
             Intent i = new Intent(this, LoginActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);
-            finish();
         }
 
         super.onCreate(savedInstanceState);

@@ -55,6 +55,7 @@ public class LoginTask extends AsyncTask<Void, Void, ResponseEntity<String>> {
     }
 
     protected void onPostExecute(ResponseEntity<String> loginResponse) {
+        System.out.println(loginResponse);
         if (loginResponse == null) {
             this.listener.onLoginError("Could not connect to the server, check connection");
         } else {

@@ -80,6 +80,7 @@ public class RegisterTask extends AsyncTask<Void, Void, ResponseEntity<String>> 
         }
         // TODO: Hente email of passord fra server
         if (responseEntity.getStatusCode().is2xxSuccessful()){
+            System.out.println(responseEntity);
             this.listener.onRegisterSuccess(email, password);
             return;
         }

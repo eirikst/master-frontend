@@ -1,4 +1,4 @@
-package com.andreasogeirik.master_frontend.auth.register;
+package com.andreasogeirik.master_frontend.auth.register.welcome;
 
 import com.andreasogeirik.master_frontend.auth.login.LoginTask;
 import com.andreasogeirik.master_frontend.auth.login.interfaces.OnLoginFinishedListener;
@@ -19,12 +19,13 @@ public class WelcomePresenterImpl implements WelcomePresenter, OnLoginFinishedLi
 
     @Override
     public void attemptLogin(String email, String password) {
-        new LoginTask(email, password, Constants.BACKEND_URL, this);
+        welcomeView.showProgress();
+        new LoginTask(email, password, Constants.BACKEND_URL, this).execute();
     }
 
     @Override
     public void onLoginError(String error) {
-
+        welcomeView.loginFailed(error);
     }
 
     @Override

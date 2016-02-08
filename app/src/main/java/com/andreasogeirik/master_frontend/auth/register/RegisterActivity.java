@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.auth.register.interfaces.RegisterView;
+import com.andreasogeirik.master_frontend.auth.register.welcome.WelcomeActivity;
 import com.andreasogeirik.master_frontend.util.ProgressBarManager;
 
 import butterknife.Bind;
@@ -71,14 +72,15 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
         Intent i = new Intent(this, WelcomeActivity.class);
         i.putExtra("email", email);
         i.putExtra("password", password);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
-        finish();
     }
 
     @Override
     public void registrationFailed(String error) {
         mErrorMessage.setText(error);
         mErrorMessage.setVisibility(View.VISIBLE);
+        mErrorMessage.requestFocus();
     }
 
     @Override

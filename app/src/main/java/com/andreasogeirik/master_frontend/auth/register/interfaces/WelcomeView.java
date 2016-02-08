@@ -6,4 +6,6 @@ package com.andreasogeirik.master_frontend.auth.register.interfaces;
 public interface WelcomeView {
     void navigateToEventActivity(String cookie);
     void loginFailed(String errorMessage);
+    void showProgress();
+    void hideProgress();
 }

@@ -56,10 +56,9 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @Override
     public void navigateToEventActivity(String cookie) {
         SessionManager.saveCookie(this, cookie);
-        Intent intent = new Intent(LoginActivity.this, EventActivity.class);
+        Intent intent = new Intent(this, EventActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
-        finish();
     }
 
     @Override

@@ -1,9 +1,11 @@
 package com.andreasogeirik.master_frontend.util;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import com.andreasogeirik.master_frontend.MainActivity;
 import com.andreasogeirik.master_frontend.auth.logout.LogoutTask;
 import com.andreasogeirik.master_frontend.event.EventActivity;
 
@@ -30,13 +32,13 @@ public class SessionManager {
         preferences.edit().remove("cookie").commit();
     }
 
-    public static void signOut(Activity activity){
-        SharedPreferences preferences = activity.getSharedPreferences("session", activity.MODE_PRIVATE);
+    public static void signOut(Context context){
+        SharedPreferences preferences = context.getSharedPreferences("session", context.MODE_PRIVATE);
         String cookie = preferences.getString("cookie", null);
         new LogoutTask(Constants.BACKEND_URL, cookie).execute();
         preferences.edit().remove("cookie").commit();
-        Intent i = new Intent(activity, EventActivity.class);
-        activity.startActivity(i);
-        activity.finish();
+        Intent i = new Intent(context, MainActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(i);
     }
 }
