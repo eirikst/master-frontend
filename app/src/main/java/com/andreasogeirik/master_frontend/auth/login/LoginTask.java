@@ -20,8 +20,6 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.SocketTimeoutException;
-import java.util.List;
 
 /**
  * Created by Andreas on 28.01.2016.
@@ -50,7 +48,7 @@ public class LoginTask extends AsyncTask<Void, Void, ResponseEntity<String>> {
         map.add("password", this.password);
         HttpEntity<String> entity = new HttpEntity(map, headers);
         try {
-            loginResponse = template.exchange(this.url, HttpMethod.POST, entity, String.class);
+            loginResponse = template.exchange(this.url + "/login", HttpMethod.POST, entity, String.class);
             return loginResponse;
         } catch (HttpClientErrorException clientException) {
             clientException.getStatusCode();
@@ -63,21 +61,21 @@ public class LoginTask extends AsyncTask<Void, Void, ResponseEntity<String>> {
 
     protected void onPostExecute(ResponseEntity<String> loginResponse) {
         if (loginResponse == null) {
-            this.listener.onError("Could not connect to the server, check connection");
+            this.listener.onLoginError("Could not connect to the server, check connection");
         } else {
             HttpStatus statusCode = loginResponse.getStatusCode();
             if (statusCode.equals(HttpStatus.OK)) {
                 try {
                     User user = new User(new JSONObject(loginResponse.getBody()));
                     CurrentUser.getInstance().setUser(user);
-                    this.listener.onSuccess(loginResponse.getHeaders().getFirst("Set-Cookie"));
+                    this.listener.onLoginSuccess(loginResponse.getHeaders().getFirst("Set-Cookie"));
                 }
                 catch(JSONException e) {
                     System.out.println("Feil ass");
                 }
-                this.listener.onSuccess(loginResponse.getHeaders().getFirst("Set-Cookie"));
+                this.listener.onLoginSuccess(loginResponse.getHeaders().getFirst("Set-Cookie"));
             } else {
-                this.listener.onError("The email or password doesn't match any account");
+                this.listener.onLoginError("The email or password doesn't match any account");
             }
         }
     }
