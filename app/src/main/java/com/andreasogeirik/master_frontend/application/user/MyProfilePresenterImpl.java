@@ -24,7 +24,7 @@ public class MyProfilePresenterImpl implements MyProfilePresenter {
 
     @Override
     public void findPosts(int start) {
-        interactor.findPosts(0);
+        interactor.findPosts(start);
     }
 
     @Override

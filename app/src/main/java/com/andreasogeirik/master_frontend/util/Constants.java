@@ -22,4 +22,8 @@ public class Constants {
     public static final int RESOURCE_ACCESS_ERROR = -1;
     public static final int CLIENT_ERROR = -2;
     public static final int JSON_PARSE_ERROR = -3;
+
+    //Number of posts returned when querying post
+    public static int NUMBER_OF_POSTS_RETURNED = 10;
+
 }

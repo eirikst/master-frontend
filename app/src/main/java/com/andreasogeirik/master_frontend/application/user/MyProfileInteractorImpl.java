@@ -28,7 +28,7 @@ public class MyProfileInteractorImpl implements MyProfileInteractor, OnFinishedL
 
     @Override
     public void findPosts(int start) {
-        new GetPostsTask(this).execute();
+        new GetPostsTask(this, start).execute();
     }
 
     @Override

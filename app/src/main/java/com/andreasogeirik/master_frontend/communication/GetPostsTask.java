@@ -24,9 +24,11 @@ import org.springframework.web.client.RestTemplate;
 public class GetPostsTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntity<String>>> {
 
     private OnFinishedLoadingPostsListener listener;
+    private int start;
 
-    public GetPostsTask(OnFinishedLoadingPostsListener listener) {
+    public GetPostsTask(OnFinishedLoadingPostsListener listener, int start) {
         this.listener = listener;
+        this.start = start;
     }
 
     @Override
@@ -42,8 +44,8 @@ public class GetPostsTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEn
         HttpEntity<String> entity = new HttpEntity(null, headers);
 
         try {
-            response = template.exchange(Constants.BACKEND_URL + "user/post?start=0", HttpMethod.GET
-                    , entity, String.class);
+            response = template.exchange(Constants.BACKEND_URL + "user/post?start=" + start,
+                    HttpMethod.GET, entity, String.class);
             return new Pair(Constants.OK, response);
         }
         catch (HttpClientErrorException e) {
