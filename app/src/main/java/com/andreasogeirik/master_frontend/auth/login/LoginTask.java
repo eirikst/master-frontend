@@ -3,7 +3,11 @@ package com.andreasogeirik.master_frontend.auth.login;
 import android.os.AsyncTask;
 
 import com.andreasogeirik.master_frontend.auth.login.interfaces.OnLoginFinishedListener;
+import com.andreasogeirik.master_frontend.data.CurrentUser;
+import com.andreasogeirik.master_frontend.model.User;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -62,7 +66,15 @@ public class LoginTask extends AsyncTask<Void, Void, ResponseEntity<String>> {
             this.listener.onError("Could not connect to the server, check connection");
         } else {
             HttpStatus statusCode = loginResponse.getStatusCode();
-            if (statusCode.equals(HttpStatus.FOUND)) {
+            if (statusCode.equals(HttpStatus.OK)) {
+                try {
+                    User user = new User(new JSONObject(loginResponse.getBody()));
+                    CurrentUser.getInstance().setUser(user);
+                    this.listener.onSuccess(loginResponse.getHeaders().getFirst("Set-Cookie"));
+                }
+                catch(JSONException e) {
+                    System.out.println("Feil ass");
+                }
                 this.listener.onSuccess(loginResponse.getHeaders().getFirst("Set-Cookie"));
             } else {
                 this.listener.onError("The email or password doesn't match any account");

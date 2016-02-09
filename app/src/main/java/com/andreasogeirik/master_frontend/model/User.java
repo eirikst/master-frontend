@@ -11,6 +11,7 @@ import java.util.Date;
 public class User {
     private int id;
     private String email;
+    private boolean enabled;
     private String password;
     private String firstname;
     private String lastname;
@@ -18,14 +19,28 @@ public class User {
     private String imageUri;
     private Date timeCreated;
 
-    public User(int id, String email, String firstname, String lastname, String location, String imageUri, Date timeCreated) {
+    public User() {
+    }
+
+    public User(int id, String email, boolean enabled, String firstname, String lastname, String location,
+                String imageUri) {
         this.id = id;
         this.email = email;
+        this.enabled = enabled;
         this.firstname = firstname;
         this.lastname = lastname;
         this.location = location;
         this.imageUri = imageUri;
-        this.timeCreated = timeCreated;
+    }
+
+    public User(JSONObject json) throws JSONException {
+        id = json.getInt("id");
+        email = json.getString("email");
+        enabled = json.getBoolean("enabled");
+        firstname = json.getString("firstname");
+        lastname = json.getString("lastname");
+        location = json.getString("location");
+        imageUri = json.getString("imageUri");
     }
 
     // Used to edit users
@@ -68,6 +83,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public String getPassword() {
@@ -116,5 +139,20 @@ public class User {
 
     public void setTimeCreated(Date timeCreated) {
         this.timeCreated = timeCreated;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", enabled=" + enabled +
+                ", password='" + password + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", location='" + location + '\'' +
+                ", imageUri='" + imageUri + '\'' +
+                ", timeCreated=" + timeCreated +
+                '}';
     }
 }
