@@ -1,6 +1,7 @@
 package com.andreasogeirik.master_frontend.application.event;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -13,11 +14,9 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import com.andreasogeirik.master_frontend.application.auth.entrance.EntranceActivity;
-import com.andreasogeirik.master_frontend.application.auth.login.LoginActivity;
-import com.andreasogeirik.master_frontend.communication.LogoutTask;
-import com.andreasogeirik.master_frontend.application.user.MyProfileActivity;
-import com.andreasogeirik.master_frontend.layout.CustomSwipeRefreshLayout;
+import com.andreasogeirik.master_frontend.auth.login.LoginActivity;
+import com.andreasogeirik.master_frontend.user.MyProfileActivity;
+import com.andreasogeirik.master_frontend.util.CustomSwipeRefreshLayout;
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.util.SessionManager;
 
@@ -50,8 +49,8 @@ public class EventActivity extends AppCompatActivity implements CustomSwipeRefre
 
         if (sessionManager.getCookie() == null){
             Intent i = new Intent(this, LoginActivity.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);
+            finish();
         }
 
         super.onCreate(savedInstanceState);
