@@ -10,5 +10,5 @@ import java.util.List;
 public interface MyProfilePresenter {
     void findPosts(int start);
     void successPostsLoad(List<Post> posts);
-    void errorPostsLoad(String msg);
+    void errorPostsLoad(int code);
 }

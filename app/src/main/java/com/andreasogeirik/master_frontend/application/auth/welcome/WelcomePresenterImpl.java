@@ -27,12 +27,12 @@ public class WelcomePresenterImpl implements WelcomePresenter {
     }
 
     @Override
-    public void loginError(String error) {
-        welcomeView.loginFailed(error);
+    public void loginError(int error) {
+        welcomeView.loginFailed();
     }
 
     @Override
     public void loginSuccess() {
-        welcomeView.navigateToEventActivity();
+        welcomeView.navigateToEventView();
     }
 }

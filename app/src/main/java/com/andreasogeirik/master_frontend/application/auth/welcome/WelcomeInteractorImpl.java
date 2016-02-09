@@ -4,10 +4,14 @@ import com.andreasogeirik.master_frontend.application.auth.welcome.interfaces.We
 import com.andreasogeirik.master_frontend.application.auth.welcome.interfaces.WelcomePresenter;
 import com.andreasogeirik.master_frontend.application.auth.welcome.interfaces.WelcomeView;
 import com.andreasogeirik.master_frontend.communication.LoginTask;
+import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.listener.OnLoginFinishedListener;
 import com.andreasogeirik.master_frontend.model.User;
+import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.SessionManager;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -32,15 +36,21 @@ public class WelcomeInteractorImpl implements WelcomeInteractor, OnLoginFinished
     }
 
     @Override
-    public void onLoginError(String error) {
+    public void onLoginError(int error) {
         presenter.loginError(error);
     }
 
     @Override
-    public void onLoginSuccess(String cookie) {
-        //save session
-        SessionManager.getInstance().saveCookie(cookie);
+    public void onLoginSuccess(JSONObject user, String sessionId) {
+        //save current user and session
+        try {
+            CurrentUser.getInstance().setUser(new User(user));
+        }
+        catch (JSONException e) {
+            presenter.loginError(Constants.JSON_PARSE_ERROR);
+        }
 
+        SessionManager.getInstance().saveCookie(sessionId);
         presenter.loginSuccess();
     }
 }

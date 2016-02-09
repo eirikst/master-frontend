@@ -48,14 +48,15 @@ public class RegisterInteractorImpl implements RegisterInteractor, OnRegisterFin
     public void onRegisterSuccess(JSONObject user) {
         try {
             CurrentUser.getInstance().setUser(new User(user));
-        } catch (JSONException e) {
-            presenter.registerError("Please try again.");
+        }
+        catch (JSONException e) {
+            presenter.registerError(Constants.JSON_PARSE_ERROR);
         }
         presenter.registerSuccess();
     }
 
     @Override
-    public void onRegisterError(String error) {
+    public void onRegisterError(int error) {
         presenter.registerError(error);
     }
 }

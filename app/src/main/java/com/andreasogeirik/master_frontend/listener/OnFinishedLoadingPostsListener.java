@@ -9,5 +9,5 @@ import java.util.List;
  */
 public interface OnFinishedLoadingPostsListener {
     void onSuccessPostsLoad(JSONArray posts);
-    void onFailedPostsLoad(String error);
+    void onFailedPostsLoad(int code);
 }

@@ -4,7 +4,7 @@ package com.andreasogeirik.master_frontend.application.auth.register.interfaces;
  * Created by Andreas on 29.01.2016.
  */
 public interface RegisterView {
-    void navigateToWelcomeActivity();
+    void navigateToWelcomeView();
     void registrationFailed(String error);
     void showProgress();
     void hideProgress();

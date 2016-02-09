@@ -8,5 +8,5 @@ import com.andreasogeirik.master_frontend.model.User;
 public interface LoginPresenter {
     void attemptLogin(User user);
     void loginSuccess();
-    void loginError(String msg);
+    void loginError(int error);
 }

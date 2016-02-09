@@ -1,4 +1,4 @@
-package com.andreasogeirik.master_frontend.application.auth.register;
+package com.andreasogeirik.master_frontend.util;
 
 /**
  * Created by Andreas on 04.02.2016.

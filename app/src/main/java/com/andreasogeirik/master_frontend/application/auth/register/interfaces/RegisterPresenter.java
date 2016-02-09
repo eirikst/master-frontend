@@ -8,5 +8,5 @@ import com.andreasogeirik.master_frontend.model.User;
 public interface RegisterPresenter {
     void registerUser(User user, String password);
     void registerSuccess();
-    void registerError(String msg);
+    void registerError(int error);
     }

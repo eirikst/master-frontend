@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.application.auth.login.interfaces.LoginPresenter;
 import com.andreasogeirik.master_frontend.application.auth.login.interfaces.LoginView;
 import com.andreasogeirik.master_frontend.application.event.EventActivity;
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
@@ -24,18 +25,18 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @Bind(R.id.email)
     EditText emailView;
     @Bind(R.id.login_form)
-    View mLoginFormView;
+    View loginFormView;
     @Bind(R.id.login_progress)
-    View mProgressView;
+    View progressView;
     @Bind(R.id.password)
     EditText passwordView;
     @Bind(R.id.error)
-    TextView mErrorMessage;
+    TextView errorMessage;
     @Bind(R.id.sign_in_button)
-    Button mSign_in_button;
+    Button signInButton;
 
-    LoginPresenterImpl presenter;
-    ProgressBarManager progressBarManager;
+    private LoginPresenter presenter;
+    private ProgressBarManager progressBarManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         setContentView(R.layout.login_activity);
         ButterKnife.bind(this);
         this.presenter = new LoginPresenterImpl(this);
-        this.progressBarManager = new ProgressBarManager(this, mLoginFormView, mProgressView);
+        this.progressBarManager = new ProgressBarManager(this, loginFormView, progressView);
     }
 
     @OnClick(R.id.sign_in_button)
@@ -55,7 +56,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     }
 
     @Override
-    public void navigateToEventActivity() {
+    public void navigateToEventView() {
         Intent intent = new Intent(this, EventActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
@@ -63,8 +64,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @Override
     public void loginFailed(String errorMessage) {
-        mErrorMessage.setText(errorMessage);
-        mErrorMessage.setVisibility(View.VISIBLE);
+        this.errorMessage.setText(errorMessage);
+        this.errorMessage.setVisibility(View.VISIBLE);
     }
 
     @Override

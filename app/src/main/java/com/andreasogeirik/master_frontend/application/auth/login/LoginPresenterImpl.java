@@ -5,10 +5,8 @@ import android.text.TextUtils;
 import com.andreasogeirik.master_frontend.application.auth.login.interfaces.LoginInteractor;
 import com.andreasogeirik.master_frontend.application.auth.login.interfaces.LoginPresenter;
 import com.andreasogeirik.master_frontend.application.auth.login.interfaces.LoginView;
-import com.andreasogeirik.master_frontend.communication.LoginTask;
-import com.andreasogeirik.master_frontend.listener.OnLoginFinishedListener;
 import com.andreasogeirik.master_frontend.model.User;
-import com.andreasogeirik.master_frontend.util.SessionManager;
+import com.andreasogeirik.master_frontend.util.Constants;
 
 /**
  * Created by Andreas on 26.01.2016.
@@ -40,12 +38,18 @@ public class LoginPresenterImpl implements LoginPresenter {
 
     @Override
     public void loginSuccess() {
-        loginView.navigateToEventActivity();
+        loginView.navigateToEventView();
     }
 
     @Override
-    public void loginError(String errorMessage) {
+    public void loginError(int error) {
         loginView.hideProgress();
-        loginView.loginFailed(errorMessage);
+
+        if(error == Constants.CLIENT_ERROR) {
+            loginView.loginFailed("Feil brukernavn eller passord");
+        }
+        else if(error == Constants.RESOURCE_ACCESS_ERROR) {
+            loginView.loginFailed("Fant ikke ressurs. Prøv igjen.");
+        }
     }
 }

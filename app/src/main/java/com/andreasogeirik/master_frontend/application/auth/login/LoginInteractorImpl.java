@@ -3,10 +3,14 @@ package com.andreasogeirik.master_frontend.application.auth.login;
 import com.andreasogeirik.master_frontend.application.auth.login.interfaces.LoginInteractor;
 import com.andreasogeirik.master_frontend.application.auth.login.interfaces.LoginPresenter;
 import com.andreasogeirik.master_frontend.communication.LoginTask;
+import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.listener.OnLoginFinishedListener;
 import com.andreasogeirik.master_frontend.model.User;
+import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.SessionManager;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -30,13 +34,20 @@ public class LoginInteractorImpl implements LoginInteractor, OnLoginFinishedList
     }
 
     @Override
-    public void onLoginError(String errorMessage) {
-        presenter.loginError(errorMessage);
+    public void onLoginSuccess(JSONObject user, String sessionId) {
+        try {
+            CurrentUser.getInstance().setUser(new User(user));
+        }
+        catch (JSONException e) {
+            presenter.loginError(Constants.JSON_PARSE_ERROR);
+        }
+
+        SessionManager.getInstance().saveCookie(sessionId);
+        presenter.loginSuccess();
     }
 
     @Override
-    public void onLoginSuccess(String cookie) {
-        SessionManager.getInstance().saveCookie(cookie);
-        presenter.loginSuccess();
+    public void onLoginError(int error) {
+        presenter.loginError(error);
     }
 }

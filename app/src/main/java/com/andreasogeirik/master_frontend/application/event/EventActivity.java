@@ -15,9 +15,9 @@ import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.application.auth.entrance.EntranceActivity;
 import com.andreasogeirik.master_frontend.application.user.MyProfileActivity;
-import com.andreasogeirik.master_frontend.communication.LogoutTask;
 import com.andreasogeirik.master_frontend.layout.CustomSwipeRefreshLayout;
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.util.LogoutHandler;
 import com.andreasogeirik.master_frontend.util.SessionManager;
 
 import java.util.ArrayList;
@@ -80,7 +80,7 @@ public class EventActivity extends AppCompatActivity implements CustomSwipeRefre
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.sign_out:
-                new LogoutTask().execute();
+                LogoutHandler.getInstance().logOut();
 
                 Intent i = new Intent(this, EntranceActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

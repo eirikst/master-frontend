@@ -6,6 +6,7 @@ import com.andreasogeirik.master_frontend.application.user.interfaces.MyProfileV
 import com.andreasogeirik.master_frontend.communication.GetPostsTask;
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingPostsListener;
 import com.andreasogeirik.master_frontend.model.Post;
+import com.andreasogeirik.master_frontend.util.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,13 +41,13 @@ public class MyProfileInteractorImpl implements MyProfileInteractor, OnFinishedL
             }
         }
         catch (JSONException e) {
-            presenter.errorPostsLoad("Failed fetching posts.");
+            presenter.errorPostsLoad(Constants.CLIENT_ERROR);
         }
         presenter.successPostsLoad(posts);
     }
 
     @Override
-    public void onFailedPostsLoad(String msg) {
-        presenter.errorPostsLoad(msg);
+    public void onFailedPostsLoad(int error) {
+        presenter.errorPostsLoad(error);
     }
 }

@@ -3,8 +3,6 @@ package com.andreasogeirik.master_frontend.application.auth.register;
 import android.text.TextUtils;
 
 import com.andreasogeirik.master_frontend.application.auth.register.interfaces.RegisterInteractor;
-import com.andreasogeirik.master_frontend.communication.RegisterTask;
-import com.andreasogeirik.master_frontend.listener.OnRegisterFinishedListener;
 import com.andreasogeirik.master_frontend.application.auth.register.interfaces.RegisterPresenter;
 import com.andreasogeirik.master_frontend.application.auth.register.interfaces.RegisterView;
 import com.andreasogeirik.master_frontend.model.User;
@@ -57,12 +55,19 @@ public class RegisterPresenterImpl implements RegisterPresenter {
 
     @Override
     public void registerSuccess() {
-        registerView.navigateToWelcomeActivity();
+        registerView.navigateToWelcomeView();
     }
 
     @Override
-    public void registerError(String error) {
+    public void registerError(int error) {
         registerView.hideProgress();
-        registerView.registrationFailed(error);
+
+        if(error == Constants.CLIENT_ERROR) {
+            registerView.registrationFailed("E-posten er allerede registrert i systemet. " +
+                    "Vennligst logg inn på denne kontoen.");
+        }
+        else if(error == Constants.RESOURCE_ACCESS_ERROR) {
+            registerView.registrationFailed("Fant ikke ressurs. Prøv igjen.");
+        }
     }
 }

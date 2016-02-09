@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.application.auth.register.interfaces.RegisterPresenter;
 import com.andreasogeirik.master_frontend.application.auth.register.interfaces.RegisterView;
 import com.andreasogeirik.master_frontend.application.auth.welcome.WelcomeActivity;
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
@@ -44,7 +45,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     @Bind(R.id.register_button)
     Button mRegister_button;
 
-    private RegisterPresenterImpl presenter;
+    private RegisterPresenter presenter;
     private ProgressBarManager progressBarManager;
 
     @Override
@@ -71,7 +72,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     }
 
     @Override
-    public void navigateToWelcomeActivity() {
+    public void navigateToWelcomeView() {
         Intent i = new Intent(this, WelcomeActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);

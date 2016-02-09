@@ -46,14 +46,14 @@ public class WelcomeActivity extends AppCompatActivity implements WelcomeView {
 
 
     @Override
-    public void navigateToEventActivity() {
+    public void navigateToEventView() {
         Intent i = new Intent(this, EventActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
     }
 
     @Override
-    public void loginFailed(String errorMessage) {
+    public void loginFailed() {
         Intent i = new Intent(this, EntranceActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);

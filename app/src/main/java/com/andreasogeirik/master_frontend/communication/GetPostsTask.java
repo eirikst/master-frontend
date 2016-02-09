@@ -1,9 +1,9 @@
 package com.andreasogeirik.master_frontend.communication;
 
 import android.os.AsyncTask;
+import android.util.Pair;
 
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingPostsListener;
-import com.andreasogeirik.master_frontend.model.Post;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.SessionManager;
 
@@ -12,7 +12,6 @@ import org.json.JSONException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.HttpClientErrorException;
@@ -22,7 +21,7 @@ import org.springframework.web.client.RestTemplate;
 /**
  * Created by eirikstadheim on 06/02/16.
  */
-public class GetPostsTask extends AsyncTask<Void, Void, ResponseEntity<String>> {
+public class GetPostsTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntity<String>>> {
 
     private OnFinishedLoadingPostsListener listener;
 
@@ -31,7 +30,7 @@ public class GetPostsTask extends AsyncTask<Void, Void, ResponseEntity<String>> 
     }
 
     @Override
-    protected ResponseEntity<String> doInBackground(Void... params) {
+    protected Pair<Integer, ResponseEntity<String>> doInBackground(Void... params) {
         ResponseEntity<String> response;
 
         RestTemplate template = new RestTemplate();
@@ -45,35 +44,34 @@ public class GetPostsTask extends AsyncTask<Void, Void, ResponseEntity<String>> 
         try {
             response = template.exchange(Constants.BACKEND_URL + "user/post?start=0", HttpMethod.GET
                     , entity, String.class);
-            return response;
+            return new Pair(Constants.OK, response);
         }
-        catch (HttpClientErrorException clientException) {
-            return new ResponseEntity(clientException.getStatusCode());
+        catch (HttpClientErrorException e) {
+            System.out.println("Client exception:" + e);
+            return new Pair(Constants.CLIENT_ERROR, null);
         }
-        catch (ResourceAccessException resourceException) {
-            return null;
+        catch (ResourceAccessException e) {
+            System.out.println("Resource error:" + e);
+            return new Pair(Constants.RESOURCE_ACCESS_ERROR, null);
         }
     }
 
     @Override
-    protected void onPostExecute(ResponseEntity<String> response) {
-        if (response == null) {
-            listener.onFailedPostsLoad("Could not connect to the server, check connection");
-        } else {
-            HttpStatus statusCode = response.getStatusCode();
-            if (statusCode.equals(HttpStatus.OK)) {
+    protected void onPostExecute(Pair<Integer, ResponseEntity<String>> response) {
+        if (response.first == Constants.OK) {
 
-                try {
-                    JSONArray posts = new JSONArray(response.getBody());
-                    listener.onSuccessPostsLoad(posts);
-                }
-                catch(JSONException e) {
-                    throw new RuntimeException(e);
-                }
-
-            } else {
-                listener.onFailedPostsLoad("" + response.toString());
+            try {
+                JSONArray posts = new JSONArray(response.second.getBody());
+                listener.onSuccessPostsLoad(posts);
             }
+            catch(JSONException e) {
+                System.out.println("JSON error:" + e);
+                listener.onFailedPostsLoad(Constants.JSON_PARSE_ERROR);
+            }
+
+        }
+        else {
+            listener.onFailedPostsLoad(response.first);
         }
     }
 }

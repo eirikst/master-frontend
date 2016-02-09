@@ -33,7 +33,7 @@ public class MyProfilePresenterImpl implements MyProfilePresenter {
     }
 
     @Override
-    public void errorPostsLoad(String msg) {
+    public void errorPostsLoad(int code) {
         //handle this
     }
 }

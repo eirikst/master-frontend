@@ -13,7 +13,13 @@ public class Constants {
     //public static final String BACKEND_URL = "http://78.91.0.247:8080/";
 
     //Eirik hjemme
-    public static final String BACKEND_URL = "http://10.20.54.150:8080/";
+    public static final String BACKEND_URL = "http://10.0.0.16:8080/";
 
 
+
+    //Status codes for Tasks(http communication)
+    public static final int OK = 1;
+    public static final int RESOURCE_ACCESS_ERROR = -1;
+    public static final int CLIENT_ERROR = -2;
+    public static final int JSON_PARSE_ERROR = -3;
 }

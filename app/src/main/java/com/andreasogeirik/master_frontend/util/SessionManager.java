@@ -10,7 +10,7 @@ public class SessionManager {
     private static SessionManager instance;
     private SharedPreferences preferences;
 
-    private SessionManager() {
+    protected SessionManager() {
 
     }
 

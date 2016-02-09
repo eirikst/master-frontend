@@ -1,12 +1,14 @@
 package com.andreasogeirik.master_frontend.communication;
 
 import android.os.AsyncTask;
+import android.util.Pair;
 
 import com.andreasogeirik.master_frontend.listener.OnLoginFinishedListener;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
@@ -28,7 +30,7 @@ import java.util.Map;
 /**
  * Created by Andreas on 28.01.2016.
  */
-public class LoginTask extends AsyncTask<Void, Void, ResponseEntity<String>> {
+public class LoginTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntity<String>>> {
     private MultiValueMap<String, String> credentials;
     private OnLoginFinishedListener listener;
 
@@ -37,45 +39,42 @@ public class LoginTask extends AsyncTask<Void, Void, ResponseEntity<String>> {
         this.listener = listener;
     }
 
-    protected ResponseEntity<String> doInBackground(Void... params) {
-        ResponseEntity<String> loginResponse;
+    protected Pair<Integer, ResponseEntity<String>> doInBackground(Void... params) {
+        ResponseEntity<String> response;
         RestTemplate template = new RestTemplate();
         ((SimpleClientHttpRequestFactory) template.getRequestFactory()).setConnectTimeout(1000 * 10);
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<String> entity = new HttpEntity(credentials, headers);
 
         try {
-            loginResponse = template.exchange(Constants.BACKEND_URL + "login", HttpMethod.POST, entity, String.class);
-            return loginResponse;
+            response = template.exchange(Constants.BACKEND_URL + "login", HttpMethod.POST, entity, String.class);
+            return new Pair(Constants.OK, response);
         }
-        catch (HttpClientErrorException clientException) {
-            clientException.getStatusCode();
-            loginResponse = new ResponseEntity(clientException.getStatusCode());
-            return loginResponse;
+        catch (HttpClientErrorException e) {
+            System.out.println("Client error:" + e);
+            return new Pair(Constants.CLIENT_ERROR, null);
         }
-        catch (ResourceAccessException resourceException) {
-            return null;
+        catch (ResourceAccessException e) {
+            System.out.println("Resource error:" + e);
+            return new Pair(Constants.RESOURCE_ACCESS_ERROR, null);
         }
     }
 
-    protected void onPostExecute(ResponseEntity<String> loginResponse) {
-        if (loginResponse == null) {
-            this.listener.onLoginError("Could not connect to the server, check connection");
-        } else {
-            HttpStatus statusCode = loginResponse.getStatusCode();
-            if (statusCode.equals(HttpStatus.OK)) {
-                try {
-                    User user = new User(new JSONObject(loginResponse.getBody()));
-                    CurrentUser.getInstance().setUser(user);
-                    this.listener.onLoginSuccess(loginResponse.getHeaders().getFirst("Set-Cookie"));
-                }
-                catch(JSONException e) {
-                    System.out.println("Feil ass");
-                }
-                this.listener.onLoginSuccess(loginResponse.getHeaders().getFirst("Set-Cookie"));
-            } else {
-                this.listener.onLoginError("The email or password doesn't match any account");
+    protected void onPostExecute(Pair<Integer, ResponseEntity<String>> response) {
+        if (response.first == Constants.OK) {
+
+            try {
+                JSONObject user = new JSONObject(response.second.getBody());
+                listener.onLoginSuccess(user, response.second.getHeaders().getFirst("Set-Cookie"));
             }
+            catch(JSONException e) {
+                System.out.println("JSON error:" + e);
+                listener.onLoginError(Constants.JSON_PARSE_ERROR);
+            }
+
+        }
+        else {
+            listener.onLoginError(response.first);
         }
     }
 }
