@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+    <LinearLayout
+        android:id="@+id/post_list_header"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:orientation="horizontal"
+        android:weightSum="20"
+        >
+
+        <RelativeLayout
+            android:layout_weight="10"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/my_profile_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/profile"
+            />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_weight="10"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/my_profile_friends"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="100 friends"
+                android:layout_gravity="center_vertical"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:padding="5dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/my_profile_friends"
+                android:text="Edit profile"
+                android:padding="5dp"
+
+                />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="My posts"
+        android:gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:textSize="40dp"
+        android:layout_below="@+id/post_list_header"
+        />
+
+</RelativeLayout>

@@ -3,7 +3,11 @@ package com.andreasogeirik.master_frontend.auth.login;
 import android.os.AsyncTask;
 
 import com.andreasogeirik.master_frontend.auth.login.interfaces.OnLoginFinishedListener;
+import com.andreasogeirik.master_frontend.data.CurrentUser;
+import com.andreasogeirik.master_frontend.model.User;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -15,6 +19,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
+
 
 /**
  * Created by Andreas on 28.01.2016.
@@ -55,12 +60,19 @@ public class LoginTask extends AsyncTask<Void, Void, ResponseEntity<String>> {
     }
 
     protected void onPostExecute(ResponseEntity<String> loginResponse) {
-        System.out.println(loginResponse);
         if (loginResponse == null) {
             this.listener.onLoginError("Could not connect to the server, check connection");
         } else {
             HttpStatus statusCode = loginResponse.getStatusCode();
-            if (statusCode.equals(HttpStatus.FOUND)) {
+            if (statusCode.equals(HttpStatus.OK)) {
+                try {
+                    User user = new User(new JSONObject(loginResponse.getBody()));
+                    CurrentUser.getInstance().setUser(user);
+                    this.listener.onLoginSuccess(loginResponse.getHeaders().getFirst("Set-Cookie"));
+                }
+                catch(JSONException e) {
+                    System.out.println("Feil ass");
+                }
                 this.listener.onLoginSuccess(loginResponse.getHeaders().getFirst("Set-Cookie"));
             } else {
                 this.listener.onLoginError("The email or password doesn't match any account");

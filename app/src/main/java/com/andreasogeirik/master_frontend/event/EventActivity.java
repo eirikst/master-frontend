@@ -7,15 +7,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.MainActivity;
 import com.andreasogeirik.master_frontend.auth.login.LoginActivity;
+import com.andreasogeirik.master_frontend.user.MyProfileActivity;
 import com.andreasogeirik.master_frontend.util.CustomSwipeRefreshLayout;
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.util.SessionManager;
+import com.andreasogeirik.master_frontend.util.SharedPrefSingleton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,22 +45,38 @@ public class EventActivity extends AppCompatActivity implements CustomSwipeRefre
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPrefSingleton pref = SharedPrefSingleton.getInstance();
+        pref.initialize(this);
+
         String cookie = SessionManager.getCookie(this);
         if (cookie == null){
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
             finish();
         }
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_event);
-            ButterKnife.bind(this);
 
-            setSupportActionBar(toolbar);
-            this.swipeContainer.setOnRefreshListener(this);
-            this.swipeContainer.setListView(this.listView);
-            this.listView.setEmptyView(this.emptyView);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_event);
+        ButterKnife.bind(this);
 
-            loadDummyEvents();
+        setSupportActionBar(toolbar);
+        this.swipeContainer.setOnRefreshListener(this);
+        this.swipeContainer.setListView(this.listView);
+        this.listView.setEmptyView(this.emptyView);
+
+        Button b = new Button(this);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EventActivity.this, MyProfileActivity.class);
+                EventActivity.this.startActivity(intent);
+            }
+        });
+        listView.addHeaderView(b);
+        
+        
+        
+        loadDummyEvents();
     }
 
     @Override
