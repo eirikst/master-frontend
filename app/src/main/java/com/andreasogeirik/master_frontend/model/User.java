@@ -3,13 +3,14 @@ package com.andreasogeirik.master_frontend.model;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
 /**
  * Created by Andreas on 26.01.2016.
  */
-public class User {
+public class User implements Serializable {
     private int id;
     private String email;
     private boolean enabled;

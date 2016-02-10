@@ -1,5 +1,6 @@
 package com.andreasogeirik.master_frontend.application.user;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.application.friend.FriendListActivity;
 import com.andreasogeirik.master_frontend.layout.adapter.PostListAdapter;
 import com.andreasogeirik.master_frontend.model.Post;
 import com.andreasogeirik.master_frontend.application.user.interfaces.MyProfilePresenter;
@@ -22,7 +24,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class MyProfileActivity extends AppCompatActivity implements MyProfileView, AdapterView.OnItemClickListener {
+public class MyProfileActivity extends AppCompatActivity implements MyProfileView,
+        AdapterView.OnItemClickListener {
     private ListView listView;
     private Button footerBtn;
     private TextView friendText;
@@ -95,7 +98,10 @@ public class MyProfileActivity extends AppCompatActivity implements MyProfileVie
             @Override
             public void onClick(View v) {
                 System.out.println("Trykker på friend");
-                //intent
+                Intent intent = new Intent(MyProfileActivity.this, FriendListActivity.class);
+
+                intent.putExtra("friends", (HashSet)friends);//this yo bro
+                startActivity(intent);
             }
         });
 
