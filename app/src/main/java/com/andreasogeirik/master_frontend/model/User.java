@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Created by Andreas on 26.01.2016.
@@ -18,6 +19,7 @@ public class User {
     private String location;
     private String imageUri;
     private Date timeCreated;
+    private Set<User> friends;
 
     public User() {
     }
@@ -139,6 +141,14 @@ public class User {
 
     public void setTimeCreated(Date timeCreated) {
         this.timeCreated = timeCreated;
+    }
+
+    public Set<User> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(Set<User> friends) {
+        this.friends = friends;
     }
 
     @Override
