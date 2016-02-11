@@ -97,7 +97,6 @@ public class MyProfileActivity extends AppCompatActivity implements MyProfileVie
         friendText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("Trykker på friend");
                 Intent intent = new Intent(MyProfileActivity.this, FriendListActivity.class);
 
                 intent.putExtra("friends", (HashSet)friends);//this yo bro
@@ -108,7 +107,6 @@ public class MyProfileActivity extends AppCompatActivity implements MyProfileVie
         editProfileText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("Trykker på edit profile");
                 //start edit profile activity
             }
         });

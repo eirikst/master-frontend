@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:weightSum="10"
+        android:orientation="horizontal"
         >
 
         <ImageView
@@ -52,47 +53,87 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/upper_like_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/post_layout"
         android:layout_marginBottom="5dp"
+        android:paddingLeft="10dp"
         >
-
-        <ImageView
-            android:id="@+id/comment"
+        <TextView
+            android:id="@+id/like_nr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/comment"
-            android:layout_marginLeft="80dp"
-            android:layout_marginRight="5dp"
+            android:text="0 likes"
+            android:layout_marginRight="10dp"
             />
 
         <TextView
             android:id="@+id/comment_nr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/comment"
-            android:text="8"
+            android:layout_toRightOf="@+id/like_nr"
+            android:text="0 comments"
             android:layout_marginRight="10dp"
             />
+    </RelativeLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/upper_like_panel"
+        android:background="@drawable/shape_post_comment_like_panel"
+        android:padding="5dp"
+        android:weightSum="12"
+        >
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="6"
+            >
         <ImageView
-            android:id="@+id/like"
-            android:layout_width="wrap_content"
+            android:id="@+id/comment"
+            android:layout_width="20dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/heart"
-            android:layout_toRightOf="@+id/comment_nr"
+            android:src="@drawable/comment"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="5dp"
             />
 
         <TextView
-            android:id="@+id/like_nr"
+            android:id="@+id/like_post"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/comment"
+            android:text="Comment"
+            android:layout_marginRight="10dp"
+            />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="6"
+            >
+        <ImageView
+            android:id="@+id/like"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/heart"
+            android:layout_marginRight="5dp"
+            />
+
+        <TextView
+            android:id="@+id/comment_post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/like"
-            android:text="10"
+            android:text="Like"
             />
-    </RelativeLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
 
 
 </RelativeLayout>

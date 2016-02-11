@@ -13,6 +13,8 @@
         android:paddingRight="16dp"
         android:orientation="horizontal"
         android:weightSum="20"
+        android:background="@drawable/shape_post_background"
+        android:layout_marginBottom="5dp"
         >
 
         <RelativeLayout
@@ -57,12 +59,14 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:text="My posts"
         android:gravity="center_horizontal"
-        android:layout_margin="10dp"
         android:textSize="40dp"
         android:layout_below="@+id/post_list_header"
+        android:background="@drawable/shape_post_background"
+        android:padding="10dp"
+        android:layout_marginTop="5dp"
         />
 
 </RelativeLayout>
