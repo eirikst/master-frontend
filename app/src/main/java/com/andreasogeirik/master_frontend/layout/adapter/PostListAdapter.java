@@ -12,6 +12,7 @@ import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.model.Post;
 import com.andreasogeirik.master_frontend.util.DateUtility;
 
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -24,7 +25,15 @@ public class PostListAdapter extends ArrayAdapter<Post> {
     public PostListAdapter(Context context, List<Post> posts) {
         super(context, 0, posts);
         this.posts = posts;
+
+        this.sort(new Comparator<Post>() {
+            @Override
+            public int compare(Post lhs, Post rhs) {
+                return lhs.compareTo(rhs);
+            }
+        });
     }
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {

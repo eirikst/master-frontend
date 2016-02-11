@@ -51,9 +51,7 @@
                 android:layout_below="@+id/my_profile_friends"
                 android:text="Edit profile"
                 android:padding="5dp"
-
                 />
-
         </RelativeLayout>
     </LinearLayout>
 

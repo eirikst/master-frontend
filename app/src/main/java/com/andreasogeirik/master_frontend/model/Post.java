@@ -116,4 +116,11 @@ public class Post {
                 ", comments=" + comments +
                 '}';
     }
+
+    public int compareTo(Post post) {
+        if(this.getCreated().before(post.getCreated())) {
+            return -1;
+        }
+        return 1;
+    }
 }
