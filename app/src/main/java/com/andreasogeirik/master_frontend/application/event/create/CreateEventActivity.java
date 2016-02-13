@@ -1,5 +1,7 @@
 package com.andreasogeirik.master_frontend.application.event.create;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,11 +12,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.application.event.EventActivity;
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventPresenter;
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventView;
+import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
+import com.andreasogeirik.master_frontend.model.Event;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -55,6 +61,7 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     private Calendar eventDate;
     private Pair<String, String> startTimePair;
     private Pair<String, String> endTimePair;
+    private ProgressBarManager progressBarManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +70,7 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         ButterKnife.bind(this);
 
         presenter = new CreateEventPresenterImpl(this);
+        this.progressBarManager = new ProgressBarManager(this, createEventFormView, progressView);
     }
 
     @OnClick(R.id.create_event_button)
@@ -70,15 +78,29 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         String name = nameView.getText().toString();
         String location = locationView.getText().toString();
         String description = descriptionView.getText().toString();
+
+        final Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
         Date timeCreated = new Date();
+        if (startTimePair == null){
+            setTimeStartError("Velg et starttidspunkt");
+            return;
+        }
+        int startHour = Integer.valueOf(startTimePair.first);
+        int startMinute = Integer.valueOf(startTimePair.second);
+        int endHour = 0;
+        int endMinute = 0;
+        if (endTimePair != null){
+            endHour = Integer.valueOf(endTimePair.first);
+            endMinute = Integer.valueOf(endTimePair.second);
+        }
 
-        String eventDate = dateText.getText().toString();
-        String[] dateParts = eventDate.split(".");
-        String startTime = startTimeText.getText().toString();
-        String[] startTimeParts = startTime.split(":");
-        String endTime = endTimeText.getText().toString();
-        String[] endTimeParts = endTime.split(":");
+        Calendar startTime = new GregorianCalendar(year, month, day, startHour, startMinute);
+        Calendar endTime = new GregorianCalendar(year, month, day, endHour, endMinute);
 
+        presenter.create(new Event(name, location, description, timeCreated, startTime.getTime(), startTime.getTime(), ""));
     }
 
     @OnClick(R.id.create_event_start_time)
@@ -126,7 +148,9 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
 
     @Override
     public void navigateToEventView() {
-
+        Intent i = new Intent(this, EventActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
     }
 
     @Override
@@ -136,12 +160,41 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
 
     @Override
     public void showProgress() {
-
+        this.progressBarManager.showProgress(true);
     }
 
     @Override
     public void hideProgress() {
+        this.progressBarManager.showProgress(false);
+    }
 
+    @Override
+    public void setNameError(String error) {
+        nameView.setError(error);
+        View focusView = nameView;
+        focusView.requestFocus();
+    }
+
+    @Override
+    public void setLocationError(String error) {
+        locationView.setError(error);
+        View focusView = locationView;
+        focusView.requestFocus();
+    }
+
+    @Override
+    public void setDescriptionError(String error) {
+        descriptionView.setError(error);
+        View focusView = descriptionView;
+        focusView.requestFocus();
+    }
+
+    @Override
+    public void setTimeStartError(String error) {
+        startTimeText.setText(error);
+        startTimeText.setTextColor(Color.parseColor("#ff0033"));
+        View focusView = startTimeText;
+        focusView.requestFocus();
     }
 
     public void setDate(Calendar eventDate) {

@@ -21,8 +21,7 @@ public class Event {
     private Set<User> users = new HashSet<User>(0);
     private Set<EventPost> posts = new HashSet<EventPost>(0);
 
-    public Event(int id, String name, String location, String description, Date timeCreated, Date timeStart, Date timeEnd, String imageURI) {
-        this.id = id;
+    public Event(String name, String location, String description, Date timeCreated, Date timeStart, Date timeEnd, String imageURI) {
         this.name = name;
         this.location = location;
         this.description = description;
@@ -30,6 +29,10 @@ public class Event {
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
         this.imageURI = imageURI;
+    }
+
+    public Event() {
+
     }
 
     public int getId() {

@@ -8,4 +8,8 @@ public interface CreateEventView {
     void createEventFailed(String errorMessage);
     void showProgress();
     void hideProgress();
+    void setNameError(String error);
+    void setLocationError(String error);
+    void setDescriptionError(String error);
+    void setTimeStartError(String error);
 }

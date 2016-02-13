@@ -23,34 +23,28 @@ public class CreateEventInteractorImpl implements CreateEventInteractor, OnCreat
     }
 
     @Override
-    public void createEvent(Event event) {
+    public void create(Event event) {
         JSONObject jsonEvent = new JSONObject();
         try {
-            jsonEvent.put("email", event.getName());
-            jsonEvent.put("password", event.getLocation());
-            jsonEvent.put("firstname", event.getDescription());
-            jsonEvent.put("lastname", event.getTimeCreated());
-            jsonEvent.put("location", event.getTimeStart());
-            jsonEvent.put("location", event.getTimeEnd());
-            jsonEvent.put("location", event.getImageURI());
-            jsonEvent.put("location", event.getAdmin());
-            jsonEvent.put("location", event.getUsers());
-            jsonEvent.put("location", event.getPosts());
+            jsonEvent.put("name", event.getName());
+            jsonEvent.put("location", event.getLocation());
+            jsonEvent.put("description", event.getDescription());
+            jsonEvent.put("timeStart", event.getTimeStart().getTime());
+            jsonEvent.put("timeEnd", event.getTimeEnd().getTime());
         }
         catch (JSONException e) {
             e.printStackTrace();
         }
-
         new CreateEventTask(jsonEvent, this).execute();
     }
 
     @Override
     public void onCreateEventSuccess(JSONObject event) {
-
+        presenter.createEventSuccess(event);
     }
 
     @Override
     public void onCreateEventError(int error) {
-
+        presenter.createEventError(error);
     }
 }
