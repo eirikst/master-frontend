@@ -73,7 +73,7 @@
             </android.support.design.widget.TextInputLayout>
 
             <TextView
-                android:id="@+id/event_date_text"
+                android:id="@+id/event_date_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -82,6 +82,20 @@
                 android:text="@string/event_date_text"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#4ac1e8" />
+
+
+            <TextView
+                android:id="@+id/create_event_date_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:freezesText="true"
+                android:paddingLeft="4dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#ff0033"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:visibility="gone"
+                />
 
             <Button
                 android:id="@+id/create_event_date_button"
@@ -93,7 +107,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/event_start_time_text"
+                android:id="@+id/event_start_time_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:freezesText="true"
@@ -103,6 +117,19 @@
                 android:textColor="#4ac1e8"
                 android:focusable="true"
                 android:focusableInTouchMode="true"/>
+
+            <TextView
+                android:id="@+id/create_event_start_time_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:freezesText="true"
+                android:paddingLeft="4dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#ff0033"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:visibility="gone"
+                />
 
             <Button
                 android:id="@+id/create_event_start_time"
@@ -114,7 +141,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/event_end_time_text"
+                android:id="@+id/event_end_time_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:freezesText="true"
@@ -141,6 +168,19 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/event_select_image"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/create_event_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:freezesText="true"
+                android:paddingLeft="4dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#ff0033"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:visibility="gone"
+                />
 
 
             <Button

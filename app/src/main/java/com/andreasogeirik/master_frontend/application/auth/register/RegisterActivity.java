@@ -33,7 +33,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     EditText lastnameView;
     @Bind(R.id.location)
     EditText locationView;
-    @Bind(R.id.error)
+    @Bind(R.id.register_error)
     TextView errorMessage;
 
     @Bind(R.id.register_form)

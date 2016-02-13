@@ -9,7 +9,8 @@ import com.andreasogeirik.master_frontend.model.Event;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import butterknife.Bind;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  * Created by Andreas on 10.02.2016.
@@ -24,13 +25,24 @@ public class CreateEventInteractorImpl implements CreateEventInteractor, OnCreat
 
     @Override
     public void create(Event event) {
+
+        long startTime = dateToLong(event.getEventDate(), event.getTimeStart().first, event.getTimeStart().second);
+        long endTime;
+
+        if (event.getTimeEnd() == null){
+            endTime = 0;
+        }
+        else{
+            endTime = dateToLong(event.getEventDate(), event.getTimeEnd().first, event.getTimeEnd().second);
+        }
+
         JSONObject jsonEvent = new JSONObject();
         try {
             jsonEvent.put("name", event.getName());
             jsonEvent.put("location", event.getLocation());
             jsonEvent.put("description", event.getDescription());
-            jsonEvent.put("timeStart", event.getTimeStart().getTime());
-            jsonEvent.put("timeEnd", event.getTimeEnd().getTime());
+            jsonEvent.put("timeStart", startTime);
+            jsonEvent.put("timeEnd", endTime);
         }
         catch (JSONException e) {
             e.printStackTrace();
@@ -46,5 +58,10 @@ public class CreateEventInteractorImpl implements CreateEventInteractor, OnCreat
     @Override
     public void onCreateEventError(int error) {
         presenter.createEventError(error);
+    }
+
+    private long dateToLong(Calendar eventDate, int hour, int minute){
+        Calendar calendar = new GregorianCalendar(eventDate.get(Calendar.YEAR), eventDate.get(Calendar.MONTH), eventDate.get(Calendar.DAY_OF_MONTH), hour, minute);
+        return calendar.getTimeInMillis();
     }
 }

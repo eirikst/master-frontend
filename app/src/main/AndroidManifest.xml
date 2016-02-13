@@ -29,7 +29,9 @@
         <activity android:name=".application.auth.register.RegisterActivity" />
         <activity android:name=".application.auth.welcome.WelcomeActivity" />
         <activity android:name=".application.user.MyProfileActivity"></activity>
-        <activity android:name=".application.event.create.CreateEventActivity"></activity>
+        <activity
+            android:name=".application.event.create.CreateEventActivity"
+            android:configChanges="orientation|screenSize"></activity>
     </application>
 
 </manifest>

@@ -1,7 +1,6 @@
 package com.andreasogeirik.master_frontend.application.event.create;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,8 +18,6 @@ import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
 import com.andreasogeirik.master_frontend.model.Event;
 
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -28,39 +25,51 @@ import butterknife.OnClick;
 
 public class CreateEventActivity extends AppCompatActivity implements CreateEventView {
 
+    // Containers
     @Bind(R.id.create_event_progress)
     View progressView;
     @Bind(R.id.create_event_form)
     View createEventFormView;
 
+    // Input fields
     @Bind(R.id.create_event_name)
     EditText nameView;
     @Bind(R.id.create_event_location)
     EditText locationView;
     @Bind(R.id.create_event_description)
     EditText descriptionView;
-    @Bind(R.id.event_start_time_text)
-    TextView startTimeText;
-    @Bind(R.id.event_end_time_text)
-    TextView endTimeText;
-    @Bind(R.id.event_date_text)
-    TextView dateText;
+
+    // Dates
+    @Bind(R.id.event_start_time_label)
+    TextView startTimeLabel;
+    @Bind(R.id.create_event_start_time_error)
+    TextView startTimeError;
+    @Bind(R.id.event_end_time_label)
+    TextView endTimeLabel;
+    @Bind(R.id.event_date_label)
+    TextView dateLabel;
+    @Bind(R.id.create_event_date_error)
+    TextView dateError;
     @Bind(R.id.create_event_start_time)
     Button startTime;
     @Bind(R.id.create_event_end_time)
     Button endTime;
     @Bind(R.id.create_event_date_button)
     Button date;
+
+    // Images
     @Bind(R.id.create_event_image_select_button)
     Button selectImage;
+
+    // Submit
     @Bind(R.id.create_event_button)
     Button createEvent;
 
     CreateEventPresenter presenter;
 
     private Calendar eventDate;
-    private Pair<String, String> startTimePair;
-    private Pair<String, String> endTimePair;
+    private Pair<Integer, Integer> startTimePair;
+    private Pair<Integer, Integer> endTimePair;
     private ProgressBarManager progressBarManager;
 
     @Override
@@ -78,29 +87,7 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         String name = nameView.getText().toString();
         String location = locationView.getText().toString();
         String description = descriptionView.getText().toString();
-
-        final Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
-        Date timeCreated = new Date();
-        if (startTimePair == null){
-            setTimeStartError("Velg et starttidspunkt");
-            return;
-        }
-        int startHour = Integer.valueOf(startTimePair.first);
-        int startMinute = Integer.valueOf(startTimePair.second);
-        int endHour = 0;
-        int endMinute = 0;
-        if (endTimePair != null){
-            endHour = Integer.valueOf(endTimePair.first);
-            endMinute = Integer.valueOf(endTimePair.second);
-        }
-
-        Calendar startTime = new GregorianCalendar(year, month, day, startHour, startMinute);
-        Calendar endTime = new GregorianCalendar(year, month, day, endHour, endMinute);
-
-        presenter.create(new Event(name, location, description, timeCreated, startTime.getTime(), startTime.getTime(), ""));
+        presenter.create(new Event(name, location, description, this.eventDate, this.startTimePair, this.endTimePair, ""));
     }
 
     @OnClick(R.id.create_event_start_time)
@@ -110,8 +97,8 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         Bundle bundle = new Bundle();
         bundle.putString("time", "start");
         if (startTimePair != null) {
-            bundle.putString("hour", startTimePair.first);
-            bundle.putString("minute", startTimePair.second);
+            bundle.putInt("hour", startTimePair.first);
+            bundle.putInt("minute", startTimePair.second);
 
         }
         newFragment.setArguments(bundle);
@@ -124,8 +111,8 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         Bundle bundle = new Bundle();
         bundle.putString("time", "end");
         if (endTimePair != null) {
-            bundle.putString("hour", endTimePair.first);
-            bundle.putString("minute", endTimePair.second);
+            bundle.putInt("hour", endTimePair.first);
+            bundle.putInt("minute", endTimePair.second);
 
         }
         newFragment.setArguments(bundle);
@@ -190,11 +177,17 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     }
 
     @Override
+    public void setDateError(String error) {
+        dateError.setText(error);
+        dateError.setVisibility(View.VISIBLE);
+        dateError.requestFocus();
+    }
+
+    @Override
     public void setTimeStartError(String error) {
-        startTimeText.setText(error);
-        startTimeText.setTextColor(Color.parseColor("#ff0033"));
-        View focusView = startTimeText;
-        focusView.requestFocus();
+        startTimeError.setText(error);
+        startTimeError.setVisibility(View.VISIBLE);
+        startTimeError.requestFocus();
     }
 
     public void setDate(Calendar eventDate) {
@@ -203,17 +196,19 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         int month = eventDate.get(Calendar.MONTH) + 1;
         int year = eventDate.get(Calendar.YEAR);
 
-        this.dateText.setText("Dato: " + day + "." + month + "." + year);
+        this.dateLabel.setText("Dato: " + day + "." + month + "." + year);
         this.eventDate = eventDate;
+        this.dateError.setVisibility(View.GONE);
     }
 
-    public void setStartTimePair(Pair<String, String> startTimePair) {
-        this.startTimeText.setText("Start tidspunkt: " + startTimePair.first + ":" + startTimePair.second);
+    public void setStartTimePair(Pair<Integer, Integer> startTimePair) {
+        this.startTimeLabel.setText("Start tidspunkt: " + startTimePair.first + ":" + startTimePair.second);
         this.startTimePair = startTimePair;
+        this.startTimeError.setVisibility(View.GONE);
     }
 
-    public void setEndTimePair(Pair<String, String> endTimePair) {
-        this.endTimeText.setText("Slutt tidspunkt: " + endTimePair.first + ":" + endTimePair.second);
+    public void setEndTimePair(Pair<Integer, Integer> endTimePair) {
+        this.endTimeLabel.setText("Slutt tidspunkt: " + endTimePair.first + ":" + endTimePair.second);
         this.endTimePair = endTimePair;
     }
 }

@@ -44,11 +44,14 @@ public class CreateEventPresenterImpl implements CreateEventPresenter {
             createEventView.setLocationError("Velg et sted");
         }
         else if (TextUtils.isEmpty(event.getDescription())){
-            createEventView.setLocationError("Skriv en kort beskrivelse");
+            createEventView.setDescriptionError("Skriv en kort beskrivelse");
         }
-//        else if (event.getTimeStart()){
-//            createEventView.setLocationError("Velg et starttidspunkt");
-//        }
+        else if (event.getEventDate() == null){
+            createEventView.setDateError("Velg en dato");
+        }
+        else if (event.getTimeStart() == null){
+            createEventView.setTimeStartError("Velg et starttidspunkt");
+        }
         else{
             createEventView.showProgress();
             interactor.create(event);

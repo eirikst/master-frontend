@@ -25,9 +25,10 @@ public class TimePickerFragment extends DialogFragment
 
         Bundle arguments = getArguments();
 
+
         if (arguments.get("hour") != null) {
-            hour = Integer.parseInt((String) arguments.get("hour"));
-            minute = Integer.parseInt((String) arguments.get("minute"));
+            hour = arguments.getInt("hour");
+            minute = arguments.getInt("minute");
         } else {
             final Calendar c = Calendar.getInstance();
             hour = c.get(Calendar.HOUR_OF_DAY);
@@ -41,9 +42,9 @@ public class TimePickerFragment extends DialogFragment
         CreateEventActivity activity = (CreateEventActivity) getActivity();
         Bundle arguments = getArguments();
         if (arguments.get("time").equals("start")) {
-            activity.setStartTimePair(new Pair<>(Integer.toString(hourOfDay), Integer.toString(minute)));
+            activity.setStartTimePair(new Pair<>(hourOfDay, minute));
         } else if (arguments.get("time").equals("end")) {
-            activity.setEndTimePair(new Pair<>(Integer.toString(hourOfDay), Integer.toString(minute)));
+            activity.setEndTimePair(new Pair<>(hourOfDay,minute));
         }
     }
 }

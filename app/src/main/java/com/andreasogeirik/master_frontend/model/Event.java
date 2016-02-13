@@ -1,6 +1,8 @@
 package com.andreasogeirik.master_frontend.model;
 
-import java.util.Date;
+import android.util.Pair;
+
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,19 +15,19 @@ public class Event {
     private String name;
     private String location;
     private String description;
-    private Date timeCreated;
-    private Date timeStart;
-    private Date timeEnd;
+    private Calendar eventDate;
+    private Pair<Integer, Integer> timeStart;
+    private Pair <Integer, Integer> timeEnd;
     private String imageURI;
     private User admin;
     private Set<User> users = new HashSet<User>(0);
     private Set<EventPost> posts = new HashSet<EventPost>(0);
 
-    public Event(String name, String location, String description, Date timeCreated, Date timeStart, Date timeEnd, String imageURI) {
+    public Event(String name, String location, String description, Calendar eventDate, Pair<Integer, Integer> timeStart, Pair<Integer, Integer> timeEnd, String imageURI) {
         this.name = name;
         this.location = location;
         this.description = description;
-        this.timeCreated = timeCreated;
+        this.eventDate = eventDate;
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
         this.imageURI = imageURI;
@@ -67,27 +69,27 @@ public class Event {
         this.description = description;
     }
 
-    public Date getTimeCreated() {
-        return timeCreated;
+    public Calendar getEventDate() {
+        return eventDate;
     }
 
-    public void setTimeCreated(Date timeCreated) {
-        this.timeCreated = timeCreated;
+    public void setEventDate(Calendar eventDate) {
+        this.eventDate = eventDate;
     }
 
-    public Date getTimeStart() {
+    public Pair<Integer, Integer> getTimeStart() {
         return timeStart;
     }
 
-    public void setTimeStart(Date timeStart) {
+    public void setTimeStart(Pair<Integer, Integer> timeStart) {
         this.timeStart = timeStart;
     }
 
-    public Date getTimeEnd() {
+    public Pair<Integer, Integer> getTimeEnd() {
         return timeEnd;
     }
 
-    public void setTimeEnd(Date timeEnd) {
+    public void setTimeEnd(Pair<Integer, Integer> timeEnd) {
         this.timeEnd = timeEnd;
     }
 
