@@ -1,13 +1,11 @@
 package com.andreasogeirik.master_frontend.application.event.create;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -44,42 +42,40 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     @Bind(R.id.create_event_description)
     EditText descriptionView;
 
-    // Dates
-    @Bind(R.id.create_event_date_label)
-    TextView startDateLabel;
-    @Bind(R.id.create_event_date_error)
+    // Date/time
+    // Validation
+    @Bind(R.id.create_event_start_date_error)
     TextView startDateError;
-    // Start time
-    @Bind(R.id.create_event_start_time_label)
-    TextView startTimeLabel;
     @Bind(R.id.create_event_start_time_error)
     TextView startTimeError;
-    // End time
-    @Bind(R.id.create_event_checkbox)
-    CheckBox endTimeCheckbox;
-    @Bind(R.id.create_event_end_date_button)
-    Button endDateButton;
-    @Bind(R.id.create_event_end_date_label)
-    TextView endDateLabel;
-    @Bind(R.id.create_event_end_time_label)
-    TextView endTimeLabel;
-
+    @Bind(R.id.create_event_end_date_error)
+    TextView endDateError;
+    @Bind(R.id.create_event_end_time_error)
+    TextView endTimeError;
 
     // Buttons
     @Bind(R.id.create_event_start_date_button)
     Button startDateButton;
     @Bind(R.id.create_event_start_time_button)
     Button startTimeButton;
+    @Bind(R.id.create_event_end_date_button)
+    Button endDateButton;
     @Bind(R.id.create_event_end_time_button)
     Button endTimeButton;
 
-    // Images
+    // Checkbox
+    @Bind(R.id.create_event_checkbox)
+    CheckBox endTimeCheckbox;
+
+    // Image
     @Bind(R.id.create_event_image_select_button)
-    Button selectImage;
+    Button selectImageButton;
 
     // Submit
+    @Bind(R.id.create_event_error)
+    TextView createEventError;
     @Bind(R.id.create_event_submit_button)
-    Button createEvent;
+    Button createEventButton;
 
     CreateEventPresenter presenter;
 
@@ -102,6 +98,7 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
 
     @OnClick(R.id.create_event_submit_button)
     public void submit() {
+        clearValidationMessages();
         View current = getCurrentFocus();
         if (current != null) current.clearFocus();
         String name = nameView.getText().toString();
@@ -113,14 +110,10 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     @OnCheckedChanged(R.id.create_event_checkbox)
     public void endTimeChecked(boolean checked){
         if (checked){
-            endDateLabel.setVisibility(View.VISIBLE);
             endDateButton.setVisibility(View.VISIBLE);
-            endTimeLabel.setVisibility(View.VISIBLE);
             endTimeButton.setVisibility(View.VISIBLE);
         }
         else{
-            endDateLabel.setVisibility(View.GONE);
-            endTimeLabel.setVisibility(View.GONE);
             endDateButton.setVisibility(View.GONE);
             endTimeButton.setVisibility(View.GONE);
         }
@@ -173,8 +166,10 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     }
 
     @Override
-    public void createEventFailed(String errorMessage) {
-
+    public void createEventFailed(String error) {
+        createEventError.setText(error);
+        createEventError.setVisibility(View.VISIBLE);
+        createEventError.requestFocus();
     }
 
     @Override
@@ -212,21 +207,21 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     public void setStartDateError(String error) {
         startDateError.setText(error);
         startDateError.setVisibility(View.VISIBLE);
-        startDateLabel.requestFocus();
+        startDateError.requestFocus();
     }
 
     @Override
     public void setTimeStartError(String error) {
         startTimeError.setText(error);
         startTimeError.setVisibility(View.VISIBLE);
-        startTimeLabel.requestFocus();
+        startTimeError.requestFocus();
     }
 
     @Override
     public void setEndDateError(String error) {
-        // TODO: Update this shit
-        Toast toast = Toast.makeText(this, error, Toast.LENGTH_LONG);
-        toast.show();
+        endDateError.setText(error);
+        endDateError.setVisibility(View.VISIBLE);
+        endDateError.requestFocus();
     }
 
     public void setDate(Calendar eventDate, boolean startDate) {
@@ -236,24 +231,24 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         int year = eventDate.get(Calendar.YEAR);
 
         if (startDate){
-            this.startDateLabel.setText("Dato start: " + day + "." + month + "." + year);
+            this.startDateButton.setText("Dato: " + day + "." + month + "." + year);
             this.startDate = eventDate;
             this.startDateError.setVisibility(View.GONE);
         }
         else{
-            this.endDateLabel.setText("Dato slutt: " + day + "." + month + "." + year);
+            this.endDateButton.setText("Dato (slutt): " + day + "." + month + "." + year);
             this.endDate = eventDate;
         }
     }
 
     public void setStartTimePair(Pair<Integer, Integer> startTimePair) {
-        this.startTimeLabel.setText("Tidspunkt start: " + startTimePair.first + ":" + startTimePair.second);
+        this.startTimeButton.setText("Tidspunkt: " + startTimePair.first + ":" + startTimePair.second);
         this.startTimePair = startTimePair;
         this.startTimeError.setVisibility(View.GONE);
     }
 
     public void setEndTimePair(Pair<Integer, Integer> endTimePair) {
-        this.endTimeLabel.setText("Tidspunkt slutt: " + endTimePair.first + ":" + endTimePair.second);
+        this.endTimeButton.setText("Tidspunkt (slutt): " + endTimePair.first + ":" + endTimePair.second);
         this.endTimePair = endTimePair;
     }
 
@@ -276,5 +271,9 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         }
         newFragment.setArguments(bundle);
         newFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    private void clearValidationMessages(){
+
     }
 }

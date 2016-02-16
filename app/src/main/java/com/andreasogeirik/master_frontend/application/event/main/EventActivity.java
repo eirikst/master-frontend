@@ -87,7 +87,7 @@ public class EventActivity extends AppCompatActivity implements EventView, Custo
 
         loadDummyEvents();
 
-        presenter.findFriends(CurrentUser.getInstance().getUser().getId());//find friends
+//        presenter.findFriends(CurrentUser.getInstance().getUser().getId());//find friends
     }
 
     @Override

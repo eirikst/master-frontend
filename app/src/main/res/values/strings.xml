@@ -1,30 +1,25 @@
 <resources>
     <string name="app_name">Sportydul</string>
 
-    <string name="hello_world">Hello world!</string>
-
     // Toolbar
-    <string name="sign_out">Sign out</string>
-    <string name="create_event">Create Event</string>
+    <string name="sign_out">Logg ut</string>
+    <string name="create_event">Opprett hendelse</string>
 
     //Create Event
-    <string name="event_name">Hendelse</string>
-    <string name="event_location">Sted</string>
-    <string name="event_description">Beskrivelse</string>
-    <string name="event_start_time_text">Tidspunkt start: </string>
-    <string name="event_end_time_text">Tidspunkt slutt: </string>
-    <string name="event_start_time">Velg starttidspunkt</string>
-    <string name="event_end_time">Tidspunkt slutt</string>
-    <string name="event_end_date_label">Dato slutt: </string>
-    <string name="event_end_date">Velg sluttdato</string>
+    <string name="event_create_name">Navn på hendelse</string>
+    <string name="event_create_location">Sted</string>
+    <string name="event_create_description">Beskrivelse</string>
+    <string name="event_create_start_date_label">Dato</string>
+    <string name="event_create_start_time_label">Tidspunkt</string>
 
-    <string name="event_date_text">Dato start: </string>
-    <string name="event_start_date">Velg startdato</string>
 
-    <string name="create_event_checkbox">Velg slutttidspunkt (valgfritt)</string>
+    <string name="create_create_checkbox">Velg slutttidspunkt (valgfritt)</string>
+    <string name="event_create_end_date_label">Dato (Slutt)</string>
+    <string name="event_create_end_time_label">Tidspunkt (Slutt)</string>
 
-    <string name="event_select_image">Velg bilde</string>
-    <string name="event_create">Opprett hendelse</string>
+
+    <string name="event_create_select_image">Velg bilde</string>
+    <string name="event_create_submit">Opprett hendelse</string>
 
 
 
