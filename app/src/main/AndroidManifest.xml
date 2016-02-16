@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme.NoActionBar">
         <activity
             android:name=".application.auth.entrance.EntranceActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
         <activity
             android:name=".application.auth.login.LoginActivity"
             android:label="@string/title_activity_login" />
@@ -29,9 +29,10 @@
         <activity android:name=".application.auth.register.RegisterActivity" />
         <activity android:name=".application.auth.welcome.WelcomeActivity" />
         <activity
-            android:name=".application.user.MyProfileActivity"
+            android:name=".application.user.my_profile.MyProfileActivity"
             android:label="@string/title_activity_my_profile" />
-        <activity android:name=".application.friend.FriendListActivity"></activity>
+        <activity android:name=".application.friend.FriendListActivity" />
+        <activity android:name=".application.user.profile_not_friend.ProfileOthersActivity"></activity>
     </application>
 
 </manifest>

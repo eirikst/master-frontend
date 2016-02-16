@@ -1,11 +1,9 @@
-package com.andreasogeirik.master_frontend.application.user;
+package com.andreasogeirik.master_frontend.application.user.my_profile;
 
-import com.andreasogeirik.master_frontend.application.user.interfaces.MyProfileInteractor;
-import com.andreasogeirik.master_frontend.communication.GetPostsTask;
-import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingPostsListener;
+import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.MyProfileInteractor;
 import com.andreasogeirik.master_frontend.model.Post;
-import com.andreasogeirik.master_frontend.application.user.interfaces.MyProfilePresenter;
-import com.andreasogeirik.master_frontend.application.user.interfaces.MyProfileView;
+import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.MyProfilePresenter;
+import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.MyProfileView;
 import com.andreasogeirik.master_frontend.model.User;
 
 import java.util.List;
@@ -25,13 +23,13 @@ public class MyProfilePresenterImpl implements MyProfilePresenter {
 
 
     @Override
-    public void findPosts(int start) {
-        interactor.findPosts(start);
+    public void findPosts(User user, int start) {
+        interactor.findPosts(user, start);
     }
 
     @Override
-    public void findFriends() {
-        interactor.findFriends();
+    public void findFriends(int userId) {
+        interactor.findFriends(userId);
     }
 
     @Override

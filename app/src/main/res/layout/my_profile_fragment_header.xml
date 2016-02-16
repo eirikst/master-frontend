@@ -1,0 +1,31 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.andreasogeirik.master_frontend.application.user.my_profile.MyProfileHeader">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        >
+
+        <TextView
+            android:id="@+id/my_profile_friends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0 friends"
+            android:layout_margin="10dp"
+            />
+
+        <TextView
+            android:id="@+id/my_profile_edit_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Endre profil"
+            android:layout_below="@id/my_profile_friends"
+            android:layout_margin="10dp"
+            />
+
+    </RelativeLayout>
+</FrameLayout>

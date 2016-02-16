@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.model.Post;
+import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.DateUtility;
 
 import java.util.Comparator;
@@ -20,11 +21,13 @@ import java.util.List;
  */
 public class PostListAdapter extends ArrayAdapter<Post> {
     private List<Post> posts;
+    private User user;
 
 
-    public PostListAdapter(Context context, List<Post> posts) {
+    public PostListAdapter(Context context, List<Post> posts, User user) {
         super(context, 0, posts);
         this.posts = posts;
+        this.user = user;
 
         this.sort(new Comparator<Post>() {
             @Override
@@ -41,7 +44,8 @@ public class PostListAdapter extends ArrayAdapter<Post> {
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.my_profile_post_list_layout, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(
+                    R.layout.my_profile_post_list_layout, parent, false);
         }
 
         // Lookup views
@@ -52,9 +56,8 @@ public class PostListAdapter extends ArrayAdapter<Post> {
         TextView nrOfLikes = (TextView)convertView.findViewById(R.id.like_nr);
 
         // Populate the data using the posts
-        image.setImageResource(R.drawable.profile);//hardcoded
         message.setText(post.getMessage());
-        dateCreated.setText(DateUtility.getDateUtility().format(post.getCreated()));
+        dateCreated.setText(DateUtility.getInstance().format(post.getCreated()));
         nrOfComments.setText("" + posts.get(position).getComments().size() + " comments");
         nrOfLikes.setText("" + posts.get(position).getLikers().size() + " likes");
 

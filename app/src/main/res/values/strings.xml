@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">βFit</string>
+    <string name="app_name">Sportydul</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="sign_out">Sign out</string>
@@ -29,4 +29,7 @@
     <!-- Strings related to login -->
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="title_activity_event">EventActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

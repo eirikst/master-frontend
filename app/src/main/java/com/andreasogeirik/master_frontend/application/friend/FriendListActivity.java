@@ -1,6 +1,9 @@
 package com.andreasogeirik.master_frontend.application.friend;
 
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.application.user.my_profile.MyProfileActivity;
+import com.andreasogeirik.master_frontend.application.user.profile_not_friend.ProfileOthersActivity;
+import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.layout.adapter.FriendListAdapter;
 import com.andreasogeirik.master_frontend.model.User;
 
@@ -45,6 +48,18 @@ public class FriendListActivity extends AppCompatActivity implements AdapterView
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        System.out.println("BRUKER: " + CurrentUser.getInstance().getUser());
+        System.out.println("VENN: " + friends.get(position));
 
+        if(CurrentUser.getInstance().getUser().isFriendWith(friends.get(position))) {
+            Intent intent = new Intent(FriendListActivity.this, MyProfileActivity.class);
+            intent.putExtra("user", friends.get(position));//this yo bro
+            startActivity(intent);
+        }
+        else {
+            Intent intent = new Intent(FriendListActivity.this, ProfileOthersActivity.class);
+            intent.putExtra("user", friends.get(position));//this yo bro
+            startActivity(intent);
+        }
     }
 }

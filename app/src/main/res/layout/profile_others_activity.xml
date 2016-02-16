@@ -22,19 +22,32 @@
             android:layout_width="0dp"
             android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/my_profile_image"
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:src="@drawable/profile1"
-            />
+            <ImageView
+                android:id="@+id/my_profile_image"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:src="@drawable/profile1"
+                />
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/left_header_fragment_container"
             android:layout_weight="10"
             android:layout_width="0dp"
             android:layout_height="match_parent">
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Send en venne- forespørsel"
+                    android:layout_margin="10dp"
+                    />
+            </RelativeLayout>
         </RelativeLayout>
 
     </LinearLayout>
@@ -42,7 +55,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Posts"
+        android:text="Bli venner for å se poster"
         android:gravity="center_horizontal"
         android:textSize="40dp"
         android:layout_below="@+id/post_list_header"

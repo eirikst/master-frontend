@@ -34,4 +34,8 @@
     <!-- Backward-compatible version of ?android:attr/buttonBarButtonStyle -->
     <style name="ButtonBarButton" />
 
+    <style name="AppTheme.NoActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 </resources>

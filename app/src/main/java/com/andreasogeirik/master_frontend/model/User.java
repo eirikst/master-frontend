@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -70,6 +71,11 @@ public class User implements Serializable {
         jsonObject.put("imageUri", this.imageUri);
 
         return jsonObject;
+    }
+
+    public boolean isFriendWith(User user) {
+        if(friends.contains(user) ) System.out.println("vi er venner bror");
+        return friends.contains(user);
     }
 
     public int getId() {
@@ -154,7 +160,11 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" +
+        Iterator it = null;
+        if(friends != null) {
+            it = friends.iterator();
+        }
+        String user = "User{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", enabled=" + enabled +
@@ -164,6 +174,29 @@ public class User implements Serializable {
                 ", location='" + location + '\'' +
                 ", imageUri='" + imageUri + '\'' +
                 ", timeCreated=" + timeCreated +
-                '}';
+                ", friends=";
+        if(it != null) {
+            while (it.hasNext()) {
+                user += it.next();
+            }
+        }
+        user += '}';
+        return user;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        return id == user.id;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
     }
 }

@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Pair;
 
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingPostsListener;
+import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.SessionManager;
 
@@ -25,10 +26,12 @@ public class GetPostsTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEn
 
     private OnFinishedLoadingPostsListener listener;
     private int start;
+    private User user;
 
-    public GetPostsTask(OnFinishedLoadingPostsListener listener, int start) {
+    public GetPostsTask(OnFinishedLoadingPostsListener listener, User user, int start) {
         this.listener = listener;
         this.start = start;
+        this.user = user;
     }
 
     @Override
@@ -44,7 +47,8 @@ public class GetPostsTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEn
         HttpEntity<String> entity = new HttpEntity(null, headers);
 
         try {
-            response = template.exchange(Constants.BACKEND_URL + "me/post?start=" + start,
+            response = template.exchange(Constants.BACKEND_URL + "user/" + user.getId() +
+                            "/post?start=" + start,
                     HttpMethod.GET, entity, String.class);
             return new Pair(Constants.OK, response);
         }

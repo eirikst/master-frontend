@@ -1,4 +1,4 @@
-package com.andreasogeirik.master_frontend.application.user.interfaces;
+package com.andreasogeirik.master_frontend.application.user.my_profile.interfaces;
 
 import com.andreasogeirik.master_frontend.model.Post;
 import com.andreasogeirik.master_frontend.model.User;

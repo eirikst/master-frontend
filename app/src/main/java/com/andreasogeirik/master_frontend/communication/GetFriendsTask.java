@@ -25,9 +25,11 @@ import org.springframework.web.client.RestTemplate;
 public class GetFriendsTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntity<String>>> {
 
     private OnFinishedLoadingFriendsListener listener;
+    private int userId;
 
-    public GetFriendsTask(OnFinishedLoadingFriendsListener listener) {
+    public GetFriendsTask(OnFinishedLoadingFriendsListener listener, int userId) {
         this.listener = listener;
+        this.userId = userId;
     }
 
     @Override
@@ -43,7 +45,7 @@ public class GetFriendsTask extends AsyncTask<Void, Void, Pair<Integer, Response
         HttpEntity<String> entity = new HttpEntity(null, headers);
 
         try {
-            response = template.exchange(Constants.BACKEND_URL + "me/friends",
+            response = template.exchange(Constants.BACKEND_URL + "user/" + userId + "/friends",
                     HttpMethod.GET, entity, String.class);
             return new Pair(Constants.OK, response);
         }

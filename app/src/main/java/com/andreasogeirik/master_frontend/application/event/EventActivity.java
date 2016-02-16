@@ -14,7 +14,8 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.application.auth.entrance.EntranceActivity;
-import com.andreasogeirik.master_frontend.application.user.MyProfileActivity;
+import com.andreasogeirik.master_frontend.application.user.my_profile.MyProfileActivity;
+import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.layout.CustomSwipeRefreshLayout;
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.util.LogoutHandler;
@@ -68,6 +69,7 @@ public class EventActivity extends AppCompatActivity implements CustomSwipeRefre
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(EventActivity.this, MyProfileActivity.class);
+                intent.putExtra("user", CurrentUser.getInstance().getUser());
                 EventActivity.this.startActivity(intent);
             }
         });

@@ -1,7 +1,7 @@
-package com.andreasogeirik.master_frontend.application.user;
+package com.andreasogeirik.master_frontend.application.user.my_profile;
 
-import com.andreasogeirik.master_frontend.application.user.interfaces.MyProfileInteractor;
-import com.andreasogeirik.master_frontend.application.user.interfaces.MyProfilePresenter;
+import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.MyProfileInteractor;
+import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.MyProfilePresenter;
 import com.andreasogeirik.master_frontend.communication.GetFriendsTask;
 import com.andreasogeirik.master_frontend.communication.GetPostsTask;
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingFriendsListener;
@@ -32,13 +32,13 @@ public class MyProfileInteractorImpl implements MyProfileInteractor, OnFinishedL
 
 
     @Override
-    public void findPosts(int start) {
-        new GetPostsTask(this, start).execute();
+    public void findPosts(User user, int start) {
+        new GetPostsTask(this, user, start).execute();
     }
 
     @Override
-    public void findFriends() {
-        new GetFriendsTask(this).execute();
+    public void findFriends(int userId) {
+        new GetFriendsTask(this, userId).execute();
     }
 
     @Override
