@@ -5,4 +5,5 @@ package com.andreasogeirik.master_frontend.application.event.main.interfaces;
  */
 public interface EventInteractor {
     void findFriends(int userId);
+    void findFriendRequests();
 }

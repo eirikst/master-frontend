@@ -48,14 +48,15 @@ public class FriendListActivity extends AppCompatActivity implements AdapterView
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        System.out.println("BRUKER: " + CurrentUser.getInstance().getUser());
-        System.out.println("VENN: " + friends.get(position));
 
-        if(CurrentUser.getInstance().getUser().isFriendWith(friends.get(position))) {
+        //if friend or one self
+        if(CurrentUser.getInstance().getUser().isFriendWith(friends.get(position)) ||
+                CurrentUser.getInstance().getUser().equals(friends.get(position))) {
             Intent intent = new Intent(FriendListActivity.this, MyProfileActivity.class);
             intent.putExtra("user", friends.get(position));//this yo bro
             startActivity(intent);
         }
+        //or if not friend
         else {
             Intent intent = new Intent(FriendListActivity.this, ProfileOthersActivity.class);
             intent.putExtra("user", friends.get(position));//this yo bro

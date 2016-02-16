@@ -1,5 +1,6 @@
 package com.andreasogeirik.master_frontend.application.event.main.interfaces;
 
+import com.andreasogeirik.master_frontend.model.FriendRequest;
 import com.andreasogeirik.master_frontend.model.User;
 
 import java.util.Set;
@@ -11,4 +12,8 @@ public interface EventPresenter {
     void findFriends(int userId);
     void successFriendsLoad(Set<User> friends);
     void errorFriendsLoad(int code);
+
+    void findFriendRequests();
+    void successFriendRequestLoad(Set<FriendRequest> requests);
+    void errorFriendRequestsLoad(int code);
 }

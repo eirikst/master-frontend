@@ -22,6 +22,7 @@ public class User implements Serializable {
     private String imageUri;
     private Date timeCreated;
     private Set<User> friends;
+    private Set<FriendRequest> requests;
 
     public User() {
     }
@@ -76,6 +77,34 @@ public class User implements Serializable {
     public boolean isFriendWith(User user) {
         if(friends.contains(user) ) System.out.println("vi er venner bror");
         return friends.contains(user);
+    }
+
+    /*
+     * I requested the other user
+     */
+    public boolean iHaveRequested(User user) {
+        Iterator<FriendRequest> it = requests.iterator();
+        while(it.hasNext()) {
+            FriendRequest request = it.next();
+            if(request.getUser().equals(user)) {
+                return request.isMyRequest();
+            }
+        }
+        return false;
+    }
+
+    /*
+     * The other user requested me
+     */
+    public boolean iWasRequested(User user) {
+        Iterator<FriendRequest> it = requests.iterator();
+        while(it.hasNext()) {
+            FriendRequest request = it.next();
+            if(request.getUser().equals(user)) {
+                return !request.isMyRequest();
+            }
+        }
+        return false;
     }
 
     public int getId() {
@@ -156,6 +185,14 @@ public class User implements Serializable {
 
     public void setFriends(Set<User> friends) {
         this.friends = friends;
+    }
+
+    public Set<FriendRequest> getRequests() {
+        return requests;
+    }
+
+    public void setRequests(Set<FriendRequest> requests) {
+        this.requests = requests;
     }
 
     @Override

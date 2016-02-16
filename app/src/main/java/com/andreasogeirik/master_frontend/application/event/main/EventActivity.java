@@ -21,6 +21,7 @@ import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.application.event.create.CreateEventActivity;
 import com.andreasogeirik.master_frontend.layout.CustomSwipeRefreshLayout;
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.model.FriendRequest;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.LogoutHandler;
 import com.andreasogeirik.master_frontend.util.SessionManager;
@@ -87,7 +88,8 @@ public class EventActivity extends AppCompatActivity implements EventView, Custo
 
         loadDummyEvents();
 
-        presenter.findFriends(CurrentUser.getInstance().getUser().getId());//find friends
+        //presenter.findFriends(CurrentUser.getInstance().getUser().getId());//find friends
+        //presenter.findFriendRequests();
     }
 
     @Override
@@ -148,5 +150,10 @@ public class EventActivity extends AppCompatActivity implements EventView, Custo
     @Override
     public void addFriends(Set<User> friends) {
         CurrentUser.getInstance().getUser().setFriends(friends);
+    }
+
+    @Override
+    public void addRequests(Set<FriendRequest> requests) {
+        CurrentUser.getInstance().getUser().setRequests(requests);
     }
 }
