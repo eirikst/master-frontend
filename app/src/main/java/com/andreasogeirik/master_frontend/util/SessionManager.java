@@ -23,9 +23,8 @@ public class SessionManager {
      * This must be called before first usage, preferably from first activity
      */
     public void initialize(Context context){
-        if(preferences == null) {
+        System.out.println("Init sharedpref");
             preferences = context.getSharedPreferences("session", Context.MODE_PRIVATE);
-        }
     }
 
 

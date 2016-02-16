@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.auth.login.interfaces.LoginPresenter;
 import com.andreasogeirik.master_frontend.application.auth.login.interfaces.LoginView;
-import com.andreasogeirik.master_frontend.application.event.EventActivity;
+import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
 import com.andreasogeirik.master_frontend.model.User;
 
