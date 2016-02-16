@@ -18,6 +18,7 @@ import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces
 import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.MyProfileView;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
+import com.andreasogeirik.master_frontend.util.SessionManager;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -48,6 +49,8 @@ public class MyProfileActivity extends AppCompatActivity implements MyProfileVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_profile_activity);
+
+        SessionManager.getInstance().initialize(this);
 
         presenter = new MyProfilePresenterImpl(this);
 
@@ -87,7 +90,7 @@ public class MyProfileActivity extends AppCompatActivity implements MyProfileVie
 
     @Override
     public void addFriends(Set<User> friends) {
-        CurrentUser.getInstance().getUser().setFriends(friends);//setter friends her, mulig det bare burde gjøres i event, se an senere
+        user.setFriends(friends);
         this.friends.addAll(friends);
         if(myProfileHeaderFragment != null) {
             myProfileHeaderFragment.updateFriendCount(this.friends.size());

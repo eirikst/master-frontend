@@ -1,4 +1,4 @@
-package com.andreasogeirik.master_frontend.application.event;
+package com.andreasogeirik.master_frontend.application.event.main;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -14,11 +14,14 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.application.auth.entrance.EntranceActivity;
+import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventPresenter;
+import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventView;
 import com.andreasogeirik.master_frontend.application.user.my_profile.MyProfileActivity;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.application.event.create.CreateEventActivity;
 import com.andreasogeirik.master_frontend.layout.CustomSwipeRefreshLayout;
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.LogoutHandler;
 import com.andreasogeirik.master_frontend.util.SessionManager;
 
@@ -26,11 +29,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class EventActivity extends AppCompatActivity implements CustomSwipeRefreshLayout.OnRefreshListener {
+public class EventActivity extends AppCompatActivity implements EventView, CustomSwipeRefreshLayout.OnRefreshListener {
+    private EventPresenter presenter;
 
     @Bind(R.id.swipe_container)
     CustomSwipeRefreshLayout swipeContainer;
@@ -44,11 +49,14 @@ public class EventActivity extends AppCompatActivity implements CustomSwipeRefre
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
-    // TODO: LASTE VENNER HER, bror
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Her må current user være initialisert fra før...
+
         SessionManager sessionManager = SessionManager.getInstance();
         sessionManager.initialize(this);
+
+        presenter = new EventPresenterImpl(this);
 
         if (sessionManager.getCookie() == null){
             Intent i = new Intent(this, EntranceActivity.class);
@@ -78,6 +86,8 @@ public class EventActivity extends AppCompatActivity implements CustomSwipeRefre
         listView.addHeaderView(b);
 
         loadDummyEvents();
+
+        presenter.findFriends(CurrentUser.getInstance().getUser().getId());//find friends
     }
 
     @Override
@@ -133,5 +143,10 @@ public class EventActivity extends AppCompatActivity implements CustomSwipeRefre
         this.listView.setAdapter(new SimpleAdapter(this, new ArrayList<Map<String, ?>>(), android.R.
                 layout.simple_list_item_1, new String[]{"Event"}, new int[]{android.R.id.text1}));
         swipeContainer.setRefreshing(false);
+    }
+
+    @Override
+    public void addFriends(Set<User> friends) {
+        CurrentUser.getInstance().getUser().setFriends(friends);
     }
 }
