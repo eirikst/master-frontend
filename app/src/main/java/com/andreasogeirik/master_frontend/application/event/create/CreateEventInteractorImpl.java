@@ -40,7 +40,7 @@ public class CreateEventInteractorImpl implements CreateEventInteractor, OnCreat
 
     private JSONObject eventToJson(Event event) {
 
-        long startTime = dateToLong(event.getEventDate(), event.getTimeStart().first, event.getTimeStart().second);
+        long startTime = dateToLong(event.getStartDate(), event.getTimeStart().first, event.getTimeStart().second);
         JSONObject jsonEvent = new JSONObject();
 
         try {
@@ -49,7 +49,7 @@ public class CreateEventInteractorImpl implements CreateEventInteractor, OnCreat
             jsonEvent.put("description", event.getDescription());
             jsonEvent.put("timeStart", startTime);
             if (event.getTimeEnd() != null) {
-                long endTime = dateToLong(event.getEventDate(), event.getTimeEnd().first, event.getTimeEnd().second);
+                long endTime = dateToLong(event.getStartDate(), event.getTimeEnd().first, event.getTimeEnd().second);
                 jsonEvent.put("timeEnd", endTime);
             }
         } catch (JSONException e) {

@@ -95,12 +95,12 @@
                 android:visibility="gone"/>
 
             <Button
-                android:id="@+id/create_event_date_button"
+                android:id="@+id/create_event_start_date_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/event_date"
+                android:text="@string/event_start_date"
                 android:textStyle="bold" />
 
             <TextView
@@ -142,13 +142,32 @@
                 />
 
             <TextView
+                android:id="@+id/create_event_end_date_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="4dp"
+                android:text="@string/event_end_date_label"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/create_event_end_date_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/event_end_date"
+                android:textStyle="bold"
+                android:visibility="gone"
+                android:background="#ffd966"/>
+
+            <TextView
                 android:id="@+id/create_event_end_time_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="4dp"
                 android:text="@string/event_end_time_text"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#4ac1e8"
                 android:visibility="gone"/>
 
 

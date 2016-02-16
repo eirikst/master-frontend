@@ -11,6 +11,7 @@ public interface CreateEventView {
     void setNameError(String error);
     void setLocationError(String error);
     void setDescriptionError(String error);
-    void setDateError(String error);
+    void setStartDateError(String error);
     void setTimeStartError(String error);
+    void setEndDateError(String error);
 }

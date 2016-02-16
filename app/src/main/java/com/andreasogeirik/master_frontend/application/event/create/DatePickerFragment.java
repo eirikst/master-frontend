@@ -42,6 +42,12 @@ public class DatePickerFragment extends DialogFragment
         CreateEventActivity activity = (CreateEventActivity) getActivity();
         GregorianCalendar gregorianCalendar = new GregorianCalendar();
         gregorianCalendar.set(year, month, day);
-        activity.setDate(gregorianCalendar);
+        Bundle arguments = getArguments();
+        if (arguments.get("date").equals("start")){
+            activity.setDate(gregorianCalendar, true);
+        }
+        else{
+            activity.setDate(gregorianCalendar, false);
+        }
     }
 }
