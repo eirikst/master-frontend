@@ -6,7 +6,6 @@ import android.util.Pair;
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventInteractor;
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventPresenter;
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventView;
-import com.andreasogeirik.master_frontend.listener.OnCreateEventFinishedListener;
 import com.andreasogeirik.master_frontend.model.Event;
 
 import org.json.JSONObject;
@@ -42,44 +41,36 @@ public class CreateEventPresenterImpl implements CreateEventPresenter {
 
     @Override
     public void create(Event event) {
-        if (TextUtils.isEmpty(event.getName())){
+        if (TextUtils.isEmpty(event.getName())) {
             createEventView.setNameError("Sett et navn");
-        }
-        else if (TextUtils.isEmpty(event.getLocation())){
+        } else if (TextUtils.isEmpty(event.getLocation())) {
             createEventView.setLocationError("Velg et sted");
-        }
-        else if (TextUtils.isEmpty(event.getDescription())){
+        } else if (TextUtils.isEmpty(event.getDescription())) {
             createEventView.setDescriptionError("Skriv en kort beskrivelse");
-        }
-        else if (event.getEventDate() == null){
-            createEventView.setDateError("Velg en dato");
-        }
-        if (event.getTimeStart() == null){
+        } else if (event.getStartDate() == null) {
+            createEventView.setStartDateError("Velg en dato");
+        } else if (event.getTimeStart() == null) {
             createEventView.setTimeStartError("Velg et starttidspunkt");
-        }
-        else{
+        } else if (convertToDate(event.getStartDate(), event.getTimeStart()).before(new Date())) {
+            createEventView.setStartDateError("Velg en dato før dagens dato");
+        } else if (event.getEndDate() != null) {
+            if (event.getTimeEnd() == null) {
+                createEventView.setEndDateError("Sett tidspunkt slutt");
+            } else if (convertToDate(event.getStartDate(), event.getTimeStart()).before(new Date())) {
+                createEventView.setEndDateError("Velg et tidspunkt etter dagens dagens dato");
+
+            } else if (convertToDate(event.getEndDate(), event.getTimeEnd()).before(convertToDate(event.getStartDate(), event.getTimeStart()))) {
+                createEventView.setEndDateError("Velg et tidspunkt etter startdato");
+            }
+        } else if (event.getTimeEnd() != null && event.getEndDate() == null) {
+            createEventView.setEndDateError("Veld en dato slutt");
+        } else {
             createEventView.showProgress();
             interactor.create(event);
         }
-//        else{
-//            Date startTime = convertToDate(event.getEventDate(), event.getTimeStart());
-//            if (startTime.before(new Date())){
-//                createEventView.setTimeStartError("Tidspunktet må settes etter nåverende tidspunkt");
-//            }
-//            if (event.getTimeEnd() != null){
-//                Date endTime = convertToDate(event.getEventDate(), event.getTimeStart());
-//
-//            }
-//        }
-
-//        else if (event.getTimeEnd() != null){
-//
-//            if (event.getTimeEnd().first < event.getTimeStart().first || event.getTimeEnd().second < event.getTimeStart().second)
-//        }
-
     }
 
-    private Date convertToDate(Calendar eventDate, Pair<Integer, Integer> timePair){
+    private Date convertToDate(Calendar eventDate, Pair<Integer, Integer> timePair) {
         return new GregorianCalendar(eventDate.get(Calendar.YEAR), eventDate.get(Calendar.MONTH), eventDate.get(Calendar.DAY_OF_MONTH), timePair.first, timePair.second).getTime();
     }
 }

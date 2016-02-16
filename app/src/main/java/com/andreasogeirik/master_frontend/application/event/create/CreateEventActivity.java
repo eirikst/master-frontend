@@ -1,15 +1,18 @@
 package com.andreasogeirik.master_frontend.application.event.create;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
@@ -43,9 +46,9 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
 
     // Dates
     @Bind(R.id.create_event_date_label)
-    TextView dateLabel;
+    TextView startDateLabel;
     @Bind(R.id.create_event_date_error)
-    TextView dateError;
+    TextView startDateError;
     // Start time
     @Bind(R.id.create_event_start_time_label)
     TextView startTimeLabel;
@@ -54,12 +57,17 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     // End time
     @Bind(R.id.create_event_checkbox)
     CheckBox endTimeCheckbox;
+    @Bind(R.id.create_event_end_date_button)
+    Button endDateButton;
+    @Bind(R.id.create_event_end_date_label)
+    TextView endDateLabel;
     @Bind(R.id.create_event_end_time_label)
     TextView endTimeLabel;
 
+
     // Buttons
-    @Bind(R.id.create_event_date_button)
-    Button dateButton;
+    @Bind(R.id.create_event_start_date_button)
+    Button startDateButton;
     @Bind(R.id.create_event_start_time_button)
     Button startTimeButton;
     @Bind(R.id.create_event_end_time_button)
@@ -75,7 +83,9 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
 
     CreateEventPresenter presenter;
 
-    private Calendar eventDate;
+    private Calendar startDate;
+    private Calendar endDate;
+
     private Pair<Integer, Integer> startTimePair;
     private Pair<Integer, Integer> endTimePair;
     private ProgressBarManager progressBarManager;
@@ -97,18 +107,21 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         String name = nameView.getText().toString();
         String location = locationView.getText().toString();
         String description = descriptionView.getText().toString();
-        presenter.create(new Event(name, location, description, this.eventDate, this.startTimePair, this.endTimePair, ""));
+        presenter.create(new Event(name, location, description, this.startDate, this.endDate, this.startTimePair, this.endTimePair, ""));
     }
 
     @OnCheckedChanged(R.id.create_event_checkbox)
     public void endTimeChecked(boolean checked){
         if (checked){
+            endDateLabel.setVisibility(View.VISIBLE);
+            endDateButton.setVisibility(View.VISIBLE);
             endTimeLabel.setVisibility(View.VISIBLE);
             endTimeButton.setVisibility(View.VISIBLE);
-
         }
         else{
+            endDateLabel.setVisibility(View.GONE);
             endTimeLabel.setVisibility(View.GONE);
+            endDateButton.setVisibility(View.GONE);
             endTimeButton.setVisibility(View.GONE);
         }
     }
@@ -142,18 +155,14 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
-    @OnClick(R.id.create_event_date_button)
-    public void date() {
-        DialogFragment newFragment = new DatePickerFragment();
-        Bundle bundle = new Bundle();
-        if (eventDate != null) {
-            bundle = new Bundle();
-            bundle.putInt("day", eventDate.get(Calendar.DAY_OF_MONTH));
-            bundle.putInt("month", eventDate.get(Calendar.MONTH));
-            bundle.putInt("year", eventDate.get(Calendar.YEAR));
-        }
-        newFragment.setArguments(bundle);
-        newFragment.show(getSupportFragmentManager(), "datePicker");
+    @OnClick(R.id.create_event_start_date_button)
+    public void startDate() {
+        setDate(true);
+    }
+
+    @OnClick(R.id.create_event_end_date_button)
+    public void endDate() {
+        setDate(false);
     }
 
     @Override
@@ -200,10 +209,10 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     }
 
     @Override
-    public void setDateError(String error) {
-        dateError.setText(error);
-        dateError.setVisibility(View.VISIBLE);
-        dateLabel.requestFocus();
+    public void setStartDateError(String error) {
+        startDateError.setText(error);
+        startDateError.setVisibility(View.VISIBLE);
+        startDateLabel.requestFocus();
     }
 
     @Override
@@ -213,25 +222,59 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         startTimeLabel.requestFocus();
     }
 
-    public void setDate(Calendar eventDate) {
+    @Override
+    public void setEndDateError(String error) {
+        // TODO: Update this shit
+        Toast toast = Toast.makeText(this, error, Toast.LENGTH_LONG);
+        toast.show();
+    }
+
+    public void setDate(Calendar eventDate, boolean startDate) {
 
         int day = eventDate.get(Calendar.DAY_OF_MONTH);
         int month = eventDate.get(Calendar.MONTH) + 1;
         int year = eventDate.get(Calendar.YEAR);
 
-        this.dateLabel.setText("Dato: " + day + "." + month + "." + year);
-        this.eventDate = eventDate;
-        this.dateError.setVisibility(View.GONE);
+        if (startDate){
+            this.startDateLabel.setText("Dato start: " + day + "." + month + "." + year);
+            this.startDate = eventDate;
+            this.startDateError.setVisibility(View.GONE);
+        }
+        else{
+            this.endDateLabel.setText("Dato slutt: " + day + "." + month + "." + year);
+            this.endDate = eventDate;
+        }
     }
 
     public void setStartTimePair(Pair<Integer, Integer> startTimePair) {
-        this.startTimeLabel.setText("Start tidspunkt: " + startTimePair.first + ":" + startTimePair.second);
+        this.startTimeLabel.setText("Tidspunkt start: " + startTimePair.first + ":" + startTimePair.second);
         this.startTimePair = startTimePair;
         this.startTimeError.setVisibility(View.GONE);
     }
 
     public void setEndTimePair(Pair<Integer, Integer> endTimePair) {
-        this.endTimeLabel.setText("Slutt tidspunkt: " + endTimePair.first + ":" + endTimePair.second);
+        this.endTimeLabel.setText("Tidspunkt slutt: " + endTimePair.first + ":" + endTimePair.second);
         this.endTimePair = endTimePair;
+    }
+
+    private void setDate(boolean startDate){
+        DialogFragment newFragment = new DatePickerFragment();
+        Bundle bundle = new Bundle();
+        Calendar date;
+        if (startDate){
+            date = this.startDate;
+            bundle.putString("date", "start");
+        }
+        else{
+            date = this.endDate;
+            bundle.putString("date", "end");
+        }
+        if (date != null) {
+            bundle.putInt("day", date.get(Calendar.DAY_OF_MONTH));
+            bundle.putInt("month", date.get(Calendar.MONTH));
+            bundle.putInt("year", date.get(Calendar.YEAR));
+        }
+        newFragment.setArguments(bundle);
+        newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 }

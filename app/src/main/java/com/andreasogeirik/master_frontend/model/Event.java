@@ -15,7 +15,8 @@ public class Event {
     private String name;
     private String location;
     private String description;
-    private Calendar eventDate;
+    private Calendar startDate;
+    private Calendar endDate;
     private Pair<Integer, Integer> timeStart;
     private Pair <Integer, Integer> timeEnd;
     private String imageURI;
@@ -23,11 +24,12 @@ public class Event {
     private Set<User> users = new HashSet<User>(0);
     private Set<EventPost> posts = new HashSet<EventPost>(0);
 
-    public Event(String name, String location, String description, Calendar eventDate, Pair<Integer, Integer> timeStart, Pair<Integer, Integer> timeEnd, String imageURI) {
+    public Event(String name, String location, String description, Calendar startDate, Calendar endDate, Pair<Integer, Integer> timeStart, Pair<Integer, Integer> timeEnd, String imageURI) {
         this.name = name;
         this.location = location;
         this.description = description;
-        this.eventDate = eventDate;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
         this.imageURI = imageURI;
@@ -69,12 +71,20 @@ public class Event {
         this.description = description;
     }
 
-    public Calendar getEventDate() {
-        return eventDate;
+    public Calendar getStartDate() {
+        return startDate;
     }
 
-    public void setEventDate(Calendar eventDate) {
-        this.eventDate = eventDate;
+    public void setStartDate(Calendar startDate) {
+        this.startDate = startDate;
+    }
+
+    public Calendar getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Calendar endDate) {
+        this.endDate = endDate;
     }
 
     public Pair<Integer, Integer> getTimeStart() {
