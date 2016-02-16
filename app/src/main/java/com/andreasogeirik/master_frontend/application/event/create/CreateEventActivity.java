@@ -40,29 +40,33 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     EditText descriptionView;
 
     // Dates
-    @Bind(R.id.event_start_time_label)
-    TextView startTimeLabel;
-    @Bind(R.id.create_event_start_time_error)
-    TextView startTimeError;
-    @Bind(R.id.event_end_time_label)
-    TextView endTimeLabel;
-    @Bind(R.id.event_date_label)
+    @Bind(R.id.create_event_date_label)
     TextView dateLabel;
     @Bind(R.id.create_event_date_error)
     TextView dateError;
-    @Bind(R.id.create_event_start_time)
-    Button startTime;
-    @Bind(R.id.create_event_end_time)
-    Button endTime;
+    // Start time
+    @Bind(R.id.create_event_start_time_label)
+    TextView startTimeLabel;
+    @Bind(R.id.create_event_start_time_error)
+    TextView startTimeError;
+    // End time
+    @Bind(R.id.create_event_end_time_label)
+    TextView endTimeLabel;
+
+    // Buttons
     @Bind(R.id.create_event_date_button)
-    Button date;
+    Button dateButton;
+    @Bind(R.id.create_event_start_time_button)
+    Button startTimeButton;
+    @Bind(R.id.create_event_end_time_button)
+    Button endTimeButton;
 
     // Images
     @Bind(R.id.create_event_image_select_button)
     Button selectImage;
 
     // Submit
-    @Bind(R.id.create_event_button)
+    @Bind(R.id.create_event_submit_button)
     Button createEvent;
 
     CreateEventPresenter presenter;
@@ -82,15 +86,17 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         this.progressBarManager = new ProgressBarManager(this, createEventFormView, progressView);
     }
 
-    @OnClick(R.id.create_event_button)
+    @OnClick(R.id.create_event_submit_button)
     public void submit() {
+        View current = getCurrentFocus();
+        if (current != null) current.clearFocus();
         String name = nameView.getText().toString();
         String location = locationView.getText().toString();
         String description = descriptionView.getText().toString();
         presenter.create(new Event(name, location, description, this.eventDate, this.startTimePair, this.endTimePair, ""));
     }
 
-    @OnClick(R.id.create_event_start_time)
+    @OnClick(R.id.create_event_start_time_button)
     public void startTime() {
 
         DialogFragment newFragment = new TimePickerFragment();
@@ -105,7 +111,7 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
-    @OnClick(R.id.create_event_end_time)
+    @OnClick(R.id.create_event_end_time_button)
     public void endTime() {
         DialogFragment newFragment = new TimePickerFragment();
         Bundle bundle = new Bundle();
@@ -180,14 +186,14 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     public void setDateError(String error) {
         dateError.setText(error);
         dateError.setVisibility(View.VISIBLE);
-        dateError.requestFocus();
+        dateLabel.requestFocus();
     }
 
     @Override
     public void setTimeStartError(String error) {
         startTimeError.setText(error);
         startTimeError.setVisibility(View.VISIBLE);
-        startTimeError.requestFocus();
+        startTimeLabel.requestFocus();
     }
 
     public void setDate(Calendar eventDate) {

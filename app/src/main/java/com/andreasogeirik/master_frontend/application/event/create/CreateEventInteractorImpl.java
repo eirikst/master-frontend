@@ -25,29 +25,7 @@ public class CreateEventInteractorImpl implements CreateEventInteractor, OnCreat
 
     @Override
     public void create(Event event) {
-
-        long startTime = dateToLong(event.getEventDate(), event.getTimeStart().first, event.getTimeStart().second);
-        long endTime;
-
-        if (event.getTimeEnd() == null){
-            endTime = 0;
-        }
-        else{
-            endTime = dateToLong(event.getEventDate(), event.getTimeEnd().first, event.getTimeEnd().second);
-        }
-
-        JSONObject jsonEvent = new JSONObject();
-        try {
-            jsonEvent.put("name", event.getName());
-            jsonEvent.put("location", event.getLocation());
-            jsonEvent.put("description", event.getDescription());
-            jsonEvent.put("timeStart", startTime);
-            jsonEvent.put("timeEnd", endTime);
-        }
-        catch (JSONException e) {
-            e.printStackTrace();
-        }
-        new CreateEventTask(jsonEvent, this).execute();
+        new CreateEventTask(eventToJson(event), this).execute();
     }
 
     @Override
@@ -60,7 +38,27 @@ public class CreateEventInteractorImpl implements CreateEventInteractor, OnCreat
         presenter.createEventError(error);
     }
 
-    private long dateToLong(Calendar eventDate, int hour, int minute){
+    private JSONObject eventToJson(Event event) {
+
+        long startTime = dateToLong(event.getEventDate(), event.getTimeStart().first, event.getTimeStart().second);
+        JSONObject jsonEvent = new JSONObject();
+
+        try {
+            jsonEvent.put("name", event.getName());
+            jsonEvent.put("location", event.getLocation());
+            jsonEvent.put("description", event.getDescription());
+            jsonEvent.put("timeStart", startTime);
+            if (event.getTimeEnd() != null) {
+                long endTime = dateToLong(event.getEventDate(), event.getTimeEnd().first, event.getTimeEnd().second);
+                jsonEvent.put("timeEnd", endTime);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonEvent;
+    }
+
+    private long dateToLong(Calendar eventDate, int hour, int minute) {
         Calendar calendar = new GregorianCalendar(eventDate.get(Calendar.YEAR), eventDate.get(Calendar.MONTH), eventDate.get(Calendar.DAY_OF_MONTH), hour, minute);
         return calendar.getTimeInMillis();
     }

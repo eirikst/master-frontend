@@ -43,6 +43,7 @@ public class EventActivity extends AppCompatActivity implements CustomSwipeRefre
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
+    // TODO: LASTE VENNER HER, bror
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SessionManager sessionManager = SessionManager.getInstance();

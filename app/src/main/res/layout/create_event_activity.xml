@@ -73,16 +73,16 @@
             </android.support.design.widget.TextInputLayout>
 
             <TextView
-                android:id="@+id/event_date_label"
+                android:id="@+id/create_event_date_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:freezesText="true"
                 android:paddingLeft="4dp"
                 android:text="@string/event_date_text"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#4ac1e8" />
-
+                android:textColor="#4ac1e8"
+                android:focusable="true"
+                android:focusableInTouchMode="true"/>
 
             <TextView
                 android:id="@+id/create_event_date_error"
@@ -92,10 +92,7 @@
                 android:paddingLeft="4dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#ff0033"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:visibility="gone"
-                />
+                android:visibility="gone"/>
 
             <Button
                 android:id="@+id/create_event_date_button"
@@ -107,10 +104,9 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/event_start_time_label"
+                android:id="@+id/create_event_start_time_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:freezesText="true"
                 android:paddingLeft="4dp"
                 android:text="@string/event_start_time_text"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -122,17 +118,13 @@
                 android:id="@+id/create_event_start_time_error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:freezesText="true"
                 android:paddingLeft="4dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#ff0033"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:visibility="gone"
-                />
+                android:visibility="gone" />
 
             <Button
-                android:id="@+id/create_event_start_time"
+                android:id="@+id/create_event_start_time_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -141,10 +133,9 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/event_end_time_label"
+                android:id="@+id/create_event_end_time_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:freezesText="true"
                 android:paddingLeft="4dp"
                 android:text="@string/event_end_time_text"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -152,7 +143,7 @@
 
 
             <Button
-                android:id="@+id/create_event_end_time"
+                android:id="@+id/create_event_end_time_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -173,18 +164,13 @@
                 android:id="@+id/create_event_error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:freezesText="true"
                 android:paddingLeft="4dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#ff0033"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:visibility="gone"
-                />
-
+                android:visibility="gone" />
 
             <Button
-                android:id="@+id/create_event_button"
+                android:id="@+id/create_event_submit_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

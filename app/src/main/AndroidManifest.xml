@@ -18,20 +18,27 @@
             android:label="@string/app_name"></activity>
         <activity
             android:name=".application.auth.login.LoginActivity"
-            android:label="@string/title_activity_login" />
-        <activity android:name=".application.event.EventActivity">
+            android:label="@string/title_activity_login"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".application.event.EventActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".application.auth.register.RegisterActivity" />
-        <activity android:name=".application.auth.welcome.WelcomeActivity" />
+        <activity
+            android:name=".application.auth.register.RegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".application.auth.welcome.WelcomeActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".application.user.MyProfileActivity"></activity>
         <activity
             android:name=".application.event.create.CreateEventActivity"
-            android:configChanges="orientation|screenSize"></activity>
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
