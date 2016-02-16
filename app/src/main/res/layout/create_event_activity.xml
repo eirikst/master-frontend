@@ -132,6 +132,15 @@
                 android:text="@string/event_start_time"
                 android:textStyle="bold" />
 
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/create_event_checkbox"
+                android:id="@+id/create_event_checkbox"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#4ac1e8"
+                />
+
             <TextView
                 android:id="@+id/create_event_end_time_label"
                 android:layout_width="wrap_content"
@@ -139,7 +148,8 @@
                 android:paddingLeft="4dp"
                 android:text="@string/event_end_time_text"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#4ac1e8" />
+                android:textColor="#4ac1e8"
+                android:visibility="gone"/>
 
 
             <Button
@@ -149,7 +159,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/event_end_time"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone"
+                android:background="#ffd966"/>
 
             <Button
                 android:id="@+id/create_event_image_select_button"
@@ -176,7 +188,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/event_create"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:background="#b7e1cd"/>
 
         </LinearLayout>
     </ScrollView>

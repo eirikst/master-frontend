@@ -13,11 +13,13 @@
     <string name="event_description">Beskrivelse</string>
     <string name="event_start_time_text">Start tidspunkt: </string>
     <string name="event_end_time_text">Slutt tidspunkt: </string>
-    <string name="event_start_time">Start tidspunkt</string>
+    <string name="event_start_time">Velg starttidspunkt</string>
     <string name="event_end_time">Slutt tidspunkt</string>
 
     <string name="event_date_text">Dato: </string>
-    <string name="event_date">Sett dato</string>
+    <string name="event_date">Velg startdato</string>
+
+    <string name="create_event_checkbox">Velg slutttidspunkt (valgfritt)</string>
 
     <string name="event_select_image">Velg bilde</string>
     <string name="event_create">Opprett hendelse</string>

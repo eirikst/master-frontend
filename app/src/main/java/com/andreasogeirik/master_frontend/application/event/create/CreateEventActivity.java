@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import java.util.Calendar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 public class CreateEventActivity extends AppCompatActivity implements CreateEventView {
@@ -50,6 +52,8 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     @Bind(R.id.create_event_start_time_error)
     TextView startTimeError;
     // End time
+    @Bind(R.id.create_event_checkbox)
+    CheckBox endTimeCheckbox;
     @Bind(R.id.create_event_end_time_label)
     TextView endTimeLabel;
 
@@ -94,6 +98,19 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         String location = locationView.getText().toString();
         String description = descriptionView.getText().toString();
         presenter.create(new Event(name, location, description, this.eventDate, this.startTimePair, this.endTimePair, ""));
+    }
+
+    @OnCheckedChanged(R.id.create_event_checkbox)
+    public void endTimeChecked(boolean checked){
+        if (checked){
+            endTimeLabel.setVisibility(View.VISIBLE);
+            endTimeButton.setVisibility(View.VISIBLE);
+
+        }
+        else{
+            endTimeLabel.setVisibility(View.GONE);
+            endTimeButton.setVisibility(View.GONE);
+        }
     }
 
     @OnClick(R.id.create_event_start_time_button)
