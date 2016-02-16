@@ -2,10 +2,32 @@
     <string name="app_name">Sportydul</string>
 
     <string name="hello_world">Hello world!</string>
+
+    // Toolbar
     <string name="sign_out">Sign out</string>
+    <string name="create_event">Create Event</string>
+
+    //Create Event
+    <string name="event_name">Hendelse</string>
+    <string name="event_location">Sted</string>
+    <string name="event_description">Beskrivelse</string>
+    <string name="event_start_time_text">Start tidspunkt: </string>
+    <string name="event_end_time_text">Slutt tidspunkt: </string>
+    <string name="event_start_time">Start tidspunkt</string>
+    <string name="event_end_time">Slutt tidspunkt</string>
+
+    <string name="event_date_text">Dato: </string>
+    <string name="event_date">Sett dato</string>
+
+    <string name="event_select_image">Velg bilde</string>
+    <string name="event_create">Opprett hendelse</string>
+
+
+
     <string name="action_settings">Settings</string>
     <string name="title_activity_login">Sign in</string>
     <string name="title_activity_my_profile">Meg</string>
+
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

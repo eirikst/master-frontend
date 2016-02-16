@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     View progressView;
     @Bind(R.id.password)
     EditText passwordView;
-    @Bind(R.id.error)
+    @Bind(R.id.login_error)
     TextView errorMessage;
     @Bind(R.id.sign_in_button)
     Button signInButton;

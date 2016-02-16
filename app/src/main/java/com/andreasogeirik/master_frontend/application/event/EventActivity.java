@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.andreasogeirik.master_frontend.application.auth.entrance.EntranceActivity;
 import com.andreasogeirik.master_frontend.application.user.my_profile.MyProfileActivity;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
+import com.andreasogeirik.master_frontend.application.event.create.CreateEventActivity;
 import com.andreasogeirik.master_frontend.layout.CustomSwipeRefreshLayout;
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.util.LogoutHandler;
@@ -43,6 +44,7 @@ public class EventActivity extends AppCompatActivity implements CustomSwipeRefre
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
+    // TODO: LASTE VENNER HER, bror
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SessionManager sessionManager = SessionManager.getInstance();
@@ -80,14 +82,17 @@ public class EventActivity extends AppCompatActivity implements CustomSwipeRefre
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent i;
         switch (item.getItemId()) {
             case R.id.sign_out:
                 LogoutHandler.getInstance().logOut();
-
-                Intent i = new Intent(this, EntranceActivity.class);
+                i = new Intent(this, EntranceActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 this.startActivity(i);
-
+                return true;
+            case R.id.create_event:
+                i = new Intent(this, CreateEventActivity.class);
+                this.startActivity(i);
                 return true;
             default:
                 // If we got here, the user's action was not recognized.

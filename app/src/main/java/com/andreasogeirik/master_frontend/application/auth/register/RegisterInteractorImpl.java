@@ -40,7 +40,6 @@ public class RegisterInteractorImpl implements RegisterInteractor, OnRegisterFin
         catch (JSONException e) {
             e.printStackTrace();
         }
-
         new RegisterTask(jsonUser, this).execute();
     }
 
