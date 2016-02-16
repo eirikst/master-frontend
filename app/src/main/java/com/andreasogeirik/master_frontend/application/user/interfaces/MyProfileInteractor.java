@@ -5,4 +5,5 @@ package com.andreasogeirik.master_frontend.application.user.interfaces;
  */
 public interface MyProfileInteractor {
     void findPosts(int start);
+    void findFriends();
 }

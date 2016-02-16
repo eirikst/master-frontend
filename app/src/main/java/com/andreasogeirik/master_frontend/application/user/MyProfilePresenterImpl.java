@@ -6,8 +6,10 @@ import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingPostsListene
 import com.andreasogeirik.master_frontend.model.Post;
 import com.andreasogeirik.master_frontend.application.user.interfaces.MyProfilePresenter;
 import com.andreasogeirik.master_frontend.application.user.interfaces.MyProfileView;
+import com.andreasogeirik.master_frontend.model.User;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by eirikstadheim on 06/02/16.
@@ -28,12 +30,27 @@ public class MyProfilePresenterImpl implements MyProfilePresenter {
     }
 
     @Override
+    public void findFriends() {
+        interactor.findFriends();
+    }
+
+    @Override
     public void successPostsLoad(List<Post> posts) {
         view.addPosts(posts);
     }
 
     @Override
     public void errorPostsLoad(int code) {
+        //handle this
+    }
+
+    @Override
+    public void successFriendsLoad(Set<User> friends) {
+        view.addFriends(friends);
+    }
+
+    @Override
+    public void errorFriendsLoad(int code) {
         //handle this
     }
 }

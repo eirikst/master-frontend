@@ -29,6 +29,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".application.auth.register.RegisterActivity" />
+        <activity android:name=".application.auth.welcome.WelcomeActivity"></activity>
         <activity
             android:name=".application.auth.register.RegisterActivity"
             android:screenOrientation="portrait" />
@@ -39,6 +41,12 @@
         <activity
             android:name=".application.event.create.CreateEventActivity"
             android:screenOrientation="portrait"></activity>
+        <activity android:name=".application.user.MyProfileActivity">
+            <activity android:name=".application.friend.FriendListActivity"></activity>
+
+
+
+        </activity>
     </application>
 
 </manifest>
