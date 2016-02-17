@@ -124,6 +124,7 @@
                 android:paddingLeft="4dp"
                 android:text="@string/event_create_select_image"
                 android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#ff0033"
                 android:visibility="gone"/>
 
             <Button
@@ -157,6 +158,25 @@
                 android:textStyle="bold"
                 android:visibility="gone"
                 android:background="#ffd966"/>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <ImageView
+                android:id="@+id/create_event_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/create_event_image_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:freezesText="true"
+                android:paddingLeft="4dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#ff0033"
+                android:visibility="gone"/>
 
             <Button
                 android:id="@+id/create_event_image_select_button"

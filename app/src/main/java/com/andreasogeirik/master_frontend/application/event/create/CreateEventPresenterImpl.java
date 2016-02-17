@@ -7,6 +7,7 @@ import com.andreasogeirik.master_frontend.application.event.create.interfaces.Cr
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventPresenter;
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventView;
 import com.andreasogeirik.master_frontend.model.Event;
+import com.andreasogeirik.master_frontend.util.Constants;
 
 import org.json.JSONObject;
 
@@ -36,11 +37,21 @@ public class CreateEventPresenterImpl implements CreateEventPresenter {
     @Override
     public void createEventError(int error) {
         createEventView.hideProgress();
-        createEventView.createEventFailed("");
+
+        if (error == Constants.CLIENT_ERROR){
+            createEventView.createEventFailed("En uventet feil oppstod. Prøv igjen.");
+        }
+        else if(error == Constants.RESOURCE_ACCESS_ERROR) {
+            createEventView.createEventFailed("Fant ikke ressurs. Prøv igjen.");
+        }
     }
 
     @Override
     public void create(Event event) {
+        validateInput(event);
+    }
+
+    private void validateInput(Event event){
         if (TextUtils.isEmpty(event.getName())) {
             createEventView.setNameError("Sett et navn");
         } else if (TextUtils.isEmpty(event.getLocation())) {
@@ -50,12 +61,12 @@ public class CreateEventPresenterImpl implements CreateEventPresenter {
         } else if (event.getStartDate() == null) {
             createEventView.setStartDateError("Velg en dato");
         } else if (event.getTimeStart() == null) {
-            createEventView.setTimeStartError("Velg et starttidspunkt");
+            createEventView.setStartTimeError("Velg et starttidspunkt");
         } else if (convertToDate(event.getStartDate(), event.getTimeStart()).before(new Date())) {
-            createEventView.setStartDateError("Velg en dato før dagens dato");
+            createEventView.setStartDateError("Velg en dato etter dagens dato");
         } else if (event.getEndDate() != null) {
             if (event.getTimeEnd() == null) {
-                createEventView.setEndDateError("Sett tidspunkt slutt");
+                createEventView.setEndTimeError("Sett tidspunkt slutt");
             } else if (convertToDate(event.getStartDate(), event.getTimeStart()).before(new Date())) {
                 createEventView.setEndDateError("Velg et tidspunkt etter dagens dagens dato");
 
