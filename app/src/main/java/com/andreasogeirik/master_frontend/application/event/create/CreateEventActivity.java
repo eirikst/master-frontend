@@ -24,7 +24,6 @@ import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.util.ImageHandler;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Calendar;
 
@@ -112,8 +111,8 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-
+        this.imageError.setVisibility(View.GONE);
+        // TODO: FIKSE EXCEPTIONS
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri uri = data.getData();
             try {
@@ -156,12 +155,10 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
 
     @OnClick(R.id.create_event_image_select_button)
     public void selectImage() {
-        this.imageError.setVisibility(View.GONE);
         Intent i = new Intent();
         i.setType("image/*");
         i.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(i, "Select Picture"), PICK_IMAGE_REQUEST);
-
     }
 
     @OnCheckedChanged(R.id.create_event_checkbox)
@@ -293,6 +290,7 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         imageError.setText(error);
         imageError.setVisibility(View.VISIBLE);
         imageError.requestFocus();
+        imageVIew.setImageDrawable(null);
     }
 
     public void setDate(Calendar eventDate, boolean startDate) {
