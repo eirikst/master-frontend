@@ -2,8 +2,8 @@ package com.andreasogeirik.master_frontend.application.event.create;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,10 +21,7 @@ import com.andreasogeirik.master_frontend.application.event.create.interfaces.Cr
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventView;
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
 import com.andreasogeirik.master_frontend.model.Event;
-import com.andreasogeirik.master_frontend.util.ImageHandler;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.Calendar;
 
 import butterknife.Bind;
@@ -97,6 +94,7 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     private ProgressBarManager progressBarManager;
 
     private int PICK_IMAGE_REQUEST = 1;
+    private String encodedImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,32 +111,13 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         super.onActivityResult(requestCode, resultCode, data);
         this.imageError.setVisibility(View.GONE);
         // TODO: FIKSE EXCEPTIONS
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri uri = data.getData();
-            try {
-                InputStream inputStreamOriginal = getContentResolver().openInputStream(uri);
-                InputStream inputStreamManipulated = getContentResolver().openInputStream(uri);
-
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inJustDecodeBounds = true;
-                BitmapFactory.decodeStream(inputStreamManipulated, null, options);
-                int inSampleSize = ImageHandler.calculateInSampleSize(options, 540, 540);
-                if (options.outHeight != -1 && options.outWidth != 1){
-                    options.inJustDecodeBounds = false;
-                    options.inSampleSize = inSampleSize;
-                    Bitmap bitmap = BitmapFactory.decodeStream(inputStreamOriginal, null, options);
-                    this.imageVIew.setImageBitmap(bitmap);
-                }
-                else{
-                    setImageError("Den valgte filen støttes ikke");
-                }
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
+            if (data != null && data.getData() != null) {
+                Uri uri = data.getData();
+                presenter.scaleImage(uri, this);
+            } else {
+                setImageError("Kunne ikke finne det valgte bildet");
             }
-
-        } else {
-            setImageError("Kunne ikke finne det valgte bildet");
         }
     }
 
@@ -150,15 +129,14 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         String name = nameView.getText().toString();
         String location = locationView.getText().toString();
         String description = descriptionView.getText().toString();
-        presenter.create(new Event(name, location, description, this.startDate, this.endDate, this.startTimePair, this.endTimePair, ""));
+        presenter.create(new Event(name, location, description, this.startDate, this.endDate, this.startTimePair, this.endTimePair, ""), this.encodedImage);
     }
 
     @OnClick(R.id.create_event_image_select_button)
     public void selectImage() {
-        Intent i = new Intent();
+        Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         i.setType("image/*");
-        i.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(i, "Select Picture"), PICK_IMAGE_REQUEST);
+        startActivityForResult(i, PICK_IMAGE_REQUEST);
     }
 
     @OnCheckedChanged(R.id.create_event_checkbox)
@@ -291,6 +269,12 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         imageError.setVisibility(View.VISIBLE);
         imageError.requestFocus();
         imageVIew.setImageDrawable(null);
+    }
+
+    @Override
+    public void setImage(Bitmap bitmap, String encodedImage) {
+        this.imageVIew.setImageBitmap(bitmap);
+        this.encodedImage = encodedImage;
     }
 
     public void setDate(Calendar eventDate, boolean startDate) {
