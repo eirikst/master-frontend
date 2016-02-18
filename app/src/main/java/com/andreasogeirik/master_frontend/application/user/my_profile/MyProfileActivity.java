@@ -3,13 +3,16 @@ package com.andreasogeirik.master_frontend.application.user.my_profile;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
 import com.andreasogeirik.master_frontend.application.friend.FriendListActivity;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.layout.adapter.PostListAdapter;
@@ -47,10 +50,18 @@ public class MyProfileActivity extends AppCompatActivity implements MyProfileVie
     private MyProfileHeader myProfileHeaderFragment;
     private FriendProfileHeader friendProfileHeaderFragment;
 
+    private Toolbar toolbar;
+    private Button homeBtn;
+    private TextView toolbarText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_profile_activity);
+
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        homeBtn = (Button)findViewById(R.id.home);
+        toolbarText = (TextView)findViewById(R.id.toolbar_text);
 
         SessionManager.getInstance().initialize(this);
         presenter = new MyProfilePresenterImpl(this);
@@ -68,6 +79,8 @@ public class MyProfileActivity extends AppCompatActivity implements MyProfileVie
             presenter.findPosts(user, 0);
             presenter.findFriends(user.getId());
         }
+
+        setupToolbar(user.getFirstname() + " " + user.getLastname());
 
         initListView();
 
@@ -94,6 +107,19 @@ public class MyProfileActivity extends AppCompatActivity implements MyProfileVie
         // etc.
     }
 
+    private void setupToolbar(String text) {
+        setSupportActionBar(toolbar);
+        toolbarText.setText(text);
+
+        homeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MyProfileActivity.this, EventActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+        });
+    }
 
     @Override
     public void addPosts(List<Post> posts) {

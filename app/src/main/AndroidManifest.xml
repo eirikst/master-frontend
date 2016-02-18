@@ -29,14 +29,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".application.auth.register.RegisterActivity" />
         <activity
             android:name=".application.user.my_profile.MyProfileActivity"
             android:label="@string/title_activity_my_profile" />
         <activity android:name=".application.friend.FriendListActivity" />
-        <activity android:name=".application.user.profile_not_friend.ProfileOthersActivity"></activity>
+        <activity android:name=".application.user.profile_not_friend.ProfileOthersActivity"
+            android:label=""
+            />
+        <activity
             android:name=".application.auth.register.RegisterActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".application.auth.welcome.WelcomeActivity"
             android:screenOrientation="portrait" />

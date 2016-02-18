@@ -51,8 +51,15 @@ public class EventActivity extends AppCompatActivity implements EventView, Custo
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
+    @Bind(R.id.home)
+    Button homeBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.event_activity);
+        ButterKnife.bind(this);
+
         //Her må current user være initialisert fra før...
 
         SessionManager sessionManager = SessionManager.getInstance();
@@ -67,11 +74,9 @@ public class EventActivity extends AppCompatActivity implements EventView, Custo
             presenter.findUser();
         }
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.event_activity);
-        ButterKnife.bind(this);
 
-        setSupportActionBar(toolbar);
+        setupToolbar();
+
         this.swipeContainer.setOnRefreshListener(this);
         this.swipeContainer.setListView(this.listView);
         this.listView.setEmptyView(this.emptyView);
@@ -89,6 +94,13 @@ public class EventActivity extends AppCompatActivity implements EventView, Custo
         listView.addHeaderView(b);
 
         loadDummyEvents();
+    }
+
+    /*
+     * Toolbar setup
+     */
+    private void setupToolbar() {
+        setSupportActionBar(toolbar);
     }
 
     @Override

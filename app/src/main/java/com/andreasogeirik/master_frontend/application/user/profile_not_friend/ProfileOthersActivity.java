@@ -3,11 +3,14 @@ package com.andreasogeirik.master_frontend.application.user.profile_not_friend;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
 import com.andreasogeirik.master_frontend.application.user.my_profile.MyProfileActivity;
 import com.andreasogeirik.master_frontend.application.user.profile_not_friend.interfaces.ProfileOthersPresenter;
 import com.andreasogeirik.master_frontend.application.user.profile_not_friend.interfaces.ProfileOthersView;
@@ -25,6 +28,11 @@ public class ProfileOthersActivity extends AppCompatActivity implements ProfileO
     private TextView tView;
     private TextView tView2;
 
+    private Toolbar toolbar;
+    private Button homeBtn;
+    private TextView toolbarText;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +40,10 @@ public class ProfileOthersActivity extends AppCompatActivity implements ProfileO
 
         tView = (TextView)findViewById(R.id.are_we_friends_bro);
         tView2 = (TextView)findViewById(R.id.are_we_friends_bro2);
+
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        homeBtn = (Button)findViewById(R.id.home);
+        toolbarText = (TextView)findViewById(R.id.toolbar_text);
 
 
         SessionManager.getInstance().initialize(this);
@@ -47,6 +59,8 @@ public class ProfileOthersActivity extends AppCompatActivity implements ProfileO
             user = (User)intent.getSerializableExtra("user");
         }
 
+        setupToolbar(user.getFirstname() + " " + user.getLastname());
+
         if(CurrentUser.getInstance().getUser().iHaveRequested(user)) {
             setIHaveRequestedButtons();
         }
@@ -56,6 +70,19 @@ public class ProfileOthersActivity extends AppCompatActivity implements ProfileO
         else {
             setRequestFriendButton();
         }
+    }
+
+    private void setupToolbar(String text) {
+        setSupportActionBar(toolbar);
+
+        homeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileOthersActivity.this, EventActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+        });
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
