@@ -42,7 +42,7 @@ public class CreateEventTask extends AsyncTask<Void, Void, Pair<Integer, Respons
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity(event.toString(), headers);
         try {
-            response = template.exchange(Constants.BACKEND_URL + "event", HttpMethod.PUT, entity, String.class);
+            response = template.exchange(Constants.BACKEND_URL + "events", HttpMethod.PUT, entity, String.class);
             return new Pair(Constants.OK, response);
         } catch (HttpClientErrorException e) {
             System.out.println("Client error:" + e);
