@@ -38,7 +38,7 @@
                     android:id="@+id/create_event_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/event_name"
+                    android:hint="@string/event_create_name"
                     android:maxLines="1"
                     android:singleLine="true" />
 
@@ -52,7 +52,7 @@
                     android:id="@+id/create_event_location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/event_location"
+                    android:hint="@string/event_create_location"
                     android:maxLines="1"
                     android:singleLine="true" />
 
@@ -66,26 +66,12 @@
                     android:id="@+id/create_event_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/event_description"
-                    android:maxLines="1"
-                    android:singleLine="true" />
+                    android:hint="@string/event_create_description" />
 
             </android.support.design.widget.TextInputLayout>
 
             <TextView
-                android:id="@+id/create_event_date_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingLeft="4dp"
-                android:text="@string/event_date_text"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#4ac1e8"
-                android:focusable="true"
-                android:focusableInTouchMode="true"/>
-
-            <TextView
-                android:id="@+id/create_event_date_error"
+                android:id="@+id/create_event_start_date_error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:freezesText="true"
@@ -100,28 +86,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/event_start_date"
+                android:text="@string/event_create_start_date_label"
                 android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/create_event_start_time_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="4dp"
-                android:text="@string/event_start_time_text"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#4ac1e8"
-                android:focusable="true"
-                android:focusableInTouchMode="true"/>
 
             <TextView
                 android:id="@+id/create_event_start_time_error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:freezesText="true"
                 android:paddingLeft="4dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#ff0033"
-                android:visibility="gone" />
+                android:visibility="gone"/>
 
             <Button
                 android:id="@+id/create_event_start_time_button"
@@ -129,25 +105,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/event_start_time"
+                android:text="@string/event_create_start_time_label"
                 android:textStyle="bold" />
 
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/create_event_checkbox"
+                android:text="@string/create_create_checkbox"
                 android:id="@+id/create_event_checkbox"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#4ac1e8"
                 />
 
             <TextView
-                android:id="@+id/create_event_end_date_label"
+                android:id="@+id/create_event_end_date_error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="4dp"
-                android:text="@string/event_end_date_label"
+                android:text="@string/event_create_select_image"
                 android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#ff0033"
                 android:visibility="gone"/>
 
             <Button
@@ -156,20 +133,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/event_end_date"
+                android:text="@string/event_create_end_date_label"
                 android:textStyle="bold"
                 android:visibility="gone"
                 android:background="#ffd966"/>
 
             <TextView
-                android:id="@+id/create_event_end_time_label"
+                android:id="@+id/create_event_end_time_error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:freezesText="true"
                 android:paddingLeft="4dp"
-                android:text="@string/event_end_time_text"
                 android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#ff0033"
                 android:visibility="gone"/>
-
 
             <Button
                 android:id="@+id/create_event_end_time_button"
@@ -177,10 +154,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/event_end_time"
+                android:text="@string/event_create_end_time_label"
                 android:textStyle="bold"
                 android:visibility="gone"
                 android:background="#ffd966"/>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <ImageView
+                android:id="@+id/create_event_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/create_event_image_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:freezesText="true"
+                android:paddingLeft="4dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#ff0033"
+                android:visibility="gone"/>
 
             <Button
                 android:id="@+id/create_event_image_select_button"
@@ -188,7 +184,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/event_select_image"
+                android:text="@string/event_create_select_image"
                 android:textStyle="bold" />
 
             <TextView
@@ -206,10 +202,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/event_create"
+                android:text="@string/event_create_submit"
                 android:textStyle="bold"
                 android:background="#b7e1cd"/>
-
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

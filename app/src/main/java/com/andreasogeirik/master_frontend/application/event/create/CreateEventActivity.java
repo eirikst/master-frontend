@@ -1,18 +1,19 @@
 package com.andreasogeirik.master_frontend.application.event.create;
 
-import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
@@ -20,7 +21,11 @@ import com.andreasogeirik.master_frontend.application.event.create.interfaces.Cr
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventView;
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
 import com.andreasogeirik.master_frontend.model.Event;
+import com.andreasogeirik.master_frontend.util.ImageHandler;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Calendar;
 
 import butterknife.Bind;
@@ -44,42 +49,44 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     @Bind(R.id.create_event_description)
     EditText descriptionView;
 
-    // Dates
-    @Bind(R.id.create_event_date_label)
-    TextView startDateLabel;
-    @Bind(R.id.create_event_date_error)
+    // Date/time
+    // Validation
+    @Bind(R.id.create_event_start_date_error)
     TextView startDateError;
-    // Start time
-    @Bind(R.id.create_event_start_time_label)
-    TextView startTimeLabel;
     @Bind(R.id.create_event_start_time_error)
     TextView startTimeError;
-    // End time
-    @Bind(R.id.create_event_checkbox)
-    CheckBox endTimeCheckbox;
-    @Bind(R.id.create_event_end_date_button)
-    Button endDateButton;
-    @Bind(R.id.create_event_end_date_label)
-    TextView endDateLabel;
-    @Bind(R.id.create_event_end_time_label)
-    TextView endTimeLabel;
-
+    @Bind(R.id.create_event_end_date_error)
+    TextView endDateError;
+    @Bind(R.id.create_event_end_time_error)
+    TextView endTimeError;
 
     // Buttons
     @Bind(R.id.create_event_start_date_button)
     Button startDateButton;
     @Bind(R.id.create_event_start_time_button)
     Button startTimeButton;
+    @Bind(R.id.create_event_end_date_button)
+    Button endDateButton;
     @Bind(R.id.create_event_end_time_button)
     Button endTimeButton;
 
-    // Images
+    // Checkbox
+    @Bind(R.id.create_event_checkbox)
+    CheckBox endTimeCheckbox;
+
+    // Image
+    @Bind(R.id.create_event_image_error)
+    TextView imageError;
     @Bind(R.id.create_event_image_select_button)
-    Button selectImage;
+    Button selectImageButton;
+    @Bind(R.id.create_event_image_view)
+    ImageView imageVIew;
 
     // Submit
+    @Bind(R.id.create_event_error)
+    TextView createEventError;
     @Bind(R.id.create_event_submit_button)
-    Button createEvent;
+    Button createEventButton;
 
     CreateEventPresenter presenter;
 
@@ -89,6 +96,8 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     private Pair<Integer, Integer> startTimePair;
     private Pair<Integer, Integer> endTimePair;
     private ProgressBarManager progressBarManager;
+
+    private int PICK_IMAGE_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,8 +109,43 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         this.progressBarManager = new ProgressBarManager(this, createEventFormView, progressView);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri uri = data.getData();
+            try {
+                InputStream inputStreamOriginal = getContentResolver().openInputStream(uri);
+                InputStream inputStreamManipulated = getContentResolver().openInputStream(uri);
+
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = true;
+                BitmapFactory.decodeStream(inputStreamManipulated, null, options);
+                int inSampleSize = ImageHandler.calculateInSampleSize(options, 540, 540);
+                if (options.outHeight != -1 && options.outWidth != 1){
+                    options.inJustDecodeBounds = false;
+                    options.inSampleSize = inSampleSize;
+                    Bitmap bitmap = BitmapFactory.decodeStream(inputStreamOriginal, null, options);
+                    this.imageVIew.setImageBitmap(bitmap);
+                }
+                else{
+                    setImageError("Den valgte filen støttes ikke");
+                }
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            setImageError("Kunne ikke finne det valgte bildet");
+        }
+    }
+
     @OnClick(R.id.create_event_submit_button)
     public void submit() {
+        clearValidationMessages();
         View current = getCurrentFocus();
         if (current != null) current.clearFocus();
         String name = nameView.getText().toString();
@@ -110,25 +154,31 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         presenter.create(new Event(name, location, description, this.startDate, this.endDate, this.startTimePair, this.endTimePair, ""));
     }
 
+    @OnClick(R.id.create_event_image_select_button)
+    public void selectImage() {
+        this.imageError.setVisibility(View.GONE);
+        Intent i = new Intent();
+        i.setType("image/*");
+        i.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(i, "Select Picture"), PICK_IMAGE_REQUEST);
+
+    }
+
     @OnCheckedChanged(R.id.create_event_checkbox)
-    public void endTimeChecked(boolean checked){
-        if (checked){
-            endDateLabel.setVisibility(View.VISIBLE);
+    public void endTimeChecked(boolean checked) {
+        if (checked) {
             endDateButton.setVisibility(View.VISIBLE);
-            endTimeLabel.setVisibility(View.VISIBLE);
             endTimeButton.setVisibility(View.VISIBLE);
-        }
-        else{
-            endDateLabel.setVisibility(View.GONE);
-            endTimeLabel.setVisibility(View.GONE);
+        } else {
             endDateButton.setVisibility(View.GONE);
             endTimeButton.setVisibility(View.GONE);
+            this.endDate = null;
+            this.endTimePair = null;
         }
     }
 
     @OnClick(R.id.create_event_start_time_button)
     public void startTime() {
-
         DialogFragment newFragment = new TimePickerFragment();
         Bundle bundle = new Bundle();
         bundle.putString("time", "start");
@@ -173,8 +223,10 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     }
 
     @Override
-    public void createEventFailed(String errorMessage) {
-
+    public void createEventFailed(String error) {
+        createEventError.setText(error);
+        createEventError.setVisibility(View.VISIBLE);
+        createEventError.requestFocus();
     }
 
     @Override
@@ -212,21 +264,35 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     public void setStartDateError(String error) {
         startDateError.setText(error);
         startDateError.setVisibility(View.VISIBLE);
-        startDateLabel.requestFocus();
+        startDateError.requestFocus();
     }
 
     @Override
-    public void setTimeStartError(String error) {
+    public void setStartTimeError(String error) {
         startTimeError.setText(error);
         startTimeError.setVisibility(View.VISIBLE);
-        startTimeLabel.requestFocus();
+        startTimeError.requestFocus();
     }
 
     @Override
     public void setEndDateError(String error) {
-        // TODO: Update this shit
-        Toast toast = Toast.makeText(this, error, Toast.LENGTH_LONG);
-        toast.show();
+        endDateError.setText(error);
+        endDateError.setVisibility(View.VISIBLE);
+        endDateError.requestFocus();
+    }
+
+    @Override
+    public void setEndTimeError(String error) {
+        endTimeError.setText(error);
+        endTimeError.setVisibility(View.VISIBLE);
+        endTimeError.requestFocus();
+    }
+
+    @Override
+    public void setImageError(String error) {
+        imageError.setText(error);
+        imageError.setVisibility(View.VISIBLE);
+        imageError.requestFocus();
     }
 
     public void setDate(Calendar eventDate, boolean startDate) {
@@ -235,37 +301,37 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         int month = eventDate.get(Calendar.MONTH) + 1;
         int year = eventDate.get(Calendar.YEAR);
 
-        if (startDate){
-            this.startDateLabel.setText("Dato start: " + day + "." + month + "." + year);
+        if (startDate) {
+            this.startDateButton.setText("Dato: " + day + "." + month + "." + year);
             this.startDate = eventDate;
             this.startDateError.setVisibility(View.GONE);
-        }
-        else{
-            this.endDateLabel.setText("Dato slutt: " + day + "." + month + "." + year);
+        } else {
+            this.endDateButton.setText("Dato (slutt): " + day + "." + month + "." + year);
             this.endDate = eventDate;
+            this.endDateError.setVisibility(View.GONE);
         }
     }
 
     public void setStartTimePair(Pair<Integer, Integer> startTimePair) {
-        this.startTimeLabel.setText("Tidspunkt start: " + startTimePair.first + ":" + startTimePair.second);
+        this.startTimeButton.setText("Tidspunkt: " + startTimePair.first + ":" + startTimePair.second);
         this.startTimePair = startTimePair;
         this.startTimeError.setVisibility(View.GONE);
     }
 
     public void setEndTimePair(Pair<Integer, Integer> endTimePair) {
-        this.endTimeLabel.setText("Tidspunkt slutt: " + endTimePair.first + ":" + endTimePair.second);
+        this.endTimeButton.setText("Tidspunkt (slutt): " + endTimePair.first + ":" + endTimePair.second);
         this.endTimePair = endTimePair;
+        this.endTimeError.setVisibility(View.GONE);
     }
 
-    private void setDate(boolean startDate){
+    private void setDate(boolean startDate) {
         DialogFragment newFragment = new DatePickerFragment();
         Bundle bundle = new Bundle();
         Calendar date;
-        if (startDate){
+        if (startDate) {
             date = this.startDate;
             bundle.putString("date", "start");
-        }
-        else{
+        } else {
             date = this.endDate;
             bundle.putString("date", "end");
         }
@@ -276,5 +342,14 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         }
         newFragment.setArguments(bundle);
         newFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    private void clearValidationMessages() {
+        this.startDateError.setVisibility(View.GONE);
+        this.startTimeError.setVisibility(View.GONE);
+        this.endDateError.setVisibility(View.GONE);
+        this.endTimeError.setVisibility(View.GONE);
+        this.imageError.setVisibility(View.GONE);
+        this.createEventError.setVisibility(View.GONE);
     }
 }
