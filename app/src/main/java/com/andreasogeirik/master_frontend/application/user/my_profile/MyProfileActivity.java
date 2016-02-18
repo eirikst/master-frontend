@@ -13,6 +13,7 @@ import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.friend.FriendListActivity;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.layout.adapter.PostListAdapter;
+import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.Post;
 import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.MyProfilePresenter;
 import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.MyProfileView;
@@ -29,7 +30,8 @@ import java.util.Set;
  * Created by eirikstadheim on 06/02/16.
  */
 public class MyProfileActivity extends AppCompatActivity implements MyProfileView,
-        AdapterView.OnItemClickListener, MyProfileHeader.MyProfileHeaderListener, FriendProfileHeader.FriendProfileHeaderListener {
+        AdapterView.OnItemClickListener, MyProfileHeader.MyProfileHeaderListener,
+        FriendProfileHeader.FriendProfileHeaderListener {
     private MyProfilePresenter presenter;
 
     private ListView listView;
@@ -38,7 +40,7 @@ public class MyProfileActivity extends AppCompatActivity implements MyProfileVie
     private PostListAdapter postListAdapter;
 
     private List<Post> posts = new ArrayList<Post>();
-    private Set<User> friends = new HashSet<>();
+    private Set<Friendship> friends = new HashSet<>();
     private User user;
 
 
@@ -51,11 +53,21 @@ public class MyProfileActivity extends AppCompatActivity implements MyProfileVie
         setContentView(R.layout.my_profile_activity);
 
         SessionManager.getInstance().initialize(this);
-
         presenter = new MyProfilePresenterImpl(this);
 
-        Intent intent = getIntent();
-        user = (User)intent.getSerializableExtra("user");
+        if(savedInstanceState != null) {
+            System.out.println("Saved instance state restored");
+            user = (User)savedInstanceState.getSerializable("user");
+        }
+        else {
+            System.out.println("New instance state from intent");
+            Intent intent = getIntent();
+            user = (User)intent.getSerializableExtra("user");
+
+            //init post and friend list after all view is set
+            presenter.findPosts(user, 0);
+            presenter.findFriends(user.getId());
+        }
 
         initListView();
 
@@ -70,9 +82,16 @@ public class MyProfileActivity extends AppCompatActivity implements MyProfileVie
             initFriendHeader();
         }
 
-        //init post and friend list after all view is set
-        presenter.findPosts(user, 0);
-        presenter.findFriends(user.getId());
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        // Save UI state changes to the savedInstanceState.
+        // This bundle will be passed to onCreate if the process is
+        // killed and restarted.
+        savedInstanceState.putSerializable("user", user);
+        // etc.
     }
 
 
@@ -89,7 +108,7 @@ public class MyProfileActivity extends AppCompatActivity implements MyProfileVie
     }
 
     @Override
-    public void addFriends(Set<User> friends) {
+    public void addFriends(Set<Friendship> friends) {
         user.setFriends(friends);
         this.friends.addAll(friends);
         if(myProfileHeaderFragment != null) {

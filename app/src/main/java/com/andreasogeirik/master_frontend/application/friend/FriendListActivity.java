@@ -5,7 +5,7 @@ import com.andreasogeirik.master_frontend.application.user.my_profile.MyProfileA
 import com.andreasogeirik.master_frontend.application.user.profile_not_friend.ProfileOthersActivity;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.layout.adapter.FriendListAdapter;
-import com.andreasogeirik.master_frontend.model.User;
+import com.andreasogeirik.master_frontend.model.Friendship;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -23,7 +23,7 @@ public class FriendListActivity extends AppCompatActivity implements AdapterView
     private ListView listView;
     private FriendListAdapter listAdapter;
 
-    private List<User> friends = new ArrayList<>();
+    private List<Friendship> friends = new ArrayList<>();
 
 
     @Override
@@ -32,7 +32,7 @@ public class FriendListActivity extends AppCompatActivity implements AdapterView
         setContentView(R.layout.friend_list_activity);
 
         Intent intent = getIntent();
-        friends.addAll((HashSet<User>)intent.getSerializableExtra("friends"));
+        friends.addAll((HashSet<Friendship>)intent.getSerializableExtra("friends"));
 
         initListView();
     }
@@ -50,16 +50,16 @@ public class FriendListActivity extends AppCompatActivity implements AdapterView
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         //if friend or one self
-        if(CurrentUser.getInstance().getUser().isFriendWith(friends.get(position)) ||
-                CurrentUser.getInstance().getUser().equals(friends.get(position))) {
+        if(CurrentUser.getInstance().getUser().isFriendWith(friends.get(position).getFriend()) ||
+                CurrentUser.getInstance().getUser().equals(friends.get(position).getFriend())) {
             Intent intent = new Intent(FriendListActivity.this, MyProfileActivity.class);
-            intent.putExtra("user", friends.get(position));//this yo bro
+            intent.putExtra("user", friends.get(position).getFriend());//this yo bro
             startActivity(intent);
         }
         //or if not friend
         else {
             Intent intent = new Intent(FriendListActivity.this, ProfileOthersActivity.class);
-            intent.putExtra("user", friends.get(position));//this yo bro
+            intent.putExtra("user", friends.get(position).getFriend());//this yo bro
             startActivity(intent);
         }
     }

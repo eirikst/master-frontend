@@ -41,13 +41,21 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             >
-                <TextView
-                    android:id="@+id/are_we_friends_bro"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Send en venne- forespørsel"
-                    android:layout_margin="10dp"
-                    />
+            <TextView
+                android:id="@+id/are_we_friends_bro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Send en venne- forespørsel"
+                android:layout_margin="10dp"
+                />
+            <TextView
+            android:id="@+id/are_we_friends_bro2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_margin="10dp"
+            android:layout_below="@+id/are_we_friends_bro"
+            />
             </RelativeLayout>
         </RelativeLayout>
 

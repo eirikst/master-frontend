@@ -21,13 +21,14 @@ import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.application.event.create.CreateEventActivity;
 import com.andreasogeirik.master_frontend.layout.CustomSwipeRefreshLayout;
 import com.andreasogeirik.master_frontend.R;
-import com.andreasogeirik.master_frontend.model.FriendRequest;
+import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.LogoutHandler;
 import com.andreasogeirik.master_frontend.util.SessionManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -60,9 +61,10 @@ public class EventActivity extends AppCompatActivity implements EventView, Custo
         presenter = new EventPresenterImpl(this);
 
         if (sessionManager.getCookie() == null){
-            Intent i = new Intent(this, EntranceActivity.class);
-            startActivity(i);
-            finish();
+            startLoginActivity();
+        }
+        else {
+            presenter.findUser();
         }
 
         super.onCreate(savedInstanceState);
@@ -87,9 +89,6 @@ public class EventActivity extends AppCompatActivity implements EventView, Custo
         listView.addHeaderView(b);
 
         loadDummyEvents();
-
-        //presenter.findFriends(CurrentUser.getInstance().getUser().getId());//find friends
-        //presenter.findFriendRequests();
     }
 
     @Override
@@ -148,12 +147,37 @@ public class EventActivity extends AppCompatActivity implements EventView, Custo
     }
 
     @Override
-    public void addFriends(Set<User> friends) {
-        CurrentUser.getInstance().getUser().setFriends(friends);
+    public void addFriendships(Set<Friendship> friendships, Set<Friendship> requests) {
+        CurrentUser.getInstance().getUser().setFriends(friendships);
+        CurrentUser.getInstance().getUser().setRequests(requests);
+
+        Iterator<Friendship> it = friendships.iterator();
+        while(it.hasNext()) {
+            System.out.println("fs" + it.next());
+        }
+
+        it = requests.iterator();
+        while(it.hasNext()) {
+            System.out.println("rq " + it.next());
+        }
+    }
+
+
+    @Override
+    public void findUserSuccess(User user) {
+        CurrentUser.getInstance().setUser(user);
+        presenter.findFriendships();//find friends
+        // else go on
     }
 
     @Override
-    public void addRequests(Set<FriendRequest> requests) {
-        CurrentUser.getInstance().getUser().setRequests(requests);
+    public void findUserFailure(int code) {
+        startLoginActivity();
+    }
+
+    private void startLoginActivity() {
+        Intent i = new Intent(this, EntranceActivity.class);
+        startActivity(i);
+        finish();
     }
 }

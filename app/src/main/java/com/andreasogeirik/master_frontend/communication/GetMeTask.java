@@ -4,12 +4,14 @@ import android.os.AsyncTask;
 import android.util.Pair;
 
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingPostsListener;
+import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingUserListener;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.SessionManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -22,16 +24,12 @@ import org.springframework.web.client.RestTemplate;
 /**
  * Created by eirikstadheim on 06/02/16.
  */
-public class GetPostsTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntity<String>>> {
+public class GetMeTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntity<String>>> {
 
-    private OnFinishedLoadingPostsListener listener;
-    private int start;
-    private User user;
+    private OnFinishedLoadingUserListener listener;
 
-    public GetPostsTask(OnFinishedLoadingPostsListener listener, User user, int start) {
+    public GetMeTask(OnFinishedLoadingUserListener listener) {
         this.listener = listener;
-        this.start = start;
-        this.user = user;
     }
 
     @Override
@@ -47,8 +45,7 @@ public class GetPostsTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEn
         HttpEntity<String> entity = new HttpEntity(null, headers);
 
         try {
-            response = template.exchange(Constants.BACKEND_URL + "users/" + user.getId() +
-                            "/posts?start=" + start,
+            response = template.exchange(Constants.BACKEND_URL + "me",
                     HttpMethod.GET, entity, String.class);
             return new Pair(Constants.OK, response);
         }
@@ -67,17 +64,17 @@ public class GetPostsTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEn
         if (response.first == Constants.OK) {
 
             try {
-                JSONArray posts = new JSONArray(response.second.getBody());
-                listener.onSuccessPostsLoad(posts);
+                JSONObject user = new JSONObject(response.second.getBody());
+                listener.onLoadingUserSuccess(user);
             }
             catch(JSONException e) {
                 System.out.println("JSON error:" + e);
-                listener.onFailedPostsLoad(Constants.JSON_PARSE_ERROR);
+                listener.onLoadingUserFailure(Constants.JSON_PARSE_ERROR);
             }
 
         }
         else {
-            listener.onFailedPostsLoad(response.first);
+            listener.onLoadingUserFailure(response.first);
         }
     }
 }

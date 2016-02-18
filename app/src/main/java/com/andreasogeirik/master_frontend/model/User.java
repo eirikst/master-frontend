@@ -21,8 +21,8 @@ public class User implements Serializable {
     private String location;
     private String imageUri;
     private Date timeCreated;
-    private Set<User> friends;
-    private Set<FriendRequest> requests;
+    private Set<Friendship> friends;
+    private Set<Friendship> requests;
 
     public User() {
     }
@@ -74,19 +74,46 @@ public class User implements Serializable {
         return jsonObject;
     }
 
+    public Friendship findFriend(int friendshipId) {
+        Iterator<Friendship> it = friends.iterator();
+        while(it.hasNext()) {
+            Friendship friendship = it.next();
+            if(friendship.getId() == friendshipId) {
+                return friendship;
+            }
+        }
+        return null;
+    }
+
+    public Friendship findRequest(int friendshipId) {
+        Iterator<Friendship> it = requests.iterator();
+        while(it.hasNext()) {
+            Friendship friendship = it.next();
+            if(friendship.getId() == friendshipId) {
+                return friendship;
+            }
+        }
+        return null;
+    }
+
     public boolean isFriendWith(User user) {
-        if(friends.contains(user) ) System.out.println("vi er venner bror");
-        return friends.contains(user);
+        Iterator<Friendship> it = friends.iterator();
+        while(it.hasNext()) {
+            if(it.next().getFriend().equals(user)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /*
      * I requested the other user
      */
     public boolean iHaveRequested(User user) {
-        Iterator<FriendRequest> it = requests.iterator();
+        Iterator<Friendship> it = requests.iterator();
         while(it.hasNext()) {
-            FriendRequest request = it.next();
-            if(request.getUser().equals(user)) {
+            Friendship request = it.next();
+            if(request.getFriend().equals(user)) {
                 return request.isMyRequest();
             }
         }
@@ -97,14 +124,38 @@ public class User implements Serializable {
      * The other user requested me
      */
     public boolean iWasRequested(User user) {
-        Iterator<FriendRequest> it = requests.iterator();
+        Iterator<Friendship> it = requests.iterator();
         while(it.hasNext()) {
-            FriendRequest request = it.next();
-            if(request.getUser().equals(user)) {
+            Friendship request = it.next();
+            if(request.getFriend().equals(user)) {
                 return !request.isMyRequest();
             }
         }
         return false;
+    }
+
+    public void addRequest(Friendship friendship) {
+        requests.add(friendship);
+    }
+
+    public void removeFriendship(int friendshipId) {
+        Friendship friendship = new Friendship();
+        friendship.setId(friendshipId);
+        friends.remove(friendship);
+        requests.remove(friendship);
+    }
+
+    public void goFromRequestToFriend(int friendshipId) {
+        Iterator<Friendship> it = requests.iterator();
+        while(it.hasNext()) {
+            Friendship friendship = it.next();
+            if(friendship.getId() == friendshipId) {
+                requests.remove(friendship);
+                friendship.setStatus(Friendship.FRIENDS);
+                friends.add(friendship);
+                return;
+            }
+        }
     }
 
     public int getId() {
@@ -179,19 +230,19 @@ public class User implements Serializable {
         this.timeCreated = timeCreated;
     }
 
-    public Set<User> getFriends() {
+    public Set<Friendship> getFriends() {
         return friends;
     }
 
-    public void setFriends(Set<User> friends) {
+    public void setFriends(Set<Friendship> friends) {
         this.friends = friends;
     }
 
-    public Set<FriendRequest> getRequests() {
+    public Set<Friendship> getRequests() {
         return requests;
     }
 
-    public void setRequests(Set<FriendRequest> requests) {
+    public void setRequests(Set<Friendship> requests) {
         this.requests = requests;
     }
 

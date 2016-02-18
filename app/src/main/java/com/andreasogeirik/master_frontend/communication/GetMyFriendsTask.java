@@ -3,8 +3,7 @@ package com.andreasogeirik.master_frontend.communication;
 import android.os.AsyncTask;
 import android.util.Pair;
 
-import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingPostsListener;
-import com.andreasogeirik.master_frontend.model.User;
+import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingFriendshipsListener;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.SessionManager;
 
@@ -22,16 +21,12 @@ import org.springframework.web.client.RestTemplate;
 /**
  * Created by eirikstadheim on 06/02/16.
  */
-public class GetPostsTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntity<String>>> {
+public class GetMyFriendsTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntity<String>>> {
 
-    private OnFinishedLoadingPostsListener listener;
-    private int start;
-    private User user;
+    private OnFinishedLoadingFriendshipsListener listener;
 
-    public GetPostsTask(OnFinishedLoadingPostsListener listener, User user, int start) {
+    public GetMyFriendsTask(OnFinishedLoadingFriendshipsListener listener) {
         this.listener = listener;
-        this.start = start;
-        this.user = user;
     }
 
     @Override
@@ -47,8 +42,7 @@ public class GetPostsTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEn
         HttpEntity<String> entity = new HttpEntity(null, headers);
 
         try {
-            response = template.exchange(Constants.BACKEND_URL + "users/" + user.getId() +
-                            "/posts?start=" + start,
+            response = template.exchange(Constants.BACKEND_URL + "me/friendships",
                     HttpMethod.GET, entity, String.class);
             return new Pair(Constants.OK, response);
         }
@@ -67,17 +61,17 @@ public class GetPostsTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEn
         if (response.first == Constants.OK) {
 
             try {
-                JSONArray posts = new JSONArray(response.second.getBody());
-                listener.onSuccessPostsLoad(posts);
+                JSONArray friends = new JSONArray(response.second.getBody());
+                listener.onSuccessFriendshipsLoad(friends);
             }
             catch(JSONException e) {
                 System.out.println("JSON error:" + e);
-                listener.onFailedPostsLoad(Constants.JSON_PARSE_ERROR);
+                listener.onFailedFriendshipsLoad(Constants.JSON_PARSE_ERROR);
             }
 
         }
         else {
-            listener.onFailedPostsLoad(response.first);
+            listener.onFailedFriendshipsLoad(response.first);
         }
     }
 }

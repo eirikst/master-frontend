@@ -3,13 +3,10 @@ package com.andreasogeirik.master_frontend.communication;
 import android.os.AsyncTask;
 import android.util.Pair;
 
-import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingPostsListener;
-import com.andreasogeirik.master_frontend.model.User;
+import com.andreasogeirik.master_frontend.listener.OnAcceptRequestListener;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.SessionManager;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -22,16 +19,14 @@ import org.springframework.web.client.RestTemplate;
 /**
  * Created by eirikstadheim on 06/02/16.
  */
-public class GetPostsTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntity<String>>> {
+public class AcceptRequestTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntity<String>>> {
 
-    private OnFinishedLoadingPostsListener listener;
-    private int start;
-    private User user;
+    private OnAcceptRequestListener listener;
+    private int friendshipId;
 
-    public GetPostsTask(OnFinishedLoadingPostsListener listener, User user, int start) {
+    public AcceptRequestTask(OnAcceptRequestListener listener, int friendshipId) {
         this.listener = listener;
-        this.start = start;
-        this.user = user;
+        this.friendshipId = friendshipId;
     }
 
     @Override
@@ -47,9 +42,8 @@ public class GetPostsTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEn
         HttpEntity<String> entity = new HttpEntity(null, headers);
 
         try {
-            response = template.exchange(Constants.BACKEND_URL + "users/" + user.getId() +
-                            "/posts?start=" + start,
-                    HttpMethod.GET, entity, String.class);
+            response = template.exchange(Constants.BACKEND_URL + "users/friendships/" + friendshipId
+                    + "/accept", HttpMethod.POST, entity, String.class);
             return new Pair(Constants.OK, response);
         }
         catch (HttpClientErrorException e) {
@@ -65,19 +59,10 @@ public class GetPostsTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEn
     @Override
     protected void onPostExecute(Pair<Integer, ResponseEntity<String>> response) {
         if (response.first == Constants.OK) {
-
-            try {
-                JSONArray posts = new JSONArray(response.second.getBody());
-                listener.onSuccessPostsLoad(posts);
-            }
-            catch(JSONException e) {
-                System.out.println("JSON error:" + e);
-                listener.onFailedPostsLoad(Constants.JSON_PARSE_ERROR);
-            }
-
+             listener.onAcceptRequestSuccess(friendshipId);
         }
         else {
-            listener.onFailedPostsLoad(response.first);
+            listener.onAcceptRequestFailure(response.first);
         }
     }
 }

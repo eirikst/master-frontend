@@ -3,12 +3,13 @@ package com.andreasogeirik.master_frontend.communication;
 import android.os.AsyncTask;
 import android.util.Pair;
 
-import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingFriendshipsListener;
+import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingUserListener;
+import com.andreasogeirik.master_frontend.listener.OnFriendRequestedListener;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.SessionManager;
 
-import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -21,12 +22,14 @@ import org.springframework.web.client.RestTemplate;
 /**
  * Created by eirikstadheim on 06/02/16.
  */
-public class GetFriendRequestsTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntity<String>>> {
+public class FriendRequestTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntity<String>>> {
 
-    private OnFinishedLoadingFriendshipsListener listener;
+    private OnFriendRequestedListener listener;
+    private int userId;
 
-    public GetFriendRequestsTask(OnFinishedLoadingFriendshipsListener listener) {
+    public FriendRequestTask(OnFriendRequestedListener listener, int userId) {
         this.listener = listener;
+        this.userId = userId;
     }
 
     @Override
@@ -42,8 +45,8 @@ public class GetFriendRequestsTask extends AsyncTask<Void, Void, Pair<Integer, R
         HttpEntity<String> entity = new HttpEntity(null, headers);
 
         try {
-            response = template.exchange(Constants.BACKEND_URL + "me/friendrequests",
-                    HttpMethod.GET, entity, String.class);
+            response = template.exchange(Constants.BACKEND_URL + "users/" + userId +  "/friendships",
+                    HttpMethod.PUT, entity, String.class);
             return new Pair(Constants.OK, response);
         }
         catch (HttpClientErrorException e) {
@@ -60,17 +63,15 @@ public class GetFriendRequestsTask extends AsyncTask<Void, Void, Pair<Integer, R
     protected void onPostExecute(Pair<Integer, ResponseEntity<String>> response) {
         if (response.first == Constants.OK) {
             try {
-                JSONArray friendships = new JSONArray(response.second.getBody());
-                listener.onSuccessFriendRequestLoad(friendships);
+             listener.onFriendRequestSuccess(new JSONObject(response.second.getBody()));
             }
             catch(JSONException e) {
-                System.out.println("JSON error:" + e);
-                listener.onFailedFriendRequestLoad(Constants.JSON_PARSE_ERROR);
+                System.out.println("JSON parse error." + e);
+                listener.onFriendRequestFailure(Constants.JSON_PARSE_ERROR);
             }
-
         }
         else {
-            listener.onFailedFriendRequestLoad(response.first);
+            listener.onFriendRequestFailure(response.first);
         }
     }
 }

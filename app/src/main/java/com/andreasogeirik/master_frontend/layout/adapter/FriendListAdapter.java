@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.Post;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.DateUtility;
@@ -18,18 +19,18 @@ import java.util.List;
 /**
  * Created by eirikstadheim on 05/02/16.
  */
-public class FriendListAdapter extends ArrayAdapter<User> {
-    private List<User> friends;
+public class FriendListAdapter extends ArrayAdapter<Friendship> {
+    private List<Friendship> friends;
 
 
-    public FriendListAdapter(Context context, List<User> friends) {
+    public FriendListAdapter(Context context, List<Friendship> friends) {
         super(context, 0, friends);
         this.friends = friends;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        User friend = getItem(position);
+        Friendship friend = getItem(position);
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
@@ -43,7 +44,7 @@ public class FriendListAdapter extends ArrayAdapter<User> {
 
         // Populate the data using the posts
         image.setImageResource(R.drawable.profile);//hardcoded
-        name.setText(friend.getFirstname() + " " + friend.getLastname());
+        name.setText(friend.getFriend().getFirstname() + " " + friend.getFriend().getLastname());
 
         // Return view for rendering
         return convertView;

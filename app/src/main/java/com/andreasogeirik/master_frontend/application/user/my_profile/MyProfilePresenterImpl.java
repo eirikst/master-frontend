@@ -1,6 +1,7 @@
 package com.andreasogeirik.master_frontend.application.user.my_profile;
 
 import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.MyProfileInteractor;
+import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.Post;
 import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.MyProfilePresenter;
 import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.MyProfileView;
@@ -43,7 +44,7 @@ public class MyProfilePresenterImpl implements MyProfilePresenter {
     }
 
     @Override
-    public void successFriendsLoad(Set<User> friends) {
+    public void successFriendsLoad(Set<Friendship> friends) {
         view.addFriends(friends);
     }
 
