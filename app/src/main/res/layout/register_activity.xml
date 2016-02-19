@@ -118,7 +118,7 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <TextView
+            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/register_error"
@@ -130,7 +130,7 @@
                 android:visibility="gone"
                 android:freezesText="true"/>
 
-            <Button
+            <com.andreasogeirik.master_frontend.layout.view.CustomButton
                 android:id="@+id/register_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"

@@ -5,7 +5,7 @@ import android.util.Pair;
 
 import com.andreasogeirik.master_frontend.listener.OnUnfriendedListener;
 import com.andreasogeirik.master_frontend.util.Constants;
-import com.andreasogeirik.master_frontend.util.SessionManager;
+import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -37,7 +37,7 @@ public class UnFriendTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEn
         ((SimpleClientHttpRequestFactory) template.getRequestFactory()).setConnectTimeout(1000 * 10);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Cookie", SessionManager.getInstance().getCookie());
+        headers.set("Cookie", UserPreferencesManager.getInstance().getCookie());
 
         HttpEntity<String> entity = new HttpEntity(null, headers);
 

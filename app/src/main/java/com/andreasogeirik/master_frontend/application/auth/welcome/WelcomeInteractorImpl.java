@@ -2,13 +2,12 @@ package com.andreasogeirik.master_frontend.application.auth.welcome;
 
 import com.andreasogeirik.master_frontend.application.auth.welcome.interfaces.WelcomeInteractor;
 import com.andreasogeirik.master_frontend.application.auth.welcome.interfaces.WelcomePresenter;
-import com.andreasogeirik.master_frontend.application.auth.welcome.interfaces.WelcomeView;
 import com.andreasogeirik.master_frontend.communication.LoginTask;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.listener.OnLoginFinishedListener;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
-import com.andreasogeirik.master_frontend.util.SessionManager;
+import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,7 +49,7 @@ public class WelcomeInteractorImpl implements WelcomeInteractor, OnLoginFinished
             presenter.loginError(Constants.JSON_PARSE_ERROR);
         }
 
-        SessionManager.getInstance().saveCookie(sessionId);
+        UserPreferencesManager.getInstance().saveCookie(sessionId);
         presenter.loginSuccess();
     }
 }

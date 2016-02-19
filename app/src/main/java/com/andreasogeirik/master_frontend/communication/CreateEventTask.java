@@ -5,7 +5,7 @@ import android.util.Pair;
 
 import com.andreasogeirik.master_frontend.listener.OnCreateEventFinishedListener;
 import com.andreasogeirik.master_frontend.util.Constants;
-import com.andreasogeirik.master_frontend.util.SessionManager;
+import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,7 +38,7 @@ public class CreateEventTask extends AsyncTask<Void, Void, Pair<Integer, Respons
         ((SimpleClientHttpRequestFactory) template.getRequestFactory()).setConnectTimeout(1000 * 10);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("Cookie", SessionManager.getInstance().getCookie());
+        headers.set("Cookie", UserPreferencesManager.getInstance().getCookie());
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity(event.toString(), headers);
         try {

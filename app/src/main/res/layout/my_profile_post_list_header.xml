@@ -8,9 +8,8 @@
     <LinearLayout
         android:id="@+id/post_list_header"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
         android:orientation="horizontal"
         android:weightSum="20"
         android:background="@drawable/shape_post_background"
@@ -39,7 +38,7 @@
 
     </LinearLayout>
 
-    <TextView
+    <com.andreasogeirik.master_frontend.layout.view.CustomTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Posts"

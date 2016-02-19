@@ -8,7 +8,7 @@ import android.widget.Button;
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.auth.login.LoginActivity;
 import com.andreasogeirik.master_frontend.application.auth.register.RegisterActivity;
-import com.andreasogeirik.master_frontend.util.SessionManager;
+import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -24,7 +24,7 @@ public class EntranceActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.entrance_activity);
         ButterKnife.bind(this);
-        SessionManager.getInstance().initialize(this);
+        UserPreferencesManager.getInstance().initialize(this);
     }
 
     @OnClick(R.id.login)

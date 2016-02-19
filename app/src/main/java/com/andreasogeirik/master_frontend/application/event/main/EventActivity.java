@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.andreasogeirik.master_frontend.application.settings.SettingsActivity;
 import com.andreasogeirik.master_frontend.application.auth.entrance.EntranceActivity;
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventPresenter;
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventView;
@@ -23,8 +24,9 @@ import com.andreasogeirik.master_frontend.layout.CustomSwipeRefreshLayout;
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.User;
+import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.LogoutHandler;
-import com.andreasogeirik.master_frontend.util.SessionManager;
+import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,17 +59,20 @@ public class EventActivity extends AppCompatActivity implements EventView, Custo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        UserPreferencesManager userPreferencesManager = UserPreferencesManager.getInstance();
+        userPreferencesManager.initialize(this);
+        Constants.USER_SET_SIZE = userPreferencesManager.getTextSize();
+
         setContentView(R.layout.event_activity);
         ButterKnife.bind(this);
 
         //Her må current user være initialisert fra før...
 
-        SessionManager sessionManager = SessionManager.getInstance();
-        sessionManager.initialize(this);
 
         presenter = new EventPresenterImpl(this);
 
-        if (sessionManager.getCookie() == null){
+        if (userPreferencesManager.getCookie() == null){
             startLoginActivity();
         }
         else {
@@ -115,6 +120,10 @@ public class EventActivity extends AppCompatActivity implements EventView, Custo
                 return true;
             case R.id.create_event:
                 i = new Intent(this, CreateEventActivity.class);
+                this.startActivity(i);
+                return true;
+            case R.id.settings:
+                i = new Intent(this, SettingsActivity.class);
                 this.startActivity(i);
                 return true;
             default:

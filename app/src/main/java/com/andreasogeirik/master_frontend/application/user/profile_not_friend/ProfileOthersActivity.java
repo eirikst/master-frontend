@@ -17,7 +17,7 @@ import com.andreasogeirik.master_frontend.application.user.profile_not_friend.in
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.User;
-import com.andreasogeirik.master_frontend.util.SessionManager;
+import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -46,7 +46,7 @@ public class ProfileOthersActivity extends AppCompatActivity implements ProfileO
         toolbarText = (TextView)findViewById(R.id.toolbar_text);
 
 
-        SessionManager.getInstance().initialize(this);
+        UserPreferencesManager.getInstance().initialize(this);
         presenter = new ProfileOthersPresenterImpl(this);
 
         if(savedInstanceState != null) {

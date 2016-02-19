@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
+            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
                 android:textSize="20dp"
                 android:layout_gravity="center"/>
 
-            <Button
+            <com.andreasogeirik.master_frontend.layout.view.CustomButton
                 android:id="@+id/welcome_continue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

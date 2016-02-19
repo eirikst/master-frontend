@@ -22,7 +22,7 @@ import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces
 import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.MyProfileView;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
-import com.andreasogeirik.master_frontend.util.SessionManager;
+import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -63,7 +63,7 @@ public class MyProfileActivity extends AppCompatActivity implements MyProfileVie
         homeBtn = (Button)findViewById(R.id.home);
         toolbarText = (TextView)findViewById(R.id.toolbar_text);
 
-        SessionManager.getInstance().initialize(this);
+        UserPreferencesManager.getInstance().initialize(this);
         presenter = new MyProfilePresenterImpl(this);
 
         if(savedInstanceState != null) {

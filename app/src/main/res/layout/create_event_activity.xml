@@ -70,7 +70,7 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <TextView
+            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
                 android:id="@+id/create_event_start_date_error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
                 android:text="@string/event_create_start_date_label"
                 android:textStyle="bold" />
 
-            <TextView
+            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
                 android:id="@+id/create_event_start_time_error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -117,7 +117,7 @@
                 android:textColor="#4ac1e8"
                 />
 
-            <TextView
+            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
                 android:id="@+id/create_event_end_date_error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -138,7 +138,7 @@
                 android:visibility="gone"
                 android:background="#ffd966"/>
 
-            <TextView
+            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
                 android:id="@+id/create_event_end_time_error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -168,7 +168,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <TextView
+            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
                 android:id="@+id/create_event_image_error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -178,7 +178,7 @@
                 android:textColor="#ff0033"
                 android:visibility="gone"/>
 
-            <Button
+            <com.andreasogeirik.master_frontend.layout.view.CustomButton
                 android:id="@+id/create_event_image_select_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
@@ -187,7 +187,7 @@
                 android:text="@string/event_create_select_image"
                 android:textStyle="bold" />
 
-            <TextView
+            <com.andreasogeirik.master_frontend.layout.view.CustomButton
                 android:id="@+id/create_event_error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

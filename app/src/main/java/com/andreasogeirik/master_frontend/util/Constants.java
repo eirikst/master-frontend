@@ -26,4 +26,9 @@ public class Constants {
     //Number of posts returned when querying post
     public static int NUMBER_OF_POSTS_RETURNED = 10;
 
+    //Text sizes
+    public static int USER_SET_SIZE = 2;
+    public static final int SMALL = 1;
+    public static final int MEDIUM = 2;
+    public static final int LARGE = 3;
 }

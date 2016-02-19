@@ -3,10 +3,9 @@ package com.andreasogeirik.master_frontend.communication;
 import android.os.AsyncTask;
 import android.util.Pair;
 
-import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingUserListener;
 import com.andreasogeirik.master_frontend.listener.OnFriendRequestedListener;
 import com.andreasogeirik.master_frontend.util.Constants;
-import com.andreasogeirik.master_frontend.util.SessionManager;
+import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,7 +39,7 @@ public class FriendRequestTask extends AsyncTask<Void, Void, Pair<Integer, Respo
         ((SimpleClientHttpRequestFactory) template.getRequestFactory()).setConnectTimeout(1000 * 10);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Cookie", SessionManager.getInstance().getCookie());
+        headers.set("Cookie", UserPreferencesManager.getInstance().getCookie());
 
         HttpEntity<String> entity = new HttpEntity(null, headers);
 

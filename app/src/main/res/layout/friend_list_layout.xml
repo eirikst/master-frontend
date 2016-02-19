@@ -23,7 +23,7 @@
 
         />
 
-    <TextView
+    <com.andreasogeirik.master_frontend.layout.view.CustomTextView
         android:id="@+id/friend_name"
         android:layout_width="0dp"
         android:layout_height="match_parent"

@@ -5,7 +5,7 @@ import android.util.Pair;
 
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingFriendshipsListener;
 import com.andreasogeirik.master_frontend.util.Constants;
-import com.andreasogeirik.master_frontend.util.SessionManager;
+import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,7 +39,7 @@ public class GetFriendsTask extends AsyncTask<Void, Void, Pair<Integer, Response
         ((SimpleClientHttpRequestFactory) template.getRequestFactory()).setConnectTimeout(1000 * 10);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Cookie", SessionManager.getInstance().getCookie());
+        headers.set("Cookie", UserPreferencesManager.getInstance().getCookie());
 
         HttpEntity<String> entity = new HttpEntity(null, headers);
 

@@ -17,7 +17,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-        <Button
+        <com.andreasogeirik.master_frontend.layout.view.CustomButton
             android:id="@+id/home"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -51,7 +51,7 @@
                 android:layout_gravity="center"
                 android:gravity="center">
 
-                <TextView
+                <com.andreasogeirik.master_frontend.layout.view.CustomTextView
                     android:id="@+id/empty_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
