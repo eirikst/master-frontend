@@ -95,6 +95,8 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
 
     private int PICK_IMAGE_REQUEST = 1;
     private String encodedImage;
+    private String imagePath;
+    private String fileName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,13 +125,16 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
 
     @OnClick(R.id.create_event_submit_button)
     public void submit() {
-        clearValidationMessages();
-        View current = getCurrentFocus();
-        if (current != null) current.clearFocus();
-        String name = nameView.getText().toString();
-        String location = locationView.getText().toString();
-        String description = descriptionView.getText().toString();
-        presenter.create(new Event(name, location, description, this.startDate, this.endDate, this.startTimePair, this.endTimePair, ""), this.encodedImage);
+
+        new EncodeImageTask(imagePath, fileName).execute();
+
+//        clearValidationMessages();
+//        View current = getCurrentFocus();
+//        if (current != null) current.clearFocus();
+//        String name = nameView.getText().toString();
+//        String location = locationView.getText().toString();
+//        String description = descriptionView.getText().toString();
+//        presenter.create(new Event(name, location, description, this.startDate, this.endDate, this.startTimePair, this.endTimePair, ""), this.encodedImage);
     }
 
     @OnClick(R.id.create_event_image_select_button)
@@ -272,9 +277,11 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     }
 
     @Override
-    public void setImage(Bitmap bitmap, String encodedImage) {
+    public void setImage(Bitmap bitmap, String encodedImage, String fileName) {
         this.imageVIew.setImageBitmap(bitmap);
-        this.encodedImage = encodedImage;
+        this.imagePath = encodedImage;
+        this.fileName = fileName;
+//        this.encodedImage = encodedImage;
     }
 
     public void setDate(Calendar eventDate, boolean startDate) {

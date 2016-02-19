@@ -28,6 +28,17 @@ public class UploadImageTask extends AsyncTask<Void, Void, Pair<Integer, Respons
     private JSONObject jsonImage;
     private OnImageUploadFinishedListener listener;
 
+
+    public UploadImageTask(String encodedImage, String fileName) {
+        jsonImage = new JSONObject();
+        try {
+            jsonImage.put("filename", fileName);
+            jsonImage.put("image", encodedImage);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     public UploadImageTask(JSONObject jsonImage, OnImageUploadFinishedListener listener) {
         this.jsonImage = jsonImage;
         this.listener = listener;
@@ -55,17 +66,8 @@ public class UploadImageTask extends AsyncTask<Void, Void, Pair<Integer, Respons
     }
 
     protected void onPostExecute(Pair<Integer, ResponseEntity<String>> response) {
-
         if (response.first == Constants.OK) {
-
-            try {
-                JSONObject image = new JSONObject(response.second.getBody());
-                listener.onImageUploadSuccess(image);
-            } catch (JSONException e) {
-                System.out.println("JSON error:" + e);
-                listener.onImageUploadError(Constants.JSON_PARSE_ERROR);
-            }
-
+                listener.onImageUploadSuccess(response.second.getBody());
         } else {
             listener.onImageUploadError(response.first);
         }

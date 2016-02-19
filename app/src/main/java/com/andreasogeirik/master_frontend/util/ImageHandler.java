@@ -37,7 +37,7 @@ public class ImageHandler {
     public static String encodeToBase64(Bitmap bitmap){
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-
+        byte[] arr = byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
     }
 }

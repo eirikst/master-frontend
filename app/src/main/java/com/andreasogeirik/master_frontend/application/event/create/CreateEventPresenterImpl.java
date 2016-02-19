@@ -1,9 +1,12 @@
 package com.andreasogeirik.master_frontend.application.event.create;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Pair;
 
@@ -55,32 +58,58 @@ public class CreateEventPresenterImpl implements CreateEventPresenter {
 
     @Override
     public void scaleImage(Uri uri, Context context) {
-        InputStream inputStreamOriginal = null;
-        InputStream inputStreamManipulated = null;
-        try {
-            inputStreamOriginal = context.getContentResolver().openInputStream(uri);
-            inputStreamManipulated = context.getContentResolver().openInputStream(uri);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
 
-        if (inputStreamOriginal == null || inputStreamManipulated == null){
-            createEventView.setImageError("Kunne ikke finne det valgte bildet");
-            return;
-        }
+        String[] filePathColumn = { MediaStore.Images.Media.DATA };
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeStream(inputStreamManipulated, null, options);
-        int inSampleSize = ImageHandler.calculateInSampleSize(options, 540, 540);
-        if (options.outHeight != -1 && options.outWidth != 1) {
-            options.inJustDecodeBounds = false;
-            options.inSampleSize = inSampleSize;
-            Bitmap bitmap = BitmapFactory.decodeStream(inputStreamOriginal, null, options);
-            createEventView.setImage(bitmap, ImageHandler.encodeToBase64(bitmap));
-        } else {
-            createEventView.setImageError("Den valgte filen støttes ikke");
-        }
+        // Get the cursor
+        Cursor cursor = context.getContentResolver().query(uri,
+                filePathColumn, null, null, null);
+        // Move to first row
+        cursor.moveToFirst();
+
+        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+        String imgPath = cursor.getString(columnIndex);
+        cursor.close();
+
+        // Get the Image's file name
+        String fileNameSegments[] = imgPath.split("/");
+        String fileName = fileNameSegments[fileNameSegments.length - 1];
+        // Put file name in Async Http Post Param which will used in Java web app
+
+        createEventView.setImage(BitmapFactory
+                .decodeFile(imgPath), imgPath, fileName);
+
+
+
+//        InputStream inputStreamOriginal = null;
+//        InputStream inputStreamManipulated = null;
+//        try {
+//            inputStreamOriginal = context.getContentResolver().openInputStream(uri);
+//            inputStreamManipulated = context.getContentResolver().openInputStream(uri);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//
+//        if (inputStreamOriginal == null || inputStreamManipulated == null){
+//            createEventView.setImageError("Kunne ikke finne det valgte bildet");
+//            return;
+//        }
+//
+//        BitmapFactory.Options options = new BitmapFactory.Options();
+//        options.inJustDecodeBounds = true;
+//        BitmapFactory.decodeStream(inputStreamManipulated, null, options);
+//        int inSampleSize = ImageHandler.calculateInSampleSize(options, 540, 540);
+//        if (options.outHeight != -1 && options.outWidth != 1) {
+//            options.inJustDecodeBounds = false;
+//            options.inSampleSize = inSampleSize;
+//            Bitmap bitmap = BitmapFactory.decodeStream(inputStreamOriginal, null, options);
+//
+//            String encodedImage = ImageHandler.encodeToBase64(bitmap);
+//
+//            createEventView.setImage(bitmap, encodedImage);
+//        } else {
+//            createEventView.setImageError("Den valgte filen støttes ikke");
+//        }
     }
 
     @Override
