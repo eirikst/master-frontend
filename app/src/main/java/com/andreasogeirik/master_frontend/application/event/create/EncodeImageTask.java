@@ -5,39 +5,62 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Base64;
 
-import com.andreasogeirik.master_frontend.communication.UploadImageTask;
+import com.andreasogeirik.master_frontend.listener.OnEncodeImageFinishedListener;
+import com.andreasogeirik.master_frontend.util.ImageHandler;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 
 /**
  * Created by Andreas on 19.02.2016.
  */
 
-public class EncodeImageTask extends AsyncTask<Void, Void, String> {
+public class EncodeImageTask extends AsyncTask<Void, Void, EncodedImageContainer> {
 
-    private String imagePath;
-    private String fileName;
+    private OnEncodeImageFinishedListener listener;
+    private InputStream inputStream;
 
-    public EncodeImageTask(String imagePath, String fileName) {
-        this.imagePath = imagePath;
-        this.fileName = fileName;
+    public EncodeImageTask(OnEncodeImageFinishedListener listener, InputStream inputStream) {
+        this.listener = listener;
+        this.inputStream = inputStream;
     }
 
-    protected String doInBackground(Void... params) {
-        BitmapFactory.Options options = null;
-        options = new BitmapFactory.Options();
-        options.inSampleSize = 3;
-        Bitmap bitmap = BitmapFactory.decodeFile(this.imagePath,
-                options);
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        // Must compress the Image to reduce image size to make upload easy
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-        byte[] byte_arr = stream.toByteArray();
-        // Encode Image to String
-        return Base64.encodeToString(byte_arr, Base64.DEFAULT);
+    protected EncodedImageContainer doInBackground(Void... params) {
+        InputStream inputStreamWrapper = new BufferedInputStream(inputStream);
+        try {
+            inputStreamWrapper.mark(inputStreamWrapper.available());
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(inputStreamWrapper, null, options);
+
+            if (options.outHeight != -1 && options.outWidth != 1) {
+                options.inSampleSize = ImageHandler.calculateInSampleSize(options, 540, 540);
+                inputStreamWrapper.reset();
+                options.inJustDecodeBounds = false;
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStreamWrapper, null, options);
+
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                String encodedImage = Base64.encodeToString(stream.toByteArray(), Base64.DEFAULT);
+                return new EncodedImageContainer(ImageStatusCode.FILE_ENCODED, bitmap, encodedImage);
+
+            } else {
+                return new EncodedImageContainer(ImageStatusCode.NOT_AN_IMAGE, null, null);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new EncodedImageContainer(ImageStatusCode.FILE_NOT_FOUND, null, null);
+        }
     }
 
-    protected void onPostExecute(String encodedImage) {
-        new UploadImageTask(encodedImage, fileName).execute();
+    protected void onPostExecute(EncodedImageContainer encodedImageContainer) {
+        if (encodedImageContainer.getStatus() == ImageStatusCode.FILE_ENCODED) {
+            listener.onSuccess(encodedImageContainer.getBitmap(), encodedImageContainer.getEncodedImage());
+        } else {
+            listener.onError(encodedImageContainer.getStatus());
+        }
     }
 }

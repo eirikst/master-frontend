@@ -18,5 +18,5 @@ public interface CreateEventView {
     void setEndDateError(String error);
     void setEndTimeError(String error);
     void setImageError(String error);
-    void setImage(Bitmap bitmap, String encodedImage, String fileName);
+    void setImage(Bitmap bitmap, String encodedImage);
 }

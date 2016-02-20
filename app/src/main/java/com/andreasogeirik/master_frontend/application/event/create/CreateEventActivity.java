@@ -22,6 +22,7 @@ import com.andreasogeirik.master_frontend.application.event.create.interfaces.Cr
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
 import com.andreasogeirik.master_frontend.model.Event;
 
+import java.io.FileNotFoundException;
 import java.util.Calendar;
 
 import butterknife.Bind;
@@ -112,11 +113,15 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         this.imageError.setVisibility(View.GONE);
-        // TODO: FIKSE EXCEPTIONS
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
             if (data != null && data.getData() != null) {
-                Uri uri = data.getData();
-                presenter.scaleImage(uri, this);
+                Uri selectedImage = data.getData();
+                try {
+                    presenter.encodeImage(getContentResolver().openInputStream(selectedImage));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    setImageError("Kunne ikke finne det valgte bildet");
+                }
             } else {
                 setImageError("Kunne ikke finne det valgte bildet");
             }
@@ -125,16 +130,13 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
 
     @OnClick(R.id.create_event_submit_button)
     public void submit() {
-
-        new EncodeImageTask(imagePath, fileName).execute();
-
-//        clearValidationMessages();
-//        View current = getCurrentFocus();
-//        if (current != null) current.clearFocus();
-//        String name = nameView.getText().toString();
-//        String location = locationView.getText().toString();
-//        String description = descriptionView.getText().toString();
-//        presenter.create(new Event(name, location, description, this.startDate, this.endDate, this.startTimePair, this.endTimePair, ""), this.encodedImage);
+        clearValidationMessages();
+        View current = getCurrentFocus();
+        if (current != null) current.clearFocus();
+        String name = nameView.getText().toString();
+        String location = locationView.getText().toString();
+        String description = descriptionView.getText().toString();
+        presenter.create(new Event(name, location, description, this.startDate, this.endDate, this.startTimePair, this.endTimePair, ""), this.encodedImage);
     }
 
     @OnClick(R.id.create_event_image_select_button)
@@ -277,11 +279,9 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     }
 
     @Override
-    public void setImage(Bitmap bitmap, String encodedImage, String fileName) {
+    public void setImage(Bitmap bitmap, String encodedImage) {
         this.imageVIew.setImageBitmap(bitmap);
-        this.imagePath = encodedImage;
-        this.fileName = fileName;
-//        this.encodedImage = encodedImage;
+        this.encodedImage = encodedImage;
     }
 
     public void setDate(Calendar eventDate, boolean startDate) {

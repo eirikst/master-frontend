@@ -28,17 +28,6 @@ public class UploadImageTask extends AsyncTask<Void, Void, Pair<Integer, Respons
     private JSONObject jsonImage;
     private OnImageUploadFinishedListener listener;
 
-
-    public UploadImageTask(String encodedImage, String fileName) {
-        jsonImage = new JSONObject();
-        try {
-            jsonImage.put("filename", fileName);
-            jsonImage.put("image", encodedImage);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
     public UploadImageTask(JSONObject jsonImage, OnImageUploadFinishedListener listener) {
         this.jsonImage = jsonImage;
         this.listener = listener;

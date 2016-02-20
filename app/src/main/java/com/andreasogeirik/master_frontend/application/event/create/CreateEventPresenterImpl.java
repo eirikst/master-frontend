@@ -1,25 +1,18 @@
 package com.andreasogeirik.master_frontend.application.event.create;
 
-import android.content.Context;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.Image;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Pair;
 
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventInteractor;
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventPresenter;
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventView;
+import com.andreasogeirik.master_frontend.listener.OnEncodeImageFinishedListener;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.util.Constants;
-import com.andreasogeirik.master_frontend.util.ImageHandler;
 
 import org.json.JSONObject;
 
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Date;
@@ -28,7 +21,7 @@ import java.util.GregorianCalendar;
 /**
  * Created by Andreas on 10.02.2016.
  */
-public class CreateEventPresenterImpl implements CreateEventPresenter {
+public class CreateEventPresenterImpl implements CreateEventPresenter, OnEncodeImageFinishedListener {
     CreateEventView createEventView;
     private CreateEventInteractor interactor;
 
@@ -57,59 +50,9 @@ public class CreateEventPresenterImpl implements CreateEventPresenter {
     }
 
     @Override
-    public void scaleImage(Uri uri, Context context) {
-
-        String[] filePathColumn = { MediaStore.Images.Media.DATA };
-
-        // Get the cursor
-        Cursor cursor = context.getContentResolver().query(uri,
-                filePathColumn, null, null, null);
-        // Move to first row
-        cursor.moveToFirst();
-
-        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-        String imgPath = cursor.getString(columnIndex);
-        cursor.close();
-
-        // Get the Image's file name
-        String fileNameSegments[] = imgPath.split("/");
-        String fileName = fileNameSegments[fileNameSegments.length - 1];
-        // Put file name in Async Http Post Param which will used in Java web app
-
-        createEventView.setImage(BitmapFactory
-                .decodeFile(imgPath), imgPath, fileName);
-
-
-
-//        InputStream inputStreamOriginal = null;
-//        InputStream inputStreamManipulated = null;
-//        try {
-//            inputStreamOriginal = context.getContentResolver().openInputStream(uri);
-//            inputStreamManipulated = context.getContentResolver().openInputStream(uri);
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//
-//        if (inputStreamOriginal == null || inputStreamManipulated == null){
-//            createEventView.setImageError("Kunne ikke finne det valgte bildet");
-//            return;
-//        }
-//
-//        BitmapFactory.Options options = new BitmapFactory.Options();
-//        options.inJustDecodeBounds = true;
-//        BitmapFactory.decodeStream(inputStreamManipulated, null, options);
-//        int inSampleSize = ImageHandler.calculateInSampleSize(options, 540, 540);
-//        if (options.outHeight != -1 && options.outWidth != 1) {
-//            options.inJustDecodeBounds = false;
-//            options.inSampleSize = inSampleSize;
-//            Bitmap bitmap = BitmapFactory.decodeStream(inputStreamOriginal, null, options);
-//
-//            String encodedImage = ImageHandler.encodeToBase64(bitmap);
-//
-//            createEventView.setImage(bitmap, encodedImage);
-//        } else {
-//            createEventView.setImageError("Den valgte filen støttes ikke");
-//        }
+    public void encodeImage(InputStream inputStream) {
+        createEventView.showProgress();
+        new EncodeImageTask(this, inputStream).execute();
     }
 
     @Override
@@ -150,5 +93,22 @@ public class CreateEventPresenterImpl implements CreateEventPresenter {
 
     private Date convertToDate(Calendar eventDate, Pair<Integer, Integer> timePair) {
         return new GregorianCalendar(eventDate.get(Calendar.YEAR), eventDate.get(Calendar.MONTH), eventDate.get(Calendar.DAY_OF_MONTH), timePair.first, timePair.second).getTime();
+    }
+
+    @Override
+    public void onSuccess(Bitmap bitmap, String encodedImage) {
+        createEventView.hideProgress();
+        createEventView.setImage(bitmap, encodedImage);
+    }
+
+    @Override
+    public void onError(ImageStatusCode statusCode) {
+        createEventView.hideProgress();
+        if (statusCode == ImageStatusCode.FILE_NOT_FOUND){
+            createEventView.setImageError("Finner ikke filen");
+        }
+        else if (statusCode == ImageStatusCode.NOT_AN_IMAGE){
+            createEventView.setImageError("Den valgte bildefilen støttes ikke");
+        }
     }
 }

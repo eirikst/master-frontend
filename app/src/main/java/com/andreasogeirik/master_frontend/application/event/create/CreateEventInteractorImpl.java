@@ -51,7 +51,7 @@ public class CreateEventInteractorImpl implements CreateEventInteractor, OnCreat
     @Override
     public void onImageUploadSuccess(String imageUrl) {
         event.setImageURI(imageUrl);
-//        new CreateEventTask(eventToJson(event), this).execute();
+        new CreateEventTask(eventToJson(event), this).execute();
     }
 
     @Override
