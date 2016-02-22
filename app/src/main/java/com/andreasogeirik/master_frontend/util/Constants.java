@@ -5,9 +5,9 @@ package com.andreasogeirik.master_frontend.util;
  */
 public class Constants {
     //Home
-    public static final String BACKEND_URL = "http://10.0.0.181:8080/";
+//    public static final String BACKEND_URL = "http://10.0.0.181:8080/";
     //NTNU
-//    public static final String BACKEND_URL = "http://78.91.2.145:8080/";
+    public static final String BACKEND_URL = "http://78.91.2.145:8080/";
 
     //Eirik NTNU
 //    public static final String BACKEND_URL = "http://10.20.54.92:8080/";
@@ -26,4 +26,9 @@ public class Constants {
     //Number of posts returned when querying post
     public static int NUMBER_OF_POSTS_RETURNED = 10;
 
+    //Text sizes
+    public static int USER_SET_SIZE = 2;
+    public static final int SMALL = 1;
+    public static final int MEDIUM = 2;
+    public static final int LARGE = 3;
 }

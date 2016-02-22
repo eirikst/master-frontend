@@ -4,16 +4,19 @@ import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces
 import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.MyProfilePresenter;
 import com.andreasogeirik.master_frontend.communication.GetFriendsTask;
 import com.andreasogeirik.master_frontend.communication.GetPostsTask;
-import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingFriendsListener;
+import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingFriendshipsListener;
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingPostsListener;
+import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.Post;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,7 +25,7 @@ import java.util.Set;
  * Created by eirikstadheim on 06/02/16.
  */
 public class MyProfileInteractorImpl implements MyProfileInteractor, OnFinishedLoadingPostsListener,
-        OnFinishedLoadingFriendsListener
+        OnFinishedLoadingFriendshipsListener
 {
     private MyProfilePresenter presenter;
 
@@ -62,23 +65,32 @@ public class MyProfileInteractorImpl implements MyProfileInteractor, OnFinishedL
     }
 
     @Override
-    public void onSuccessFriendsLoad(JSONArray jsonFriends) {
-        Set<User> friends = new HashSet<>();
+    public void onSuccessFriendshipsLoad(JSONArray friendshipsJson) {
+        Set<Friendship> friendships = new HashSet<>();
 
         try {
-            for (int i = 0; i < jsonFriends.length(); i++) {
-                friends.add(new User(jsonFriends.getJSONObject(i)));
+            for(int i = 0; i < friendshipsJson.length(); i++) {
+                JSONObject friendship = friendshipsJson.getJSONObject(i);
+
+                int id = friendship.getInt("id");
+                User friend = new User(friendship.getJSONObject("friend"));
+                int status = friendship.getInt("status");
+                Date friendsSince = new Date(friendship.getLong("friendsSince"));
+
+                    friendships.add(new Friendship(id, friend, status, friendsSince));
             }
         }
         catch (JSONException e) {
+            System.out.println("JSON error: " + e);
             presenter.errorFriendsLoad(Constants.CLIENT_ERROR);
         }
-        presenter.successFriendsLoad(friends);
+
+        presenter.successFriendsLoad(friendships);
 
     }
 
     @Override
-    public void onFailedFriendsLoad(int code) {
+    public void onFailedFriendshipsLoad(int code) {
         presenter.errorFriendsLoad(code);
 
     }

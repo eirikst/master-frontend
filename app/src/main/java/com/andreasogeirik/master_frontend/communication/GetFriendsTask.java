@@ -3,10 +3,9 @@ package com.andreasogeirik.master_frontend.communication;
 import android.os.AsyncTask;
 import android.util.Pair;
 
-import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingFriendsListener;
-import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingPostsListener;
+import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingFriendshipsListener;
 import com.andreasogeirik.master_frontend.util.Constants;
-import com.andreasogeirik.master_frontend.util.SessionManager;
+import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,10 +23,10 @@ import org.springframework.web.client.RestTemplate;
  */
 public class GetFriendsTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntity<String>>> {
 
-    private OnFinishedLoadingFriendsListener listener;
+    private OnFinishedLoadingFriendshipsListener listener;
     private int userId;
 
-    public GetFriendsTask(OnFinishedLoadingFriendsListener listener, int userId) {
+    public GetFriendsTask(OnFinishedLoadingFriendshipsListener listener, int userId) {
         this.listener = listener;
         this.userId = userId;
     }
@@ -40,12 +39,12 @@ public class GetFriendsTask extends AsyncTask<Void, Void, Pair<Integer, Response
         ((SimpleClientHttpRequestFactory) template.getRequestFactory()).setConnectTimeout(1000 * 10);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Cookie", SessionManager.getInstance().getCookie());
+        headers.set("Cookie", UserPreferencesManager.getInstance().getCookie());
 
         HttpEntity<String> entity = new HttpEntity(null, headers);
 
         try {
-            response = template.exchange(Constants.BACKEND_URL + "user/" + userId + "/friends",
+            response = template.exchange(Constants.BACKEND_URL + "users/" + userId + "/friendships",
                     HttpMethod.GET, entity, String.class);
             return new Pair(Constants.OK, response);
         }
@@ -65,16 +64,16 @@ public class GetFriendsTask extends AsyncTask<Void, Void, Pair<Integer, Response
 
             try {
                 JSONArray friends = new JSONArray(response.second.getBody());
-                listener.onSuccessFriendsLoad(friends);
+                listener.onSuccessFriendshipsLoad(friends);
             }
             catch(JSONException e) {
                 System.out.println("JSON error:" + e);
-                listener.onFailedFriendsLoad(Constants.JSON_PARSE_ERROR);
+                listener.onFailedFriendshipsLoad(Constants.JSON_PARSE_ERROR);
             }
 
         }
         else {
-            listener.onFailedFriendsLoad(response.first);
+            listener.onFailedFriendshipsLoad(response.first);
         }
     }
 }

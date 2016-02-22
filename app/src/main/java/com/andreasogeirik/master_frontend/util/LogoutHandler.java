@@ -24,7 +24,7 @@ public class LogoutHandler {
         {
             public void run() {
                 new LogoutTask().logout();
-                SessionManager.getInstance().deleteCookie();
+                UserPreferencesManager.getInstance().deleteCookie();
             }
         }.start();
     }

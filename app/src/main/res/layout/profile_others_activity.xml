@@ -2,66 +2,102 @@
 
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    >
-    <LinearLayout
-        android:id="@+id/post_list_header"
+    android:layout_height="match_parent">
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:orientation="horizontal"
-        android:weightSum="20"
-        android:background="@drawable/shape_post_background"
-        android:layout_marginBottom="5dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/app_main"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <com.andreasogeirik.master_frontend.layout.view.CustomButton
+            android:id="@+id/home"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/home"
+            />
+
+    </android.support.v7.widget.Toolbar>
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
         >
-
-        <RelativeLayout
-            android:layout_weight="10"
-            android:layout_width="0dp"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/my_profile_image"
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:src="@drawable/profile1"
-                />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_weight="10"
-            android:layout_width="0dp"
-            android:layout_height="match_parent">
-
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+        <LinearLayout
+            android:id="@+id/post_list_header"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:orientation="horizontal"
+            android:weightSum="20"
+            android:background="@drawable/shape_post_background"
+            android:layout_marginBottom="5dp"
             >
-                <TextView
+
+            <RelativeLayout
+                android:layout_weight="10"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/my_profile_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:src="@drawable/profile1"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_weight="10"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                >
+                <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+                    android:id="@+id/are_we_friends_bro"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Send en venne- forespørsel"
                     android:layout_margin="10dp"
                     />
+                <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+                android:id="@+id/are_we_friends_bro2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:layout_margin="10dp"
+                android:layout_below="@+id/are_we_friends_bro"
+                />
+                </RelativeLayout>
             </RelativeLayout>
-        </RelativeLayout>
 
-    </LinearLayout>
+        </LinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Bli venner for å se poster"
-        android:gravity="center_horizontal"
-        android:textSize="40dp"
-        android:layout_below="@+id/post_list_header"
-        android:background="@drawable/shape_post_background"
-        android:padding="10dp"
-        android:layout_marginTop="5dp"
-        />
+        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bli venner for å se poster"
+            android:gravity="center_horizontal"
+            android:textSize="40dp"
+            android:layout_below="@+id/post_list_header"
+            android:background="@drawable/shape_post_background"
+            android:padding="10dp"
+            android:layout_marginTop="5dp"
+            />
 
+    </RelativeLayout>
 </RelativeLayout>

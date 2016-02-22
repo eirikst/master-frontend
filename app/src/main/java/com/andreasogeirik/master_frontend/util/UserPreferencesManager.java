@@ -6,16 +6,16 @@ import android.content.SharedPreferences;
 /**
  * Created by Andreas on 05.02.2016.
  */
-public class SessionManager {
-    private static SessionManager instance;
+public class UserPreferencesManager {
+    private static UserPreferencesManager instance;
     private SharedPreferences preferences;
 
-    protected SessionManager() {
+    protected UserPreferencesManager() {
 
     }
 
-    public static SessionManager getInstance(){
-        if (instance == null) instance = new SessionManager();
+    public static UserPreferencesManager getInstance(){
+        if (instance == null) instance = new UserPreferencesManager();
         return instance;
     }
 
@@ -24,7 +24,7 @@ public class SessionManager {
      */
     public void initialize(Context context){
         System.out.println("Init sharedpref");
-            preferences = context.getSharedPreferences("session", Context.MODE_PRIVATE);
+        preferences = context.getSharedPreferences("session", Context.MODE_PRIVATE);
     }
 
 
@@ -46,5 +46,23 @@ public class SessionManager {
     public void signOut(){
         String cookie = preferences.getString("cookie", null);
         preferences.edit().remove("cookie").commit();
+    }
+
+    public void saveTextSize(int textSize) {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("text_size", "" + textSize);
+        editor.commit();
+    }
+
+    /*
+     * -1 if not available
+     */
+    public int getTextSize() {
+        try {
+            return Integer.parseInt(preferences.getString("text_size", null));
+        }
+        catch(NumberFormatException e) {
+            return -1;
+        }
     }
 }

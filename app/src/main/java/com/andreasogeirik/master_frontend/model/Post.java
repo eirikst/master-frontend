@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.Set;
 /**
  * Created by eirikstadheim on 05/02/16.
  */
-public class Post {
+public class Post implements Serializable {
     private int id;
     private String message;
     private String imageUri;

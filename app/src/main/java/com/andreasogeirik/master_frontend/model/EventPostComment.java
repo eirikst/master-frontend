@@ -1,5 +1,6 @@
 package com.andreasogeirik.master_frontend.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -7,7 +8,7 @@ import java.util.Set;
 /**
  * Created by Andreas on 10.02.2016.
  */
-public class EventPostComment {
+public class EventPostComment implements Serializable {
     private int id;
     private String message;
     private Date timeCreated;

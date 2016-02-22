@@ -41,7 +41,7 @@ public class RegisterTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEn
         HttpEntity<String> entity = new HttpEntity(user.toString(), headers);
 
         try {
-            response = template.exchange(Constants.BACKEND_URL + "user", HttpMethod.PUT, entity, String.class);
+            response = template.exchange(Constants.BACKEND_URL + "users", HttpMethod.PUT, entity, String.class);
             return new Pair(Constants.OK, response);
         } catch (HttpClientErrorException e) {
             System.out.println("Client error:" + e);

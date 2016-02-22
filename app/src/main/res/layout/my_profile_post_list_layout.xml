@@ -7,7 +7,7 @@
     <LinearLayout
         android:id="@+id/post_layout"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:weightSum="10"
         android:orientation="horizontal"
         >
@@ -33,14 +33,14 @@
             android:layout_margin="5dp"
             >
 
-            <TextView
+            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
                 android:id="@+id/post_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Date comes here"
                 />
 
-            <TextView
+            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
                 android:id="@+id/post_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
         android:paddingLeft="10dp"
         android:gravity="center_horizontal"
         >
-        <TextView
+        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
             android:id="@+id/like_nr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
             android:layout_marginRight="10dp"
             />
 
-        <TextView
+        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
             android:id="@+id/comment_nr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -103,7 +103,7 @@
             android:layout_marginRight="5dp"
             />
 
-        <TextView
+        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
             android:id="@+id/like_post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -127,7 +127,7 @@
             android:layout_marginRight="5dp"
             />
 
-        <TextView
+        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
             android:id="@+id/comment_post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

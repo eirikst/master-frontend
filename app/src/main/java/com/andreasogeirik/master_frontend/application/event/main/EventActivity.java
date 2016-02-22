@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.andreasogeirik.master_frontend.application.settings.SettingsActivity;
 import com.andreasogeirik.master_frontend.application.auth.entrance.EntranceActivity;
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventPresenter;
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventView;
@@ -21,12 +22,15 @@ import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.application.event.create.CreateEventActivity;
 import com.andreasogeirik.master_frontend.layout.CustomSwipeRefreshLayout;
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.User;
+import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.LogoutHandler;
-import com.andreasogeirik.master_frontend.util.SessionManager;
+import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -49,26 +53,35 @@ public class EventActivity extends AppCompatActivity implements EventView, Custo
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
+    @Bind(R.id.home)
+    Button homeBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //Her må current user være initialisert fra før...
-
-        SessionManager sessionManager = SessionManager.getInstance();
-        sessionManager.initialize(this);
-
-        presenter = new EventPresenterImpl(this);
-
-        if (sessionManager.getCookie() == null){
-            Intent i = new Intent(this, EntranceActivity.class);
-            startActivity(i);
-            finish();
-        }
-
         super.onCreate(savedInstanceState);
+
+        UserPreferencesManager userPreferencesManager = UserPreferencesManager.getInstance();
+        userPreferencesManager.initialize(this);
+        Constants.USER_SET_SIZE = userPreferencesManager.getTextSize();
+
         setContentView(R.layout.event_activity);
         ButterKnife.bind(this);
 
-        setSupportActionBar(toolbar);
+        //Her må current user være initialisert fra før...
+
+
+        presenter = new EventPresenterImpl(this);
+
+        if (userPreferencesManager.getCookie() == null){
+            startLoginActivity();
+        }
+        else {
+            presenter.findUser();
+        }
+
+
+        setupToolbar();
+
         this.swipeContainer.setOnRefreshListener(this);
         this.swipeContainer.setListView(this.listView);
         this.listView.setEmptyView(this.emptyView);
@@ -86,8 +99,13 @@ public class EventActivity extends AppCompatActivity implements EventView, Custo
         listView.addHeaderView(b);
 
         loadDummyEvents();
+    }
 
-//        presenter.findFriends(CurrentUser.getInstance().getUser().getId());//find friends
+    /*
+     * Toolbar setup
+     */
+    private void setupToolbar() {
+        setSupportActionBar(toolbar);
     }
 
     @Override
@@ -102,6 +120,10 @@ public class EventActivity extends AppCompatActivity implements EventView, Custo
                 return true;
             case R.id.create_event:
                 i = new Intent(this, CreateEventActivity.class);
+                this.startActivity(i);
+                return true;
+            case R.id.settings:
+                i = new Intent(this, SettingsActivity.class);
                 this.startActivity(i);
                 return true;
             default:
@@ -146,7 +168,37 @@ public class EventActivity extends AppCompatActivity implements EventView, Custo
     }
 
     @Override
-    public void addFriends(Set<User> friends) {
-        CurrentUser.getInstance().getUser().setFriends(friends);
+    public void addFriendships(Set<Friendship> friendships, Set<Friendship> requests) {
+        CurrentUser.getInstance().getUser().setFriends(friendships);
+        CurrentUser.getInstance().getUser().setRequests(requests);
+
+        Iterator<Friendship> it = friendships.iterator();
+        while(it.hasNext()) {
+            System.out.println("fs" + it.next());
+        }
+
+        it = requests.iterator();
+        while(it.hasNext()) {
+            System.out.println("rq " + it.next());
+        }
+    }
+
+
+    @Override
+    public void findUserSuccess(User user) {
+        CurrentUser.getInstance().setUser(user);
+        presenter.findFriendships();//find friends
+        // else go on
+    }
+
+    @Override
+    public void findUserFailure(int code) {
+        startLoginActivity();
+    }
+
+    private void startLoginActivity() {
+        Intent i = new Intent(this, EntranceActivity.class);
+        startActivity(i);
+        finish();
     }
 }

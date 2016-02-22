@@ -3,22 +3,26 @@ package com.andreasogeirik.master_frontend.application.user.my_profile;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
 import com.andreasogeirik.master_frontend.application.friend.FriendListActivity;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.layout.adapter.PostListAdapter;
+import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.Post;
 import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.MyProfilePresenter;
 import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.MyProfileView;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
-import com.andreasogeirik.master_frontend.util.SessionManager;
+import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -29,7 +33,8 @@ import java.util.Set;
  * Created by eirikstadheim on 06/02/16.
  */
 public class MyProfileActivity extends AppCompatActivity implements MyProfileView,
-        AdapterView.OnItemClickListener, MyProfileHeader.MyProfileHeaderListener, FriendProfileHeader.FriendProfileHeaderListener {
+        AdapterView.OnItemClickListener, MyProfileHeader.MyProfileHeaderListener,
+        FriendProfileHeader.FriendProfileHeaderListener {
     private MyProfilePresenter presenter;
 
     private ListView listView;
@@ -38,24 +43,44 @@ public class MyProfileActivity extends AppCompatActivity implements MyProfileVie
     private PostListAdapter postListAdapter;
 
     private List<Post> posts = new ArrayList<Post>();
-    private Set<User> friends = new HashSet<>();
+    private Set<Friendship> friends = new HashSet<>();
     private User user;
 
 
     private MyProfileHeader myProfileHeaderFragment;
     private FriendProfileHeader friendProfileHeaderFragment;
 
+    private Toolbar toolbar;
+    private Button homeBtn;
+    private TextView toolbarText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_profile_activity);
 
-        SessionManager.getInstance().initialize(this);
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        homeBtn = (Button)findViewById(R.id.home);
+        toolbarText = (TextView)findViewById(R.id.toolbar_text);
 
+        UserPreferencesManager.getInstance().initialize(this);
         presenter = new MyProfilePresenterImpl(this);
 
-        Intent intent = getIntent();
-        user = (User)intent.getSerializableExtra("user");
+        if(savedInstanceState != null) {
+            System.out.println("Saved instance state restored");
+            user = (User)savedInstanceState.getSerializable("user");
+        }
+        else {
+            System.out.println("New instance state from intent");
+            Intent intent = getIntent();
+            user = (User)intent.getSerializableExtra("user");
+
+            //init post and friend list after all view is set
+            presenter.findPosts(user, 0);
+            presenter.findFriends(user.getId());
+        }
+
+        setupToolbar(user.getFirstname() + " " + user.getLastname());
 
         initListView();
 
@@ -70,11 +95,31 @@ public class MyProfileActivity extends AppCompatActivity implements MyProfileVie
             initFriendHeader();
         }
 
-        //init post and friend list after all view is set
-        presenter.findPosts(user, 0);
-        presenter.findFriends(user.getId());
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        // Save UI state changes to the savedInstanceState.
+        // This bundle will be passed to onCreate if the process is
+        // killed and restarted.
+        savedInstanceState.putSerializable("user", user);
+        // etc.
+    }
+
+    private void setupToolbar(String text) {
+        setSupportActionBar(toolbar);
+        toolbarText.setText(text);
+
+        homeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MyProfileActivity.this, EventActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+        });
+    }
 
     @Override
     public void addPosts(List<Post> posts) {
@@ -89,7 +134,7 @@ public class MyProfileActivity extends AppCompatActivity implements MyProfileVie
     }
 
     @Override
-    public void addFriends(Set<User> friends) {
+    public void addFriends(Set<Friendship> friends) {
         user.setFriends(friends);
         this.friends.addAll(friends);
         if(myProfileHeaderFragment != null) {

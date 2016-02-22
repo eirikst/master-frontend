@@ -12,10 +12,19 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="@color/app_main"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <com.andreasogeirik.master_frontend.layout.view.CustomButton
+            android:id="@+id/home"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/home"
+        />
+
+    </android.support.v7.widget.Toolbar>
 
     <com.andreasogeirik.master_frontend.layout.CustomSwipeRefreshLayout
         android:id="@+id/swipe_container"
@@ -42,7 +51,7 @@
                 android:layout_gravity="center"
                 android:gravity="center">
 
-                <TextView
+                <com.andreasogeirik.master_frontend.layout.view.CustomTextView
                     android:id="@+id/empty_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

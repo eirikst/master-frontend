@@ -3,6 +3,7 @@ package com.andreasogeirik.master_frontend.application.event.main;
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventInteractor;
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventPresenter;
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventView;
+import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.User;
 
 import java.util.Set;
@@ -20,17 +21,32 @@ public class EventPresenterImpl implements EventPresenter {
     }
 
     @Override
-    public void findFriends(int userId) {
-        interactor.findFriends(userId);
+    public void findFriendships() {
+        interactor.findFriendships();
     }
 
     @Override
-    public void successFriendsLoad(Set<User> friends) {
-        view.addFriends(friends);
+    public void successFriendshipsLoad(Set<Friendship> friendships, Set<Friendship> requests) {
+        view.addFriendships(friendships, requests);
     }
 
     @Override
-    public void errorFriendsLoad(int code) {
+    public void errorFriendshipsLoad(int code) {
         //handle this
+    }
+
+    @Override
+    public void findUser() {
+        interactor.findUser();
+    }
+
+    @Override
+    public void findUserSuccess(User user) {
+        view.findUserSuccess(user);
+    }
+
+    @Override
+    public void findUserFailure(int code) {
+        view.findUserFailure(code);
     }
 }

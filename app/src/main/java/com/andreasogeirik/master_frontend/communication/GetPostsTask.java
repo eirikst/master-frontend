@@ -6,7 +6,7 @@ import android.util.Pair;
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingPostsListener;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
-import com.andreasogeirik.master_frontend.util.SessionManager;
+import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,13 +42,13 @@ public class GetPostsTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEn
         ((SimpleClientHttpRequestFactory) template.getRequestFactory()).setConnectTimeout(1000 * 10);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Cookie", SessionManager.getInstance().getCookie());
+        headers.set("Cookie", UserPreferencesManager.getInstance().getCookie());
 
         HttpEntity<String> entity = new HttpEntity(null, headers);
 
         try {
-            response = template.exchange(Constants.BACKEND_URL + "user/" + user.getId() +
-                            "/post?start=" + start,
+            response = template.exchange(Constants.BACKEND_URL + "users/" + user.getId() +
+                            "/posts?start=" + start,
                     HttpMethod.GET, entity, String.class);
             return new Pair(Constants.OK, response);
         }

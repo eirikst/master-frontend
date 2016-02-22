@@ -1,9 +1,11 @@
 package com.andreasogeirik.master_frontend.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Andreas on 10.02.2016.
  */
-public class UserPostLike {
+public class UserPostLike implements Serializable {
     private int id;
     private User user;
     private UserPost post;

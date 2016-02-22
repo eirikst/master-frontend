@@ -1,9 +1,11 @@
 package com.andreasogeirik.master_frontend.model;
 
+import java.io.Serializable;
+
 /**
  * Created by eirikstadheim on 05/02/16.
  */
-public class Comment {
+public class Comment implements Serializable {
     private int id;
     private String message;
 

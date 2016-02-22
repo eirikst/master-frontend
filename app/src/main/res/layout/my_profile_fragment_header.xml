@@ -10,7 +10,7 @@
         android:layout_gravity="center"
         >
 
-        <TextView
+        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
             android:id="@+id/my_profile_friends"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
             android:layout_margin="10dp"
             />
 
-        <TextView
+        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
             android:id="@+id/my_profile_edit_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

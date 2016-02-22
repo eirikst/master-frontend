@@ -7,7 +7,7 @@ import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.listener.OnLoginFinishedListener;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
-import com.andreasogeirik.master_frontend.util.SessionManager;
+import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,7 +42,7 @@ public class LoginInteractorImpl implements LoginInteractor, OnLoginFinishedList
             presenter.loginError(Constants.JSON_PARSE_ERROR);
         }
 
-        SessionManager.getInstance().saveCookie(sessionId);
+        UserPreferencesManager.getInstance().saveCookie(sessionId);
         presenter.loginSuccess();
     }
 

@@ -2,6 +2,7 @@ package com.andreasogeirik.master_frontend.model;
 
 import android.util.Pair;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
@@ -9,7 +10,7 @@ import java.util.Set;
 /**
  * Created by Andreas on 10.02.2016.
  */
-public class Event {
+public class Event implements Serializable {
 
     private int id;
     private String name;
