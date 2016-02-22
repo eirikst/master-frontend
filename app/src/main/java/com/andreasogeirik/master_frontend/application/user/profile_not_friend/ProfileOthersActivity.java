@@ -1,11 +1,15 @@
 package com.andreasogeirik.master_frontend.application.user.profile_not_friend;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,29 +26,28 @@ import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 import java.util.Iterator;
 import java.util.Set;
 
-public class ProfileOthersActivity extends AppCompatActivity implements ProfileOthersView {
-    ProfileOthersPresenter presenter;
-    private User user;
-    private TextView tView;
-    private TextView tView2;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
-    private Toolbar toolbar;
-    private Button homeBtn;
-    private TextView toolbarText;
+public class ProfileOthersActivity extends AppCompatActivity implements ProfileOthersView {
+    private ProfileOthersPresenter presenter;
+
+    //Bind view elements
+    @Bind(R.id.toolbar)Toolbar toolbar;
+    @Bind(R.id.home)Button homeBtn;
+    @Bind(R.id.others_profile_image)ImageView profileImage;
+    @Bind(R.id.are_we_friends_bro)TextView tView;
+    @Bind(R.id.are_we_friends_bro2)TextView tView2;
+    @Bind(R.id.name_user)TextView nameUserText;
+
+    private User user;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_others_activity);
-
-        tView = (TextView)findViewById(R.id.are_we_friends_bro);
-        tView2 = (TextView)findViewById(R.id.are_we_friends_bro2);
-
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
-        homeBtn = (Button)findViewById(R.id.home);
-        toolbarText = (TextView)findViewById(R.id.toolbar_text);
-
+        ButterKnife.bind(this);
 
         UserPreferencesManager.getInstance().initialize(this);
         presenter = new ProfileOthersPresenterImpl(this);
@@ -59,7 +62,12 @@ public class ProfileOthersActivity extends AppCompatActivity implements ProfileO
             user = (User)intent.getSerializableExtra("user");
         }
 
-        setupToolbar(user.getFirstname() + " " + user.getLastname());
+        //find profile image
+        findProfileImage(user.getImageUri());
+
+        setupToolbar();
+        //set name of user as header
+        nameUserText.setText(user.getFirstname() + " " + user.getLastname());
 
         if(CurrentUser.getInstance().getUser().iHaveRequested(user)) {
             setIHaveRequestedButtons();
@@ -72,7 +80,7 @@ public class ProfileOthersActivity extends AppCompatActivity implements ProfileO
         }
     }
 
-    private void setupToolbar(String text) {
+    private void setupToolbar() {
         setSupportActionBar(toolbar);
 
         homeBtn.setOnClickListener(new View.OnClickListener() {
@@ -135,8 +143,6 @@ public class ProfileOthersActivity extends AppCompatActivity implements ProfileO
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-
-
     /*
      * Request friendship methods
      */
@@ -161,7 +167,6 @@ public class ProfileOthersActivity extends AppCompatActivity implements ProfileO
     /*
      * Accept friendship methods
      */
-
     @Override
     public void acceptRequest() {
         Set<Friendship> requests = CurrentUser.getInstance().getUser().getRequests();
@@ -198,7 +203,6 @@ public class ProfileOthersActivity extends AppCompatActivity implements ProfileO
     /*
      * Reject friendship methods
      */
-
     @Override
     public void rejectRequest() {
         Set<Friendship> requests = CurrentUser.getInstance().getUser().getRequests();
@@ -225,5 +229,30 @@ public class ProfileOthersActivity extends AppCompatActivity implements ProfileO
         Toast.makeText(this, "Vennligst prøv igjen senere :)", Toast.LENGTH_LONG).show();
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+    /*
+     * Image handling
+     */
+
+    @Override
+    public void findProfileImage(String imageUri) {
+        if(imageUri == null ||imageUri.isEmpty()) {
+            profileImage.setImageBitmap(BitmapFactory.decodeResource(getResources(),
+                    R.drawable.default_profile));
+            return;
+        }
+        presenter.findImage(imageUri, getExternalFilesDir(Environment.DIRECTORY_PICTURES));
+    }
+
+    @Override
+    public void setProfileImage(Bitmap bitmap) {
+        //set profile image
+        profileImage.setImageBitmap(bitmap);
+    }
+
+    @Override
+    public void findProfileImageFailure() {
+        //TODO:Set standard image
+        System.out.println("Profile image not found for user " + user);
+    }
 }

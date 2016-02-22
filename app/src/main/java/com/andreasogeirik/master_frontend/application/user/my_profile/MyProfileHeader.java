@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.listener.MyProfileHeaderListener;
 
 
 /**
@@ -23,13 +24,8 @@ public class MyProfileHeader extends Fragment {
     private TextView editProfileText;
 
 
-    // Container Activity must implement this interface
-    public interface MyProfileHeaderListener {
-        public void onFriendListSelected1();
-    }
-
     /*
-     * Creates a new instance of the fragment, adds the friend list
+     * Creates a new instance of the fragment, adds the friend count
      */
     public static MyProfileHeader newInstance(int friendCount) {
         MyProfileHeader f = new MyProfileHeader();
@@ -71,7 +67,7 @@ public class MyProfileHeader extends Fragment {
         friendText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callback.onFriendListSelected1();
+                callback.onFriendListSelected();
             }
         });
 

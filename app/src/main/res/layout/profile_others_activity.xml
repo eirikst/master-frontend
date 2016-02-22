@@ -22,6 +22,10 @@
             android:layout_height="50dp"
             android:background="@drawable/home"
             />
+        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+            android:id="@+id/toolbar_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
     </android.support.v7.widget.Toolbar>
 
@@ -31,6 +35,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
         >
+        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+            android:id="@+id/name_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_margin="10dp"
+            />
         <LinearLayout
             android:id="@+id/post_list_header"
             android:layout_width="match_parent"
@@ -41,6 +52,7 @@
             android:weightSum="20"
             android:background="@drawable/shape_post_background"
             android:layout_marginBottom="5dp"
+            android:layout_below="@id/name_user"
             >
 
             <RelativeLayout
@@ -49,10 +61,9 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:id="@+id/my_profile_image"
+                    android:id="@+id/others_profile_image"
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
-                    android:src="@drawable/profile1"
                     />
             </RelativeLayout>
 

@@ -1,5 +1,7 @@
 package com.andreasogeirik.master_frontend.application.user.my_profile;
 
+import android.graphics.Bitmap;
+
 import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.MyProfileInteractor;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.Post;
@@ -7,6 +9,7 @@ import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces
 import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.MyProfileView;
 import com.andreasogeirik.master_frontend.model.User;
 
+import java.io.File;
 import java.util.List;
 import java.util.Set;
 
@@ -22,15 +25,13 @@ public class MyProfilePresenterImpl implements MyProfilePresenter {
         this.interactor = new MyProfileInteractorImpl(this);
     }
 
-
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    /*
+     * Handling list of posts
+     */
     @Override
     public void findPosts(User user, int start) {
         interactor.findPosts(user, start);
-    }
-
-    @Override
-    public void findFriends(int userId) {
-        interactor.findFriends(userId);
     }
 
     @Override
@@ -40,7 +41,17 @@ public class MyProfilePresenterImpl implements MyProfilePresenter {
 
     @Override
     public void errorPostsLoad(int code) {
-        //handle this
+        //TODO:handle this
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    /*
+     * Handling list of friends
+     */
+    @Override
+    public void findFriends(int userId) {
+        interactor.findFriends(userId);
     }
 
     @Override
@@ -50,6 +61,27 @@ public class MyProfilePresenterImpl implements MyProfilePresenter {
 
     @Override
     public void errorFriendsLoad(int code) {
-        //handle this
+        //TODO:handle this
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    /*
+     * Image handling
+     */
+
+    @Override
+    public void findImage(String imageUri, File storagePath) {
+        interactor.findImage(imageUri, storagePath);
+    }
+
+    @Override
+    public void imageFound(String imageUrl, Bitmap result) {
+        view.setProfileImage(result);
+    }
+
+    @Override
+    public void imageNotFound() {
+        view.findProfileImageFailure();
     }
 }

@@ -46,6 +46,11 @@ public class User implements Serializable {
         lastname = json.getString("lastname");
         location = json.getString("location");
         imageUri = json.getString("imageUri");
+
+        //json sends null as a string
+        if(imageUri.equals("null")) {
+            imageUri = "";
+        }
     }
 
     // Used to edit users

@@ -1,6 +1,7 @@
 package com.andreasogeirik.master_frontend.layout.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +21,11 @@ import java.util.List;
  * Created by eirikstadheim on 05/02/16.
  */
 public class PostListAdapter extends ArrayAdapter<Post> {
+    public static final int SET_ALL = -1;
+
     private List<Post> posts;
     private User user;
+    private Bitmap profileImage;
 
 
     public PostListAdapter(Context context, List<Post> posts, User user) {
@@ -29,6 +33,7 @@ public class PostListAdapter extends ArrayAdapter<Post> {
         this.posts = posts;
         this.user = user;
 
+        //TODO:Sorting ikke helt på stell vel
         this.sort(new Comparator<Post>() {
             @Override
             public int compare(Post lhs, Post rhs) {
@@ -50,6 +55,13 @@ public class PostListAdapter extends ArrayAdapter<Post> {
 
         // Lookup views
         ImageView image = (ImageView)convertView.findViewById(R.id.post_image);
+        if(profileImage != null) {
+            image.setImageBitmap(profileImage);
+        }
+        else {
+            //set standard image
+        }
+
         TextView message = (TextView)convertView.findViewById(R.id.post_message);
         TextView dateCreated = (TextView)convertView.findViewById(R.id.post_date);
         TextView nrOfComments = (TextView)convertView.findViewById(R.id.comment_nr);
@@ -63,5 +75,9 @@ public class PostListAdapter extends ArrayAdapter<Post> {
 
         // Return view for rendering
         return convertView;
+    }
+
+    public void setProfileImage(Bitmap profileImage) {
+        this.profileImage = profileImage;
     }
 }

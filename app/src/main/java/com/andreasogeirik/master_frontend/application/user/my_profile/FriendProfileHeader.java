@@ -9,23 +9,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.listener.MyProfileHeaderListener;
 
 
 /**
  * Created by eirikstadheim on 12/02/16.
  */
 public class FriendProfileHeader extends Fragment {
-    private FriendProfileHeaderListener callback;//the activity that created the fragment
+    private MyProfileHeaderListener callback;//the activity that created the fragment
 
     private int friendCount;
 
     private TextView friendText;
-
-
-    // Container Activity must implement this interface
-    public interface FriendProfileHeaderListener {
-        public void onFriendListSelected2();
-    }
 
     /*
      * Creates a new instance of the fragment, adds the friend list
@@ -47,7 +42,7 @@ public class FriendProfileHeader extends Fragment {
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
-            callback = (FriendProfileHeaderListener) activity;
+            callback = (MyProfileHeaderListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement FriendProfileHeaderListener");
@@ -69,7 +64,7 @@ public class FriendProfileHeader extends Fragment {
         friendText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callback.onFriendListSelected2();
+                callback.onFriendListSelected();
             }
         });
 

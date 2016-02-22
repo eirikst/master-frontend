@@ -1,5 +1,7 @@
 package com.andreasogeirik.master_frontend.application.user.profile_not_friend;
 
+import android.graphics.Bitmap;
+
 import com.andreasogeirik.master_frontend.application.user.profile_not_friend.interfaces.ProfileOthersInteractor;
 import com.andreasogeirik.master_frontend.application.user.profile_not_friend.interfaces.ProfileOthersPresenter;
 import com.andreasogeirik.master_frontend.communication.AcceptRequestTask;
@@ -11,21 +13,29 @@ import com.andreasogeirik.master_frontend.listener.OnUnfriendedListener;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
+import com.andreasogeirik.master_frontend.util.ImageInteractor;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.File;
 
 /**
  * Created by eirikstadheim on 17/02/16.
  */
 public class ProfileOthersInteractorImpl implements ProfileOthersInteractor,
-        OnFriendRequestedListener, OnUnfriendedListener, OnAcceptRequestListener {
+        OnFriendRequestedListener, OnUnfriendedListener, OnAcceptRequestListener,
+        ImageInteractor.OnImageFoundListener{
     private ProfileOthersPresenter presenter;
 
     public ProfileOthersInteractorImpl(ProfileOthersPresenter presenter) {
         this.presenter = presenter;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    /*
+     * Request friendship methods
+     */
     @Override
     public void requestFriendship(User user) {
         new FriendRequestTask(this, user.getId()).execute();
@@ -47,6 +57,10 @@ public class ProfileOthersInteractorImpl implements ProfileOthersInteractor,
         presenter.friendRequestFailure(code);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    /*
+     * Accept friendship methods
+     */
     @Override
     public void acceptFriendship(int friendshipId) {
         new AcceptRequestTask(this, friendshipId).execute();
@@ -63,7 +77,10 @@ public class ProfileOthersInteractorImpl implements ProfileOthersInteractor,
         presenter.acceptRequestFailure(code);
     }
 
-
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    /*
+     * Reject friendship methods
+     */
     @Override
     public void rejectFriendship(int friendshipId) {
         new UnFriendTask(this, friendshipId).execute();
@@ -77,5 +94,32 @@ public class ProfileOthersInteractorImpl implements ProfileOthersInteractor,
     @Override
     public void onRejectFriendFailure(int code) {
         presenter.rejectRequestFailure(code);
+    }
+
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    /*
+     * Image handling
+     */
+    @Override
+    public void findImage(String imageUri, File storagePath) {
+        ImageInteractor.getInstance().findImage(imageUri, storagePath, this);
+    }
+
+    @Override
+    public void foundImage(String imageUrl, Bitmap bitmap) {
+        presenter.imageFound(imageUrl, bitmap);
+    }
+
+    @Override
+    public void onProgressChange(int percent) {
+        //TODO:handle this maybe maybe not
+    }
+
+    @Override
+    public void imageNotFound(String imageUri) {
+        //TODO: imageUri?
+        presenter.imageNotFound();
     }
 }

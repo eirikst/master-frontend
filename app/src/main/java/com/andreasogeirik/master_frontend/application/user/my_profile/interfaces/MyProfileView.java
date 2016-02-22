@@ -1,5 +1,7 @@
 package com.andreasogeirik.master_frontend.application.user.my_profile.interfaces;
 
+import android.graphics.Bitmap;
+
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.Post;
 import com.andreasogeirik.master_frontend.model.User;
@@ -13,4 +15,8 @@ import java.util.Set;
 public interface MyProfileView {
     void addPosts(List<Post> posts);
     void addFriends(Set<Friendship> friends);
+
+    void findProfileImage(String imageUri);
+    void setProfileImage(Bitmap bitmap);
+    void findProfileImageFailure();
 }

@@ -1,10 +1,14 @@
 package com.andreasogeirik.master_frontend.application.user.profile_not_friend;
 
+import android.graphics.Bitmap;
+
 import com.andreasogeirik.master_frontend.application.user.profile_not_friend.interfaces.ProfileOthersInteractor;
 import com.andreasogeirik.master_frontend.application.user.profile_not_friend.interfaces.ProfileOthersPresenter;
 import com.andreasogeirik.master_frontend.application.user.profile_not_friend.interfaces.ProfileOthersView;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.User;
+
+import java.io.File;
 
 /**
  * Created by eirikstadheim on 17/02/16.
@@ -18,6 +22,10 @@ public class ProfileOthersPresenterImpl implements ProfileOthersPresenter {
         interactor = new ProfileOthersInteractorImpl(this);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    /*
+     * Request friendship methods
+     */
     @Override
     public void requestFriendship(User user) {
         interactor.requestFriendship(user);
@@ -33,6 +41,10 @@ public class ProfileOthersPresenterImpl implements ProfileOthersPresenter {
         view.friendRequestFailure(code);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    /*
+     * Accept friendship methods
+     */
     @Override
     public void acceptRequest(int friendshipId) {
         interactor.acceptFriendship(friendshipId);
@@ -48,6 +60,10 @@ public class ProfileOthersPresenterImpl implements ProfileOthersPresenter {
         view.acceptRequestFailure(code);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    /*
+     * Reject friendship methods
+     */
     @Override
     public void rejectRequest(int friendshipId) {
         interactor.rejectFriendship(friendshipId);
@@ -61,5 +77,25 @@ public class ProfileOthersPresenterImpl implements ProfileOthersPresenter {
     @Override
     public void rejectRequestFailure(int code) {
         view.rejectRequestFailure(code);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    /*
+     * Image handling
+     */
+
+    @Override
+    public void findImage(String imageUri, File storagePath) {
+        interactor.findImage(imageUri, storagePath);
+    }
+
+    @Override
+    public void imageFound(String imageUrl, Bitmap result) {
+        view.setProfileImage(result);
+    }
+
+    @Override
+    public void imageNotFound() {
+        view.findProfileImageFailure();
     }
 }
