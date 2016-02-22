@@ -20,12 +20,12 @@ public class Event implements Serializable {
     private Calendar endDate;
     private Pair<Integer, Integer> timeStart;
     private Pair <Integer, Integer> timeEnd;
-    private String imageURI;
+    private String imageUrl;
     private User admin;
     private Set<User> users = new HashSet<User>(0);
     private Set<EventPost> posts = new HashSet<EventPost>(0);
 
-    public Event(String name, String location, String description, Calendar startDate, Calendar endDate, Pair<Integer, Integer> timeStart, Pair<Integer, Integer> timeEnd, String imageURI) {
+    public Event(String name, String location, String description, Calendar startDate, Calendar endDate, Pair<Integer, Integer> timeStart, Pair<Integer, Integer> timeEnd, String imageUrl) {
         this.name = name;
         this.location = location;
         this.description = description;
@@ -33,7 +33,7 @@ public class Event implements Serializable {
         this.endDate = endDate;
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
-        this.imageURI = imageURI;
+        this.imageUrl = imageUrl;
     }
 
     public Event() {
@@ -105,11 +105,11 @@ public class Event implements Serializable {
     }
 
     public String getImageURI() {
-        return imageURI;
+        return imageUrl;
     }
 
     public void setImageURI(String imageURI) {
-        this.imageURI = imageURI;
+        this.imageUrl = imageURI;
     }
 
     public User getAdmin() {

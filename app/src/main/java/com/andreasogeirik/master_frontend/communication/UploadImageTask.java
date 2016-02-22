@@ -3,7 +3,8 @@ package com.andreasogeirik.master_frontend.communication;
 import android.os.AsyncTask;
 import android.util.Pair;
 
-import com.andreasogeirik.master_frontend.listener.OnCreateEventFinishedListener;
+import com.andreasogeirik.master_frontend.listener.OnImageUploadFinishedListener;
+import com.andreasogeirik.master_frontend.listener.OnLoginFinishedListener;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
@@ -20,15 +21,15 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * Created by Andreas on 10.02.2016.
+ * Created by Andreas on 18.02.2016.
  */
-public class CreateEventTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntity<String>>> {
+public class UploadImageTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntity<String>>> {
 
-    private JSONObject event;
-    private OnCreateEventFinishedListener listener;
+    private JSONObject jsonImage;
+    private OnImageUploadFinishedListener listener;
 
-    public CreateEventTask(JSONObject event, OnCreateEventFinishedListener listener) {
-        this.event = event;
+    public UploadImageTask(JSONObject jsonImage, OnImageUploadFinishedListener listener) {
+        this.jsonImage = jsonImage;
         this.listener = listener;
     }
 
@@ -39,9 +40,10 @@ public class CreateEventTask extends AsyncTask<Void, Void, Pair<Integer, Respons
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Cookie", UserPreferencesManager.getInstance().getCookie());
-        HttpEntity<String> entity = new HttpEntity(event.toString(), headers);
+        HttpEntity<String> entity = new HttpEntity(jsonImage.toString(), headers);
+
         try {
-            response = template.exchange(Constants.BACKEND_URL + "events", HttpMethod.PUT, entity, String.class);
+            response = template.exchange(Constants.BACKEND_URL + "image", HttpMethod.PUT, entity, String.class);
             return new Pair(Constants.OK, response);
         } catch (HttpClientErrorException e) {
             System.out.println("Client error:" + e);
@@ -54,15 +56,9 @@ public class CreateEventTask extends AsyncTask<Void, Void, Pair<Integer, Respons
 
     protected void onPostExecute(Pair<Integer, ResponseEntity<String>> response) {
         if (response.first == Constants.OK) {
-            try {
-                JSONObject event = new JSONObject(response.second.getBody());
-                listener.onCreateEventSuccess(event);
-            } catch (JSONException e) {
-                System.out.println("JSON error:" + e);
-                listener.onCreateEventError(Constants.JSON_PARSE_ERROR);
-            }
+                listener.onImageUploadSuccess(response.second.getBody());
         } else {
-            listener.onCreateEventError(response.first);
+            listener.onImageUploadError(response.first);
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.andreasogeirik.master_frontend.application.event.create.interfaces;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by Andreas on 10.02.2016.
  */
@@ -16,4 +18,5 @@ public interface CreateEventView {
     void setEndDateError(String error);
     void setEndTimeError(String error);
     void setImageError(String error);
+    void setImage(Bitmap bitmap, String encodedImage);
 }
