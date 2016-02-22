@@ -5,7 +5,6 @@ import android.util.Pair;
 
 import com.andreasogeirik.master_frontend.listener.OnCreateEventFinishedListener;
 import com.andreasogeirik.master_frontend.util.Constants;
-import com.andreasogeirik.master_frontend.util.SessionManager;
 import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
 import org.json.JSONException;
