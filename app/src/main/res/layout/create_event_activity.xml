@@ -80,7 +80,7 @@
                 android:textColor="#ff0033"
                 android:visibility="gone"/>
 
-            <Button
+            <com.andreasogeirik.master_frontend.layout.view.CustomButton
                 android:id="@+id/create_event_start_date_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
@@ -99,7 +99,7 @@
                 android:textColor="#ff0033"
                 android:visibility="gone"/>
 
-            <Button
+            <com.andreasogeirik.master_frontend.layout.view.CustomButton
                 android:id="@+id/create_event_start_time_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
@@ -127,7 +127,7 @@
                 android:textColor="#ff0033"
                 android:visibility="gone"/>
 
-            <Button
+            <com.andreasogeirik.master_frontend.layout.view.CustomButton
                 android:id="@+id/create_event_end_date_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
@@ -148,7 +148,7 @@
                 android:textColor="#ff0033"
                 android:visibility="gone"/>
 
-            <Button
+            <com.andreasogeirik.master_frontend.layout.view.CustomButton
                 android:id="@+id/create_event_end_time_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
@@ -187,7 +187,7 @@
                 android:text="@string/event_create_select_image"
                 android:textStyle="bold" />
 
-            <com.andreasogeirik.master_frontend.layout.view.CustomButton
+            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
                 android:id="@+id/create_event_error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -196,7 +196,7 @@
                 android:textColor="#ff0033"
                 android:visibility="gone" />
 
-            <Button
+            <com.andreasogeirik.master_frontend.layout.view.CustomButton
                 android:id="@+id/create_event_submit_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"

@@ -302,15 +302,27 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     }
 
     public void setStartTimePair(Pair<Integer, Integer> startTimePair) {
-        this.startTimeButton.setText("Tidspunkt: " + startTimePair.first + ":" + startTimePair.second);
+        if (startTimePair.second < 10){
+            this.startTimeButton.setText("Tidspunkt: " + startTimePair.first + ":0" + startTimePair.second);
+        }
+        else{
+            this.startTimeButton.setText("Tidspunkt: " + startTimePair.first + ":" + startTimePair.second);
+        }
         this.startTimePair = startTimePair;
         this.startTimeError.setVisibility(View.GONE);
     }
 
     public void setEndTimePair(Pair<Integer, Integer> endTimePair) {
+        if (endTimePair.second < 10){
+            this.endTimeButton.setText("Tidspunkt (slutt): " + endTimePair.first + ":0" + endTimePair.second);
+        }
+        else{
+            this.endTimeButton.setText("Tidspunkt (slutt): " + endTimePair.first + ":" + endTimePair.second);
+        }
         this.endTimeButton.setText("Tidspunkt (slutt): " + endTimePair.first + ":" + endTimePair.second);
         this.endTimePair = endTimePair;
         this.endTimeError.setVisibility(View.GONE);
+        this.endDateError.setVisibility(View.GONE);
     }
 
     private void setDate(boolean startDate) {

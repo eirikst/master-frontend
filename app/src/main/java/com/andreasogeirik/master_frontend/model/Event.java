@@ -18,21 +18,21 @@ public class Event implements Serializable {
     private String description;
     private Calendar startDate;
     private Calendar endDate;
-    private Pair<Integer, Integer> timeStart;
-    private Pair <Integer, Integer> timeEnd;
+    private Pair<Integer, Integer> startTime;
+    private Pair <Integer, Integer> endTime;
     private String imageUrl;
     private User admin;
     private Set<User> users = new HashSet<User>(0);
     private Set<EventPost> posts = new HashSet<EventPost>(0);
 
-    public Event(String name, String location, String description, Calendar startDate, Calendar endDate, Pair<Integer, Integer> timeStart, Pair<Integer, Integer> timeEnd, String imageUrl) {
+    public Event(String name, String location, String description, Calendar startDate, Calendar endDate, Pair<Integer, Integer> startTime, Pair<Integer, Integer> endTime, String imageUrl) {
         this.name = name;
         this.location = location;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.timeStart = timeStart;
-        this.timeEnd = timeEnd;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.imageUrl = imageUrl;
     }
 
@@ -88,20 +88,20 @@ public class Event implements Serializable {
         this.endDate = endDate;
     }
 
-    public Pair<Integer, Integer> getTimeStart() {
-        return timeStart;
+    public Pair<Integer, Integer> getStartTime() {
+        return startTime;
     }
 
-    public void setTimeStart(Pair<Integer, Integer> timeStart) {
-        this.timeStart = timeStart;
+    public void setStartTime(Pair<Integer, Integer> startTime) {
+        this.startTime = startTime;
     }
 
-    public Pair<Integer, Integer> getTimeEnd() {
-        return timeEnd;
+    public Pair<Integer, Integer> getEndTime() {
+        return endTime;
     }
 
-    public void setTimeEnd(Pair<Integer, Integer> timeEnd) {
-        this.timeEnd = timeEnd;
+    public void setEndTime(Pair<Integer, Integer> endTime) {
+        this.endTime = endTime;
     }
 
     public String getImageURI() {
