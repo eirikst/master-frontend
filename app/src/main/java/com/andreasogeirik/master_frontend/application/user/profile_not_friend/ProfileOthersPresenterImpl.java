@@ -40,10 +40,6 @@ public class ProfileOthersPresenterImpl extends GeneralPresenter implements Prof
             throw new NullPointerException("View cannot be null in " + this.toString());
         }
 
-
-        //setup shared preferences
-        UserPreferencesManager.getInstance().initialize(getActivity());
-
         this.view = view;
         interactor = new ProfileOthersInteractorImpl(this);
         this.user = user;

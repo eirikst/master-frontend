@@ -42,10 +42,6 @@ public class FriendListPresenterImpl extends GeneralPresenter implements FriendL
             throw new NullPointerException("View cannot be null in " + this.toString());
         }
 
-
-        //setup shared preferences
-        UserPreferencesManager.getInstance().initialize(getActivity());
-
         this.view = view;
         this.friendships = friendships;
 
