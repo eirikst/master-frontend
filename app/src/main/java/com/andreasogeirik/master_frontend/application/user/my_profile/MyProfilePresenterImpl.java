@@ -1,78 +1,115 @@
 package com.andreasogeirik.master_frontend.application.user.my_profile;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.os.Environment;
 
+import com.andreasogeirik.master_frontend.application.general.interactors.GeneralPresenter;
+import com.andreasogeirik.master_frontend.application.user.friend.FriendListActivity;
 import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.MyProfileInteractor;
+import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.Post;
 import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.MyProfilePresenter;
 import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.MyProfileView;
 import com.andreasogeirik.master_frontend.model.User;
+import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
-import java.io.File;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
 
 /**
  * Created by eirikstadheim on 06/02/16.
  */
-public class MyProfilePresenterImpl implements MyProfilePresenter {
+public class MyProfilePresenterImpl extends GeneralPresenter implements MyProfilePresenter {
     private MyProfileView view;
     private MyProfileInteractor interactor;
 
-    public MyProfilePresenterImpl(MyProfileView view) {
+    //model
+    private User user;
+
+
+    public MyProfilePresenterImpl(MyProfileView view, User user) {
+        super((Activity)view);
+        if(user == null) {
+            throw new NullPointerException("User object cannot be null in " + this.toString());
+        }
+        if(view == null) {
+            throw new NullPointerException("View cannot be null in " + this.toString());
+        }
+
+        //setup shared preferences
+        UserPreferencesManager.getInstance().initialize(getActivity());
+
         this.view = view;
         this.interactor = new MyProfileInteractorImpl(this);
+        this.user = user;
+
+        //check that current user singleton is set, if not redirection
+        userAvailable();
+
+        //init gui
+        boolean thisIsMyProfile = CurrentUser.getInstance().getUser().equals(user);
+        view.initView(this.user, thisIsMyProfile);
+
+        //init model
+        findPosts();//get first posts
+        findFriends(this.user.getId());
+        findImage();
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+
     /*
-     * Handling list of posts
+     * Handling set of posts
      */
     @Override
-    public void findPosts(User user, int start) {
-        interactor.findPosts(user, start);
+    public void findPosts() {
+        interactor.findPosts(user, user.getPosts().size());
     }
 
     @Override
-    public void successPostsLoad(List<Post> posts) {
+    public void successPostsLoad(Set<Post> posts) {
+        user.addPosts(posts);
         view.addPosts(posts);
     }
 
     @Override
     public void errorPostsLoad(int code) {
-        //TODO:handle this
+        //TODO: use code? Don't think so. Eller hvis ikke logget inn, redirect til login
+        view.displayMessage("Feil ved lasting av poster");
     }
 
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
     /*
-     * Handling list of friends
+     * Handling set of friends
      */
-    @Override
-    public void findFriends(int userId) {
+    private void findFriends(int userId) {
         interactor.findFriends(userId);
     }
 
     @Override
     public void successFriendsLoad(Set<Friendship> friends) {
-        view.addFriends(friends);
+        user.addFriends(friends);
+        view.setFriendCount(user.getFriends().size());
     }
 
     @Override
     public void errorFriendsLoad(int code) {
-        //TODO:handle this
+        //TODO: use code? Don't think so. Eller hvis ikke logget inn, redirect til login
+        view.displayMessage("Feil ved lasting av venner");
     }
 
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
     /*
      * Image handling
      */
-
-    @Override
-    public void findImage(String imageUri, File storagePath) {
-        interactor.findImage(imageUri, storagePath);
+    private void findImage() {
+        if(user.getImageUri() == null || user.getImageUri().isEmpty()) {
+            System.out.println("User's image uri null or empty for user " + user.getId());
+            return;
+        }
+        interactor.findImage(user.getImageUri(), getActivity().getExternalFilesDir(Environment.
+                DIRECTORY_PICTURES));
     }
 
     @Override
@@ -81,7 +118,25 @@ public class MyProfilePresenterImpl implements MyProfilePresenter {
     }
 
     @Override
-    public void imageNotFound() {
-        view.findProfileImageFailure();
+    public void imageNotFound(String imageUri) {
+        view.setProfileImage(null);//null means set standard image
+    }
+
+    /*
+     * Go to user's friend list view
+     */
+    @Override
+    public void friendListSelected() {
+        Intent intent = new Intent(getActivity(), FriendListActivity.class);
+        intent.putExtra("friends", new ArrayList<Friendship>(user.getFriends()));
+        getActivity().startActivity(intent);
+    }
+
+    /*
+     * Save instance state
+     */
+    @Override
+    public void saveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putSerializable("user", user);
     }
 }

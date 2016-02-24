@@ -37,7 +37,7 @@ public class RegisterTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEn
         RestTemplate template = new RestTemplate();
         ((SimpleClientHttpRequestFactory) template.getRequestFactory()).setConnectTimeout(1000 * 10);
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Content-Type", "application/json; charset=utf-8");//this viktig for å få riktig charset
         HttpEntity<String> entity = new HttpEntity(user.toString(), headers);
 
         try {

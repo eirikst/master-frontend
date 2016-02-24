@@ -53,17 +53,25 @@ public class FriendListAdapter extends ArrayAdapter<Friendship> {
         ImageView image = (ImageView)convertView.findViewById(R.id.friend_image);
         TextView name = (TextView)convertView.findViewById(R.id.friend_name);
 
-        System.out.println("I mappen:");
-        System.out.println(profileImages.toString());
-
 
         // Populate profile image
+
+        //image in local map
         if(profileImages.containsKey(friendship.getFriend().getImageUri())) {
-            System.out.println("SETTER BITMAP BRODER");
+            System.out.println("Image found and set for " + friendship.getFriend().getFirstname());
             image.setImageBitmap(profileImages.get(friendship.getFriend().getImageUri()));
         }
         else {
-            listener.findImage(friendship.getFriend().getImageUri());
+            //no image, user standard
+            if(friendship.getFriend().getImageUri() == null || friendship.getFriend().getImageUri().equals("")) {
+                System.out.println("Image null or empty for " + friendship.getFriend().getFirstname() + ". Setting standard image");
+                setDefaultImage(image, friendship.getFriend().getImageUri());
+            }
+            //get image from outside
+            else {
+                System.out.println("Image not found for " + friendship.getFriend().getFirstname() + ". Fetching...");
+                listener.findImage(friendship.getFriend().getImageUri());
+            }
         }
 
         //Populate name
@@ -77,12 +85,16 @@ public class FriendListAdapter extends ArrayAdapter<Friendship> {
      * Set image to null to get default. Name is always needed
      */
     public void addImage(String name, Bitmap image) {
-        if(image == null) {
-            //set default image
-            image = BitmapFactory.decodeResource(context.getResources(),
-                    R.drawable.default_profile);
-        }
         profileImages.put(name, image);
         notifyDataSetChanged();
+    }
+
+    private void setDefaultImage(ImageView image, String imageName) {
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),
+                R.drawable.default_profile);
+        if(bitmap != null) {
+            image.setImageBitmap(bitmap);
+            profileImages.put(imageName, bitmap);
+        }
     }
 }

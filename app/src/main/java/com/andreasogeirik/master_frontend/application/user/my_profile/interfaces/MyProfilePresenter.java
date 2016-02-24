@@ -1,6 +1,7 @@
 package com.andreasogeirik.master_frontend.application.user.my_profile.interfaces;
 
 import android.graphics.Bitmap;
+import android.os.Bundle;
 
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.Post;
@@ -14,16 +15,18 @@ import java.util.Set;
  * Created by eirikstadheim on 06/02/16.
  */
 public interface MyProfilePresenter {
-    void findPosts(User user, int start);
-    void findFriends(int userId);
+    void findPosts();
 
-    void successPostsLoad(List<Post> posts);
+    void successPostsLoad(Set<Post> posts);
     void errorPostsLoad(int code);
 
     void successFriendsLoad(Set<Friendship> friends);
     void errorFriendsLoad(int code);
 
-    void findImage(String imageUri, File storagePath);
     void imageFound(String imageUrl, Bitmap bitmap);
-    void imageNotFound();
+    void imageNotFound(String imageUri);
+
+    void friendListSelected();
+
+    void saveInstanceState(Bundle bundle);
 }

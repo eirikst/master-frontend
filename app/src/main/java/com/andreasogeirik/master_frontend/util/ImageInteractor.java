@@ -33,9 +33,10 @@ public class ImageInteractor {
 
     public void findImage(@NonNull final String imageUri, final File storagePath,
                           final OnImageFoundListener listener) {
+        if(imageUri == null) {
+            throw new IllegalArgumentException("Image URI cannot be empty");
+        }
         /* Checks if external storage is available to at least read */
-        System.out.println("Image uri er " + imageUri + ", og storagepath er " + storagePath);
-
         if(isExternalStorageReadable()) {
             //Check if present locally
             File imgFile = new File(storagePath, imageUri);
@@ -43,10 +44,10 @@ public class ImageInteractor {
                 System.out.println("Image found locally");
                 BitmapFactory.Options bmOptions = new BitmapFactory.Options();
                 Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath(),bmOptions);
-                System.out.println("BIT" + imageUri);
-                System.out.println("BITMAPTOSTRING:" + bitmap.getByteCount());
-                listener.foundImage(imageUri, bitmap);
-                return;
+                if(bitmap != null) {
+                    listener.foundImage(imageUri, bitmap);
+                    return;
+                }
             }
         }
         else {
