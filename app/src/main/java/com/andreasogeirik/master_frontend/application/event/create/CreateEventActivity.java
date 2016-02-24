@@ -26,7 +26,6 @@ import com.andreasogeirik.master_frontend.model.Event;
 
 import java.io.FileNotFoundException;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

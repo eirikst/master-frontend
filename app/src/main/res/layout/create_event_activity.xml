@@ -78,7 +78,8 @@
                 android:paddingLeft="4dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#ff0033"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                android:focusableInTouchMode="true"/>
 
             <com.andreasogeirik.master_frontend.layout.view.CustomButton
                 android:id="@+id/create_event_start_date_button"
@@ -97,7 +98,8 @@
                 android:paddingLeft="4dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#ff0033"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                android:focusableInTouchMode="true"/>
 
             <com.andreasogeirik.master_frontend.layout.view.CustomButton
                 android:id="@+id/create_event_start_time_button"
@@ -125,7 +127,8 @@
                 android:text="@string/event_create_select_image"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#ff0033"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                android:focusableInTouchMode="true"/>
 
             <com.andreasogeirik.master_frontend.layout.view.CustomButton
                 android:id="@+id/create_event_end_date_button"
@@ -146,7 +149,8 @@
                 android:paddingLeft="4dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#ff0033"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                android:focusableInTouchMode="true"/>
 
             <com.andreasogeirik.master_frontend.layout.view.CustomButton
                 android:id="@+id/create_event_end_time_button"
@@ -176,7 +180,8 @@
                 android:paddingLeft="4dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#ff0033"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                android:focusableInTouchMode="true"/>
 
             <com.andreasogeirik.master_frontend.layout.view.CustomButton
                 android:id="@+id/create_event_image_select_button"
@@ -194,7 +199,8 @@
                 android:paddingLeft="4dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#ff0033"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:focusableInTouchMode="true"/>
 
             <com.andreasogeirik.master_frontend.layout.view.CustomButton
                 android:id="@+id/create_event_submit_button"
