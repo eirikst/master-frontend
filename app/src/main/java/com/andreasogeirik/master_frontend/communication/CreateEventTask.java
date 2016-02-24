@@ -37,6 +37,7 @@ public class CreateEventTask extends AsyncTask<Void, Void, Pair<Integer, Respons
         RestTemplate template = new RestTemplate();
         ((SimpleClientHttpRequestFactory) template.getRequestFactory()).setConnectTimeout(1000 * 10);
         HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-type", "application/json; charset=utf-8");
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Cookie", UserPreferencesManager.getInstance().getCookie());
         HttpEntity<String> entity = new HttpEntity(event.toString(), headers);

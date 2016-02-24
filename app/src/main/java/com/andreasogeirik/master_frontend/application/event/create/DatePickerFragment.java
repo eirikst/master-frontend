@@ -1,10 +1,14 @@
 package com.andreasogeirik.master_frontend.application.event.create;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.widget.DatePicker;
+
+import com.andreasogeirik.master_frontend.listener.OnDateSetListener;
+import com.andreasogeirik.master_frontend.listener.OnTimeSetListener;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -15,6 +19,22 @@ import java.util.GregorianCalendar;
  */
 public class DatePickerFragment extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {
+
+    OnDateSetListener callback;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            callback = (OnDateSetListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnDateSetListener");
+        }
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -43,15 +63,13 @@ public class DatePickerFragment extends DialogFragment
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        CreateEventActivity activity = (CreateEventActivity) getActivity();
-        GregorianCalendar gregorianCalendar = new GregorianCalendar();
+        boolean isStartDate = true;
+        Calendar gregorianCalendar = new GregorianCalendar();
         gregorianCalendar.set(year, month, day);
         Bundle arguments = getArguments();
-        if (arguments.get("date").equals("start")){
-            activity.setDate(gregorianCalendar, true);
+        if (arguments.get("date").equals("end")){
+            isStartDate = false;
         }
-        else{
-            activity.setDate(gregorianCalendar, false);
-        }
+        callback.onDateSet(gregorianCalendar, isStartDate);
     }
 }

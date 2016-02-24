@@ -20,17 +20,20 @@ import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventPresenter;
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventView;
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
+import com.andreasogeirik.master_frontend.listener.OnDateSetListener;
+import com.andreasogeirik.master_frontend.listener.OnTimeSetListener;
 import com.andreasogeirik.master_frontend.model.Event;
 
 import java.io.FileNotFoundException;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
-public class CreateEventActivity extends AppCompatActivity implements CreateEventView {
+public class CreateEventActivity extends AppCompatActivity implements CreateEventView, OnDateSetListener, OnTimeSetListener {
 
     // Containers
     @Bind(R.id.create_event_progress)
@@ -284,47 +287,6 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         this.encodedImage = encodedImage;
     }
 
-    public void setDate(Calendar eventDate, boolean startDate) {
-
-        int day = eventDate.get(Calendar.DAY_OF_MONTH);
-        int month = eventDate.get(Calendar.MONTH) + 1;
-        int year = eventDate.get(Calendar.YEAR);
-
-        if (startDate) {
-            this.startDateButton.setText("Dato: " + day + "." + month + "." + year);
-            this.startDate = eventDate;
-            this.startDateError.setVisibility(View.GONE);
-        } else {
-            this.endDateButton.setText("Dato (slutt): " + day + "." + month + "." + year);
-            this.endDate = eventDate;
-            this.endDateError.setVisibility(View.GONE);
-        }
-    }
-
-    public void setStartTimePair(Pair<Integer, Integer> startTimePair) {
-        if (startTimePair.second < 10){
-            this.startTimeButton.setText("Tidspunkt: " + startTimePair.first + ":0" + startTimePair.second);
-        }
-        else{
-            this.startTimeButton.setText("Tidspunkt: " + startTimePair.first + ":" + startTimePair.second);
-        }
-        this.startTimePair = startTimePair;
-        this.startTimeError.setVisibility(View.GONE);
-    }
-
-    public void setEndTimePair(Pair<Integer, Integer> endTimePair) {
-        if (endTimePair.second < 10){
-            this.endTimeButton.setText("Tidspunkt (slutt): " + endTimePair.first + ":0" + endTimePair.second);
-        }
-        else{
-            this.endTimeButton.setText("Tidspunkt (slutt): " + endTimePair.first + ":" + endTimePair.second);
-        }
-        this.endTimeButton.setText("Tidspunkt (slutt): " + endTimePair.first + ":" + endTimePair.second);
-        this.endTimePair = endTimePair;
-        this.endTimeError.setVisibility(View.GONE);
-        this.endDateError.setVisibility(View.GONE);
-    }
-
     private void setDate(boolean startDate) {
         DialogFragment newFragment = new DatePickerFragment();
         Bundle bundle = new Bundle();
@@ -352,5 +314,46 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         this.endTimeError.setVisibility(View.GONE);
         this.imageError.setVisibility(View.GONE);
         this.createEventError.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onDateSet(Calendar eventDate, Boolean isStartDate) {
+        int day = eventDate.get(Calendar.DAY_OF_MONTH);
+        int month = eventDate.get(Calendar.MONTH) + 1;
+        int year = eventDate.get(Calendar.YEAR);
+
+        if (isStartDate) {
+            this.startDateButton.setText("Dato: " + day + "." + month + "." + year);
+            this.startDate = eventDate;
+            this.startDateError.setVisibility(View.GONE);
+        } else {
+            this.endDateButton.setText("Dato (slutt): " + day + "." + month + "." + year);
+            this.endDate = eventDate;
+            this.endDateError.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onTimeSet(Pair<Integer, Integer> hourMinutePair, Boolean isStartTime) {
+
+        if (isStartTime) {
+            if (hourMinutePair.second < 10) {
+                this.startTimeButton.setText("Tidspunkt: " + hourMinutePair.first + ":0" + hourMinutePair.second);
+            } else {
+                this.startTimeButton.setText("Tidspunkt: " + hourMinutePair.first + ":" + hourMinutePair.second);
+            }
+            this.startTimePair = hourMinutePair;
+        } else {
+            if (hourMinutePair.second < 10) {
+                this.endTimeButton.setText("Tidspunkt (slutt): " + hourMinutePair.first + ":0" + hourMinutePair.second);
+            } else {
+                this.endTimeButton.setText("Tidspunkt (slutt): " + hourMinutePair.first + ":" + hourMinutePair.second);
+            }
+            this.endTimePair = hourMinutePair;
+
+        }
+        this.startTimeError.setVisibility(View.GONE);
+        this.endTimeError.setVisibility(View.GONE);
+        this.endDateError.setVisibility(View.GONE);
     }
 }

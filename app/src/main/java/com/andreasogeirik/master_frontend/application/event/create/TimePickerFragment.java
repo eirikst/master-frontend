@@ -1,5 +1,6 @@
 package com.andreasogeirik.master_frontend.application.event.create;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.text.format.DateFormat;
 import android.util.Pair;
 import android.widget.TimePicker;
 
+import com.andreasogeirik.master_frontend.listener.OnTimeSetListener;
 
 import java.util.Calendar;
 
@@ -16,6 +18,22 @@ import java.util.Calendar;
  */
 public class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
+
+    OnTimeSetListener callback;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            callback = (OnTimeSetListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnTimeSetListener");
+        }
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -38,14 +56,15 @@ public class TimePickerFragment extends DialogFragment
         return new TimePickerDialog(getActivity(), TimePickerDialog.THEME_HOLO_DARK, this, hour, minute, DateFormat.is24HourFormat(getActivity()));
     }
 
+
+
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        CreateEventActivity activity = (CreateEventActivity) getActivity();
+        boolean isStartTime = true;
         Bundle arguments = getArguments();
-        if (arguments.get("time").equals("start")) {
-            activity.setStartTimePair(new Pair<>(hourOfDay, minute));
-        } else if (arguments.get("time").equals("end")) {
-            activity.setEndTimePair(new Pair<>(hourOfDay,minute));
+        if (arguments.get("time").equals("end")) {
+            isStartTime = false;
         }
+        callback.onTimeSet(new Pair<>(hourOfDay, minute), isStartTime);
     }
 }
