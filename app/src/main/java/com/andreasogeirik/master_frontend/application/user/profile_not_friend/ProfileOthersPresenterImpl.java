@@ -6,18 +6,15 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
 
-import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
 import com.andreasogeirik.master_frontend.application.general.interactors.GeneralPresenter;
-import com.andreasogeirik.master_frontend.application.user.my_profile.MyProfileActivity;
+import com.andreasogeirik.master_frontend.application.user.my_profile.ProfileActivity;
 import com.andreasogeirik.master_frontend.application.user.profile_not_friend.interfaces.ProfileOthersInteractor;
 import com.andreasogeirik.master_frontend.application.user.profile_not_friend.interfaces.ProfileOthersPresenter;
 import com.andreasogeirik.master_frontend.application.user.profile_not_friend.interfaces.ProfileOthersView;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.User;
-import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
-import java.io.File;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -107,7 +104,7 @@ public class ProfileOthersPresenterImpl extends GeneralPresenter implements Prof
 
         view.displayMessage("Venneforespørsel akseptert");
 
-        Intent intent = new Intent(getActivity(), MyProfileActivity.class);
+        Intent intent = new Intent(getActivity(), ProfileActivity.class);
         intent.putExtra("user", friendship.getFriend());
         getActivity().startActivity(intent);
         getActivity().finish();

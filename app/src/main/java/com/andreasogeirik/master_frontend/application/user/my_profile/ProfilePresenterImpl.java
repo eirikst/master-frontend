@@ -8,14 +8,13 @@ import android.os.Environment;
 
 import com.andreasogeirik.master_frontend.application.general.interactors.GeneralPresenter;
 import com.andreasogeirik.master_frontend.application.user.friend.FriendListActivity;
-import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.MyProfileInteractor;
+import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.ProfileInteractor;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.Post;
-import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.MyProfilePresenter;
-import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.MyProfileView;
+import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.ProfilePresenter;
+import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.ProfileView;
 import com.andreasogeirik.master_frontend.model.User;
-import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -23,15 +22,15 @@ import java.util.Set;
 /**
  * Created by eirikstadheim on 06/02/16.
  */
-public class MyProfilePresenterImpl extends GeneralPresenter implements MyProfilePresenter {
-    private MyProfileView view;
-    private MyProfileInteractor interactor;
+public class ProfilePresenterImpl extends GeneralPresenter implements ProfilePresenter {
+    private ProfileView view;
+    private ProfileInteractor interactor;
 
     //model
     private User user;
 
 
-    public MyProfilePresenterImpl(MyProfileView view, User user) {
+    public ProfilePresenterImpl(ProfileView view, User user) {
         super((Activity)view);
         if(user == null) {
             throw new NullPointerException("User object cannot be null in " + this.toString());
@@ -41,7 +40,7 @@ public class MyProfilePresenterImpl extends GeneralPresenter implements MyProfil
         }
 
         this.view = view;
-        this.interactor = new MyProfileInteractorImpl(this);
+        this.interactor = new ProfileInteractorImpl(this);
         this.user = user;
 
         //check that current user singleton is set, if not redirection

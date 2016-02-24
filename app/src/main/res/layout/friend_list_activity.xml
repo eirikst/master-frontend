@@ -24,21 +24,6 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"
-        android:id="@+id/brohim"
-        />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="gg"
-        android:id="@+id/b"
-        android:layout_below="@+id/brohim"
-        />
-
     <ListView
         android:id="@+id/friends_list"
         android:layout_width="match_parent"
@@ -48,6 +33,6 @@
         android:layout_marginRight="10dp"
         android:divider="@android:color/transparent"
         android:dividerHeight="10dp"
-        android:layout_below="@+id/b"
+        android:layout_below="@+id/toolbar"
         />
 </RelativeLayout>

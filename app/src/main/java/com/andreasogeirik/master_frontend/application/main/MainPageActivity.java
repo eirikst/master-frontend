@@ -1,4 +1,4 @@
-package com.andreasogeirik.master_frontend.application.event.main;
+package com.andreasogeirik.master_frontend.application.main;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -15,9 +15,9 @@ import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.application.settings.SettingsActivity;
 import com.andreasogeirik.master_frontend.application.auth.entrance.EntranceActivity;
-import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventPresenter;
-import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventView;
-import com.andreasogeirik.master_frontend.application.user.my_profile.MyProfileActivity;
+import com.andreasogeirik.master_frontend.application.main.interfaces.EventPresenter;
+import com.andreasogeirik.master_frontend.application.main.interfaces.EventView;
+import com.andreasogeirik.master_frontend.application.user.my_profile.ProfileActivity;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.application.event.create.CreateEventActivity;
 import com.andreasogeirik.master_frontend.layout.CustomSwipeRefreshLayout;
@@ -38,7 +38,7 @@ import java.util.Set;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class EventActivity extends AppCompatActivity implements EventView, CustomSwipeRefreshLayout.OnRefreshListener {
+public class MainPageActivity extends AppCompatActivity implements EventView, CustomSwipeRefreshLayout.OnRefreshListener {
     private EventPresenter presenter;
 
     @Bind(R.id.swipe_container)
@@ -66,13 +66,13 @@ public class EventActivity extends AppCompatActivity implements EventView, Custo
 
 
 
-        setContentView(R.layout.event_activity);
+        setContentView(R.layout.main_page_activity);
         ButterKnife.bind(this);
 
         //Her må current user være initialisert fra før...
 
 
-        presenter = new EventPresenterImpl(this);
+        presenter = new MainPagePresenterImpl(this);
 
         if (userPreferencesManager.getCookie() == null){
             startLoginActivity();
@@ -93,9 +93,9 @@ public class EventActivity extends AppCompatActivity implements EventView, Custo
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(EventActivity.this, MyProfileActivity.class);
+                Intent intent = new Intent(MainPageActivity.this, ProfileActivity.class);
                 intent.putExtra("user", CurrentUser.getInstance().getUser());
-                EventActivity.this.startActivity(intent);
+                MainPageActivity.this.startActivity(intent);
             }
         });
         listView.addHeaderView(b);

@@ -23,7 +23,7 @@
             android:name=".application.auth.login.LoginActivity"
             android:label="@string/title_activity_login"/>
         <activity
-            android:name=".application.event.main.EventActivity">
+            android:name=".application.main.MainPageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,7 +31,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".application.user.my_profile.MyProfileActivity"
+            android:name=".application.user.my_profile.ProfileActivity"
             android:label="@string/title_activity_my_profile" />
         <activity android:name=".application.user.friend.FriendListActivity" />
         <activity

@@ -14,7 +14,7 @@ import java.util.Set;
 /**
  * Created by eirikstadheim on 06/02/16.
  */
-public interface MyProfilePresenter {
+public interface ProfilePresenter {
     void findPosts();
 
     void successPostsLoad(Set<Post> posts);

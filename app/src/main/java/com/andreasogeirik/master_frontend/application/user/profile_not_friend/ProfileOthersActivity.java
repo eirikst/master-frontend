@@ -2,8 +2,6 @@ package com.andreasogeirik.master_frontend.application.user.profile_not_friend;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -14,22 +12,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
-import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
-import com.andreasogeirik.master_frontend.application.user.my_profile.MyProfileActivity;
+import com.andreasogeirik.master_frontend.application.general.interactors.ToolbarPresenterImpl;
+import com.andreasogeirik.master_frontend.application.general.interactors.interfaces.ToolbarPresenter;
 import com.andreasogeirik.master_frontend.application.user.profile_not_friend.interfaces.ProfileOthersPresenter;
 import com.andreasogeirik.master_frontend.application.user.profile_not_friend.interfaces.ProfileOthersView;
-import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.User;
-
-import java.util.Iterator;
-import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ProfileOthersActivity extends AppCompatActivity implements ProfileOthersView {
     private ProfileOthersPresenter presenter;
+    private ToolbarPresenter toolbarPresenter;
 
     //Bind view elements
     @Bind(R.id.toolbar)Toolbar toolbar;
@@ -44,7 +39,7 @@ public class ProfileOthersActivity extends AppCompatActivity implements ProfileO
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.profile_others_activity);
+        setContentView(R.layout.others_profile_activity);
         ButterKnife.bind(this);
 
         if(savedInstanceState != null) {
@@ -70,6 +65,8 @@ public class ProfileOthersActivity extends AppCompatActivity implements ProfileO
             }
             System.out.println("New instance state from intent");
         }
+
+        toolbarPresenter = new ToolbarPresenterImpl(this);
     }
 
     @Override
@@ -102,9 +99,7 @@ public class ProfileOthersActivity extends AppCompatActivity implements ProfileO
         homeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ProfileOthersActivity.this, EventActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+                toolbarPresenter.home();
             }
         });
     }

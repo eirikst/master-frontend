@@ -2,8 +2,8 @@ package com.andreasogeirik.master_frontend.application.user.my_profile;
 
 import android.graphics.Bitmap;
 
-import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.MyProfileInteractor;
-import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.MyProfilePresenter;
+import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.ProfileInteractor;
+import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.ProfilePresenter;
 import com.andreasogeirik.master_frontend.communication.GetFriendsTask;
 import com.andreasogeirik.master_frontend.communication.GetPostsTask;
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingFriendshipsListener;
@@ -16,24 +16,20 @@ import com.andreasogeirik.master_frontend.util.ImageInteractor;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
  * Created by eirikstadheim on 06/02/16.
  */
-public class MyProfileInteractorImpl implements MyProfileInteractor, OnFinishedLoadingPostsListener,
+public class ProfileInteractorImpl implements ProfileInteractor, OnFinishedLoadingPostsListener,
         OnFinishedLoadingFriendshipsListener, ImageInteractor.OnImageFoundListener
 {
-    private MyProfilePresenter presenter;
+    private ProfilePresenter presenter;
 
-    public MyProfileInteractorImpl(MyProfilePresenter presenter) {
+    public ProfileInteractorImpl(ProfilePresenter presenter) {
         this.presenter = presenter;
     }
 

@@ -7,7 +7,7 @@ import java.io.File;
 /**
  * Created by eirikstadheim on 06/02/16.
  */
-public interface MyProfileInteractor {
+public interface ProfileInteractor {
     void findPosts(User user, int start);
     void findFriends(int userId);
     void findImage(String imageUri, File storagePath);

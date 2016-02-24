@@ -10,7 +10,7 @@ import com.andreasogeirik.master_frontend.application.auth.entrance.EntranceActi
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.auth.welcome.interfaces.WelcomePresenter;
 import com.andreasogeirik.master_frontend.application.auth.welcome.interfaces.WelcomeView;
-import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
+import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
 
@@ -47,7 +47,7 @@ public class WelcomeActivity extends AppCompatActivity implements WelcomeView {
 
     @Override
     public void navigateToEventView() {
-        Intent i = new Intent(this, EventActivity.class);
+        Intent i = new Intent(this, MainPageActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
     }

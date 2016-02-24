@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.model.Post;
-import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.DateUtility;
 
 import java.util.Comparator;
@@ -48,7 +47,7 @@ public class PostListAdapter extends ArrayAdapter<Post> {
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(
-                    R.layout.my_profile_post_list_layout, parent, false);
+                    R.layout.profile_post_list_layout, parent, false);
         }
 
         // Lookup views
