@@ -20,34 +20,34 @@ public class InputValidation {
         return new GregorianCalendar(eventDate.get(Calendar.YEAR), eventDate.get(Calendar.MONTH), eventDate.get(Calendar.DAY_OF_MONTH), timePair.first, timePair.second).getTime();
     }
 
-    public static CreateEventValidationContainer validateEvent(Event event) {
+    public static CreateEventValidationContainer validateEvent(String name, String location, String description, Calendar startDate, Calendar endDate, Pair<Integer, Integer> startTimePair, Pair<Integer, Integer> endTimePair) {
 
         // Mandatory inputs
 
-        if (TextUtils.isEmpty(event.getName())) {
+        if (TextUtils.isEmpty(name)) {
             return new CreateEventValidationContainer(CreateEventStatusCodes.NAME_ERROR, "Sett et navn");
-        } else if (TextUtils.isEmpty(event.getLocation())) {
+        } else if (TextUtils.isEmpty(location)) {
             return new CreateEventValidationContainer(CreateEventStatusCodes.LOCATION_ERROR, "Velg et sted");
-        } else if (TextUtils.isEmpty(event.getDescription())) {
+        } else if (TextUtils.isEmpty(description)) {
             return new CreateEventValidationContainer(CreateEventStatusCodes.DESCRIPTION_ERROR, "Skriv en kort beskrivelse");
-        } else if (event.getStartDate() == null) {
+        } else if (startDate == null) {
             return new CreateEventValidationContainer(CreateEventStatusCodes.START_DATE_ERROR, "Velg en dato");
-        } else if (event.getStartTime() == null) {
+        } else if (startTimePair == null) {
             return new CreateEventValidationContainer(CreateEventStatusCodes.START_TIME_ERROR, "Velg et starttidspunkt");
-        } else if (convertToDate(event.getStartDate(), event.getStartTime()).before(new Date())) {
+        } else if (convertToDate(startDate, startTimePair).before(new Date())) {
             return new CreateEventValidationContainer(CreateEventStatusCodes.START_DATE_ERROR, "Velg et starttidspunkt etter nåværende tidspunkt");
         }
 
         // Optional inputs
-        if (event.getEndDate() != null) {
-            if (event.getEndTime() == null) {
+        if (endDate != null) {
+            if (endTimePair == null) {
                 return new CreateEventValidationContainer(CreateEventStatusCodes.END_TIME_ERROR, "Sett et slutttidspunkt");
-            } else if (convertToDate(event.getEndDate(), event.getEndTime()).before(new Date())) {
+            } else if (convertToDate(endDate, endTimePair).before(new Date())) {
                 return new CreateEventValidationContainer(CreateEventStatusCodes.END_DATE_ERROR, "Velg et slutttidspunkt etter nåværende tidspunkt");
-            } else if (convertToDate(event.getEndDate(), event.getEndTime()).before(convertToDate(event.getStartDate(), event.getStartTime()))) {
+            } else if (convertToDate(endDate, endTimePair).before(convertToDate(startDate, startTimePair))) {
                 return new CreateEventValidationContainer(CreateEventStatusCodes.END_DATE_ERROR, "Velg et tidspunkt etter startdato");
             }
-        } else if (event.getEndTime() != null && event.getEndDate() == null) {
+        } else if (endTimePair != null && endDate == null) {
             return new CreateEventValidationContainer(CreateEventStatusCodes.END_DATE_ERROR, "Veld en sluttdato");
         }
 

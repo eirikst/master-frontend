@@ -1,10 +1,8 @@
 package com.andreasogeirik.master_frontend.application.auth.register;
 
-import android.text.TextUtils;
-
 import com.andreasogeirik.master_frontend.application.auth.register.interfaces.RegisterInteractor;
 import com.andreasogeirik.master_frontend.application.auth.register.interfaces.RegisterPresenter;
-import com.andreasogeirik.master_frontend.application.auth.register.interfaces.RegisterView;
+import com.andreasogeirik.master_frontend.communication.GetEventTask;
 import com.andreasogeirik.master_frontend.communication.RegisterTask;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.listener.OnRegisterFinishedListener;

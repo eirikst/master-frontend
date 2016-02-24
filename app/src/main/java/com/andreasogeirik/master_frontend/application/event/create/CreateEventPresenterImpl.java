@@ -2,6 +2,7 @@ package com.andreasogeirik.master_frontend.application.event.create;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.util.Pair;
 
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventInteractor;
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventPresenter;
@@ -17,6 +18,8 @@ import com.andreasogeirik.master_frontend.util.InputValidation;
 import org.json.JSONObject;
 
 import java.io.InputStream;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  * Created by Andreas on 10.02.2016.
@@ -59,8 +62,9 @@ public class CreateEventPresenterImpl extends GeneralPresenter implements Create
     }
 
     @Override
-    public void create(Event event, String encodedImage) {
-        CreateEventValidationContainer createEventValidationContainer = InputValidation.validateEvent(event);
+    public void create(String name, String location, String description, Calendar startDate, Calendar endDate, Pair<Integer, Integer> startTimePair, Pair<Integer, Integer> endTimePair, String encodedImage) {
+
+        CreateEventValidationContainer createEventValidationContainer = InputValidation.validateEvent(name, location, description, startDate, endDate, startTimePair, endTimePair);
         if (createEventValidationContainer.getStatusCode() != CreateEventStatusCodes.OK) {
             String error = createEventValidationContainer.getError();
             switch (createEventValidationContainer.getStatusCode()) {
@@ -87,6 +91,14 @@ public class CreateEventPresenterImpl extends GeneralPresenter implements Create
                     break;
             }
         } else {
+            Calendar startDateCal = new GregorianCalendar();
+            startDateCal.setTimeInMillis(dateToLong(startDate, startTimePair.first, startTimePair.second));
+            Event event = new Event(name, location, description, startDateCal);
+            if (endDate != null && endTimePair != null) {
+                Calendar endDateCal = new GregorianCalendar();
+                endDateCal.setTimeInMillis(dateToLong(endDate, endTimePair.first, endTimePair.second));
+                event.setEndDate(endDateCal);
+            }
             createEventView.showProgress();
             interactor.create(event, encodedImage);
         }
@@ -106,5 +118,10 @@ public class CreateEventPresenterImpl extends GeneralPresenter implements Create
         } else if (statusCode == ImageStatusCode.NOT_AN_IMAGE) {
             createEventView.setImageError("Den valgte bildefilen støttes ikke");
         }
+    }
+
+    private long dateToLong(Calendar eventDate, int hour, int minute) {
+        Calendar calendar = new GregorianCalendar(eventDate.get(Calendar.YEAR), eventDate.get(Calendar.MONTH), eventDate.get(Calendar.DAY_OF_MONTH), hour, minute);
+        return calendar.getTimeInMillis();
     }
 }

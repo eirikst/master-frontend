@@ -61,16 +61,14 @@ public class CreateEventInteractorImpl implements CreateEventInteractor, OnCreat
 
     private JSONObject eventToJson(Event event) {
 
-        long startTime = dateToLong(event.getStartDate(), event.getStartTime().first, event.getStartTime().second);
         JSONObject jsonEvent = new JSONObject();
         try {
             jsonEvent.put("name", event.getName());
             jsonEvent.put("location", event.getLocation());
             jsonEvent.put("description", event.getDescription());
-            jsonEvent.put("timeStart", startTime);
-            if (event.getEndTime() != null) {
-                long endTime = dateToLong(event.getStartDate(), event.getEndTime().first, event.getEndTime().second);
-                jsonEvent.put("timeEnd", endTime);
+            jsonEvent.put("timeStart", event.getStartDate().getTimeInMillis());
+            if (event.getEndDate() != null) {
+                jsonEvent.put("timeEnd", event.getEndDate().getTimeInMillis());
             }
             if (event.getImageURI() != null) {
                 jsonEvent.put("imageUri", event.getImageURI());
