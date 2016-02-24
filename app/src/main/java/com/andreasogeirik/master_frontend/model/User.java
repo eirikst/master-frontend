@@ -4,7 +4,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -21,8 +23,9 @@ public class User implements Serializable {
     private String location;
     private String imageUri;
     private Date timeCreated;
-    private Set<Friendship> friends;
-    private Set<Friendship> requests;
+    private Set<Friendship> friends = new HashSet<>();
+    private Set<Friendship> requests = new HashSet<>();
+    private Set<Post> posts = new HashSet<>();
 
     public User() {
     }
@@ -163,6 +166,26 @@ public class User implements Serializable {
         }
     }
 
+    public void addPosts(Collection<Post> posts) {
+        if(posts != null) {
+            this.posts.addAll(posts);
+        }
+    }
+
+    public void addFriends(Collection<Friendship> friendships) {
+        Iterator<Friendship> it = friendships.iterator();
+
+        while(it.hasNext()) {
+            Friendship friendship = it.next();
+            if(friendship.getStatus() == Friendship.FRIENDS) {
+                this.friends.add(friendship);
+            }
+            else {
+                this.requests.add(friendship);
+            }
+        }
+    }
+
     public int getId() {
         return id;
     }
@@ -249,6 +272,14 @@ public class User implements Serializable {
 
     public void setRequests(Set<Friendship> requests) {
         this.requests = requests;
+    }
+
+    public Set<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(Set<Post> posts) {
+        this.posts = posts;
     }
 
     @Override

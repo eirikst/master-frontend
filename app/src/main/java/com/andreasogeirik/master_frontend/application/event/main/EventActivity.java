@@ -64,6 +64,8 @@ public class EventActivity extends AppCompatActivity implements EventView, Custo
         userPreferencesManager.initialize(this);
         Constants.USER_SET_SIZE = userPreferencesManager.getTextSize();
 
+
+
         setContentView(R.layout.event_activity);
         ButterKnife.bind(this);
 

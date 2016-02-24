@@ -21,7 +21,6 @@ import com.andreasogeirik.master_frontend.application.user.profile_not_friend.in
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.User;
-import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -40,7 +39,6 @@ public class ProfileOthersActivity extends AppCompatActivity implements ProfileO
     @Bind(R.id.are_we_friends_bro2)TextView tView2;
     @Bind(R.id.name_user)TextView nameUserText;
 
-    private User user;
 
 
     @Override
@@ -49,35 +47,53 @@ public class ProfileOthersActivity extends AppCompatActivity implements ProfileO
         setContentView(R.layout.profile_others_activity);
         ButterKnife.bind(this);
 
-        UserPreferencesManager.getInstance().initialize(this);
-        presenter = new ProfileOthersPresenterImpl(this);
-
         if(savedInstanceState != null) {
+            try {
+                presenter = new ProfileOthersPresenterImpl(this,
+                        (User)savedInstanceState.getSerializable("user"));
+            }
+            catch(ClassCastException e) {
+                throw new ClassCastException(e + "/nObject in savedInstanceState bundle cannot " +
+                        "be cast to User in " + this.toString());
+            }
             System.out.println("Saved instance state restored");
-            user = (User)savedInstanceState.getSerializable("user");
         }
         else {
-            System.out.println("New instance state from intent");
             Intent intent = getIntent();
-            user = (User)intent.getSerializableExtra("user");
+            try {
+                presenter = new ProfileOthersPresenterImpl(this,
+                        (User)intent.getSerializableExtra("user"));
+            }
+            catch(ClassCastException e) {
+                throw new ClassCastException(e + "/nObject in Intent bundle cannot " +
+                        "be cast to User in " + this.toString());
+            }
+            System.out.println("New instance state from intent");
         }
+    }
 
-        //find profile image
-        findProfileImage(user.getImageUri());
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        presenter.saveInstanceState(outState);
+    }
 
+    @Override
+    public void setupGUI(User user, int requested) {
         setupToolbar();
-        //set name of user as header
-        nameUserText.setText(user.getFirstname() + " " + user.getLastname());
 
-        if(CurrentUser.getInstance().getUser().iHaveRequested(user)) {
-            setIHaveRequestedButtons();
+        if(requested == Friendship.I_REQUESTED) {
+            setIHaveRequestedView();
         }
-        else if(CurrentUser.getInstance().getUser().iWasRequested(user)) {
-            setHaveBeenRequestedButtons();
+        else if(requested == Friendship.FRIEND_REQUESTED) {
+            setHaveBeenRequestedButtons(user.getFirstname());
         }
         else {
             setRequestFriendButton();
         }
+
+        //set name of user as header
+        nameUserText.setText(user.getFirstname() + " " + user.getLastname());
     }
 
     private void setupToolbar() {
@@ -97,12 +113,13 @@ public class ProfileOthersActivity extends AppCompatActivity implements ProfileO
     /*
      * Init buttons methods
      */
-    private void setRequestFriendButton() {
+    @Override
+    public void setRequestFriendButton() {
         tView.setText("Send en venne- forespørsel");
         tView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                requestFriendship();
+                presenter.requestFriendship();
             }
         });
 
@@ -110,139 +127,41 @@ public class ProfileOthersActivity extends AppCompatActivity implements ProfileO
         tView2.setClickable(false);
     }
 
-    private void setHaveBeenRequestedButtons() {
-        tView.setText("Godta venneforespørsel fra " + user.getFirstname());
+    @Override
+    public void setHaveBeenRequestedButtons(String firstname) {
+        tView.setText("Godta venneforespørsel fra " + firstname);
         tView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                acceptRequest();//accept
+                presenter.acceptRequest();//accept
             }
         });
 
-        tView2.setText("Avslå venneforespørsel fra " + user.getFirstname());
+        tView2.setText("Avslå venneforespørsel fra " + firstname);
         tView2.setClickable(true);
         tView2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rejectRequest();//reject
+                presenter.rejectRequest();//reject
             }
         });
     }
 
-    private void setIHaveRequestedButtons() {
+    @Override
+    public void setIHaveRequestedView() {
         tView.setText("Trekk tilbake venneforespørsel");
         tView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rejectRequest();
+                presenter.rejectRequest();
             }
         });
         tView2.setText("");
         tView2.setClickable(false);
-
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    /*
-     * Request friendship methods
-     */
-    @Override
-    public void requestFriendship() {
-        presenter.requestFriendship(user);
-    }
 
-    @Override
-    public void friendRequestSuccess(Friendship friendship) {
-        setIHaveRequestedButtons();
-        Toast.makeText(this, "Venneforespørsel sendt", Toast.LENGTH_LONG).show();
-        CurrentUser.getInstance().getUser().addRequest(friendship);
-    }
-
-    @Override
-    public void friendRequestFailure(int code) {
-        Toast.makeText(this, "Vennligst prøv igjen senere :)", Toast.LENGTH_LONG).show();
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    /*
-     * Accept friendship methods
-     */
-    @Override
-    public void acceptRequest() {
-        Set<Friendship> requests = CurrentUser.getInstance().getUser().getRequests();
-        Iterator<Friendship> it = requests.iterator();
-        while(it.hasNext()) {
-            Friendship f = it.next();
-            if(f.getFriend().equals(user)) {
-                presenter.acceptRequest(f.getId());
-                return;
-            }
-        }
-        Toast.makeText(this, "Vennligst prøv igjen senere :)", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void acceptRequestSuccess(int friendshipId) {
-        Toast.makeText(this, "Venneforespørsel akseptert", Toast.LENGTH_LONG).show();
-        CurrentUser.getInstance().getUser().goFromRequestToFriend(friendshipId);
-        Friendship friendship = CurrentUser.getInstance().getUser().findFriend(friendshipId);
-
-        System.out.println("VENNEN MIN ER " + friendship);
-        Intent intent = new Intent(this, MyProfileActivity.class);
-        intent.putExtra("user", friendship.getFriend());
-        startActivity(intent);
-        finish();
-    }
-
-    @Override
-    public void acceptRequestFailure(int code) {
-        Toast.makeText(this, "Vennligst prøv igjen senere :)", Toast.LENGTH_LONG).show();
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    /*
-     * Reject friendship methods
-     */
-    @Override
-    public void rejectRequest() {
-        Set<Friendship> requests = CurrentUser.getInstance().getUser().getRequests();
-        Iterator<Friendship> it = requests.iterator();
-        while(it.hasNext()) {
-            Friendship f = it.next();
-            if(f.getFriend().equals(user)) {
-                presenter.rejectRequest(f.getId());
-                return;
-            }
-        }
-        Toast.makeText(this, "Vennligst prøv igjen senere :)", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void rejectRequestSuccess(int friendshipId) {
-        Toast.makeText(this, "Venneskap fjernet", Toast.LENGTH_LONG).show();
-        setRequestFriendButton();
-        CurrentUser.getInstance().getUser().removeFriendship(friendshipId);
-    }
-
-    @Override
-    public void rejectRequestFailure(int code) {
-        Toast.makeText(this, "Vennligst prøv igjen senere :)", Toast.LENGTH_LONG).show();
-    }
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-    /*
-     * Image handling
-     */
-
-    @Override
-    public void findProfileImage(String imageUri) {
-        if(imageUri == null ||imageUri.isEmpty()) {
-            profileImage.setImageBitmap(BitmapFactory.decodeResource(getResources(),
-                    R.drawable.default_profile));
-            return;
-        }
-        presenter.findImage(imageUri, getExternalFilesDir(Environment.DIRECTORY_PICTURES));
-    }
 
     @Override
     public void setProfileImage(Bitmap bitmap) {
@@ -250,9 +169,11 @@ public class ProfileOthersActivity extends AppCompatActivity implements ProfileO
         profileImage.setImageBitmap(bitmap);
     }
 
+    /*
+    * General error handling
+    */
     @Override
-    public void findProfileImageFailure() {
-        //TODO:Set standard image
-        System.out.println("Profile image not found for user " + user);
+    public void displayMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 }

@@ -24,14 +24,12 @@ public class PostListAdapter extends ArrayAdapter<Post> {
     public static final int SET_ALL = -1;
 
     private List<Post> posts;
-    private User user;
     private Bitmap profileImage;
 
 
-    public PostListAdapter(Context context, List<Post> posts, User user) {
+    public PostListAdapter(Context context, List<Post> posts) {
         super(context, 0, posts);
         this.posts = posts;
-        this.user = user;
 
         //TODO:Sorting ikke helt på stell vel
         this.sort(new Comparator<Post>() {

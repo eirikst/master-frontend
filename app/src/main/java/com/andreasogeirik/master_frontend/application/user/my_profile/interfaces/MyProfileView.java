@@ -13,10 +13,11 @@ import java.util.Set;
  * Created by eirikstadheim on 05/02/16.
  */
 public interface MyProfileView {
-    void addPosts(List<Post> posts);
-    void addFriends(Set<Friendship> friends);
+    void initView(User user, boolean me);
 
-    void findProfileImage(String imageUri);
+    void addPosts(Set<Post> posts);
+    void setFriendCount(int count);
     void setProfileImage(Bitmap bitmap);
-    void findProfileImageFailure();
+
+    void displayMessage(String message);
 }

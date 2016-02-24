@@ -10,6 +10,5 @@ import java.io.File;
 public interface MyProfileInteractor {
     void findPosts(User user, int start);
     void findFriends(int userId);
-
     void findImage(String imageUri, File storagePath);
 }

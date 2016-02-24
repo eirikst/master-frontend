@@ -49,7 +49,7 @@ public class MyProfileInteractorImpl implements MyProfileInteractor, OnFinishedL
 
     @Override
     public void onSuccessPostsLoad(JSONArray jsonPosts) {
-        List<Post> posts = new ArrayList<>();
+        Set<Post> posts = new HashSet<>();
 
         try {
             for (int i = 0; i < jsonPosts.length(); i++) {
@@ -83,14 +83,7 @@ public class MyProfileInteractorImpl implements MyProfileInteractor, OnFinishedL
 
         try {
             for(int i = 0; i < friendshipsJson.length(); i++) {
-                JSONObject friendship = friendshipsJson.getJSONObject(i);
-
-                int id = friendship.getInt("id");
-                User friend = new User(friendship.getJSONObject("friend"));
-                int status = friendship.getInt("status");
-                Date friendsSince = new Date(friendship.getLong("friendsSince"));
-
-                    friendships.add(new Friendship(id, friend, status, friendsSince));
+                friendships.add(new Friendship(friendshipsJson.getJSONObject(i)));
             }
         }
         catch (JSONException e) {
@@ -99,13 +92,11 @@ public class MyProfileInteractorImpl implements MyProfileInteractor, OnFinishedL
         }
 
         presenter.successFriendsLoad(friendships);
-
     }
 
     @Override
     public void onFailedFriendshipsLoad(int code) {
         presenter.errorFriendsLoad(code);
-
     }
 
 
@@ -130,6 +121,6 @@ public class MyProfileInteractorImpl implements MyProfileInteractor, OnFinishedL
 
     @Override
     public void imageNotFound(String imageUri) {
-        presenter.imageNotFound();//TODO:return this eller ei?
+        presenter.imageNotFound(imageUri);
     }
 }

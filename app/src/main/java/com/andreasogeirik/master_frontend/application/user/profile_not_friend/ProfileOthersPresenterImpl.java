@@ -1,25 +1,64 @@
 package com.andreasogeirik.master_frontend.application.user.profile_not_friend;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.os.Environment;
 
+import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
+import com.andreasogeirik.master_frontend.application.general.interactors.GeneralPresenter;
+import com.andreasogeirik.master_frontend.application.user.my_profile.MyProfileActivity;
 import com.andreasogeirik.master_frontend.application.user.profile_not_friend.interfaces.ProfileOthersInteractor;
 import com.andreasogeirik.master_frontend.application.user.profile_not_friend.interfaces.ProfileOthersPresenter;
 import com.andreasogeirik.master_frontend.application.user.profile_not_friend.interfaces.ProfileOthersView;
+import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.User;
+import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
 import java.io.File;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Created by eirikstadheim on 17/02/16.
  */
-public class ProfileOthersPresenterImpl implements ProfileOthersPresenter {
+public class ProfileOthersPresenterImpl extends GeneralPresenter implements ProfileOthersPresenter {
     private ProfileOthersView view;
     private ProfileOthersInteractor interactor;
 
-    public ProfileOthersPresenterImpl(ProfileOthersView view) {
+    //model
+    private User user;
+
+    public ProfileOthersPresenterImpl(ProfileOthersView view, User user) {
+        super((Activity)view);
+        if(user == null) {
+            throw new NullPointerException("User object cannot be null in " + this.toString());
+        }
+        if(view == null) {
+            throw new NullPointerException("View cannot be null in " + this.toString());
+        }
+
         this.view = view;
         interactor = new ProfileOthersInteractorImpl(this);
+        this.user = user;
+
+        //check that current user singleton is set, if not redirection
+        userAvailable();
+
+        //setup gui
+        if(CurrentUser.getInstance().getUser().iHaveRequested(user)) {
+            view.setupGUI(user, Friendship.I_REQUESTED);
+        }
+        else if(CurrentUser.getInstance().getUser().iWasRequested(user)) {
+            view.setupGUI(user, Friendship.FRIEND_REQUESTED);
+        }
+        else {
+            view.setupGUI(user, -1);
+        }
+
+        findImage();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,18 +66,21 @@ public class ProfileOthersPresenterImpl implements ProfileOthersPresenter {
      * Request friendship methods
      */
     @Override
-    public void requestFriendship(User user) {
+    public void requestFriendship() {
         interactor.requestFriendship(user);
     }
 
     @Override
     public void friendRequestSuccess(Friendship friendship) {
-        view.friendRequestSuccess(friendship);
+        CurrentUser.getInstance().getUser().addRequest(friendship);
+
+        view.displayMessage("Venneforespørsel sendt");
+        view.setIHaveRequestedView();
     }
 
     @Override
     public void friendRequestFailure(int code) {
-        view.friendRequestFailure(code);
+        view.displayMessage("En feil skjedde under forespørsel");
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,18 +88,34 @@ public class ProfileOthersPresenterImpl implements ProfileOthersPresenter {
      * Accept friendship methods
      */
     @Override
-    public void acceptRequest(int friendshipId) {
-        interactor.acceptFriendship(friendshipId);
+    public void acceptRequest() {
+        Set<Friendship> requests = CurrentUser.getInstance().getUser().getRequests();
+        Iterator<Friendship> it = requests.iterator();
+        while(it.hasNext()) {
+            Friendship f = it.next();
+            if(f.getFriend().equals(user)) {
+                interactor.acceptFriendship(f.getId());
+                return;
+            }
+        }
     }
 
     @Override
     public void acceptRequestSuccess(int friendshipId) {
-        view.acceptRequestSuccess(friendshipId);
+        CurrentUser.getInstance().getUser().goFromRequestToFriend(friendshipId);
+        Friendship friendship = CurrentUser.getInstance().getUser().findFriend(friendshipId);
+
+        view.displayMessage("Venneforespørsel akseptert");
+
+        Intent intent = new Intent(getActivity(), MyProfileActivity.class);
+        intent.putExtra("user", friendship.getFriend());
+        getActivity().startActivity(intent);
+        getActivity().finish();
     }
 
     @Override
     public void acceptRequestFailure(int code) {
-        view.acceptRequestFailure(code);
+        view.displayMessage("En feil skjedde under akseptering");
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -65,18 +123,30 @@ public class ProfileOthersPresenterImpl implements ProfileOthersPresenter {
      * Reject friendship methods
      */
     @Override
-    public void rejectRequest(int friendshipId) {
-        interactor.rejectFriendship(friendshipId);
+    public void rejectRequest() {
+        Set<Friendship> requests = CurrentUser.getInstance().getUser().getRequests();
+        Iterator<Friendship> it = requests.iterator();
+        while(it.hasNext()) {
+            Friendship f = it.next();
+            if(f.getFriend().equals(user)) {
+                interactor.rejectFriendship(f.getId());
+                return;
+            }
+        }
     }
 
     @Override
     public void rejectRequestSuccess(int friendshipId) {
-        view.rejectRequestSuccess(friendshipId);
+        CurrentUser.getInstance().getUser().removeFriendship(friendshipId);
+
+        view.displayMessage("Vennskap fjernet");
+        view.setRequestFriendButton();
+
     }
 
     @Override
     public void rejectRequestFailure(int code) {
-        view.rejectRequestFailure(code);
+        view.displayMessage("En feil skjedde under fjerning av forespørsel");
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -84,9 +154,13 @@ public class ProfileOthersPresenterImpl implements ProfileOthersPresenter {
      * Image handling
      */
 
-    @Override
-    public void findImage(String imageUri, File storagePath) {
-        interactor.findImage(imageUri, storagePath);
+    private void findImage() {
+        if(user.getImageUri() == null || user.getImageUri().isEmpty()) {
+            System.out.println("User's image uri null or empty for user " + user.getId());
+            return;
+        }
+        interactor.findImage(user.getImageUri(), getActivity().getExternalFilesDir
+                (Environment.DIRECTORY_PICTURES));
     }
 
     @Override
@@ -96,6 +170,14 @@ public class ProfileOthersPresenterImpl implements ProfileOthersPresenter {
 
     @Override
     public void imageNotFound() {
-        view.findProfileImageFailure();
+        //Do nothing and default image is still there
+    }
+
+    /*
+     * Save state
+     */
+    @Override
+    public void saveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putSerializable("user", user);
     }
 }
