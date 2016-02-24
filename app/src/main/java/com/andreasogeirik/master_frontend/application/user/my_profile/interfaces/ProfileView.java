@@ -12,7 +12,7 @@ import java.util.Set;
 /**
  * Created by eirikstadheim on 05/02/16.
  */
-public interface MyProfileView {
+public interface ProfileView {
     void initView(User user, boolean me);
 
     void addPosts(Set<Post> posts);

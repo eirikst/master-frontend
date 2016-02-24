@@ -6,22 +6,17 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
 
-import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
 import com.andreasogeirik.master_frontend.application.general.interactors.GeneralPresenter;
 import com.andreasogeirik.master_frontend.application.user.friend.interfaces.FriendListPresenter;
 import com.andreasogeirik.master_frontend.application.user.friend.interfaces.FriendListView;
-import com.andreasogeirik.master_frontend.application.user.my_profile.MyProfileActivity;
+import com.andreasogeirik.master_frontend.application.user.my_profile.ProfileActivity;
 import com.andreasogeirik.master_frontend.application.user.profile_not_friend.ProfileOthersActivity;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.util.ImageInteractor;
-import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by eirikstadheim on 20/02/16.
@@ -83,7 +78,7 @@ public class FriendListPresenterImpl extends GeneralPresenter implements FriendL
         //if friend or one self
         if (CurrentUser.getInstance().getUser().isFriendWith(friendships.get(position).getFriend()) ||
                 CurrentUser.getInstance().getUser().equals(friendships.get(position).getFriend())) {
-            Intent intent = new Intent(getActivity(), MyProfileActivity.class);
+            Intent intent = new Intent(getActivity(), ProfileActivity.class);
             intent.putExtra("user", friendships.get(position).getFriend());
             getActivity().startActivity(intent);
         }

@@ -16,11 +16,13 @@ import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
+import com.andreasogeirik.master_frontend.application.general.interactors.ToolbarPresenterImpl;
+import com.andreasogeirik.master_frontend.application.general.interactors.interfaces.ToolbarPresenter;
 import com.andreasogeirik.master_frontend.layout.adapter.PostListAdapter;
 import com.andreasogeirik.master_frontend.listener.MyProfileHeaderListener;
 import com.andreasogeirik.master_frontend.model.Post;
-import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.MyProfilePresenter;
-import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.MyProfileView;
+import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.ProfilePresenter;
+import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.ProfileView;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
 
@@ -33,9 +35,10 @@ import butterknife.ButterKnife;
 /**
  * Created by eirikstadheim on 06/02/16.
  */
-public class MyProfileActivity extends AppCompatActivity implements MyProfileView,
+public class ProfileActivity extends AppCompatActivity implements ProfileView,
         AdapterView.OnItemClickListener, MyProfileHeaderListener {
-    private MyProfilePresenter presenter;
+    private ProfilePresenter presenter;
+    private ToolbarPresenter toolbarPresenter;
 
     //Bind view elements
     @Bind(R.id.post_list) ListView listView;
@@ -63,7 +66,7 @@ public class MyProfileActivity extends AppCompatActivity implements MyProfileVie
         //should get a user if not null
         if(savedInstanceState != null) {
             try {
-                presenter = new MyProfilePresenterImpl(this,
+                presenter = new ProfilePresenterImpl(this,
                         (User)savedInstanceState.getSerializable("user"));
             }
             catch(ClassCastException e) {
@@ -75,7 +78,7 @@ public class MyProfileActivity extends AppCompatActivity implements MyProfileVie
         else {
             Intent intent = getIntent();
             try {
-                presenter = new MyProfilePresenterImpl(this,
+                presenter = new ProfilePresenterImpl(this,
                         (User)intent.getSerializableExtra("user"));
             }
             catch(ClassCastException e) {
@@ -84,6 +87,8 @@ public class MyProfileActivity extends AppCompatActivity implements MyProfileVie
             }
             System.out.println("New instance state from intent");
         }
+
+        toolbarPresenter = new ToolbarPresenterImpl(this);
     }
 
     @Override
@@ -119,10 +124,7 @@ public class MyProfileActivity extends AppCompatActivity implements MyProfileVie
         homeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO:Denne burde strengt tatt være i en presenter, men da må den være i så å si alle presentere...
-                Intent intent = new Intent(MyProfileActivity.this, EventActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+                toolbarPresenter.home();
             }
         });
     }
@@ -134,7 +136,7 @@ public class MyProfileActivity extends AppCompatActivity implements MyProfileVie
         listView.setOnItemClickListener(this);
 
         //set adapter on listview
-        postListAdapter = new PostListAdapter(MyProfileActivity.this,
+        postListAdapter = new PostListAdapter(ProfileActivity.this,
                 new ArrayList<>(user.getPosts()));
         listView.setAdapter(postListAdapter);
     }

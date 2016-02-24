@@ -17,7 +17,7 @@ import com.andreasogeirik.master_frontend.application.settings.SettingsActivity;
 import com.andreasogeirik.master_frontend.application.auth.entrance.EntranceActivity;
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventPresenter;
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventView;
-import com.andreasogeirik.master_frontend.application.user.my_profile.MyProfileActivity;
+import com.andreasogeirik.master_frontend.application.user.my_profile.ProfileActivity;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.application.event.create.CreateEventActivity;
 import com.andreasogeirik.master_frontend.layout.CustomSwipeRefreshLayout;
@@ -93,7 +93,7 @@ public class EventActivity extends AppCompatActivity implements EventView, Custo
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(EventActivity.this, MyProfileActivity.class);
+                Intent intent = new Intent(EventActivity.this, ProfileActivity.class);
                 intent.putExtra("user", CurrentUser.getInstance().getUser());
                 EventActivity.this.startActivity(intent);
             }

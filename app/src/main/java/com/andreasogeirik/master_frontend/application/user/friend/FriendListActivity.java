@@ -1,33 +1,25 @@
 package com.andreasogeirik.master_frontend.application.user.friend;
 
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.application.general.interactors.ToolbarPresenterImpl;
+import com.andreasogeirik.master_frontend.application.general.interactors.interfaces.ToolbarPresenter;
 import com.andreasogeirik.master_frontend.application.user.friend.interfaces.FriendListPresenter;
 import com.andreasogeirik.master_frontend.application.user.friend.interfaces.FriendListView;
-import com.andreasogeirik.master_frontend.application.user.my_profile.MyProfileActivity;
-import com.andreasogeirik.master_frontend.application.user.my_profile.MyProfilePresenterImpl;
-import com.andreasogeirik.master_frontend.application.user.profile_not_friend.ProfileOthersActivity;
-import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.layout.adapter.FriendListAdapter;
 import com.andreasogeirik.master_frontend.model.Friendship;
-import com.andreasogeirik.master_frontend.model.User;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Pair;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -35,10 +27,12 @@ import butterknife.ButterKnife;
 public class FriendListActivity extends AppCompatActivity implements FriendListView,
         AdapterView.OnItemClickListener, FriendListAdapter.Listener {
     private FriendListPresenter presenter;
+    private ToolbarPresenter toolbarPresenter;
     private FriendListAdapter listAdapter;
 
     @Bind(R.id.friends_list)ListView listView;
-
+    @Bind(R.id.toolbar)Toolbar toolbar;
+    @Bind(R.id.home)Button homeBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +64,8 @@ public class FriendListActivity extends AppCompatActivity implements FriendListV
             }
             System.out.println("New instance state from intent");
         }
+
+        toolbarPresenter = new ToolbarPresenterImpl(this);
     }
 
     @Override
@@ -83,6 +79,16 @@ public class FriendListActivity extends AppCompatActivity implements FriendListV
         listAdapter = new FriendListAdapter(this, friendships, this);
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener(this);
+        initToolbar();
+    }
+
+    private void initToolbar() {
+        homeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toolbarPresenter.home();
+            }
+        });
     }
 
     /*
