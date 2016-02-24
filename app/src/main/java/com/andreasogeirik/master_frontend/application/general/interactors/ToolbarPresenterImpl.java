@@ -3,10 +3,8 @@ package com.andreasogeirik.master_frontend.application.general.interactors;
 import android.app.Activity;
 import android.content.Intent;
 
-import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
+import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
 import com.andreasogeirik.master_frontend.application.general.interactors.interfaces.ToolbarPresenter;
-import com.andreasogeirik.master_frontend.data.CurrentUser;
-import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
 /**
  * Created by eirikstadheim on 24/02/16.
@@ -24,7 +22,7 @@ public class ToolbarPresenterImpl implements ToolbarPresenter {
 
     @Override
     public void home() {
-        Intent intent = new Intent(activity, EventActivity.class);
+        Intent intent = new Intent(activity, MainPageActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         activity.startActivity(intent);
     }

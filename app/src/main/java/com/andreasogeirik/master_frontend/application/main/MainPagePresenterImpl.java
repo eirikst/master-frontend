@@ -1,8 +1,11 @@
-package com.andreasogeirik.master_frontend.application.event.main;
+package com.andreasogeirik.master_frontend.application.main;
 
-import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventInteractor;
-import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventPresenter;
-import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventView;
+import android.app.Activity;
+
+import com.andreasogeirik.master_frontend.application.main.interfaces.EventInteractor;
+import com.andreasogeirik.master_frontend.application.main.interfaces.EventPresenter;
+import com.andreasogeirik.master_frontend.application.main.interfaces.EventView;
+import com.andreasogeirik.master_frontend.application.general.interactors.GeneralPresenter;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.User;
 
@@ -11,13 +14,14 @@ import java.util.Set;
 /**
  * Created by eirikstadheim on 06/02/16.
  */
-public class EventPresenterImpl implements EventPresenter {
+public class MainPagePresenterImpl extends GeneralPresenter implements EventPresenter {
     private EventView view;
     private EventInteractor interactor;
 
-    public EventPresenterImpl(EventView view) {
+    public MainPagePresenterImpl(EventView view) {
+        super((Activity)view);
         this.view = view;
-        this.interactor = new EventInteractorImpl(this);
+        this.interactor = new MainPageInteractorImpl(this);
     }
 
     @Override

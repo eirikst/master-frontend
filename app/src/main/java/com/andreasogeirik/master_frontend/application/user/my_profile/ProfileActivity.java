@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
-import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
 import com.andreasogeirik.master_frontend.application.general.interactors.ToolbarPresenterImpl;
 import com.andreasogeirik.master_frontend.application.general.interactors.interfaces.ToolbarPresenter;
 import com.andreasogeirik.master_frontend.layout.adapter.PostListAdapter;
@@ -59,7 +58,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.my_profile_activity);
+        setContentView(R.layout.profile_activity);
         ButterKnife.bind(this);
 
 
@@ -145,7 +144,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     * Init post list footer
     */
     private void initFooter() {
-        View footer = getLayoutInflater().inflate(R.layout.my_profile_post_list_footer, null);
+        View footer = getLayoutInflater().inflate(R.layout.profile_post_list_footer, null);
         listView.addFooterView(footer);
 
         //footer click listener
@@ -163,7 +162,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
      */
     private void initHeader(String name, int nrOfFriends, boolean myProfile) {
         //inflate header
-        headerView = getLayoutInflater().inflate(R.layout.my_profile_post_list_header, null);
+        headerView = getLayoutInflater().inflate(R.layout.profile_post_list_header, null);
         listView.addHeaderView(headerView);
         nameUserText = (TextView)headerView.findViewById(R.id.name_user);
         nameUserText.setText(name);

@@ -3,7 +3,7 @@ package com.andreasogeirik.master_frontend.application.general.interactors;
 import android.app.Activity;
 import android.content.Intent;
 
-import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
+import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
@@ -14,7 +14,7 @@ import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
  * be used by presenter that needs access to shared preferences or for logged in activities that
  * needs to check if the user singleton is set.
  */
-public class GeneralPresenter {
+public abstract class GeneralPresenter {
     private Activity activity;
 
     public GeneralPresenter(Activity activity) {
@@ -36,7 +36,7 @@ public class GeneralPresenter {
             return;
         }
         //user singleton is not there, redirect to main activity, where user is loaded
-        Intent intent = new Intent(activity, EventActivity.class);
+        Intent intent = new Intent(activity, MainPageActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         activity.startActivity(intent);
     }

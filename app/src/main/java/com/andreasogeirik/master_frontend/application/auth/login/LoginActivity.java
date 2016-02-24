@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.auth.login.interfaces.LoginPresenter;
 import com.andreasogeirik.master_frontend.application.auth.login.interfaces.LoginView;
-import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
+import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
 import com.andreasogeirik.master_frontend.model.User;
 
@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @Override
     public void navigateToEventView() {
-        Intent intent = new Intent(this, EventActivity.class);
+        Intent intent = new Intent(this, MainPageActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }

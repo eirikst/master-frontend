@@ -1,7 +1,7 @@
-package com.andreasogeirik.master_frontend.application.event.main;
+package com.andreasogeirik.master_frontend.application.main;
 
-import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventInteractor;
-import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventPresenter;
+import com.andreasogeirik.master_frontend.application.main.interfaces.EventInteractor;
+import com.andreasogeirik.master_frontend.application.main.interfaces.EventPresenter;
 import com.andreasogeirik.master_frontend.communication.GetMyFriendsTask;
 import com.andreasogeirik.master_frontend.communication.GetMeTask;
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingFriendshipsListener;
@@ -22,11 +22,11 @@ import java.util.Set;
 /**
  * Created by eirikstadheim on 16/02/16.
  */
-public class EventInteractorImpl implements EventInteractor, OnFinishedLoadingFriendshipsListener ,
+public class MainPageInteractorImpl implements EventInteractor, OnFinishedLoadingFriendshipsListener ,
         OnFinishedLoadingUserListener {
     private EventPresenter presenter;
 
-    public EventInteractorImpl(EventPresenter presenter) {
+    public MainPageInteractorImpl(EventPresenter presenter) {
         this.presenter = presenter;
     }
 
