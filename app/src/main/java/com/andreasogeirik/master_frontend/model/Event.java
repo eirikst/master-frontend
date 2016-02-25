@@ -1,8 +1,5 @@
 package com.andreasogeirik.master_frontend.model;
 
-import android.util.Pair;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,26 +18,18 @@ public class Event implements Serializable {
     private String name;
     private String location;
     private String description;
-    private Calendar startDate;
-    private Calendar endDate;
-    private Pair<Integer, Integer> startTime;
-    private Pair <Integer, Integer> endTime;
+    private Calendar startDate = new GregorianCalendar();
+    private Calendar endDate = new GregorianCalendar();
     private String imageUrl;
     private User admin;
     private Set<User> users = new HashSet<User>(0);
     private Set<EventPost> posts = new HashSet<EventPost>(0);
 
-    public Event(String name, String location, String description, Calendar startDate, Calendar
-            endDate, Pair<Integer, Integer> startTime, Pair<Integer, Integer> endTime,
-                 String imageUrl) {
+    public Event(String name, String location, String description, Calendar startDate) {
         this.name = name;
         this.location = location;
         this.description = description;
         this.startDate = startDate;
-        this.endDate = endDate;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.imageUrl = imageUrl;
     }
 
     public Event(JSONObject eventJson) throws JSONException {
@@ -64,6 +53,12 @@ public class Event implements Serializable {
             }
         }
         //TODO: mulig eventpost burde inn her og
+    }
+
+    public Event(JSONObject jsonEvent) throws JSONException {
+        this.name = jsonEvent.getString("name");
+        this.location = jsonEvent.getString("location");
+        this.description = jsonEvent.getString("description");
     }
 
     public Event() {

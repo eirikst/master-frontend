@@ -138,7 +138,7 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         String name = nameView.getText().toString();
         String location = locationView.getText().toString();
         String description = descriptionView.getText().toString();
-        presenter.create(new Event(name, location, description, this.startDate, this.endDate, this.startTimePair, this.endTimePair, ""), this.encodedImage);
+        presenter.create(name, location, description, this.startDate, this.endDate, this.startTimePair, this.endTimePair, this.encodedImage);
     }
 
     @OnClick(R.id.create_event_image_select_button)

@@ -16,53 +16,43 @@ import java.util.GregorianCalendar;
  */
 public class InputValidation {
 
-    public static void validateEvent(Event event, String encodedImage, CreateEventView createEventView, CreateEventInteractor interactor) {
+    private static Date convertToDate(Calendar eventDate, Pair<Integer, Integer> timePair) {
+        return new GregorianCalendar(eventDate.get(Calendar.YEAR), eventDate.get(Calendar.MONTH), eventDate.get(Calendar.DAY_OF_MONTH), timePair.first, timePair.second).getTime();
+    }
+
+    public static CreateEventValidationContainer validateEvent(String name, String location, String description, Calendar startDate, Calendar endDate, Pair<Integer, Integer> startTimePair, Pair<Integer, Integer> endTimePair) {
 
         // Mandatory inputs
-        if (TextUtils.isEmpty(event.getName())) {
-            createEventView.setNameError("Sett et navn");
-            return;
-        } else if (TextUtils.isEmpty(event.getLocation())) {
-            createEventView.setLocationError("Velg et sted");
-            return;
-        } else if (TextUtils.isEmpty(event.getDescription())) {
-            createEventView.setDescriptionError("Skriv en kort beskrivelse");
-            return;
-        } else if (event.getStartDate() == null) {
-            createEventView.setStartDateError("Velg en dato");
-            return;
-        } else if (event.getStartTime() == null) {
-            createEventView.setStartTimeError("Velg et starttidspunkt");
-            return;
-        } else if (convertToDate(event.getStartDate(), event.getStartTime()).before(new Date())) {
-            createEventView.setStartDateError("Velg et starttidspunkt etter nåværende tidspunkt");
-            return;
+
+        if (TextUtils.isEmpty(name)) {
+            return new CreateEventValidationContainer(CreateEventStatusCodes.NAME_ERROR, "Sett et navn");
+        } else if (TextUtils.isEmpty(location)) {
+            return new CreateEventValidationContainer(CreateEventStatusCodes.LOCATION_ERROR, "Velg et sted");
+        } else if (TextUtils.isEmpty(description)) {
+            return new CreateEventValidationContainer(CreateEventStatusCodes.DESCRIPTION_ERROR, "Skriv en kort beskrivelse");
+        } else if (startDate == null) {
+            return new CreateEventValidationContainer(CreateEventStatusCodes.START_DATE_ERROR, "Velg en dato");
+        } else if (startTimePair == null) {
+            return new CreateEventValidationContainer(CreateEventStatusCodes.START_TIME_ERROR, "Velg et starttidspunkt");
+        } else if (convertToDate(startDate, startTimePair).before(new Date())) {
+            return new CreateEventValidationContainer(CreateEventStatusCodes.START_DATE_ERROR, "Velg et starttidspunkt etter nåværende tidspunkt");
         }
 
         // Optional inputs
-        if (event.getEndDate() != null) {
-            if (event.getEndTime() == null) {
-                createEventView.setEndTimeError("Sett et slutttidspunkt");
-                return;
-            } else if (convertToDate(event.getEndDate(), event.getEndTime()).before(new Date())) {
-                createEventView.setEndDateError("Velg et slutttidspunkt etter nåværende tidspunkt");
-                return;
-
-            } else if (convertToDate(event.getEndDate(), event.getEndTime()).before(convertToDate(event.getStartDate(), event.getStartTime()))) {
-                createEventView.setEndDateError("Velg et tidspunkt etter startdato");
-                return;
+        if (endDate != null) {
+            if (endTimePair == null) {
+                return new CreateEventValidationContainer(CreateEventStatusCodes.END_TIME_ERROR, "Sett et slutttidspunkt");
+            } else if (convertToDate(endDate, endTimePair).before(new Date())) {
+                return new CreateEventValidationContainer(CreateEventStatusCodes.END_DATE_ERROR, "Velg et slutttidspunkt etter nåværende tidspunkt");
+            } else if (convertToDate(endDate, endTimePair).before(convertToDate(startDate, startTimePair))) {
+                return new CreateEventValidationContainer(CreateEventStatusCodes.END_DATE_ERROR, "Velg et tidspunkt etter startdato");
             }
-        } else if (event.getEndTime() != null && event.getEndDate() == null) {
-            createEventView.setEndDateError("Veld en sluttdato");
-            return;
+        } else if (endTimePair != null && endDate == null) {
+            return new CreateEventValidationContainer(CreateEventStatusCodes.END_DATE_ERROR, "Veld en sluttdato");
         }
 
-        createEventView.showProgress();
-        interactor.create(event, encodedImage);
-    }
+        return new CreateEventValidationContainer(CreateEventStatusCodes.OK);
 
-    private static Date convertToDate(Calendar eventDate, Pair<Integer, Integer> timePair) {
-        return new GregorianCalendar(eventDate.get(Calendar.YEAR), eventDate.get(Calendar.MONTH), eventDate.get(Calendar.DAY_OF_MONTH), timePair.first, timePair.second).getTime();
     }
 
 }
