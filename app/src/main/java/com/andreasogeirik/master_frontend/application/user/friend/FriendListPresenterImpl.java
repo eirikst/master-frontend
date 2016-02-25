@@ -9,7 +9,7 @@ import android.os.Environment;
 import com.andreasogeirik.master_frontend.application.general.interactors.GeneralPresenter;
 import com.andreasogeirik.master_frontend.application.user.friend.interfaces.FriendListPresenter;
 import com.andreasogeirik.master_frontend.application.user.friend.interfaces.FriendListView;
-import com.andreasogeirik.master_frontend.application.user.my_profile.ProfileActivity;
+import com.andreasogeirik.master_frontend.application.user.profile.ProfileActivity;
 import com.andreasogeirik.master_frontend.application.user.profile_not_friend.ProfileOthersActivity;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.Friendship;

@@ -1,5 +1,6 @@
 package com.andreasogeirik.master_frontend.util;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -7,21 +8,16 @@ import java.util.Date;
  * Created by eirikstadheim on 05/02/16.
  */
 public class DateUtility {
-    public static DateUtility instance;
-    private SimpleDateFormat dateFormat;
+    private static DateFormat fullFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+    private static DateFormat format = new SimpleDateFormat("dd.MM.yyyy");
 
-    private DateUtility() {
-        dateFormat = new SimpleDateFormat("dd.MM.yyyy hh:mm");
+    //dd.HH.yyyy HH:mm
+    public static String formatFull(Date date) {
+        return fullFormat.format(date);
     }
 
-    public static DateUtility getInstance() {
-        if(instance == null) {
-            instance = new DateUtility();
-        }
-        return instance;
-    }
-
-    public String format(Date date) {
-        return dateFormat.format(date);
+    //dd.HH.yyyy
+    public static String format(Date date) {
+        return format.format(date);
     }
 }

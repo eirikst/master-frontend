@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.os.Environment;
 
 import com.andreasogeirik.master_frontend.application.general.interactors.GeneralPresenter;
-import com.andreasogeirik.master_frontend.application.user.my_profile.ProfileActivity;
+import com.andreasogeirik.master_frontend.application.user.profile.ProfileActivity;
 import com.andreasogeirik.master_frontend.application.user.profile_not_friend.interfaces.ProfileOthersInteractor;
 import com.andreasogeirik.master_frontend.application.user.profile_not_friend.interfaces.ProfileOthersPresenter;
 import com.andreasogeirik.master_frontend.application.user.profile_not_friend.interfaces.ProfileOthersView;

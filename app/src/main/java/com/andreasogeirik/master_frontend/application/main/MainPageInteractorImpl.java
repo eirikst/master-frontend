@@ -2,10 +2,13 @@ package com.andreasogeirik.master_frontend.application.main;
 
 import com.andreasogeirik.master_frontend.application.main.interfaces.EventInteractor;
 import com.andreasogeirik.master_frontend.application.main.interfaces.EventPresenter;
+import com.andreasogeirik.master_frontend.communication.GetAttendingEventsTask;
 import com.andreasogeirik.master_frontend.communication.GetMyFriendsTask;
 import com.andreasogeirik.master_frontend.communication.GetMeTask;
+import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingFriendshipsListener;
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingUserListener;
+import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
@@ -23,11 +26,36 @@ import java.util.Set;
  * Created by eirikstadheim on 16/02/16.
  */
 public class MainPageInteractorImpl implements EventInteractor, OnFinishedLoadingFriendshipsListener ,
-        OnFinishedLoadingUserListener {
+        OnFinishedLoadingUserListener, GetAttendingEventsTask.OnFinishedLoadingAttendingEventsListener {
     private EventPresenter presenter;
 
     public MainPageInteractorImpl(EventPresenter presenter) {
         this.presenter = presenter;
+    }
+
+    @Override
+    public void findAttendingEvents() {
+        new GetAttendingEventsTask(this, CurrentUser.getInstance().getUser()).execute();
+    }
+
+    @Override
+    public void onSuccessAttendingEvents(JSONArray eventsJson) {
+        Set<Event> events = new HashSet<>();
+        try {
+            for(int i = 0; i < eventsJson.length(); i++) {
+                events.add(new Event(eventsJson.getJSONObject(i)));
+            }
+            presenter.successAttendingEvents(events);
+        }
+        catch (JSONException e) {
+            System.out.println("JSON error: " + e);
+            presenter.errorAttendingEvents(Constants.CLIENT_ERROR);
+        }
+    }
+
+    @Override
+    public void onFailureAttendingEvents(int code) {
+        presenter.errorAttendingEvents(code);
     }
 
     @Override
@@ -70,9 +98,6 @@ public class MainPageInteractorImpl implements EventInteractor, OnFinishedLoadin
                 friendRequests.add(friendship);
             }
         }
-
-        System.out.println("actual" + actualFriendships);
-        System.out.println("req" + friendRequests);
         presenter.successFriendshipsLoad(actualFriendships, friendRequests);
     }
 

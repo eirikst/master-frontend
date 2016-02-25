@@ -1,9 +1,9 @@
-package com.andreasogeirik.master_frontend.application.user.my_profile;
+package com.andreasogeirik.master_frontend.application.user.profile;
 
 import android.graphics.Bitmap;
 
-import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.ProfileInteractor;
-import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.ProfilePresenter;
+import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfileInteractor;
+import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfilePresenter;
 import com.andreasogeirik.master_frontend.communication.GetFriendsTask;
 import com.andreasogeirik.master_frontend.communication.GetPostsTask;
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingFriendshipsListener;

@@ -2,8 +2,13 @@ package com.andreasogeirik.master_frontend.model;
 
 import android.util.Pair;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,7 +30,9 @@ public class Event implements Serializable {
     private Set<User> users = new HashSet<User>(0);
     private Set<EventPost> posts = new HashSet<EventPost>(0);
 
-    public Event(String name, String location, String description, Calendar startDate, Calendar endDate, Pair<Integer, Integer> startTime, Pair<Integer, Integer> endTime, String imageUrl) {
+    public Event(String name, String location, String description, Calendar startDate, Calendar
+            endDate, Pair<Integer, Integer> startTime, Pair<Integer, Integer> endTime,
+                 String imageUrl) {
         this.name = name;
         this.location = location;
         this.description = description;
@@ -36,8 +43,38 @@ public class Event implements Serializable {
         this.imageUrl = imageUrl;
     }
 
+    public Event(JSONObject eventJson) throws JSONException {
+        id = eventJson.getInt("id");
+        name = eventJson.getString("name");
+        location = eventJson.getString("location");
+        startDate = new GregorianCalendar();
+        startDate.setTimeInMillis(eventJson.getLong("timeStart"));
+        if(!eventJson.isNull("timeEnd")) {
+            endDate = new GregorianCalendar();
+            endDate.setTimeInMillis(eventJson.getLong("timeEnd"));
+        }
+        imageUrl = eventJson.getString("imageUri");
+        if(!eventJson.isNull("admin")) {
+            admin = new User(eventJson.getJSONObject("admin"));
+        }
+        if(!eventJson.isNull("users")) {
+            JSONArray jsonUsers = eventJson.getJSONArray("users");
+            for (int i = 0; i < jsonUsers.length(); i++) {
+                users.add(new User(jsonUsers.getJSONObject(i)));
+            }
+        }
+        //TODO: mulig eventpost burde inn her og
+    }
+
     public Event() {
 
+    }
+
+    public int compareTo(Event event) {
+        if(this.getStartDate().before(event.getStartDate())) {
+            return -1;
+        }
+        return 1;
     }
 
     public int getId() {
@@ -134,5 +171,23 @@ public class Event implements Serializable {
 
     public void setPosts(Set<EventPost> posts) {
         this.posts = posts;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", location='" + location + '\'' +
+                ", description='" + description + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", admin=" + admin +
+                ", users=" + users +
+                ", posts=" + posts +
+                '}';
     }
 }

@@ -13,6 +13,7 @@ import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.model.Post;
 import com.andreasogeirik.master_frontend.util.DateUtility;
 
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
@@ -24,19 +25,19 @@ public class PostListAdapter extends ArrayAdapter<Post> {
 
     private List<Post> posts;
     private Bitmap profileImage;
+    private Comparator comparator;
 
 
     public PostListAdapter(Context context, List<Post> posts) {
         super(context, 0, posts);
         this.posts = posts;
 
-        //TODO:Sorting ikke helt på stell vel
-        this.sort(new Comparator<Post>() {
+        comparator = new Comparator<Post>() {
             @Override
             public int compare(Post lhs, Post rhs) {
                 return lhs.compareTo(rhs);
             }
-        });
+        };
     }
 
 
@@ -51,7 +52,7 @@ public class PostListAdapter extends ArrayAdapter<Post> {
         }
 
         // Lookup views
-        ImageView image = (ImageView)convertView.findViewById(R.id.post_image);
+        ImageView image = (ImageView)convertView.findViewById(R.id.event_image);
         if(profileImage != null) {
             image.setImageBitmap(profileImage);
         }
@@ -66,12 +67,30 @@ public class PostListAdapter extends ArrayAdapter<Post> {
 
         // Populate the data using the posts
         message.setText(post.getMessage());
-        dateCreated.setText(DateUtility.getInstance().format(post.getCreated()));
+        dateCreated.setText(DateUtility.formatFull(post.getCreated()));
         nrOfComments.setText("" + posts.get(position).getComments().size() + " comments");
         nrOfLikes.setText("" + posts.get(position).getLikers().size() + " likes");
 
         // Return view for rendering
         return convertView;
+    }
+
+    @Override
+    public void add(Post object) {
+        super.add(object);
+        sort(comparator);
+    }
+
+    @Override
+    public void addAll(Collection<? extends Post> collection) {
+        super.addAll(collection);
+        sort(comparator);
+    }
+
+    @Override
+    public void addAll(Post... items) {
+        super.addAll(items);
+        sort(comparator);
     }
 
     public void setProfileImage(Bitmap profileImage) {
