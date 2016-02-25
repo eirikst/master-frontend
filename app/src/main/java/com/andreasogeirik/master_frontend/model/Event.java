@@ -1,5 +1,6 @@
 package com.andreasogeirik.master_frontend.model;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -55,11 +56,6 @@ public class Event implements Serializable {
         //TODO: mulig eventpost burde inn her og
     }
 
-    public Event(JSONObject jsonEvent) throws JSONException {
-        this.name = jsonEvent.getString("name");
-        this.location = jsonEvent.getString("location");
-        this.description = jsonEvent.getString("description");
-    }
 
     public Event() {
 
@@ -120,22 +116,6 @@ public class Event implements Serializable {
         this.endDate = endDate;
     }
 
-    public Pair<Integer, Integer> getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Pair<Integer, Integer> startTime) {
-        this.startTime = startTime;
-    }
-
-    public Pair<Integer, Integer> getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Pair<Integer, Integer> endTime) {
-        this.endTime = endTime;
-    }
-
     public String getImageURI() {
         return imageUrl;
     }
@@ -177,8 +157,6 @@ public class Event implements Serializable {
                 ", description='" + description + '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", admin=" + admin +
                 ", users=" + users +
