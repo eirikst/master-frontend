@@ -5,6 +5,7 @@ import android.util.Pair;
 
 import com.andreasogeirik.master_frontend.listener.OnEventLoadedListener;
 import com.andreasogeirik.master_frontend.util.Constants;
+import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,10 +36,11 @@ public class GetEventTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEn
         RestTemplate template = new RestTemplate();
         ((SimpleClientHttpRequestFactory) template.getRequestFactory()).setConnectTimeout(1000 * 10);
         HttpHeaders headers = new HttpHeaders();
+        headers.set("Cookie", UserPreferencesManager.getInstance().getCookie());
         HttpEntity<String> entity = new HttpEntity(headers);
 
         try {
-            response = template.exchange(Constants.BACKEND_URL + "events", HttpMethod.GET, entity, String.class);
+            response = template.exchange(Constants.BACKEND_URL + "events/" + eventId, HttpMethod.GET, entity, String.class);
             return new Pair(Constants.OK, response);
         } catch (HttpClientErrorException e) {
             System.out.println("Client error:" + e);

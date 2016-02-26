@@ -8,18 +8,21 @@ import com.andreasogeirik.master_frontend.application.event.create.interfaces.Cr
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventPresenter;
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventView;
 import com.andreasogeirik.master_frontend.application.general.interactors.GeneralPresenter;
+import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.listener.OnEncodeImageFinishedListener;
 import com.andreasogeirik.master_frontend.model.Event;
+import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
-import com.andreasogeirik.master_frontend.util.CreateEventStatusCodes;
-import com.andreasogeirik.master_frontend.util.CreateEventValidationContainer;
-import com.andreasogeirik.master_frontend.util.InputValidation;
+import com.andreasogeirik.master_frontend.util.validation.CreateEventStatusCodes;
+import com.andreasogeirik.master_frontend.util.validation.CreateEventValidationContainer;
+import com.andreasogeirik.master_frontend.util.validation.InputValidation;
 
 import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 
 /**
  * Created by Andreas on 10.02.2016.
@@ -91,9 +94,11 @@ public class CreateEventPresenterImpl extends GeneralPresenter implements Create
                     break;
             }
         } else {
+            // Set start time in milliseconds
             Calendar startDateCal = new GregorianCalendar();
             startDateCal.setTimeInMillis(dateToLong(startDate, startTimePair.first, startTimePair.second));
             Event event = new Event(name, location, description, startDateCal);
+            // Check if end date and time is chosen
             if (endDate != null && endTimePair != null) {
                 Calendar endDateCal = new GregorianCalendar();
                 endDateCal.setTimeInMillis(dateToLong(endDate, endTimePair.first, endTimePair.second));

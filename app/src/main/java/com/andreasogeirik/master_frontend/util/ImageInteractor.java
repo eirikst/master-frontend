@@ -63,7 +63,7 @@ public class ImageInteractor {
                 listener.foundImage(imageUri, result);
 
                 imgDownloader.writeToDisk(new File(storagePath, imageUri), result,
-                        Bitmap.CompressFormat.PNG, true,  new BasicImageDownloader.
+                        Bitmap.CompressFormat.JPEG, true,  new BasicImageDownloader.
                                 OnBitmapSaveListener() {
                     @Override
                     public void onBitmapSaved() {

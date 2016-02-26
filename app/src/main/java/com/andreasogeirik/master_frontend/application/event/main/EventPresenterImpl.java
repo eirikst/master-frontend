@@ -1,6 +1,8 @@
 package com.andreasogeirik.master_frontend.application.event.main;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.os.Environment;
 
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventInteractor;
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventPresenter;
@@ -8,6 +10,7 @@ import com.andreasogeirik.master_frontend.application.event.main.interfaces.Even
 import com.andreasogeirik.master_frontend.application.general.interactors.GeneralPresenter;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.util.Constants;
+import com.andreasogeirik.master_frontend.util.ImageInteractor;
 
 import static com.andreasogeirik.master_frontend.util.Constants.CLIENT_ERROR;
 import static com.andreasogeirik.master_frontend.util.Constants.RESOURCE_ACCESS_ERROR;
@@ -16,9 +19,10 @@ import static com.andreasogeirik.master_frontend.util.Constants.RESOURCE_ACCESS_
 /**
  * Created by Andreas on 10.02.2016.
  */
-public class EventPresenterImpl extends GeneralPresenter implements EventPresenter {
+public class EventPresenterImpl extends GeneralPresenter implements EventPresenter, ImageInteractor.OnImageFoundListener {
     private EventView eventView;
     private EventInteractor interactor;
+    private Event event;
 
 
     public EventPresenterImpl(EventView eventView) {
@@ -34,6 +38,7 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
     public void getEvent(int eventId) {
         interactor.getEvent(eventId);
     }
+
 
     @Override
     public void setEventView(Event event) {
@@ -51,5 +56,25 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
                 eventView.setEventError("Fant ikke ressurs. Prøv igjen");
                 break;
         }
+    }
+
+    @Override
+    public void findImage(String imageUrl) {
+        ImageInteractor.getInstance().findImage(imageUrl, getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), this);
+    }
+
+    @Override
+    public void foundImage(String imageUri, Bitmap bitmap) {
+        eventView.setImage(bitmap);
+    }
+
+    @Override
+    public void onProgressChange(int percent) {
+
+    }
+
+    @Override
+    public void imageNotFound(String imageUri) {
+
     }
 }

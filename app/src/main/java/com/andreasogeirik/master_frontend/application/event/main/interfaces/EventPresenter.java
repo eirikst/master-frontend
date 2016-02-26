@@ -9,4 +9,5 @@ public interface EventPresenter {
     void getEvent(int eventId);
     void setEventView(Event event);
     void displayError(int error);
+    void findImage(String imageUrl);
 }

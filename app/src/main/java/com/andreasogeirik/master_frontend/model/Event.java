@@ -1,5 +1,6 @@
 package com.andreasogeirik.master_frontend.model;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,8 +19,8 @@ public class Event implements Serializable {
     private String name;
     private String location;
     private String description;
-    private Calendar startDate = new GregorianCalendar();
-    private Calendar endDate = new GregorianCalendar();
+    private Calendar startDate;
+    private Calendar endDate;
     private String imageUrl;
     private User admin;
     private Set<User> users = new HashSet<User>(0);
@@ -36,6 +37,20 @@ public class Event implements Serializable {
         this.name = jsonEvent.getString("name");
         this.location = jsonEvent.getString("location");
         this.description = jsonEvent.getString("description");
+        this.startDate = new GregorianCalendar();
+        this.startDate.setTimeInMillis(jsonEvent.getLong("timeStart"));
+        if (!jsonEvent.isNull("timeEnd")){
+            this.endDate = new GregorianCalendar();
+            this.endDate.setTimeInMillis(jsonEvent.getLong("timeEnd"));
+        }
+        this.imageUrl = jsonEvent.getString("imageUri");
+        this.admin = new User(jsonEvent.getJSONObject("admin"));
+        JSONArray jsonUsers = jsonEvent.getJSONArray("users");
+        for (int i = 0; i < jsonUsers.length(); i++) {
+            this.users.add(new User(jsonUsers.getJSONObject(i)));
+        }
+
+        // TODO FIKSE POSTER
     }
 
     public Event() {

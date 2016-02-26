@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.R;
@@ -25,6 +26,10 @@ public class EventActivity extends AppCompatActivity implements EventView {
     View progressView;
     @Bind(R.id.event_view)
     View eventView;
+
+    @Bind(R.id.event_image)
+    ImageView imageView;
+
 
 
     @Bind(R.id.event_name)
@@ -52,7 +57,7 @@ public class EventActivity extends AppCompatActivity implements EventView {
         this.presenter = new EventPresenterImpl(this);
         this.progressBarManager = new ProgressBarManager(this, eventView, progressView);
 
-        presenter.getEvent(1);
+        presenter.getEvent(5);
     }
 
 
@@ -68,6 +73,7 @@ public class EventActivity extends AppCompatActivity implements EventView {
         this.nameView.setText(event.getName());
         this.locationView.setText(event.getLocation());
         this.description.setText(event.getDescription());
+        presenter.findImage(event.getImageURI());
     }
 
     @Override
@@ -87,7 +93,7 @@ public class EventActivity extends AppCompatActivity implements EventView {
 
     @Override
     public void setImage(Bitmap image) {
-
+        this.imageView.setImageBitmap(image);
     }
 
     @Override

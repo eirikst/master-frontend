@@ -28,11 +28,13 @@ public class CreateEventInteractorImpl implements CreateEventInteractor, OnCreat
 
     @Override
     public void create(Event event, String encodedImage) {
+        // Saves current event in case of image upload
         this.event = event;
         if (encodedImage != null) {
-            JSONObject obj = encodedImageToJson(encodedImage);
-            new UploadImageTask(obj, this).execute();
+            // Execute image upload
+            new UploadImageTask(encodedImage, this).execute();
         } else {
+            // No image selected, create event without image
             new CreateEventTask(eventToJson(event), this).execute();
         }
     }
@@ -77,17 +79,6 @@ public class CreateEventInteractorImpl implements CreateEventInteractor, OnCreat
             e.printStackTrace();
         }
         return jsonEvent;
-    }
-
-    private JSONObject encodedImageToJson(String encodedImage) {
-
-        JSONObject jsonImage = new JSONObject();
-        try {
-            jsonImage.put("encodedImage", encodedImage);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return jsonImage;
     }
 
     private long dateToLong(Calendar eventDate, int hour, int minute) {

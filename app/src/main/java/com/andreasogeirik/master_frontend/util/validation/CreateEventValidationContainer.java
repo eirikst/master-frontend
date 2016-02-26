@@ -1,4 +1,6 @@
-package com.andreasogeirik.master_frontend.util;
+package com.andreasogeirik.master_frontend.util.validation;
+
+import com.andreasogeirik.master_frontend.util.validation.CreateEventStatusCodes;
 
 /**
  * Created by Andreas on 24.02.2016.

@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
 import com.andreasogeirik.master_frontend.application.settings.SettingsActivity;
 import com.andreasogeirik.master_frontend.application.auth.entrance.EntranceActivity;
 import com.andreasogeirik.master_frontend.application.main.interfaces.EventPresenter;
@@ -93,8 +94,8 @@ public class MainPageActivity extends AppCompatActivity implements EventView, Cu
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainPageActivity.this, ProfileActivity.class);
-                intent.putExtra("user", CurrentUser.getInstance().getUser());
+                Intent intent = new Intent(MainPageActivity.this, EventActivity.class);
+//                intent.putExtra("user", CurrentUser.getInstance().getUser());
                 MainPageActivity.this.startActivity(intent);
             }
         });
