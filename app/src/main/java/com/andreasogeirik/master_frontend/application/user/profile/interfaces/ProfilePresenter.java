@@ -1,14 +1,11 @@
-package com.andreasogeirik.master_frontend.application.user.my_profile.interfaces;
+package com.andreasogeirik.master_frontend.application.user.profile.interfaces;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import com.andreasogeirik.master_frontend.model.Friendship;
-import com.andreasogeirik.master_frontend.model.Post;
-import com.andreasogeirik.master_frontend.model.User;
+import com.andreasogeirik.master_frontend.model.UserPost;
 
-import java.io.File;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -17,7 +14,7 @@ import java.util.Set;
 public interface ProfilePresenter {
     void findPosts();
 
-    void successPostsLoad(Set<Post> posts);
+    void successPostsLoad(Set<UserPost> posts);
     void errorPostsLoad(int code);
 
     void successFriendsLoad(Set<Friendship> friends);

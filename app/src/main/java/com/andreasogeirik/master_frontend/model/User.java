@@ -5,7 +5,6 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -22,10 +21,9 @@ public class User implements Serializable {
     private String lastname;
     private String location;
     private String imageUri;
-    private Date timeCreated;
     private Set<Friendship> friends = new HashSet<>();
     private Set<Friendship> requests = new HashSet<>();
-    private Set<Post> posts = new HashSet<>();
+    private Set<UserPost> posts = new HashSet<>();
 
     public User() {
     }
@@ -41,6 +39,7 @@ public class User implements Serializable {
         this.imageUri = imageUri;
     }
 
+    //TODO: hvis vi skal laste en bruker med friends eller posts fra json, gjør det i konstruktøren her(se Post/UserPost)
     public User(JSONObject json) throws JSONException {
         id = json.getInt("id");
         email = json.getString("email");
@@ -166,7 +165,7 @@ public class User implements Serializable {
         }
     }
 
-    public void addPosts(Collection<Post> posts) {
+    public void addPosts(Collection<UserPost> posts) {
         if(posts != null) {
             this.posts.addAll(posts);
         }
@@ -250,14 +249,6 @@ public class User implements Serializable {
         this.imageUri = imageUri;
     }
 
-    public Date getTimeCreated() {
-        return timeCreated;
-    }
-
-    public void setTimeCreated(Date timeCreated) {
-        this.timeCreated = timeCreated;
-    }
-
     public Set<Friendship> getFriends() {
         return friends;
     }
@@ -274,11 +265,11 @@ public class User implements Serializable {
         this.requests = requests;
     }
 
-    public Set<Post> getPosts() {
+    public Set<UserPost> getPosts() {
         return posts;
     }
 
-    public void setPosts(Set<Post> posts) {
+    public void setPosts(Set<UserPost> posts) {
         this.posts = posts;
     }
 
@@ -297,7 +288,6 @@ public class User implements Serializable {
                 ", lastname='" + lastname + '\'' +
                 ", location='" + location + '\'' +
                 ", imageUri='" + imageUri + '\'' +
-                ", timeCreated=" + timeCreated +
                 ", friends=";
         if(it != null) {
             while (it.hasNext()) {

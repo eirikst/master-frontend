@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".application.user.my_profile.ProfileActivity"
+            android:name=".application.user.profile.ProfileActivity"
             android:label="@string/title_activity_my_profile" />
         <activity android:name=".application.user.friend.FriendListActivity" />
         <activity

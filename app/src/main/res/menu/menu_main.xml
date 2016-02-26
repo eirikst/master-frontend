@@ -6,6 +6,9 @@
     <item android:id="@+id/create_event"
         android:title="@string/create_event"
         app:showAsAction="never"/>
+    <item android:id="@+id/my_profile"
+        android:title="@string/me"
+        app:showAsAction="never"/>
     <item android:id="@+id/settings"
         android:title="@string/settings"
         app:showAsAction="never"/>

@@ -1,6 +1,5 @@
 package com.andreasogeirik.master_frontend.model;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -55,6 +54,13 @@ public class Event implements Serializable {
 
     public Event() {
 
+    }
+
+    public int compareTo(Event event) {
+        if(this.getStartDate().before(event.getStartDate())) {
+            return -1;
+        }
+        return 1;
     }
 
     public int getId() {
@@ -135,5 +141,21 @@ public class Event implements Serializable {
 
     public void setPosts(Set<EventPost> posts) {
         this.posts = posts;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", location='" + location + '\'' +
+                ", description='" + description + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", admin=" + admin +
+                ", users=" + users +
+                ", posts=" + posts +
+                '}';
     }
 }

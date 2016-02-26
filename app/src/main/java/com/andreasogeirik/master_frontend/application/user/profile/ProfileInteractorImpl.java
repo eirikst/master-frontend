@@ -1,15 +1,15 @@
-package com.andreasogeirik.master_frontend.application.user.my_profile;
+package com.andreasogeirik.master_frontend.application.user.profile;
 
 import android.graphics.Bitmap;
 
-import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.ProfileInteractor;
-import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.ProfilePresenter;
+import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfileInteractor;
+import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfilePresenter;
 import com.andreasogeirik.master_frontend.communication.GetFriendsTask;
 import com.andreasogeirik.master_frontend.communication.GetPostsTask;
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingFriendshipsListener;
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingPostsListener;
 import com.andreasogeirik.master_frontend.model.Friendship;
-import com.andreasogeirik.master_frontend.model.Post;
+import com.andreasogeirik.master_frontend.model.UserPost;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.ImageInteractor;
@@ -45,11 +45,11 @@ public class ProfileInteractorImpl implements ProfileInteractor, OnFinishedLoadi
 
     @Override
     public void onSuccessPostsLoad(JSONArray jsonPosts) {
-        Set<Post> posts = new HashSet<>();
+        Set<UserPost> posts = new HashSet<>();
 
         try {
             for (int i = 0; i < jsonPosts.length(); i++) {
-                posts.add(new Post(jsonPosts.getJSONObject(i)));
+                posts.add(new UserPost(jsonPosts.getJSONObject(i)));
             }
         }
         catch (JSONException e) {

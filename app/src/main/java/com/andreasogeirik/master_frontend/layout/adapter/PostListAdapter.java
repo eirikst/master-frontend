@@ -10,39 +10,40 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.R;
-import com.andreasogeirik.master_frontend.model.Post;
+import com.andreasogeirik.master_frontend.model.UserPost;
 import com.andreasogeirik.master_frontend.util.DateUtility;
 
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
 /**
  * Created by eirikstadheim on 05/02/16.
  */
-public class PostListAdapter extends ArrayAdapter<Post> {
+public class PostListAdapter extends ArrayAdapter<UserPost> {
     public static final int SET_ALL = -1;
 
-    private List<Post> posts;
+    private List<UserPost> posts;
     private Bitmap profileImage;
+    private Comparator comparator;
 
 
-    public PostListAdapter(Context context, List<Post> posts) {
+    public PostListAdapter(Context context, List<UserPost> posts) {
         super(context, 0, posts);
         this.posts = posts;
 
-        //TODO:Sorting ikke helt på stell vel
-        this.sort(new Comparator<Post>() {
+        comparator = new Comparator<UserPost>() {
             @Override
-            public int compare(Post lhs, Post rhs) {
+            public int compare(UserPost lhs, UserPost rhs) {
                 return lhs.compareTo(rhs);
             }
-        });
+        };
     }
 
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Post post = getItem(position);
+        UserPost post = getItem(position);
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
@@ -51,7 +52,7 @@ public class PostListAdapter extends ArrayAdapter<Post> {
         }
 
         // Lookup views
-        ImageView image = (ImageView)convertView.findViewById(R.id.post_image);
+        ImageView image = (ImageView)convertView.findViewById(R.id.event_image);
         if(profileImage != null) {
             image.setImageBitmap(profileImage);
         }
@@ -66,12 +67,30 @@ public class PostListAdapter extends ArrayAdapter<Post> {
 
         // Populate the data using the posts
         message.setText(post.getMessage());
-        dateCreated.setText(DateUtility.getInstance().format(post.getCreated()));
+        dateCreated.setText(DateUtility.formatFull(post.getCreated()));
         nrOfComments.setText("" + posts.get(position).getComments().size() + " comments");
         nrOfLikes.setText("" + posts.get(position).getLikers().size() + " likes");
 
         // Return view for rendering
         return convertView;
+    }
+
+    @Override
+    public void add(UserPost object) {
+        super.add(object);
+        sort(comparator);
+    }
+
+    @Override
+    public void addAll(Collection<? extends UserPost> collection) {
+        super.addAll(collection);
+        sort(comparator);
+    }
+
+    @Override
+    public void addAll(UserPost... items) {
+        super.addAll(items);
+        sort(comparator);
     }
 
     public void setProfileImage(Bitmap profileImage) {

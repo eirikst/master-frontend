@@ -1,4 +1,4 @@
-package com.andreasogeirik.master_frontend.application.user.my_profile;
+package com.andreasogeirik.master_frontend.application.user.profile.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;

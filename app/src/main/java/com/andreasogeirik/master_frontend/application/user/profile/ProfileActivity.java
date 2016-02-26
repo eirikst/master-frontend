@@ -1,4 +1,4 @@
-package com.andreasogeirik.master_frontend.application.user.my_profile;
+package com.andreasogeirik.master_frontend.application.user.profile;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -17,11 +17,13 @@ import android.widget.Toast;
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.general.interactors.ToolbarPresenterImpl;
 import com.andreasogeirik.master_frontend.application.general.interactors.interfaces.ToolbarPresenter;
+import com.andreasogeirik.master_frontend.application.user.profile.fragments.FriendProfileHeader;
+import com.andreasogeirik.master_frontend.application.user.profile.fragments.MyProfileHeader;
 import com.andreasogeirik.master_frontend.layout.adapter.PostListAdapter;
 import com.andreasogeirik.master_frontend.listener.MyProfileHeaderListener;
-import com.andreasogeirik.master_frontend.model.Post;
-import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.ProfilePresenter;
-import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.ProfileView;
+import com.andreasogeirik.master_frontend.model.UserPost;
+import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfilePresenter;
+import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfileView;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
 
@@ -205,7 +207,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
      * Update post list
      */
     @Override
-    public void addPosts(Set<Post> posts) {
+    public void addPosts(Set<UserPost> posts) {
         if(posts.size() < Constants.NUMBER_OF_POSTS_RETURNED) {
             footerBtn.setText("Ingen flere poster");
             footerBtn.setClickable(false);

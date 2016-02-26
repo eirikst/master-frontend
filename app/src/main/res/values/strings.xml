@@ -54,4 +54,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="submit_text_size">Angi tekststørrelse:</string>
     <string name="settings">Innstillinger</string>
+    <string name="me">Meg</string>
 </resources>

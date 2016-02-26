@@ -1,27 +1,58 @@
 package com.andreasogeirik.master_frontend.model;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by Andreas on 10.02.2016.
+ * Created by eirikstadheim on 05/02/16.
  */
 public class UserPost implements Serializable {
     private int id;
     private String message;
-    private Date timeCreated;
     private String imageUri;
-    private User user;
-    private Set<UserPostComment> comments = new HashSet<UserPostComment>(0);
-    private Set<UserPostLike> likes = new HashSet<UserPostLike>(0);
+    private Date created;
+    private Set<UserPostComment> comments = new HashSet<>();
+    private Set<User> likers = new HashSet<>();
 
-    public UserPost(int id, String message, Date timeCreated, String imageUri) {
-        this.id = id;
-        this.message = message;
-        this.timeCreated = timeCreated;
-        this.imageUri = imageUri;
+    public UserPost() {
+    }
+
+    public UserPost(JSONObject post) throws JSONException {
+        id = post.getInt("id");
+        message = post.getString("message");
+        imageUri = post.getString("imageUri");
+        created = new Date(post.getLong("timeCreated"));
+
+        JSONArray jsonComments = post.getJSONArray("likers");
+        JSONArray jsonLikers = post.getJSONArray("likers");
+
+        setComments(jsonComments);
+        setLikers(jsonLikers);
+    }
+
+    private void setComments(JSONArray jsonComments) throws JSONException {
+        for (int i = 0; i < jsonComments.length(); i++) {
+            UserPostComment comment = new UserPostComment();
+            comment.setId(jsonComments.getJSONObject(i).getInt("id"));
+            comment.setMessage(jsonComments.getJSONObject(i).getString("message"));
+            comments.add(comment);
+        }
+    }
+
+    private void setLikers(JSONArray jsonLikers) throws JSONException {
+        for (int i = 0; i < jsonLikers.length(); i++) {
+            User liker = new User();
+            liker.setId(jsonLikers.getJSONObject(i).getInt("id"));
+            liker.setLastname(jsonLikers.getJSONObject(i).getString("lastname"));
+            liker.setFirstname(jsonLikers.getJSONObject(i).getString("firstname"));
+            likers.add(liker);
+        }
     }
 
     public int getId() {
@@ -40,14 +71,6 @@ public class UserPost implements Serializable {
         this.message = message;
     }
 
-    public Date getTimeCreated() {
-        return timeCreated;
-    }
-
-    public void setTimeCreated(Date timeCreated) {
-        this.timeCreated = timeCreated;
-    }
-
     public String getImageUri() {
         return imageUri;
     }
@@ -56,15 +79,15 @@ public class UserPost implements Serializable {
         this.imageUri = imageUri;
     }
 
-    public User getUser() {
-        return user;
+    public Date getCreated() {
+        return created;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCreated(Date created) {
+        this.created = created;
     }
 
-    public Set<UserPostComment> getComments() {
+    public Set getComments() {
         return comments;
     }
 
@@ -72,11 +95,30 @@ public class UserPost implements Serializable {
         this.comments = comments;
     }
 
-    public Set<UserPostLike> getLikes() {
-        return likes;
+    public Set<User> getLikers() {
+        return likers;
     }
 
-    public void setLikes(Set<UserPostLike> likes) {
-        this.likes = likes;
+    public void setLikers(Set<User> likers) {
+        this.likers = likers;
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", message='" + message + '\'' +
+                ", imageUri='" + imageUri + '\'' +
+                ", created=" + created +
+                ", comments=" + comments +
+                ", likers=" + likers +
+                '}';
+    }
+
+    public int compareTo(UserPost post) {
+        if(this.getCreated().before(post.getCreated())) {
+            return 1;
+        }
+        return -1;
     }
 }

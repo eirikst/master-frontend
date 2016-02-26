@@ -1,4 +1,4 @@
-package com.andreasogeirik.master_frontend.application.user.my_profile;
+package com.andreasogeirik.master_frontend.application.user.profile;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,12 +8,12 @@ import android.os.Environment;
 
 import com.andreasogeirik.master_frontend.application.general.interactors.GeneralPresenter;
 import com.andreasogeirik.master_frontend.application.user.friend.FriendListActivity;
-import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.ProfileInteractor;
+import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfileInteractor;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.Friendship;
-import com.andreasogeirik.master_frontend.model.Post;
-import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.ProfilePresenter;
-import com.andreasogeirik.master_frontend.application.user.my_profile.interfaces.ProfileView;
+import com.andreasogeirik.master_frontend.model.UserPost;
+import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfilePresenter;
+import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfileView;
 import com.andreasogeirik.master_frontend.model.User;
 
 import java.util.ArrayList;
@@ -66,7 +66,7 @@ public class ProfilePresenterImpl extends GeneralPresenter implements ProfilePre
     }
 
     @Override
-    public void successPostsLoad(Set<Post> posts) {
+    public void successPostsLoad(Set<UserPost> posts) {
         user.addPosts(posts);
         view.addPosts(posts);
     }
