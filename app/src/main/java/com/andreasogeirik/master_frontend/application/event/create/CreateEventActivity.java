@@ -97,9 +97,6 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     private ProgressBarManager progressBarManager;
 
     private int PICK_IMAGE_REQUEST = 1;
-    private String encodedImage;
-    private String imagePath;
-    private String fileName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,7 +135,7 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         String name = nameView.getText().toString();
         String location = locationView.getText().toString();
         String description = descriptionView.getText().toString();
-        presenter.create(name, location, description, this.startDate, this.endDate, this.startTimePair, this.endTimePair, this.encodedImage);
+        presenter.create(name, location, description, this.startDate, this.endDate, this.startTimePair, this.endTimePair);
     }
 
     @OnClick(R.id.create_event_image_select_button)
@@ -281,9 +278,8 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     }
 
     @Override
-    public void setImage(Bitmap bitmap, String encodedImage) {
+    public void setImage(Bitmap bitmap) {
         this.imageVIew.setImageBitmap(bitmap);
-        this.encodedImage = encodedImage;
     }
 
     private void setDate(boolean startDate) {

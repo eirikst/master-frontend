@@ -30,6 +30,7 @@ import java.util.HashSet;
 public class CreateEventPresenterImpl extends GeneralPresenter implements CreateEventPresenter, OnEncodeImageFinishedListener {
     CreateEventView createEventView;
     private CreateEventInteractor interactor;
+    private byte[] byteImage;
 
 
     public CreateEventPresenterImpl(CreateEventView createEventView) {
@@ -65,7 +66,7 @@ public class CreateEventPresenterImpl extends GeneralPresenter implements Create
     }
 
     @Override
-    public void create(String name, String location, String description, Calendar startDate, Calendar endDate, Pair<Integer, Integer> startTimePair, Pair<Integer, Integer> endTimePair, String encodedImage) {
+    public void create(String name, String location, String description, Calendar startDate, Calendar endDate, Pair<Integer, Integer> startTimePair, Pair<Integer, Integer> endTimePair) {
 
         CreateEventValidationContainer createEventValidationContainer = InputValidation.validateEvent(name, location, description, startDate, endDate, startTimePair, endTimePair);
         if (createEventValidationContainer.getStatusCode() != CreateEventStatusCodes.OK) {
@@ -105,14 +106,15 @@ public class CreateEventPresenterImpl extends GeneralPresenter implements Create
                 event.setEndDate(endDateCal);
             }
             createEventView.showProgress();
-            interactor.create(event, encodedImage);
+            interactor.create(event, byteImage);
         }
     }
 
     @Override
-    public void onSuccess(Bitmap bitmap, String encodedImage) {
+    public void onSuccess(Bitmap bitmap, byte[] byteImage) {
         createEventView.hideProgress();
-        createEventView.setImage(bitmap, encodedImage);
+        this.byteImage = byteImage;
+        createEventView.setImage(bitmap);
     }
 
     @Override

@@ -27,12 +27,12 @@ public class CreateEventInteractorImpl implements CreateEventInteractor, OnCreat
     }
 
     @Override
-    public void create(Event event, String encodedImage) {
+    public void create(Event event, byte[] byteImage) {
         // Saves current event in case of image upload
         this.event = event;
-        if (encodedImage != null) {
+        if (byteImage != null) {
             // Execute image upload
-            new UploadImageTask(encodedImage, this).execute();
+            new UploadImageTask(byteImage, this).execute();
         } else {
             // No image selected, create event without image
             new CreateEventTask(eventToJson(event), this).execute();

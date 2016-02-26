@@ -4,6 +4,8 @@
     // Toolbar
     <string name="sign_out">Logg ut</string>
     <string name="create_event">Opprett hendelse</string>
+    <string name="get_event">Les hendelse</string>
+
 
     //Create Event
     <string name="event_create_name">Navn på hendelse</string>

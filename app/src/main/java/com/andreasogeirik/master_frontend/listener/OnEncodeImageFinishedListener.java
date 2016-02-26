@@ -8,6 +8,6 @@ import com.andreasogeirik.master_frontend.application.event.create.ImageStatusCo
  * Created by Andreas on 20.02.2016.
  */
 public interface OnEncodeImageFinishedListener {
-    void onSuccess(Bitmap bitmap, String encodedImage);
+    void onSuccess(Bitmap bitmap, byte[] byteImage);
     void onError(ImageStatusCode statusCode);
 }

@@ -1,5 +1,6 @@
 package com.andreasogeirik.master_frontend.model;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 

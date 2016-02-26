@@ -6,5 +6,5 @@ import com.andreasogeirik.master_frontend.model.Event;
  * Created by Andreas on 10.02.2016.
  */
 public interface CreateEventInteractor {
-    void create(Event event, String encodedImage);
+    void create(Event event, byte[] byteImage);
 }
