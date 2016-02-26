@@ -7,7 +7,6 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -18,8 +17,8 @@ public class Post implements Serializable {
     private String message;
     private String imageUri;
     private Date created;
-    private Set<Comment> comments;
-    private Set<User> likers;
+    private Set<Comment> comments = new HashSet<>();
+    private Set<User> likers = new HashSet<>();
 
     public Post() {
     }
@@ -29,34 +28,31 @@ public class Post implements Serializable {
         message = post.getString("message");
         imageUri = post.getString("imageUri");
         created = new Date(post.getLong("timeCreated"));
-        comments = new HashSet<>();
-        likers = new HashSet<>();
 
-
-        JSONArray jsonComments = post.getJSONArray("comments");
-
-        if(jsonComments != null) {
-            for (int i = 0; i < jsonComments.length(); i++) {
-                Comment comment = new Comment();
-                comment.setId(jsonComments.getJSONObject(i).getInt("id"));
-                comment.setMessage(jsonComments.getJSONObject(i).getString("message"));
-                comments.add(comment);
-            }
-        }
-
-
+        JSONArray jsonComments = post.getJSONArray("likers");
         JSONArray jsonLikers = post.getJSONArray("likers");
 
-        if(jsonLikers != null) {
-            for (int i = 0; i < jsonLikers.length(); i++) {
-                User liker = new User();
-                liker.setId(jsonLikers.getJSONObject(i).getInt("id"));
-                liker.setLastname(jsonLikers.getJSONObject(i).getString("lastname"));
-                liker.setFirstname(jsonLikers.getJSONObject(i).getString("firstname"));
-                likers.add(liker);
-            }
-        }
+        setComments(jsonComments);
+        setLikers(jsonLikers);
+    }
 
+    private void setComments(JSONArray jsonComments) throws JSONException {
+        for (int i = 0; i < jsonComments.length(); i++) {
+            Comment comment = new Comment();
+            comment.setId(jsonComments.getJSONObject(i).getInt("id"));
+            comment.setMessage(jsonComments.getJSONObject(i).getString("message"));
+            comments.add(comment);
+        }
+    }
+
+    private void setLikers(JSONArray jsonLikers) throws JSONException {
+        for (int i = 0; i < jsonLikers.length(); i++) {
+            User liker = new User();
+            liker.setId(jsonLikers.getJSONObject(i).getInt("id"));
+            liker.setLastname(jsonLikers.getJSONObject(i).getString("lastname"));
+            liker.setFirstname(jsonLikers.getJSONObject(i).getString("firstname"));
+            likers.add(liker);
+        }
     }
 
     public int getId() {
@@ -115,6 +111,7 @@ public class Post implements Serializable {
                 ", imageUri='" + imageUri + '\'' +
                 ", created=" + created +
                 ", comments=" + comments +
+                ", likers=" + likers +
                 '}';
     }
 
