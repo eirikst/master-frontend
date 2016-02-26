@@ -23,8 +23,7 @@ import java.util.Set;
 /**
  * Created by eirikstadheim on 06/02/16.
  */
-public class MainPagePresenterImpl extends GeneralPresenter implements EventPresenter,
-        ImageInteractor.OnImageFoundListener {
+public class MainPagePresenterImpl extends GeneralPresenter implements EventPresenter {
     private EventView view;
     private EventInteractor interactor;
 
@@ -64,29 +63,6 @@ public class MainPagePresenterImpl extends GeneralPresenter implements EventPres
     private void initDomain() {
         //TODO:tenke på hvordan dette gjøres vs saveinstancestate: presenter lages jo på nytt etter ny instance, altså lastes dette fra nett
         findFriendships();
-        findAttendingEvents();
-    }
-
-    @Override
-    public void findAttendingEvents() {
-        interactor.findAttendingEvents();
-    }
-
-    @Override
-    public void successAttendingEvents(Set<Event> events) {
-        System.out.println("Attending events:");
-        Iterator it = events.iterator();
-        while(it.hasNext()) {
-            System.out.println(it.next());
-        }
-
-        this.attendingEvents = events;
-        view.setAttendingEvents(events);
-    }
-
-    @Override
-    public void errorAttendingEvents(int code) {
-        view.displayMessage("Lasting av aktiviteter feilet");
     }
 
     @Override
@@ -118,26 +94,5 @@ public class MainPagePresenterImpl extends GeneralPresenter implements EventPres
     @Override
     public void findUserFailure(int code) {
         //TODO:do something
-    }
-
-    @Override
-    public void findImage(String imageUri) {
-        ImageInteractor.getInstance().findImage(imageUri, getActivity().getExternalFilesDir
-                (Environment.DIRECTORY_PICTURES), this);
-    }
-
-    @Override
-    public void foundImage(String imageUri, Bitmap bitmap) {
-        view.setAttendingImage(imageUri, bitmap);
-    }
-
-    @Override
-    public void onProgressChange(int percent) {
-        //do nothing
-    }
-
-    @Override
-    public void imageNotFound(String imageUri) {
-        //do nothing, default image is set
     }
 }

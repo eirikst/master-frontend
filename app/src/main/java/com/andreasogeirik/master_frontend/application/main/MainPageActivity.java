@@ -1,7 +1,6 @@
 package com.andreasogeirik.master_frontend.application.main;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +11,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.andreasogeirik.master_frontend.application.main.fragments.AttendingEventsFragment;
+import com.andreasogeirik.master_frontend.application.main.fragments.attending_events.AttendingEventsFragment;
+import com.andreasogeirik.master_frontend.application.main.fragments.my_events.MyEventsFragment;
 import com.andreasogeirik.master_frontend.application.settings.SettingsActivity;
 import com.andreasogeirik.master_frontend.application.auth.entrance.EntranceActivity;
 import com.andreasogeirik.master_frontend.application.main.interfaces.EventPresenter;
@@ -22,16 +22,14 @@ import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.application.event.create.CreateEventActivity;
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.layout.adapter.MainPagerAdapter;
-import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.util.LogoutHandler;
 
-import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MainPageActivity extends AppCompatActivity implements EventView,
-        AttendingEventsFragment.AttendingEventsListener {
+        AttendingEventsFragment.AttendingEventsListener, MyEventsFragment.MyEventsListener {
     private EventPresenter presenter;
 
     @Bind(R.id.toolbar) Toolbar toolbar;
@@ -145,21 +143,4 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
     public void displayMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
-
-    @Override
-    public void findImage(String imageUri) {
-        presenter.findImage(imageUri);
-    }
-
-    @Override
-    public void setAttendingEvents(Set<Event> events) {
-        //((AttendingEventsFragment)pagerAdapter.getItem(1)).setEventsList(events);
-    }
-
-    @Override
-    public void setAttendingImage(String imageUri, Bitmap bitmap) {
-        //((AttendingEventsFragment)pagerAdapter.getItem(1)).setImage(imageUri, bitmap);
-    }
-
-
 }

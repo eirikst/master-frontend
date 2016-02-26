@@ -14,10 +14,6 @@ import java.util.Set;
 public interface EventPresenter {
     void saveInstanceState(Bundle instanceState);
 
-    void findAttendingEvents();
-    void successAttendingEvents(Set<Event> events);
-    void errorAttendingEvents(int code);
-
     void findFriendships();
     void successFriendshipsLoad(Set<Friendship> friendships, Set<Friendship> requests);
     void errorFriendshipsLoad(int code);
@@ -25,6 +21,4 @@ public interface EventPresenter {
     void findUser();
     void findUserSuccess(User user);
     void findUserFailure(int code);
-
-    void findImage(String imageUri);
 }

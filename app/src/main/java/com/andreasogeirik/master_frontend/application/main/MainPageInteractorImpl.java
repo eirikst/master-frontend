@@ -26,36 +26,11 @@ import java.util.Set;
  * Created by eirikstadheim on 16/02/16.
  */
 public class MainPageInteractorImpl implements EventInteractor, OnFinishedLoadingFriendshipsListener ,
-        OnFinishedLoadingUserListener, GetAttendingEventsTask.OnFinishedLoadingAttendingEventsListener {
+        OnFinishedLoadingUserListener {
     private EventPresenter presenter;
 
     public MainPageInteractorImpl(EventPresenter presenter) {
         this.presenter = presenter;
-    }
-
-    @Override
-    public void findAttendingEvents() {
-        new GetAttendingEventsTask(this, CurrentUser.getInstance().getUser()).execute();
-    }
-
-    @Override
-    public void onSuccessAttendingEvents(JSONArray eventsJson) {
-        Set<Event> events = new HashSet<>();
-        try {
-            for(int i = 0; i < eventsJson.length(); i++) {
-                events.add(new Event(eventsJson.getJSONObject(i)));
-            }
-            presenter.successAttendingEvents(events);
-        }
-        catch (JSONException e) {
-            System.out.println("JSON error: " + e);
-            presenter.errorAttendingEvents(Constants.CLIENT_ERROR);
-        }
-    }
-
-    @Override
-    public void onFailureAttendingEvents(int code) {
-        presenter.errorAttendingEvents(code);
     }
 
     @Override

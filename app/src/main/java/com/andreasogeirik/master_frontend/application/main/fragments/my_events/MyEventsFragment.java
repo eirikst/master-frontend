@@ -1,4 +1,4 @@
-package com.andreasogeirik.master_frontend.application.main.fragments;
+package com.andreasogeirik.master_frontend.application.main.fragments.my_events;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -8,8 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.application.main.fragments.my_events.interfaces.MyEventView;
+import com.andreasogeirik.master_frontend.application.main.fragments.my_events.interfaces.MyEventsPresenter;
 import com.andreasogeirik.master_frontend.layout.adapter.EventListAdapter;
 import com.andreasogeirik.master_frontend.model.Event;
 
@@ -19,11 +22,13 @@ import java.util.Set;
 /**
  * Created by eirikstadheim on 12/02/16.
  */
-public class AttendingEventsFragment extends Fragment implements EventListAdapter.Listener {
-    public interface AttendingEventsListener {
-        public void findImage(String imageUri);
-    }
-    private AttendingEventsListener callback;//the activity that created the fragment
+public class MyEventsFragment extends Fragment implements EventListAdapter.Listener,
+        MyEventView {
+    public interface MyEventsListener {
+        }
+
+    private MyEventsListener callback;//the activity that created the fragment
+    private MyEventsPresenter presenter;
     private ListView listView;
     private EventListAdapter listAdapter;
 
@@ -31,8 +36,8 @@ public class AttendingEventsFragment extends Fragment implements EventListAdapte
     /*
      * Creates a new instance of the fragment
      */
-    public static AttendingEventsFragment newInstance() {
-        AttendingEventsFragment f = new AttendingEventsFragment();
+    public static MyEventsFragment newInstance() {
+        MyEventsFragment f = new MyEventsFragment();
         return f;
     }
 
@@ -46,7 +51,7 @@ public class AttendingEventsFragment extends Fragment implements EventListAdapte
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
-            callback = (AttendingEventsListener) activity;
+            callback = (MyEventsListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement AttendingEventsListener");
@@ -55,12 +60,11 @@ public class AttendingEventsFragment extends Fragment implements EventListAdapte
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
 
         //TODO:saved instance state bro?
         listAdapter = new EventListAdapter(getActivity().getApplicationContext(), this);
-
+        presenter = new MyEventsPresenterImpl(this);
     }
 
     /*
@@ -77,20 +81,29 @@ public class AttendingEventsFragment extends Fragment implements EventListAdapte
         return view;
     }
 
-    /*
-     * Updates the event model
-     */
-    public void setEventsList(Set<Event> events) {
-        listAdapter.clear();
-        listAdapter.addAll(events);
+    @Override
+    public void saveInstanceState(Bundle instanceState) {
+
     }
 
-    public void setImage(String imageUri, Bitmap bitmap) {
-        listAdapter.addImage(imageUri, bitmap);
+    @Override
+    public void displayMessage(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void findImage(String imageUri) {
-        callback.findImage(imageUri);
+        presenter.findImage(imageUri);
+    }
+
+    @Override
+    public void setMyEvents(Set<Event> events) {
+        listAdapter.clear();
+        listAdapter.addAll(events);
+    }
+
+    @Override
+    public void setEventImage(String imageUri, Bitmap bitmap) {
+        listAdapter.addImage(imageUri, bitmap);
     }
 }
