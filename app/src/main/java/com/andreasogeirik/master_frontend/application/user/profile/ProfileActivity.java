@@ -21,7 +21,7 @@ import com.andreasogeirik.master_frontend.application.user.profile.fragments.Fri
 import com.andreasogeirik.master_frontend.application.user.profile.fragments.MyProfileHeader;
 import com.andreasogeirik.master_frontend.layout.adapter.PostListAdapter;
 import com.andreasogeirik.master_frontend.listener.MyProfileHeaderListener;
-import com.andreasogeirik.master_frontend.model.Post;
+import com.andreasogeirik.master_frontend.model.UserPost;
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfilePresenter;
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfileView;
 import com.andreasogeirik.master_frontend.model.User;
@@ -207,7 +207,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
      * Update post list
      */
     @Override
-    public void addPosts(Set<Post> posts) {
+    public void addPosts(Set<UserPost> posts) {
         if(posts.size() < Constants.NUMBER_OF_POSTS_RETURNED) {
             footerBtn.setText("Ingen flere poster");
             footerBtn.setClickable(false);

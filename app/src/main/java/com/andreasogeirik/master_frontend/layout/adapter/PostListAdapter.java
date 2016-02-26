@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.R;
-import com.andreasogeirik.master_frontend.model.Post;
+import com.andreasogeirik.master_frontend.model.UserPost;
 import com.andreasogeirik.master_frontend.util.DateUtility;
 
 import java.util.Collection;
@@ -20,21 +20,21 @@ import java.util.List;
 /**
  * Created by eirikstadheim on 05/02/16.
  */
-public class PostListAdapter extends ArrayAdapter<Post> {
+public class PostListAdapter extends ArrayAdapter<UserPost> {
     public static final int SET_ALL = -1;
 
-    private List<Post> posts;
+    private List<UserPost> posts;
     private Bitmap profileImage;
     private Comparator comparator;
 
 
-    public PostListAdapter(Context context, List<Post> posts) {
+    public PostListAdapter(Context context, List<UserPost> posts) {
         super(context, 0, posts);
         this.posts = posts;
 
-        comparator = new Comparator<Post>() {
+        comparator = new Comparator<UserPost>() {
             @Override
-            public int compare(Post lhs, Post rhs) {
+            public int compare(UserPost lhs, UserPost rhs) {
                 return lhs.compareTo(rhs);
             }
         };
@@ -43,7 +43,7 @@ public class PostListAdapter extends ArrayAdapter<Post> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Post post = getItem(position);
+        UserPost post = getItem(position);
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
@@ -76,19 +76,19 @@ public class PostListAdapter extends ArrayAdapter<Post> {
     }
 
     @Override
-    public void add(Post object) {
+    public void add(UserPost object) {
         super.add(object);
         sort(comparator);
     }
 
     @Override
-    public void addAll(Collection<? extends Post> collection) {
+    public void addAll(Collection<? extends UserPost> collection) {
         super.addAll(collection);
         sort(comparator);
     }
 
     @Override
-    public void addAll(Post... items) {
+    public void addAll(UserPost... items) {
         super.addAll(items);
         sort(comparator);
     }

@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import com.andreasogeirik.master_frontend.model.Friendship;
-import com.andreasogeirik.master_frontend.model.Post;
+import com.andreasogeirik.master_frontend.model.UserPost;
 
 import java.util.Set;
 
@@ -14,7 +14,7 @@ import java.util.Set;
 public interface ProfilePresenter {
     void findPosts();
 
-    void successPostsLoad(Set<Post> posts);
+    void successPostsLoad(Set<UserPost> posts);
     void errorPostsLoad(int code);
 
     void successFriendsLoad(Set<Friendship> friends);

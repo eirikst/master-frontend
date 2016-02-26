@@ -15,8 +15,7 @@ public class EventPost implements Serializable {
     private String imageUri;
     private User user;
     private Event event;
-    private Set<UserPostComment> comments = new HashSet<UserPostComment>(0);
-    private Set<UserPostLike> likes = new HashSet<UserPostLike>(0);
+    private Set<EventPostComment> comments = new HashSet<EventPostComment>(0);
 
     public EventPost(int id, String message, Date timeCreated, String imageUri) {
         this.id = id;
@@ -73,19 +72,11 @@ public class EventPost implements Serializable {
         this.event = event;
     }
 
-    public Set<UserPostComment> getComments() {
+    public Set<EventPostComment> getComments() {
         return comments;
     }
 
-    public void setComments(Set<UserPostComment> comments) {
+    public void setComments(Set<EventPostComment> comments) {
         this.comments = comments;
-    }
-
-    public Set<UserPostLike> getLikes() {
-        return likes;
-    }
-
-    public void setLikes(Set<UserPostLike> likes) {
-        this.likes = likes;
     }
 }

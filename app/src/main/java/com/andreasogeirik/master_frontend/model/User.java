@@ -5,7 +5,6 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -24,7 +23,7 @@ public class User implements Serializable {
     private String imageUri;
     private Set<Friendship> friends = new HashSet<>();
     private Set<Friendship> requests = new HashSet<>();
-    private Set<Post> posts = new HashSet<>();
+    private Set<UserPost> posts = new HashSet<>();
 
     public User() {
     }
@@ -166,7 +165,7 @@ public class User implements Serializable {
         }
     }
 
-    public void addPosts(Collection<Post> posts) {
+    public void addPosts(Collection<UserPost> posts) {
         if(posts != null) {
             this.posts.addAll(posts);
         }
@@ -266,11 +265,11 @@ public class User implements Serializable {
         this.requests = requests;
     }
 
-    public Set<Post> getPosts() {
+    public Set<UserPost> getPosts() {
         return posts;
     }
 
-    public void setPosts(Set<Post> posts) {
+    public void setPosts(Set<UserPost> posts) {
         this.posts = posts;
     }
 

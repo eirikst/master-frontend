@@ -12,18 +12,18 @@ import java.util.Set;
 /**
  * Created by eirikstadheim on 05/02/16.
  */
-public class Post implements Serializable {
+public class UserPost implements Serializable {
     private int id;
     private String message;
     private String imageUri;
     private Date created;
-    private Set<Comment> comments = new HashSet<>();
+    private Set<UserPostComment> comments = new HashSet<>();
     private Set<User> likers = new HashSet<>();
 
-    public Post() {
+    public UserPost() {
     }
 
-    public Post(JSONObject post) throws JSONException {
+    public UserPost(JSONObject post) throws JSONException {
         id = post.getInt("id");
         message = post.getString("message");
         imageUri = post.getString("imageUri");
@@ -38,7 +38,7 @@ public class Post implements Serializable {
 
     private void setComments(JSONArray jsonComments) throws JSONException {
         for (int i = 0; i < jsonComments.length(); i++) {
-            Comment comment = new Comment();
+            UserPostComment comment = new UserPostComment();
             comment.setId(jsonComments.getJSONObject(i).getInt("id"));
             comment.setMessage(jsonComments.getJSONObject(i).getString("message"));
             comments.add(comment);
@@ -91,7 +91,7 @@ public class Post implements Serializable {
         return comments;
     }
 
-    public void setComments(Set<Comment> comments) {
+    public void setComments(Set<UserPostComment> comments) {
         this.comments = comments;
     }
 
@@ -115,7 +115,7 @@ public class Post implements Serializable {
                 '}';
     }
 
-    public int compareTo(Post post) {
+    public int compareTo(UserPost post) {
         if(this.getCreated().before(post.getCreated())) {
             return 1;
         }

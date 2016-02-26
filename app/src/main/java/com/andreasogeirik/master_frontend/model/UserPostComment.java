@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by eirikstadheim on 05/02/16.
  */
-public class Comment implements Serializable {
+public class UserPostComment implements Serializable {
     private int id;
     private String message;
 
