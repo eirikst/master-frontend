@@ -15,8 +15,11 @@ import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.util.DateUtility;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,12 +33,14 @@ public class EventListAdapter extends ArrayAdapter<Event> {
     }
 
     private List<Event> events;
-    private Bitmap profileImage;
     private Map<String, Bitmap> eventImages;
     private Context context;
     private Listener listener;
     private Bitmap defaultImage;
     private Comparator<Event> comparator;
+
+    private List<Event> future = new ArrayList<>();
+    private List<Event> past = new ArrayList<>();
 
     public EventListAdapter(Context context, Listener listener) {
         super(context, 0);
@@ -44,10 +49,23 @@ public class EventListAdapter extends ArrayAdapter<Event> {
         this.listener = listener;
         this.eventImages = new HashMap<>();
 
+        /*
+         * The comparator sorts the list so that future events comes first, with the earliest first.
+         * Past events comes after the future, with the latest first
+         */
         comparator = new Comparator<Event>() {
+            private Calendar cal = new GregorianCalendar();
             @Override
             public int compare(Event lhs, Event rhs) {
-                return lhs.compareTo(rhs);   //or whatever your sorting algorithm
+                if(lhs.getStartDate().before(cal) && rhs.getStartDate().before(cal)) {
+                    return lhs.compareTo(rhs);
+                }
+                else if(lhs.getStartDate().after(cal) && rhs.getStartDate().after(cal)) {
+                    return -lhs.compareTo(rhs);
+                }
+                else {
+                    return lhs.compareTo(rhs);
+                }
             }
         };
     }
@@ -62,15 +80,29 @@ public class EventListAdapter extends ArrayAdapter<Event> {
                     R.layout.attending_events_list_layout, parent, false);
         }
 
-        // Lookup views
-        ImageView image = (ImageView)convertView.findViewById(R.id.event_image);
-        if(profileImage != null) {
-            image.setImageBitmap(profileImage);
+        /*
+         * Adds a past view on the first list element with an event from the past
+         * Adds a future view on the first list element with an event from the future
+         */
+        TextView pastView = (TextView)convertView.findViewById(R.id.past_header);
+        TextView futureView = (TextView)convertView.findViewById(R.id.future_header);
+
+        if(!future.isEmpty() && event.equals(future.get(0))) {
+            futureView.setVisibility(View.VISIBLE);
+            pastView.setVisibility(View.GONE);
+        }
+        else if(!past.isEmpty() && event.equals(past.get(0))) {
+            pastView.setVisibility(View.VISIBLE);
+            futureView.setVisibility(View.GONE);
         }
         else {
-            //set standard image
+            futureView.setVisibility(View.GONE);
+            pastView.setVisibility(View.GONE);
         }
 
+        /*
+         * Sets the data for the view
+         */
         TextView name = (TextView)convertView.findViewById(R.id.event_name);
         TextView timeStart = (TextView)convertView.findViewById(R.id.event_time_start);
         TextView participants = (TextView)convertView.findViewById(R.id.event_participants);
@@ -85,7 +117,9 @@ public class EventListAdapter extends ArrayAdapter<Event> {
             participants.setText(event.getUsers().size() + " brukere deltar");
         }
 
-        //Populate image         //image in local map
+        // Setup imageview
+        ImageView image = (ImageView)convertView.findViewById(R.id.event_image);
+
         if(eventImages.containsKey(event.getImageURI())) {
             System.out.println("Image found and set for " + event.getName());
             image.setImageBitmap(eventImages.get(event.getImageURI()));
@@ -112,18 +146,53 @@ public class EventListAdapter extends ArrayAdapter<Event> {
     public void add(Event object) {
         super.add(object);
         sort(comparator);
+
+        Calendar cal = new GregorianCalendar();
+
+        if(object.getStartDate().before(cal)) {
+            past.add(object);
+        }
+        else {
+            future.add(object);
+        }
+        Collections.sort(past, comparator);
+        Collections.sort(future, comparator);
     }
 
     @Override
     public void addAll(Collection<? extends Event> collection) {
         super.addAll(collection);
         sort(comparator);
+
+        Calendar cal = new GregorianCalendar();
+        for(Event e: collection) {
+            if(e.getStartDate().before(cal)) {
+                past.add(e);
+            }
+            else {
+                future.add(e);
+            }
+        }
+        Collections.sort(past, comparator);
+        Collections.sort(future, comparator);
     }
 
     @Override
     public void addAll(Event... items) {
         super.addAll(items);
         sort(comparator);
+
+        Calendar cal = new GregorianCalendar();
+        for(Event e: items) {
+            if(e.getStartDate().before(cal)) {
+                past.add(e);
+            }
+            else {
+                future.add(e);
+            }
+        }
+        Collections.sort(past, comparator);
+        Collections.sort(future, comparator);
     }
 
     /*
@@ -143,4 +212,5 @@ public class EventListAdapter extends ArrayAdapter<Event> {
             image.setImageBitmap(defaultImage);
             eventImages.put(imageName, defaultImage);
         }
-    }}
+    }
+}

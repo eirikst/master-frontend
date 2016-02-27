@@ -10,8 +10,10 @@ import com.andreasogeirik.master_frontend.application.main.fragments.attending_e
 import com.andreasogeirik.master_frontend.application.main.fragments.attending_events.interfaces.AttendingEventsInteractor;
 import com.andreasogeirik.master_frontend.application.main.fragments.attending_events.interfaces.AttendingEventsPresenter;
 import com.andreasogeirik.master_frontend.model.Event;
+import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.ImageInteractor;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -23,7 +25,8 @@ public class AttendingEventsPresenterImpl extends GeneralPresenter implements At
     private AttendingEventsInteractor eventInteractor;
 
     //model
-    private Set<Event> attendingEvents;
+    private Set<Event> attendingEvents = new HashSet<>();
+    private Set<Event> attendedEvents = new HashSet<>();
 
     public AttendingEventsPresenterImpl(AttendingEventView view) {
         super(((Fragment)view).getActivity());
@@ -32,6 +35,7 @@ public class AttendingEventsPresenterImpl extends GeneralPresenter implements At
         //TODO:Sjekke user cookie etc.
 
         eventInteractor.findAttendingEvents();
+        eventInteractor.findAttendedEvents(0);//0 for init
     }
 
     @Override
@@ -46,7 +50,40 @@ public class AttendingEventsPresenterImpl extends GeneralPresenter implements At
 
     @Override
     public void successAttendingEvents(Set<Event> events) {
-        view.setAttendingEvents(events);
+        attendingEvents.addAll(events);//add to model
+
+        //set view
+        Set<Event> eventsJoined = new HashSet<>();
+        eventsJoined.addAll(attendedEvents);
+        eventsJoined.addAll(attendingEvents);
+
+        view.setAttendingEvents(eventsJoined);    }
+
+    @Override
+    public void errorAttendedEvents(int code) {
+        view.displayMessage("Feil ved lasting av aktiviteter");
+    }
+
+    @Override
+    public void findAttendedEvents() {
+        eventInteractor.findAttendedEvents(attendedEvents.size());
+    }
+
+    @Override
+    public void successAttendedEvents(Set<Event> events) {
+        if(!events.isEmpty()) {
+            attendedEvents.addAll(events);//add to model
+
+            //set view, join together tables
+            Set<Event> eventsJoined = new HashSet<>();
+            eventsJoined.addAll(attendedEvents);
+            eventsJoined.addAll(attendingEvents);
+
+            view.setAttendingEvents(eventsJoined);
+        }
+        if(events.size() < Constants.NUMBER_OF_EVENTS_RETURNED) {
+            view.setNoMoreEventsToLoad();
+        }
     }
 
     @Override

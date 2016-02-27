@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ public class AttendingEventsFragment extends Fragment implements EventListAdapte
     private AttendingEventsListener callback;//the activity that created the fragment
     private AttendingEventsPresenter presenter;
     private ListView listView;
+    private Button footer;
     private EventListAdapter listAdapter;
 
 
@@ -78,6 +80,16 @@ public class AttendingEventsFragment extends Fragment implements EventListAdapte
         listView = (ListView)view.findViewById(R.id.event_list);
         listView.setAdapter(listAdapter);
 
+        footer = (Button)inflater.inflate(R.layout.attending_events_list_footer, container, false);
+        listView.addFooterView(footer);
+
+        footer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.findAttendedEvents();
+            }
+        });
+
         return view;
     }
 
@@ -105,5 +117,11 @@ public class AttendingEventsFragment extends Fragment implements EventListAdapte
     @Override
     public void setAttendingImage(String imageUri, Bitmap bitmap) {
         listAdapter.addImage(imageUri, bitmap);
+    }
+
+    @Override
+    public void setNoMoreEventsToLoad() {
+        footer.setText("INGEN FLERE AKTIVITERER");
+        footer.setClickable(false);
     }
 }

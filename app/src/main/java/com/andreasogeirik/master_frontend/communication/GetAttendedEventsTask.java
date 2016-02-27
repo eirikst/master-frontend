@@ -21,19 +21,22 @@ import org.springframework.web.client.RestTemplate;
 /**
  * Created by eirikstadheim on 06/02/16.
  */
-public class GetAttendingEventsTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntity<String>>> {
-    public interface OnFinishedLoadingAttendingEventsListener {
-        void onSuccessAttendingEvents(JSONArray events);
-        void onFailureAttendingEvents(int code);
+public class GetAttendedEventsTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntity<String>>> {
+    public interface OnFinishedLoadingAttendedEventsListener {
+        void onSuccessAttendedEvents(JSONArray events);
+        void onFailureAttendedEvents(int code);
     }
 
 
-    private OnFinishedLoadingAttendingEventsListener listener;
+    private OnFinishedLoadingAttendedEventsListener listener;
     private User user;
+    private int start;
 
-    public GetAttendingEventsTask(OnFinishedLoadingAttendingEventsListener listener, User user) {
+    public GetAttendedEventsTask(OnFinishedLoadingAttendedEventsListener listener, User user,
+                                 int start) {
         this.listener = listener;
         this.user = user;
+        this.start = start;
     }
 
     @Override
@@ -50,7 +53,7 @@ public class GetAttendingEventsTask extends AsyncTask<Void, Void, Pair<Integer, 
 
         try {
             response = template.exchange(Constants.BACKEND_URL + "users/" + user.getId() +
-                            "/events/attending",
+                            "/events/attended?start=" + start,
                     HttpMethod.GET, entity, String.class);
             return new Pair(Constants.OK, response);
         }
@@ -70,16 +73,16 @@ public class GetAttendingEventsTask extends AsyncTask<Void, Void, Pair<Integer, 
 
             try {
                 JSONArray events = new JSONArray(response.second.getBody());
-                listener.onSuccessAttendingEvents(events);
+                listener.onSuccessAttendedEvents(events);
             }
             catch(JSONException e) {
                 System.out.println("JSON error:" + e);
-                listener.onFailureAttendingEvents(Constants.JSON_PARSE_ERROR);
+                listener.onFailureAttendedEvents(Constants.JSON_PARSE_ERROR);
             }
 
         }
         else {
-            listener.onFailureAttendingEvents(response.first);
+            listener.onFailureAttendedEvents(response.first);
         }
     }
 }

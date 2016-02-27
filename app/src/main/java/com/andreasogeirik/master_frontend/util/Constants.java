@@ -10,10 +10,10 @@ public class Constants {
     //public static final String BACKEND_URL = "http://10.20.55.3:8080/";
 
     //Eirik NTNU
-    public static final String BACKEND_URL = "http://10.20.53.134:8080/";
+    //public static final String BACKEND_URL = "http://10.20.53.134:8080/";
 
     //Eirik hjemme
-    //public static final String BACKEND_URL = "http://10.0.0.46:8080/";
+    public static final String BACKEND_URL = "http://10.0.0.46:8080/";
 
 
 
@@ -25,6 +25,9 @@ public class Constants {
 
     //Number of posts returned when querying post
     public static int NUMBER_OF_POSTS_RETURNED = 10;
+
+    //Number of events returned when querying event
+    public static int NUMBER_OF_EVENTS_RETURNED = 5;
 
     //Text sizes
     public static int USER_SET_SIZE = 2;

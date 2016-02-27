@@ -59,9 +59,9 @@ public class Event implements Serializable {
 
     public int compareTo(Event event) {
         if(this.getStartDate().before(event.getStartDate())) {
-            return -1;
+            return 1;
         }
-        return 1;
+        return -1;
     }
 
     public int getId() {

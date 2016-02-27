@@ -5,4 +5,5 @@ package com.andreasogeirik.master_frontend.application.main.fragments.attending_
  */
 public interface AttendingEventsInteractor {
     void findAttendingEvents();
+    void findAttendedEvents(int start);
 }
