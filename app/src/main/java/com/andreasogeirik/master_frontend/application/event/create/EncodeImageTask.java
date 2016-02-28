@@ -3,7 +3,6 @@ package com.andreasogeirik.master_frontend.application.event.create;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.util.Base64;
 
 import com.andreasogeirik.master_frontend.listener.OnEncodeImageFinishedListener;
 import com.andreasogeirik.master_frontend.util.ImageHandler;
@@ -18,7 +17,7 @@ import java.io.InputStream;
  * Created by Andreas on 19.02.2016.
  */
 
-public class EncodeImageTask extends AsyncTask<Void, Void, EncodedImageContainer> {
+public class EncodeImageTask extends AsyncTask<Void, Void, ImageContainer> {
 
     private OnEncodeImageFinishedListener listener;
     private InputStream inputStream;
@@ -28,7 +27,7 @@ public class EncodeImageTask extends AsyncTask<Void, Void, EncodedImageContainer
         this.inputStream = inputStream;
     }
 
-    protected EncodedImageContainer doInBackground(Void... params) {
+    protected ImageContainer doInBackground(Void... params) {
         InputStream inputStreamWrapper = new BufferedInputStream(inputStream);
         try {
             inputStreamWrapper.mark(inputStreamWrapper.available());
@@ -44,23 +43,23 @@ public class EncodeImageTask extends AsyncTask<Void, Void, EncodedImageContainer
 
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                String encodedImage = Base64.encodeToString(stream.toByteArray(), Base64.DEFAULT);
-                return new EncodedImageContainer(ImageStatusCode.FILE_ENCODED, bitmap, encodedImage);
+
+                return new ImageContainer(ImageStatusCode.FILE_ENCODED, bitmap, stream.toByteArray());
 
             } else {
-                return new EncodedImageContainer(ImageStatusCode.NOT_AN_IMAGE, null, null);
+                return new ImageContainer(ImageStatusCode.NOT_AN_IMAGE, null, null);
             }
         } catch (IOException e) {
             e.printStackTrace();
-            return new EncodedImageContainer(ImageStatusCode.FILE_NOT_FOUND, null, null);
+            return new ImageContainer(ImageStatusCode.FILE_NOT_FOUND, null, null);
         }
     }
 
-    protected void onPostExecute(EncodedImageContainer encodedImageContainer) {
-        if (encodedImageContainer.getStatus() == ImageStatusCode.FILE_ENCODED) {
-            listener.onSuccess(encodedImageContainer.getBitmap(), encodedImageContainer.getEncodedImage());
+    protected void onPostExecute(ImageContainer imageContainer) {
+        if (imageContainer.getStatus() == ImageStatusCode.FILE_ENCODED) {
+            listener.onSuccess(imageContainer.getBitmap(), imageContainer.getByteImage());
         } else {
-            listener.onError(encodedImageContainer.getStatus());
+            listener.onError(imageContainer.getStatus());
         }
     }
 }

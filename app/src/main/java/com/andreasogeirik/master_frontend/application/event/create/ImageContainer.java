@@ -5,15 +5,15 @@ import android.graphics.Bitmap;
 /**
  * Created by Andreas on 20.02.2016.
  */
-public class EncodedImageContainer {
+public class ImageContainer {
     private ImageStatusCode status;
     private Bitmap bitmap;
-    private String encodedImage;
+    private byte[] byteImage;
 
-    public EncodedImageContainer(ImageStatusCode status, Bitmap bitmap, String encodedImage) {
+    public ImageContainer(ImageStatusCode status, Bitmap bitmap, byte[] byteImage) {
         this.status = status;
         this.bitmap = bitmap;
-        this.encodedImage = encodedImage;
+        this.byteImage = byteImage;
     }
 
     public ImageStatusCode getStatus() {
@@ -32,11 +32,11 @@ public class EncodedImageContainer {
         this.bitmap = bitmap;
     }
 
-    public String getEncodedImage() {
-        return encodedImage;
+    public byte[] getByteImage() {
+        return byteImage;
     }
 
-    public void setEncodedImage(String encodedImage) {
-        this.encodedImage = encodedImage;
+    public void setByteImage(byte[] byteImage) {
+        this.byteImage = byteImage;
     }
 }

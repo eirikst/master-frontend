@@ -31,7 +31,7 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
         this.interactor = new EventInteractorImpl(this);
 
         //check that current user singleton is set, if not redirection
-        userAvailable();
+//        userAvailable();
     }
 
     @Override

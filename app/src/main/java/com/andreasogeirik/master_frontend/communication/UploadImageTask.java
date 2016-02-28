@@ -25,11 +25,11 @@ import org.springframework.web.client.RestTemplate;
  */
 public class UploadImageTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntity<String>>> {
 
-    private String encodedImage;
+    private byte[] byteImage;
     private OnImageUploadFinishedListener listener;
 
-    public UploadImageTask(String encodedImage, OnImageUploadFinishedListener listener) {
-        this.encodedImage = encodedImage;
+    public UploadImageTask(byte[] byteImage, OnImageUploadFinishedListener listener) {
+        this.byteImage = byteImage;
         this.listener = listener;
     }
 
@@ -40,7 +40,7 @@ public class UploadImageTask extends AsyncTask<Void, Void, Pair<Integer, Respons
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Cookie", UserPreferencesManager.getInstance().getCookie());
-        HttpEntity<String> entity = new HttpEntity(encodedImage, headers);
+        HttpEntity<String> entity = new HttpEntity(byteImage, headers);
 
         try {
             response = template.exchange(Constants.BACKEND_URL + "image", HttpMethod.PUT, entity, String.class);
