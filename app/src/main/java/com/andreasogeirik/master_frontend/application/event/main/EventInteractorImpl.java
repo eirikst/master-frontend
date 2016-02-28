@@ -39,6 +39,6 @@ public class EventInteractorImpl implements EventInteractor, OnEventLoadedListen
 
     @Override
     public void onError(int error) {
-
+        presenter.displayError(error);
     }
 }
