@@ -75,21 +75,6 @@ public class EventActivity extends AppCompatActivity implements EventView {
         }
 
         this.progressBarManager = new ProgressBarManager(this, listView, progressView);
-
-        headerView = getLayoutInflater().inflate(R.layout.event_list_header, null);
-        listView.addHeaderView(headerView);
-
-        this.eventImageContainer = headerView.findViewById(R.id.event_image_container);
-        this.imageView = (ImageView) headerView.findViewById(R.id.event_image);
-        this.eventName = (TextView) headerView.findViewById(R.id.event_name);
-        this.startTime = (TextView) headerView.findViewById(R.id.event_startTime);
-        this.endTime= (TextView) headerView.findViewById(R.id.event_endTime);
-        this.eventLocation = (TextView) headerView.findViewById(R.id.event_location);
-        this.eventDescription = (TextView) headerView.findViewById(R.id.event_description);
-
-//        presenter.getEvent(12);
-        adapter = new EventMainAdapter(this, new ArrayList<EventPost>());
-        listView.setAdapter(adapter);
     }
 
 
@@ -142,6 +127,24 @@ public class EventActivity extends AppCompatActivity implements EventView {
     @Override
     public void imageLoadError() {
 
+    }
+
+    @Override
+    public void initGui() {
+        headerView = getLayoutInflater().inflate(R.layout.event_list_header, null);
+        listView.addHeaderView(headerView);
+
+        this.eventImageContainer = headerView.findViewById(R.id.event_image_container);
+        this.imageView = (ImageView) headerView.findViewById(R.id.event_image);
+        this.eventName = (TextView) headerView.findViewById(R.id.event_name);
+        this.startTime = (TextView) headerView.findViewById(R.id.event_startTime);
+        this.endTime= (TextView) headerView.findViewById(R.id.event_endTime);
+        this.eventLocation = (TextView) headerView.findViewById(R.id.event_location);
+        this.eventDescription = (TextView) headerView.findViewById(R.id.event_description);
+
+//        presenter.getEvent(12);
+        adapter = new EventMainAdapter(this, new ArrayList<EventPost>());
+        listView.setAdapter(adapter);
     }
 
     @Override

@@ -13,7 +13,6 @@ import java.util.Set;
  */
 public interface MyEventView {
 
-    void saveInstanceState(Bundle instanceState);
     void displayMessage(String message);
     void setMyEvents(Set<Event> events);
     void setEventImage(String imageUri, Bitmap bitmap);

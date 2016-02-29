@@ -14,4 +14,5 @@ public interface EventView {
     void hideProgress();
     void setImage(Bitmap image);
     void imageLoadError();
+    void initGui();
 }

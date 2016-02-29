@@ -50,9 +50,17 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
         setContentView(R.layout.main_page_activity);
         ButterKnife.bind(this);
 
-        //TODO:saveinstancestate
-
         presenter = new MainPagePresenterImpl(this);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void initGUI() {
+        setupToolbar();
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         pagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), this);
@@ -65,17 +73,7 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
                 tabLayout.setupWithViewPager(viewPager);
             }
         });
-    }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void initGUI() {
-        setupToolbar();
-        //setupAttendingFragment();
     }
 
     /*
@@ -85,21 +83,11 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
         setSupportActionBar(toolbar);
     }
 
-    /*private void setupAttendingFragment() {
-        RelativeLayout fragmentContainer = (RelativeLayout)findViewById(
-                R.id.attending_events_fragment_container);
-        attendingFragment = AttendingEventsFragment.newInstance();
-        getSupportFragmentManager().beginTransaction().add(fragmentContainer.getId(),
-                attendingFragment, "").commit();
-    }*/
-
     public void navigateToLogin() {
         Intent i = new Intent(this, EntranceActivity.class);
         startActivity(i);
         finish();
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

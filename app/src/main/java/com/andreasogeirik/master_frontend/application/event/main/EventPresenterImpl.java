@@ -29,8 +29,8 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
         super((Activity) eventView);
         this.eventView = eventView;
         this.interactor = new EventInteractorImpl(this);
-
-        setEventView(event);
+        this.eventView.initGui();
+        this.setEventView(event);
 
         //check that current user singleton is set, if not redirection
 //        userAvailable();

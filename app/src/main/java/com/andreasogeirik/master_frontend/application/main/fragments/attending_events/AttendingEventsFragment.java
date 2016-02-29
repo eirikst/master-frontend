@@ -64,7 +64,6 @@ public class AttendingEventsFragment extends Fragment implements EventListAdapte
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //TODO:saved instance state bro?
         listAdapter = new EventListAdapter(getActivity().getApplicationContext(), this);
         presenter = new AttendingEventsPresenterImpl(this);
     }
@@ -94,8 +93,9 @@ public class AttendingEventsFragment extends Fragment implements EventListAdapte
     }
 
     @Override
-    public void saveInstanceState(Bundle instanceState) {
-
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //save nothing, should get a fresh set of events
     }
 
     @Override
@@ -121,7 +121,6 @@ public class AttendingEventsFragment extends Fragment implements EventListAdapte
 
     @Override
     public void setNoMoreEventsToLoad() {
-        footer.setText("INGEN FLERE AKTIVITERER");
-        footer.setClickable(false);
+        footer.setVisibility(View.GONE);
     }
 }

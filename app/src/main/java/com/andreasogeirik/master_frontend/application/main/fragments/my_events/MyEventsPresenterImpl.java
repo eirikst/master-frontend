@@ -35,11 +35,6 @@ public class MyEventsPresenterImpl extends GeneralPresenter implements MyEventsP
     }
 
     @Override
-    public void saveInstanceState(Bundle instanceState) {
-        //todo:implement
-    }
-
-    @Override
     public void findMyEvents() {
         eventInteractor.findMyEvents();
     }
@@ -74,4 +69,7 @@ public class MyEventsPresenterImpl extends GeneralPresenter implements MyEventsP
     public void imageNotFound(String imageUri) {
         // do nothing, default image is set
     }
+
+
+
 }
