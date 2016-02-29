@@ -83,6 +83,7 @@ public class MyEventsFragment extends Fragment implements EventListAdapter.Liste
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Event event = listAdapter.getItem(position);
+                System.out.println("Trykker på event: " + event);
                 Intent intent = new Intent(getActivity(), EventActivity.class);
                 intent.putExtra("event", event);
                 startActivity(intent);
