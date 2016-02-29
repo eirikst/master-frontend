@@ -1,16 +1,19 @@
 package com.andreasogeirik.master_frontend.application.main.fragments.my_events;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
 import com.andreasogeirik.master_frontend.application.main.fragments.my_events.interfaces.MyEventView;
 import com.andreasogeirik.master_frontend.application.main.fragments.my_events.interfaces.MyEventsPresenter;
 import com.andreasogeirik.master_frontend.layout.adapter.EventListAdapter;
@@ -62,7 +65,6 @@ public class MyEventsFragment extends Fragment implements EventListAdapter.Liste
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //TODO:saved instance state bro?
         listAdapter = new EventListAdapter(getActivity().getApplicationContext(), this);
         presenter = new MyEventsPresenterImpl(this);
     }
@@ -77,13 +79,23 @@ public class MyEventsFragment extends Fragment implements EventListAdapter.Liste
         View view =  inflater.inflate(R.layout.attending_events_fragment, container, false);
         listView = (ListView)view.findViewById(R.id.event_list);
         listView.setAdapter(listAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Event event = listAdapter.getItem(position);
+                Intent intent = new Intent(getActivity(), EventActivity.class);
+                intent.putExtra("event", event);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }
 
     @Override
-    public void saveInstanceState(Bundle instanceState) {
-
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //save nothing, should get a fresh set of events
     }
 
     @Override

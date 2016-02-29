@@ -46,13 +46,13 @@ public class MainPagePresenterImpl extends GeneralPresenter implements EventPres
         }
         if(CurrentUser.getInstance().getUser() == null) {
             //TODO: get user from nettet eller gå til login
-            //presenter.findUser();
-            view.navigateToLogin();
+            interactor.findUser();
             return;
         }
-
-        initDomain();
-        view.initGUI();
+        else {
+            initDomain();
+            view.initGUI();
+        }
     }
 
     @Override
@@ -61,7 +61,8 @@ public class MainPagePresenterImpl extends GeneralPresenter implements EventPres
     }
 
     private void initDomain() {
-        //TODO:tenke på hvordan dette gjøres vs saveinstancestate: presenter lages jo på nytt etter ny instance, altså lastes dette fra nett
+        //TODO:tenke på hvordan dette gjøres vs saveinstancestate: presenter lages jo på nytt etter
+        // ny instance, altså lastes dette fra nett
         findFriendships();
     }
 
@@ -78,7 +79,8 @@ public class MainPagePresenterImpl extends GeneralPresenter implements EventPres
 
     @Override
     public void errorFriendshipsLoad(int code) {
-        //TODO:do something
+        //TODO:don't do
+        interactor.findUser();
     }
 
     @Override
@@ -88,11 +90,13 @@ public class MainPagePresenterImpl extends GeneralPresenter implements EventPres
 
     @Override
     public void findUserSuccess(User user) {
-        //TODO:do something
+        CurrentUser.getInstance().setUser(user);
+        initDomain();
+        view.initGUI();
     }
 
     @Override
     public void findUserFailure(int code) {
-        //TODO:do something
+        view.navigateToLogin();
     }
 }

@@ -25,8 +25,8 @@ public class AttendingEventsPresenterImpl extends GeneralPresenter implements At
     private AttendingEventsInteractor eventInteractor;
 
     //model
-    private Set<Event> attendingEvents = new HashSet<>();
-    private Set<Event> attendedEvents = new HashSet<>();
+    private HashSet<Event> attendingEvents = new HashSet<>();
+    private HashSet<Event> attendedEvents = new HashSet<>();
 
     public AttendingEventsPresenterImpl(AttendingEventView view) {
         super(((Fragment)view).getActivity());
@@ -36,11 +36,6 @@ public class AttendingEventsPresenterImpl extends GeneralPresenter implements At
 
         eventInteractor.findAttendingEvents();
         eventInteractor.findAttendedEvents(0);//0 for init
-    }
-
-    @Override
-    public void saveInstanceState(Bundle instanceState) {
-        //todo:implement
     }
 
     @Override

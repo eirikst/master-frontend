@@ -2,7 +2,6 @@ package com.andreasogeirik.master_frontend.application.main.fragments.attending_
 
 
 import android.graphics.Bitmap;
-import android.os.Bundle;
 
 import com.andreasogeirik.master_frontend.model.Event;
 
@@ -13,7 +12,6 @@ import java.util.Set;
  */
 public interface AttendingEventView {
 
-    void saveInstanceState(Bundle instanceState);
     void displayMessage(String message);
     void setAttendingEvents(Set<Event> events);
     void setAttendingImage(String imageUri, Bitmap bitmap);

@@ -10,8 +10,6 @@ import java.util.Set;
  * Created by eirikstadheim on 06/02/16.
  */
 public interface MyEventsPresenter {
-    void saveInstanceState(Bundle instanceState);
-
     void findMyEvents();
     void successMyEvents(Set<Event> events);
     void errorMyEvents(int code);
