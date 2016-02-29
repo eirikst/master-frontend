@@ -25,13 +25,10 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
     private Event event;
 
 
-    public EventPresenterImpl(EventView eventView, Event event) {
+    public EventPresenterImpl(EventView eventView) {
         super((Activity) eventView);
         this.eventView = eventView;
         this.interactor = new EventInteractorImpl(this);
-        this.eventView.initGui();
-        this.setEventView(event);
-
         //check that current user singleton is set, if not redirection
 //        userAvailable();
     }
@@ -63,6 +60,7 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
 
     @Override
     public void findImage(String imageUrl) {
+        eventView.showProgress();
         ImageInteractor.getInstance().findImage(imageUrl, getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), this);
     }
 
@@ -79,7 +77,7 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
 
     @Override
     public void imageNotFound(String imageUri) {
-
+        eventView.hideProgress();
     }
 
 

@@ -62,19 +62,22 @@ public class EventActivity extends AppCompatActivity implements EventView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_activity);
         ButterKnife.bind(this);
+        this.progressBarManager = new ProgressBarManager(this, listView, progressView);
         setSupportActionBar(toolbar);
 
 
         try {
-            this.presenter = new EventPresenterImpl(this,
-                    (Event)getIntent().getSerializableExtra("event"));
+            this.presenter = new EventPresenterImpl(this);
         }
         catch(ClassCastException e) {
             throw new ClassCastException(e + "/nObject in Intent bundle cannot " +
                     "be cast to User in " + this.toString());
         }
 
-        this.progressBarManager = new ProgressBarManager(this, listView, progressView);
+        Event event = (Event)getIntent().getSerializableExtra("event");
+
+        initGui();
+        setEventView(event);
     }
 
 
@@ -142,7 +145,6 @@ public class EventActivity extends AppCompatActivity implements EventView {
         this.eventLocation = (TextView) headerView.findViewById(R.id.event_location);
         this.eventDescription = (TextView) headerView.findViewById(R.id.event_description);
 
-//        presenter.getEvent(12);
         adapter = new EventMainAdapter(this, new ArrayList<EventPost>());
         listView.setAdapter(adapter);
     }
