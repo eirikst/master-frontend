@@ -39,7 +39,7 @@ public class CreateEventPresenterImpl extends GeneralPresenter implements Create
         this.interactor = new CreateEventInteractorImpl(this);
 
         //check that current user singleton is set, if not redirection
-        userAvailable();
+//        userAvailable();
     }
 
 

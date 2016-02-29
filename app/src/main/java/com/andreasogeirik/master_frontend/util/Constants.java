@@ -5,15 +5,15 @@ package com.andreasogeirik.master_frontend.util;
  */
 public class Constants {
     //Home
-//    public static final String BACKEND_URL = "http://10.0.0.181:8080/";
+//    public static final String BACKEND_URL = "http://10.0.0.121:8080/";
     //NTNU
-    //public static final String BACKEND_URL = "http://10.20.55.3:8080/";
+    public static final String BACKEND_URL = "http://78.91.1.192:8080/";
 
     //Eirik NTNU
     //public static final String BACKEND_URL = "http://10.20.53.134:8080/";
 
     //Eirik hjemme
-    public static final String BACKEND_URL = "http://10.0.0.46:8080/";
+//    public static final String BACKEND_URL = "http://10.0.0.46:8080/";
 
 
 

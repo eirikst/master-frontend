@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
 import com.andreasogeirik.master_frontend.application.main.fragments.attending_events.AttendingEventsFragment;
 import com.andreasogeirik.master_frontend.application.main.fragments.my_events.MyEventsFragment;
 import com.andreasogeirik.master_frontend.application.settings.SettingsActivity;
@@ -129,6 +130,10 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
             case R.id.my_profile:
                 i = new Intent(this, ProfileActivity.class);
                 i.putExtra("user", CurrentUser.getInstance().getUser());
+                this.startActivity(i);
+                return true;
+            case R.id.get_event:
+                i = new Intent(this, EventActivity.class);
                 this.startActivity(i);
                 return true;
             default:
