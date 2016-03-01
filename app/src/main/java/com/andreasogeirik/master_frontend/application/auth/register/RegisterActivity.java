@@ -58,9 +58,16 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
         ButterKnife.bind(this);
         this.presenter = new RegisterPresenterImpl(this);
         this.progressBarManager = new ProgressBarManager(this, registerFormView, progressView);
-        setSupportActionBar(toolbar);
+        setupToolbar();
     }
 
+    /*
+     * Toolbar setup
+     */
+    private void setupToolbar() {
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
 
 
     @OnClick(R.id.register_button)

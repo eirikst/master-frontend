@@ -7,10 +7,10 @@
         android:title="@string/create_event"
         app:showAsAction="never"/>
     <item android:id="@+id/my_profile"
-        android:title="@string/me"
+        android:title="@string/title_profile"
         app:showAsAction="never"/>
     <item android:id="@+id/settings"
-        android:title="@string/settings"
+        android:title="@string/title_settings"
         app:showAsAction="never"/>
     <item android:id="@+id/sign_out"
         android:title="@string/sign_out"

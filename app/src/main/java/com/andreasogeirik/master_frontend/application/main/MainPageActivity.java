@@ -82,7 +82,9 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
      */
     private void setupToolbar() {
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
+
 
     public void navigateToLogin() {
         Intent i = new Intent(this, EntranceActivity.class);

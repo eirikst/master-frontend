@@ -48,7 +48,15 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         ButterKnife.bind(this);
         this.presenter = new LoginPresenterImpl(this);
         this.progressBarManager = new ProgressBarManager(this, loginFormView, progressView);
+        setupToolbar();
+    }
+
+    /*
+     * Toolbar setup
+     */
+    private void setupToolbar() {
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
     @OnClick(R.id.sign_in_button)

@@ -131,6 +131,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
      */
     private void setupToolbar() {
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         homeBtn.setOnClickListener(new View.OnClickListener() {
             @Override

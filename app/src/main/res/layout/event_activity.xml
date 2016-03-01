@@ -17,7 +17,7 @@
             android:id="@+id/home"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@drawable/home"
+            android:background="@drawable/ic_event_black_24dp"
             />
 
     </android.support.v7.widget.Toolbar>

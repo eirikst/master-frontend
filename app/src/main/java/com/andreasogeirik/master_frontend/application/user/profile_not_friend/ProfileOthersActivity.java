@@ -93,8 +93,12 @@ public class ProfileOthersActivity extends AppCompatActivity implements ProfileO
         nameUserText.setText(user.getFirstname() + " " + user.getLastname());
     }
 
+    /*
+     * Toolbar setup
+     */
     private void setupToolbar() {
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         homeBtn.setOnClickListener(new View.OnClickListener() {
             @Override

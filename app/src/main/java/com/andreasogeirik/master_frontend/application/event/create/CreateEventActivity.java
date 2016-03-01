@@ -111,8 +111,17 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
 
         presenter = new CreateEventPresenterImpl(this);
         this.progressBarManager = new ProgressBarManager(this, createEventFormView, progressView);
-        setSupportActionBar(toolbar);
+        setupToolbar();
     }
+
+    /*
+     * Toolbar setup
+     */
+    private void setupToolbar() {
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

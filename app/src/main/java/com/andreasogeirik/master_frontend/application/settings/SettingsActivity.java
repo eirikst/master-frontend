@@ -48,8 +48,12 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
 
-    void setupToolbar() {
+    /*
+     * Toolbar setup
+     */
+    private void setupToolbar() {
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
     void setupView() {

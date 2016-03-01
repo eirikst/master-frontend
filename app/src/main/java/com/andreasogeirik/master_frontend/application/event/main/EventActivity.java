@@ -63,7 +63,7 @@ public class EventActivity extends AppCompatActivity implements EventView {
         setContentView(R.layout.event_activity);
         ButterKnife.bind(this);
         this.progressBarManager = new ProgressBarManager(this, listView, progressView);
-        setSupportActionBar(toolbar);
+        setupToolbar();
 
 
         try {
@@ -79,6 +79,15 @@ public class EventActivity extends AppCompatActivity implements EventView {
         initGui();
         setEventView(event);
     }
+
+    /*
+     * Toolbar setup
+     */
+    private void setupToolbar() {
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
+
 
 
     @Override

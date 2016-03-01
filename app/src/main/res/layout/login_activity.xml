@@ -12,6 +12,13 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
+        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/title_activity_login"
+            android:textColor="@color/app_font"
+            android:textStyle="bold" />
 
     </android.support.v7.widget.Toolbar>
 
