@@ -85,7 +85,7 @@ public class CreateEventPresenterImpl extends GeneralPresenter implements Create
                     createEventView.setStartDateError(error);
                     break;
                 case START_TIME_ERROR:
-                    createEventView.setStartTimeError(error);
+                    createEventView.setStartDateError(error);
                     break;
                 case END_DATE_ERROR:
                     createEventView.setEndDateError(error);

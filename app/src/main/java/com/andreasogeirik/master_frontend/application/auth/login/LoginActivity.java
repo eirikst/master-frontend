@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +23,8 @@ import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity implements LoginView {
 
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
     @Bind(R.id.email)
     EditText emailView;
     @Bind(R.id.login_form)
@@ -45,6 +48,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         ButterKnife.bind(this);
         this.presenter = new LoginPresenterImpl(this);
         this.progressBarManager = new ProgressBarManager(this, loginFormView, progressView);
+        setSupportActionBar(toolbar);
     }
 
     @OnClick(R.id.sign_in_button)

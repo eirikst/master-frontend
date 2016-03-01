@@ -33,7 +33,8 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
         AttendingEventsFragment.AttendingEventsListener, MyEventsFragment.MyEventsListener {
     private EventPresenter presenter;
 
-    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
     @Bind(R.id.viewpager)
     ViewPager viewPager;
     @Bind(R.id.sliding_tabs)
@@ -99,37 +100,11 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
     //TODO: Denne må inspiseres...
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent i;
-        switch (item.getItemId()) {
-            case R.id.sign_out:
-                LogoutHandler.getInstance().logOut();
-                i = new Intent(this, EntranceActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                this.startActivity(i);
-                return true;
-            case R.id.create_event:
-                i = new Intent(this, CreateEventActivity.class);
-                this.startActivity(i);
-                return true;
-            case R.id.settings:
-                i = new Intent(this, SettingsActivity.class);
-                this.startActivity(i);
-                return true;
-            case R.id.my_profile:
-                i = new Intent(this, ProfileActivity.class);
-                i.putExtra("user", CurrentUser.getInstance().getUser());
-                this.startActivity(i);
-                return true;
-            case R.id.get_event:
-                i = new Intent(this, EventActivity.class);
-                this.startActivity(i);
-                return true;
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(item);
 
+        if (!com.andreasogeirik.master_frontend.layout.Toolbar.onOptionsItemSelected(item, this)) {
+            return super.onOptionsItemSelected(item);
         }
+        return true;
     }
 
     @Override

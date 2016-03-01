@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Kommende"
-        android:background="#4488BB"
+        android:background="@color/teal"
         android:visibility="gone"
         />
     <TextView
@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Tidligere"
-        android:background="#4488BB"
+        android:background="@color/teal"
         android:layout_below="@id/future_header"
         android:visibility="gone"
         />
@@ -65,7 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Event name comes here"
-                android:textColor="#000000"
+                android:textColor="@color/app_font"
                 />
 
             <com.andreasogeirik.master_frontend.layout.view.CustomTextView
@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/event_name"
                 android:text="Date comes here"
-                android:textColor="#000000"
+                android:textColor="@color/app_font"
                 />
 
 
@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/event_time_start"
                 android:text="Date comes here"
-                android:textColor="#000000"
+                android:textColor="@color/app_font"
                 />
         </RelativeLayout>
 

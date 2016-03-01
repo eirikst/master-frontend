@@ -40,10 +40,6 @@ public class Toolbar {
                 i.putExtra("user", CurrentUser.getInstance().getUser());
                 context.startActivity(i);
                 return true;
-            case R.id.get_event:
-                i = new Intent(context, EventActivity.class);
-                context.startActivity(i);
-                return true;
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.

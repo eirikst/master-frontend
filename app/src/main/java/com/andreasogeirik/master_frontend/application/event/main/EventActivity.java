@@ -85,8 +85,6 @@ public class EventActivity extends AppCompatActivity implements EventView {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
-        MenuItem item = menu.findItem(R.id.get_event);
-        item.setVisible(false);
         return true;
     }
 
