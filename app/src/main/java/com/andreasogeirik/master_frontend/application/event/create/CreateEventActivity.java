@@ -7,7 +7,11 @@ import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Pair;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -22,7 +26,6 @@ import com.andreasogeirik.master_frontend.application.event.create.interfaces.Cr
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
 import com.andreasogeirik.master_frontend.listener.OnDateSetListener;
 import com.andreasogeirik.master_frontend.listener.OnTimeSetListener;
-import com.andreasogeirik.master_frontend.model.Event;
 
 import java.io.FileNotFoundException;
 import java.util.Calendar;
@@ -40,6 +43,12 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     @Bind(R.id.create_event_form)
     View createEventFormView;
 
+
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.home)
+    Button homeBtn;
+
     // Input fields
     @Bind(R.id.create_event_name)
     EditText nameView;
@@ -52,12 +61,8 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     // Validation
     @Bind(R.id.create_event_start_date_error)
     TextView startDateError;
-    @Bind(R.id.create_event_start_time_error)
-    TextView startTimeError;
     @Bind(R.id.create_event_end_date_error)
     TextView endDateError;
-    @Bind(R.id.create_event_end_time_error)
-    TextView endTimeError;
 
     // Buttons
     @Bind(R.id.create_event_start_date_button)
@@ -106,6 +111,23 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
 
         presenter = new CreateEventPresenterImpl(this);
         this.progressBarManager = new ProgressBarManager(this, createEventFormView, progressView);
+        setSupportActionBar(toolbar);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        MenuItem item = menu.findItem(R.id.create_event);
+        item.setVisible(false);
+        return true;
+    }
+
+    @OnClick(R.id.home)
+    public void navigateToHome() {
+        Intent intent = new Intent(this, MainPageActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
     @Override
@@ -153,8 +175,12 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         } else {
             endDateButton.setVisibility(View.GONE);
             endTimeButton.setVisibility(View.GONE);
+            this.endDateButton.setText("Dato (Slutt)");
+            this.endTimeButton.setText("Tid (Slutt)");
             this.endDate = null;
             this.endTimePair = null;
+            this.endDateError.setText("");
+            this.endDateError.setVisibility(View.GONE);
         }
     }
 
@@ -249,24 +275,10 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     }
 
     @Override
-    public void setStartTimeError(String error) {
-        startTimeError.setText(error);
-        startTimeError.setVisibility(View.VISIBLE);
-        startTimeError.requestFocus();
-    }
-
-    @Override
     public void setEndDateError(String error) {
         endDateError.setText(error);
         endDateError.setVisibility(View.VISIBLE);
         endDateError.requestFocus();
-    }
-
-    @Override
-    public void setEndTimeError(String error) {
-        endTimeError.setText(error);
-        endTimeError.setVisibility(View.VISIBLE);
-        endTimeError.requestFocus();
     }
 
     @Override
@@ -304,9 +316,7 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
 
     private void clearValidationMessages() {
         this.startDateError.setVisibility(View.GONE);
-        this.startTimeError.setVisibility(View.GONE);
         this.endDateError.setVisibility(View.GONE);
-        this.endTimeError.setVisibility(View.GONE);
         this.imageError.setVisibility(View.GONE);
         this.createEventError.setVisibility(View.GONE);
     }
@@ -347,8 +357,15 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
             this.endTimePair = hourMinutePair;
 
         }
-        this.startTimeError.setVisibility(View.GONE);
-        this.endTimeError.setVisibility(View.GONE);
         this.endDateError.setVisibility(View.GONE);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (!com.andreasogeirik.master_frontend.layout.Toolbar.onOptionsItemSelected(item, this)) {
+            return super.onOptionsItemSelected(item);
+        }
+        return true;
+
     }
 }

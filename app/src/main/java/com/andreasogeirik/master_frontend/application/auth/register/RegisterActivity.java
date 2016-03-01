@@ -3,6 +3,7 @@ package com.andreasogeirik.master_frontend.application.auth.register;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +22,8 @@ import butterknife.OnClick;
 
 public class RegisterActivity extends AppCompatActivity implements RegisterView {
 
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
     @Bind(R.id.email_register)
     EditText emailView;
     @Bind(R.id.password_register)
@@ -55,8 +58,10 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
         ButterKnife.bind(this);
         this.presenter = new RegisterPresenterImpl(this);
         this.progressBarManager = new ProgressBarManager(this, registerFormView, progressView);
-
+        setSupportActionBar(toolbar);
     }
+
+
 
     @OnClick(R.id.register_button)
     public void onClick() {
