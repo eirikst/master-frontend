@@ -375,6 +375,5 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
             return super.onOptionsItemSelected(item);
         }
         return true;
-
     }
 }

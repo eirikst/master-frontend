@@ -44,10 +44,32 @@
         android:layout_height="match_parent"
         android:padding="16dp"
         android:orientation="vertical"
-        android:weightSum="20"
+        android:weightSum="30"
         android:background="@drawable/shape_post_background"
         android:layout_marginBottom="5dp"
         android:layout_below="@+id/event_image_container">
+
+        <com.andreasogeirik.master_frontend.layout.view.CustomButton
+            android:id="@+id/event_attend"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/teal"
+            android:textColor="@color/app_font"
+            android:text="MELD PÅ"
+            android:layout_weight="5"
+            android:visibility="gone"
+            />
+
+        <com.andreasogeirik.master_frontend.layout.view.CustomButton
+            android:id="@+id/event_unattend"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/teal"
+            android:textColor="@color/app_font"
+            android:text="MELD AV"
+            android:layout_weight="5"
+            android:visibility="gone"
+            />
 
         <com.andreasogeirik.master_frontend.layout.view.CustomTextView
             android:id="@+id/event_startTime"

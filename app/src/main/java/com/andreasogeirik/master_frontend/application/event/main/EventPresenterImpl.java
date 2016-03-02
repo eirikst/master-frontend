@@ -12,6 +12,8 @@ import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.ImageInteractor;
 
+import org.apache.commons.io.FilenameUtils;
+
 import static com.andreasogeirik.master_frontend.util.Constants.CLIENT_ERROR;
 import static com.andreasogeirik.master_frontend.util.Constants.RESOURCE_ACCESS_ERROR;
 
@@ -35,7 +37,7 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
 
     @Override
     public void getEvent(int eventId) {
-        eventView.showProgress();
+//        eventView.showProgress();
         interactor.getEvent(eventId);
     }
 
@@ -60,13 +62,14 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
 
     @Override
     public void findImage(String imageUrl) {
-        eventView.showProgress();
+//        eventView.showProgress();
+        String fileName = FilenameUtils.getName(imageUrl);
         ImageInteractor.getInstance().findImage(imageUrl, getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), this);
     }
 
     @Override
     public void foundImage(String imageUri, Bitmap bitmap) {
-        eventView.hideProgress();
+//        eventView.hideProgress();
         eventView.setImage(bitmap);
     }
 

@@ -1,6 +1,5 @@
 package com.andreasogeirik.master_frontend.application.event.main;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -16,11 +16,14 @@ import android.widget.TextView;
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventPresenter;
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventView;
+import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
 import com.andreasogeirik.master_frontend.layout.adapter.EventMainAdapter;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.EventPost;
+import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.DateUtility;
+import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +50,9 @@ public class EventActivity extends AppCompatActivity implements EventView {
 
     private View headerView;
     private View eventImageContainer;
+    private Button attendButton;
+    private Button unAttentButton;
+
     private TextView eventName;
     private TextView startTime;
     private TextView endTime;
@@ -56,6 +62,7 @@ public class EventActivity extends AppCompatActivity implements EventView {
 
     private EventPresenter presenter;
     private ProgressBarManager progressBarManager;
+    private Event event;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,13 +75,12 @@ public class EventActivity extends AppCompatActivity implements EventView {
 
         try {
             this.presenter = new EventPresenterImpl(this);
-        }
-        catch(ClassCastException e) {
+        } catch (ClassCastException e) {
             throw new ClassCastException(e + "/nObject in Intent bundle cannot " +
                     "be cast to User in " + this.toString());
         }
 
-        Event event = (Event)getIntent().getSerializableExtra("event");
+        this.event = (Event) getIntent().getSerializableExtra("event");
 
         initGui();
         setEventView(event);
@@ -89,7 +95,6 @@ public class EventActivity extends AppCompatActivity implements EventView {
     }
 
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -102,7 +107,7 @@ public class EventActivity extends AppCompatActivity implements EventView {
         this.eventName.setText(event.getName());
 
         this.startTime.setText("Tidspunkt (start): " + DateUtility.formatFull(event.getStartDate().getTime()));
-        if (event.getEndDate() != null){
+        if (event.getEndDate() != null) {
             this.endTime.setText("Tidspunkt (slutt): " + DateUtility.formatFull(event.getEndDate().getTime()));
             this.endTime.setVisibility(View.VISIBLE);
         }
@@ -144,11 +149,26 @@ public class EventActivity extends AppCompatActivity implements EventView {
         headerView = getLayoutInflater().inflate(R.layout.event_list_header, null);
         listView.addHeaderView(headerView);
 
+        User currentUser = CurrentUser.getInstance().getUser();
+        boolean userInEvent = false;
+
+        for (User user : event.getUsers()) {
+            if (currentUser.getId() == user.getId()) {
+                this.unAttentButton = (Button) headerView.findViewById(R.id.event_unattend);
+                this.unAttentButton.setVisibility(View.VISIBLE);
+                userInEvent = true;
+                break;
+            }
+        }
+        if (!userInEvent) {
+            this.attendButton = (Button) headerView.findViewById(R.id.event_attend);
+            this.attendButton.setVisibility(View.VISIBLE);
+        }
         this.eventImageContainer = headerView.findViewById(R.id.event_image_container);
         this.imageView = (ImageView) headerView.findViewById(R.id.event_image);
         this.eventName = (TextView) headerView.findViewById(R.id.event_name);
         this.startTime = (TextView) headerView.findViewById(R.id.event_startTime);
-        this.endTime= (TextView) headerView.findViewById(R.id.event_endTime);
+        this.endTime = (TextView) headerView.findViewById(R.id.event_endTime);
         this.eventLocation = (TextView) headerView.findViewById(R.id.event_location);
         this.eventDescription = (TextView) headerView.findViewById(R.id.event_description);
 

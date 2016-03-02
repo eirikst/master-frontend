@@ -99,6 +99,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
+        MenuItem item = menu.findItem(R.id.my_profile);
+        item.setVisible(false);
         return true;
     }
 
@@ -273,5 +275,13 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     @Override
     public void displayMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (!com.andreasogeirik.master_frontend.layout.Toolbar.onOptionsItemSelected(item, this)) {
+            return super.onOptionsItemSelected(item);
+        }
+        return true;
     }
 }

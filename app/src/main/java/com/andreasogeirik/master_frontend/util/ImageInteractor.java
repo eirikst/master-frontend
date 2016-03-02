@@ -5,6 +5,8 @@ import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 
+import org.apache.commons.io.FilenameUtils;
+
 import java.io.File;
 
 /**
@@ -39,7 +41,7 @@ public class ImageInteractor {
         /* Checks if external storage is available to at least read */
         if(isExternalStorageReadable()) {
             //Check if present locally
-            File imgFile = new File(storagePath, imageUri);
+            File imgFile = new File(storagePath, FilenameUtils.getName(imageUri) + ".jpg");
             if (imgFile.exists()) {
                 System.out.println("Image found locally");
                 BitmapFactory.Options bmOptions = new BitmapFactory.Options();
@@ -62,7 +64,7 @@ public class ImageInteractor {
             public void onComplete(Bitmap result) {
                 listener.foundImage(imageUri, result);
 
-                imgDownloader.writeToDisk(new File(storagePath, imageUri), result,
+                imgDownloader.writeToDisk(new File(storagePath, FilenameUtils.getName(imageUri) + ".jpg"), result,
                         Bitmap.CompressFormat.JPEG, true,  new BasicImageDownloader.
                                 OnBitmapSaveListener() {
                     @Override
