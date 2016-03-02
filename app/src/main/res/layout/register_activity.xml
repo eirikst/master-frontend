@@ -50,121 +50,133 @@
         android:layout_marginTop="10dp"
         >
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <android.support.design.widget.TextInputLayout
+            <ImageView
+                android:id="@+id/image_view"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_centerHorizontal="true"
+                android:visibility="gone"/>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_below="@id/image_view"
+                android:weightSum="8">
 
-                <EditText
-                    android:id="@+id/email_register"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/prompt_email"
-                    android:maxLines="1"
-                    android:singleLine="true" />
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_weight="1"
+                    android:weightSum="2">
 
-            </android.support.design.widget.TextInputLayout>
+                    <EditText
+                        android:id="@+id/email_register"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/prompt_email"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:layout_weight="1.7"/>
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                    <Button
+                        android:id="@+id/register_image"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_add_a_photo_black_24dp"
+                        android:textColor="@color/app_font"
+                        android:layout_weight="0.3"
+                        android:layout_marginRight="5dp"/>
+
+                </LinearLayout>
+
+
+
 
                 <EditText
                     android:id="@+id/password_register"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:hint="@string/prompt_password"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:layout_weight="1"/>
 
-            </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
                 <EditText
                     android:id="@+id/re_password_register"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:hint="@string/prompt_re_password"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:singleLine="true" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                    android:singleLine="true"
+                    android:layout_weight="1"/>
 
                 <EditText
                     android:id="@+id/firstname"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:hint="@string/prompt_firstname"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:layout_weight="1"/>
 
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
                 <EditText
                     android:id="@+id/lastname"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:hint="@string/prompt_lastname"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:layout_weight="1"/>
+
+                <EditText
+                    android:id="@+id/location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_location"
                     android:maxLines="1"
                     android:singleLine="true" />
 
-                <android.support.design.widget.TextInputLayout
+
+                <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:id="@+id/register_error"
+                    android:textColor="@color/app_error"
+                    android:visibility="gone"
+                    android:freezesText="true"
+                    android:layout_weight="1"/>
+
+                <com.andreasogeirik.master_frontend.layout.view.CustomButton
+                    android:id="@+id/register_button"
+                    style="?android:textAppearanceSmall"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="0dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/action_register"
+                    android:textStyle="bold"
+                    android:background="@color/grey"
+                    android:textColor="@color/app_font"
+                    android:layout_weight="1"/>
 
-                    <EditText
-                        android:id="@+id/location"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/prompt_location"
-                        android:maxLines="1"
-                        android:singleLine="true" />
+            </LinearLayout>
 
-                </android.support.design.widget.TextInputLayout>
 
-            </android.support.design.widget.TextInputLayout>
+        </RelativeLayout>
 
-            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/register_error"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_gravity="center"
-                android:textColor="@color/app_error"
-                android:visibility="gone"
-                android:freezesText="true"/>
 
-            <com.andreasogeirik.master_frontend.layout.view.CustomButton
-                android:id="@+id/register_button"
-                style="?android:textAppearanceSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/action_register"
-                android:textStyle="bold"
-                android:background="@color/grey"
-                android:textColor="@color/app_font"/>
 
-        </LinearLayout>
+
     </ScrollView>
         </RelativeLayout>
 </RelativeLayout>

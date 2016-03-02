@@ -1,21 +1,28 @@
 package com.andreasogeirik.master_frontend.application.auth.register;
 
+import android.graphics.Bitmap;
 import android.text.TextUtils;
 
 import com.andreasogeirik.master_frontend.application.auth.register.interfaces.RegisterInteractor;
 import com.andreasogeirik.master_frontend.application.auth.register.interfaces.RegisterPresenter;
 import com.andreasogeirik.master_frontend.application.auth.register.interfaces.RegisterView;
+import com.andreasogeirik.master_frontend.application.event.create.ImageStatusCode;
+import com.andreasogeirik.master_frontend.application.event.create.SampleImageTask;
+import com.andreasogeirik.master_frontend.listener.OnSampleImageFinishedListener;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
+
+import java.io.InputStream;
 
 
 /**
  * Created by Andreas on 05.02.2016.
  */
-public class RegisterPresenterImpl implements RegisterPresenter {
+public class RegisterPresenterImpl implements RegisterPresenter, OnSampleImageFinishedListener {
 
     private RegisterView registerView;
     private RegisterInteractor interactor;
+    private byte[] byteImage;
 
     public RegisterPresenterImpl(RegisterView registerView) {
         this.registerView = registerView;
@@ -54,6 +61,12 @@ public class RegisterPresenterImpl implements RegisterPresenter {
     }
 
     @Override
+    public void sampleImage(InputStream inputStream) {
+        registerView.showProgress();
+        new SampleImageTask(this, inputStream).execute();
+    }
+
+    @Override
     public void registerSuccess() {
         registerView.navigateToWelcomeView();
     }
@@ -69,5 +82,17 @@ public class RegisterPresenterImpl implements RegisterPresenter {
         else if(error == Constants.RESOURCE_ACCESS_ERROR) {
             registerView.registrationFailed("Fant ikke ressurs. Prøv igjen.");
         }
+    }
+
+    @Override
+    public void onSuccess(Bitmap bitmap, byte[] byteImage) {
+        registerView.hideProgress();
+        this.byteImage = byteImage;
+        registerView.setImage(bitmap);
+    }
+
+    @Override
+    public void onError(ImageStatusCode statusCode) {
+
     }
 }

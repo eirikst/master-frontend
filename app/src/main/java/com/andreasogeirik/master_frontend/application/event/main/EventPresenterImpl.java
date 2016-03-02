@@ -14,6 +14,8 @@ import com.andreasogeirik.master_frontend.util.ImageInteractor;
 
 import org.apache.commons.io.FilenameUtils;
 
+import java.io.File;
+
 import static com.andreasogeirik.master_frontend.util.Constants.CLIENT_ERROR;
 import static com.andreasogeirik.master_frontend.util.Constants.RESOURCE_ACCESS_ERROR;
 

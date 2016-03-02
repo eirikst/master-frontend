@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
-import com.andreasogeirik.master_frontend.listener.OnEncodeImageFinishedListener;
+import com.andreasogeirik.master_frontend.listener.OnSampleImageFinishedListener;
 import com.andreasogeirik.master_frontend.util.ImageHandler;
 
 import java.io.BufferedInputStream;
@@ -17,12 +17,12 @@ import java.io.InputStream;
  * Created by Andreas on 19.02.2016.
  */
 
-public class EncodeImageTask extends AsyncTask<Void, Void, ImageContainer> {
+public class SampleImageTask extends AsyncTask<Void, Void, ImageContainer> {
 
-    private OnEncodeImageFinishedListener listener;
+    private OnSampleImageFinishedListener listener;
     private InputStream inputStream;
 
-    public EncodeImageTask(OnEncodeImageFinishedListener listener, InputStream inputStream) {
+    public SampleImageTask(OnSampleImageFinishedListener listener, InputStream inputStream) {
         this.listener = listener;
         this.inputStream = inputStream;
     }

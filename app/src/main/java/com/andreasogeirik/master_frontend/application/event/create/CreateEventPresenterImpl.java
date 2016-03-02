@@ -8,10 +8,8 @@ import com.andreasogeirik.master_frontend.application.event.create.interfaces.Cr
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventPresenter;
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventView;
 import com.andreasogeirik.master_frontend.application.general.interactors.GeneralPresenter;
-import com.andreasogeirik.master_frontend.data.CurrentUser;
-import com.andreasogeirik.master_frontend.listener.OnEncodeImageFinishedListener;
+import com.andreasogeirik.master_frontend.listener.OnSampleImageFinishedListener;
 import com.andreasogeirik.master_frontend.model.Event;
-import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.validation.CreateEventStatusCodes;
 import com.andreasogeirik.master_frontend.util.validation.CreateEventValidationContainer;
@@ -22,12 +20,11 @@ import org.json.JSONObject;
 import java.io.InputStream;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.HashSet;
 
 /**
  * Created by Andreas on 10.02.2016.
  */
-public class CreateEventPresenterImpl extends GeneralPresenter implements CreateEventPresenter, OnEncodeImageFinishedListener {
+public class CreateEventPresenterImpl extends GeneralPresenter implements CreateEventPresenter, OnSampleImageFinishedListener {
     CreateEventView createEventView;
     private CreateEventInteractor interactor;
     private byte[] byteImage;
@@ -60,9 +57,9 @@ public class CreateEventPresenterImpl extends GeneralPresenter implements Create
     }
 
     @Override
-    public void encodeImage(InputStream inputStream) {
+    public void SampleImage(InputStream inputStream) {
         createEventView.showProgress();
-        new EncodeImageTask(this, inputStream).execute();
+        new SampleImageTask(this, inputStream).execute();
     }
 
     @Override

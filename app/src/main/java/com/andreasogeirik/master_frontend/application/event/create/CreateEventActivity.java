@@ -147,7 +147,7 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
             if (data != null && data.getData() != null) {
                 Uri selectedImage = data.getData();
                 try {
-                    presenter.encodeImage(getContentResolver().openInputStream(selectedImage));
+                    presenter.SampleImage(getContentResolver().openInputStream(selectedImage));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                     setImageError("Kunne ikke finne det valgte bildet");
