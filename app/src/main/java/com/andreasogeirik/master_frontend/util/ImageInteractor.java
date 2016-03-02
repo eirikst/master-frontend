@@ -2,6 +2,7 @@ package com.andreasogeirik.master_frontend.util;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 
@@ -35,29 +36,25 @@ public class ImageInteractor {
 
     public void findImage(@NonNull final String imageUri, final File storagePath,
                           final OnImageFoundListener listener) {
-        if(imageUri == null) {
-            throw new IllegalArgumentException("Image URI cannot be empty");
-        }
-        /* Checks if external storage is available to at least read */
-        if(isExternalStorageReadable()) {
-            //Check if present locally
-            File imgFile = new File(storagePath, FilenameUtils.getName(imageUri) + ".jpg");
-            if (imgFile.exists()) {
-                System.out.println("Image found locally");
-                BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-                Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath(),bmOptions);
-                if(bitmap != null) {
-                    listener.foundImage(imageUri, bitmap);
-                    return;
-                }
+        new LocalImageLoader(imageUri, storagePath, new OnLocalImageFoundListener() {
+            @Override
+            public void imageSuccess(String imageName, Bitmap bitmap) {
+                listener.foundImage(imageName, bitmap);
+                System.out.println("Found image " + imageName + " locally");
             }
-        }
-        else {
-            System.out.println("External storage not readable");
-        }
-        System.out.println("Image not found locally");
 
+            @Override
+            public void imageFailure(int status) {
+                listener.imageNotFound(imageUri);
+                findImageFromServer(imageUri, storagePath, listener);
+                System.out.println("Image not found locally for image " + imageUri);
 
+            }
+        }).execute();
+    }
+
+    private void findImageFromServer(@NonNull final String imageUri, final File storagePath,
+                                    final OnImageFoundListener listener) {
         //can't find image locally, fetch from server
         imgDownloader.download(imageUri, false, new BasicImageDownloader.OnImageLoaderListener() {
             @Override
@@ -100,5 +97,75 @@ public class ImageInteractor {
             return true;
         }
         return false;
+    }
+
+
+
+
+
+
+    private interface OnLocalImageFoundListener {
+        void imageSuccess(String imageName, Bitmap bitmap);
+        void imageFailure(int status);
+    }
+
+    private class LocalImageLoader extends AsyncTask<Void, Void, Bitmap> {
+        private static final int OK = 0;
+        private static final int EXTERNAL_STORAGE_NOT_READABLE = 1;
+        private static final int FILE_DOES_NOT_EXIST = 2;
+        private static final int ERROR = 3;
+
+        private OnLocalImageFoundListener listener;
+        private String imageName;
+        private File storagePath;
+        private int status;
+
+        public LocalImageLoader(String imageName, File storagePath,
+                                OnLocalImageFoundListener listener) {
+            this.listener = listener;
+            this.imageName = imageName;
+            this.storagePath = storagePath;
+        }
+
+        @Override
+        protected Bitmap doInBackground(Void... params) {
+            if(imageName == null) {
+                throw new IllegalArgumentException("Image name cannot be empty");
+            }
+        /* Checks if external storage is available to at least read */
+            if(isExternalStorageReadable()) {
+                //Check if present locally
+                File imgFile = new File(storagePath, FilenameUtils.getName(imageName) + ".jpg");
+                if (imgFile.exists()) {
+                    System.out.println("Image found locally");
+                    BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+                    Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath(),bmOptions);
+                    if(bitmap != null) {
+                        return bitmap;
+                    }
+                    else {
+                        status = ERROR;
+                        System.out.println(getClass().getName() + ": Error while fetching image. Image name: " + imageName);
+                    }
+                }
+                else {
+                    status = FILE_DOES_NOT_EXIST;
+                    System.out.println(getClass().getName() + ": File does not exist. Image name: " + imageName);
+                }
+            }
+            status = EXTERNAL_STORAGE_NOT_READABLE;
+            System.out.println(getClass().getName() + ": External storage not readable. Image name: " + imageName);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            if (bitmap != null) {
+                listener.imageSuccess(imageName, bitmap);
+            }
+            else {
+                listener.imageFailure(status);
+            }
+        }
     }
 }

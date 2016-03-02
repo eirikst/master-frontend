@@ -1,5 +1,6 @@
 package com.andreasogeirik.master_frontend.layout.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -133,7 +134,7 @@ public class EventListAdapter extends ArrayAdapter<Event> {
             }
             //get image from outside
             else {
-                System.out.println("Image not found for " + event.getName() + ". Fetching...");
+                System.out.println("Image not found for " + event.getName() + ". Fetching image " + event.getImageURI());
                 listener.findImage(event.getImageURI());
             }
         }
