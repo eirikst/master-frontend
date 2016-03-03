@@ -25,7 +25,8 @@ public class ImageInteractor {
         if(instance != null) {
             return instance;
         }
-        return new ImageInteractor();
+            instance =  new ImageInteractor();
+        return instance;
     }
 
     public interface OnImageFoundListener {
@@ -34,8 +35,13 @@ public class ImageInteractor {
         void imageNotFound(String imageUri);
     }
 
+    /*
+     * Tries to find image locally. If not found locally, fetches from backend and stores locally
+     */
     public void findImage(@NonNull final String imageUri, final File storagePath,
                           final OnImageFoundListener listener) {
+
+        //find locally
         new LocalImageLoader(imageUri, storagePath, new OnLocalImageFoundListener() {
             @Override
             public void imageSuccess(String imageName, Bitmap bitmap) {
@@ -45,36 +51,36 @@ public class ImageInteractor {
 
             @Override
             public void imageFailure(int status) {
-                listener.imageNotFound(imageUri);
-                findImageFromServer(imageUri, storagePath, listener);
-                System.out.println("Image not found locally for image " + imageUri);
+                //not found locally, try server
+                loadImageFromServer(imageUri, storagePath, listener);
+                System.out.println("Image not found locally for image " + imageUri + " Trying server.");
 
             }
         }).execute();
     }
 
-    private void findImageFromServer(@NonNull final String imageUri, final File storagePath,
-                                    final OnImageFoundListener listener) {
+    private void loadImageFromServer(@NonNull final String imageUri, final File storagePath,
+                                     final OnImageFoundListener listener) {
         //can't find image locally, fetch from server
         imgDownloader.download(imageUri, false, new BasicImageDownloader.OnImageLoaderListener() {
             @Override
             public void onComplete(Bitmap result) {
                 listener.foundImage(imageUri, result);
-
+                //Write image to disk
                 imgDownloader.writeToDisk(new File(storagePath, FilenameUtils.getName(imageUri) + ".jpg"), result,
-                        Bitmap.CompressFormat.JPEG, true,  new BasicImageDownloader.
+                        Bitmap.CompressFormat.JPEG, true, new BasicImageDownloader.
                                 OnBitmapSaveListener() {
-                    @Override
-                    public void onBitmapSaved() {
-                        System.out.println("Image " + imageUri + " saved successfully.");
-                    }
+                            @Override
+                            public void onBitmapSaved() {
+                                System.out.println("Image " + imageUri + " saved successfully.");
+                            }
 
-                    @Override
-                    public void onBitmapSaveError(BasicImageDownloader.ImageError error) {
-                        System.out.println("Image " + imageUri + " save not successful.");
-                        System.out.println(error);
-                    }
-                });
+                            @Override
+                            public void onBitmapSaveError(BasicImageDownloader.ImageError error) {
+                                System.out.println("Image " + imageUri + " save not successful.");
+                                System.out.println(error);
+                            }
+                        });
             }
 
             @Override
@@ -90,14 +96,6 @@ public class ImageInteractor {
         });
     }
 
-    public boolean isExternalStorageReadable() {
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state) ||
-                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-            return true;
-        }
-        return false;
-    }
 
 
 
@@ -122,17 +120,28 @@ public class ImageInteractor {
 
         public LocalImageLoader(String imageName, File storagePath,
                                 OnLocalImageFoundListener listener) {
+            if(imageName == null) {
+                throw new IllegalArgumentException("Image name cannot be empty");
+            }
+
             this.listener = listener;
             this.imageName = imageName;
             this.storagePath = storagePath;
         }
 
+
+        private boolean isExternalStorageReadable() {
+            String state = Environment.getExternalStorageState();
+            if (Environment.MEDIA_MOUNTED.equals(state) ||
+                    Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+                return true;
+            }
+            return false;
+        }
+
         @Override
         protected Bitmap doInBackground(Void... params) {
-            if(imageName == null) {
-                throw new IllegalArgumentException("Image name cannot be empty");
-            }
-        /* Checks if external storage is available to at least read */
+            /* Checks if external storage is available to at least read */
             if(isExternalStorageReadable()) {
                 //Check if present locally
                 File imgFile = new File(storagePath, FilenameUtils.getName(imageName) + ".jpg");

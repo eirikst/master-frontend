@@ -46,6 +46,8 @@ public class AttendingEventsFragment extends Fragment implements EventListAdapte
         return f;
     }
 
+
+
     /*
      * Checks that the activity that creates the fragment implements the interface for callback
      */
@@ -113,7 +115,9 @@ public class AttendingEventsFragment extends Fragment implements EventListAdapte
 
     @Override
     public void displayMessage(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+        if(getActivity() != null) {
+            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -135,5 +139,10 @@ public class AttendingEventsFragment extends Fragment implements EventListAdapte
     @Override
     public void setNoMoreEventsToLoad() {
         footer.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void updateListView() {
+        listAdapter.notifyDataSetChanged();
     }
 }
