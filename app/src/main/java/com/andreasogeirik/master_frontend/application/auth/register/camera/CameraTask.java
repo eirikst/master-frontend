@@ -1,4 +1,4 @@
-package com.andreasogeirik.master_frontend.application.auth.register;
+package com.andreasogeirik.master_frontend.application.auth.register.camera;
 
 import android.os.AsyncTask;
 

@@ -1,9 +1,11 @@
-package com.andreasogeirik.master_frontend.application.auth.register;
+package com.andreasogeirik.master_frontend.application.auth.register.camera;
 
+import android.app.Activity;
 import android.content.Context;
 import android.hardware.Camera;
 import android.util.Log;
 import android.view.Display;
+import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
@@ -54,8 +56,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         // If your preview can change or rotate, take care of those events here.
         // Make sure to stop the preview before resizing or reformatting it.
 
-        mCamera.setDisplayOrientation(90);
-
+//        mCamera.setDisplayOrientation(90);
         if (mHolder.getSurface() == null){
             // preview surface does not exist
             return;
@@ -64,17 +65,12 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         try {
             // stop preview before making changes
             mCamera.stopPreview();
-            // set preview size and make any resize, rotate or
-            // reformatting changes here
-            // Now that the size is known, set up the camera parameters and begin
-            // the preview.
+
             Camera.Parameters parameters = mCamera.getParameters();
-            // You need to choose the most appropriate previewSize for your app
             Camera.Size previewSize = parameters.getSupportedPreviewSizes().get(4);
             parameters.setPreviewSize(previewSize.width, previewSize.height);
 
 
-            // start preview with new settings
             mCamera.setParameters(parameters);
 
             // Set the holder size based on the aspect ratio
@@ -89,11 +85,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             Log.d(TAG, "Error starting camera preview: " + e.getMessage());
             // ignore: tried to stop a non-existent preview
         }
-
-        // set preview size and make any resize, rotate or
-        // reformatting changes here
-
-        // start preview with new settings
         try {
             mCamera.setPreviewDisplay(mHolder);
             mCamera.startPreview();
@@ -103,7 +94,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     }
 
     private void stopPreviewAndFreeCamera() {
-
         if (mCamera != null) {
             // Call stopPreview() to stop updating the preview surface.
             mCamera.stopPreview();
@@ -116,6 +106,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             mCamera = null;
         }
     }
+
+
 
 
 }

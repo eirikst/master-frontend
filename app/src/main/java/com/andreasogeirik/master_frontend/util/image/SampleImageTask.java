@@ -1,11 +1,13 @@
-package com.andreasogeirik.master_frontend.application.event.create;
+package com.andreasogeirik.master_frontend.util.image;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
 import com.andreasogeirik.master_frontend.listener.OnSampleImageFinishedListener;
-import com.andreasogeirik.master_frontend.util.ImageHandler;
+import com.andreasogeirik.master_frontend.util.image.ImageContainer;
+import com.andreasogeirik.master_frontend.util.image.ImageHandler;
+import com.andreasogeirik.master_frontend.util.image.ImageStatusCode;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;

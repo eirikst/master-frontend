@@ -1,10 +1,8 @@
-package com.andreasogeirik.master_frontend.application.auth.register;
+package com.andreasogeirik.master_frontend.application.auth.register.camera;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Environment;
@@ -15,10 +13,11 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.application.auth.register.camera.interfaces.CameraPresenter;
+import com.andreasogeirik.master_frontend.application.auth.register.camera.interfaces.CameraView;
 
+import org.apache.commons.lang3.RandomStringUtils;
 
-
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -31,13 +30,15 @@ import butterknife.OnClick;
 /**
  * Created by Andreas on 07.03.2016.
  */
-public class CameraActivity extends AppCompatActivity {
+public class CameraActivity extends AppCompatActivity implements CameraView {
 
     @Bind(R.id.capture_photo)
     Button capturePhoto;
 
     private Camera mCamera;
     private CameraPreview mPreview;
+    private CameraPresenter presenter;
+    private static int FRONT_CAMERA_ID = 1;
 
     private Camera.PictureCallback mPicture = new Camera.PictureCallback() {
 
@@ -51,28 +52,7 @@ public class CameraActivity extends AppCompatActivity {
                 finish();
             }
 
-//            String randomFileName = RandomStringUtils.randomAlphanumeric(20);
-
-            File storageDir = getAlbumStorageDir(getApplicationContext(), "tmp");
-
-            File image = new File(storageDir, "asd" + ".jpg");
-            FileOutputStream stream = null;
-            try {
-                stream = new FileOutputStream(image);
-                stream.write(data);
-                stream.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            Intent i = new Intent();
-            i.putExtra("image", image.toURI().toString());
-            setResult(Activity.RESULT_OK, i);
-            finish();
-
-
+            presenter.sampleImage(data);
         }
     };
 
@@ -81,9 +61,14 @@ public class CameraActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.camera_activity);
         ButterKnife.bind(this);
+
+        this.presenter = new CameraPresenterImpl(this);
+
+
         // Create an instance of Camera
         try{
             mCamera = getCameraInstance();
+            CameraOrientation.setCameraDisplayOrientation(this, FRONT_CAMERA_ID, mCamera);
         }
         catch (RuntimeException e){
             Toast.makeText(this, "Kan ikke åpne kamera", Toast.LENGTH_LONG).show();
@@ -93,15 +78,13 @@ public class CameraActivity extends AppCompatActivity {
         mPreview = new CameraPreview(this, mCamera);
 
         RelativeLayout preview = (RelativeLayout) findViewById(R.id.camera_preview);
-//        FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
-//        preview.addView(mPreview);
         preview.addView(mPreview, 0);
 
     }
 
     public static Camera getCameraInstance() throws RuntimeException{
         // Attempt to get a Camera instance
-        Camera c = Camera.open(1);
+        Camera c = Camera.open(FRONT_CAMERA_ID);
         return c;
     }
 
@@ -143,7 +126,7 @@ public class CameraActivity extends AppCompatActivity {
         }
     }
 
-    public boolean isExternalStorageWritable() {
+    private boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
         if (Environment.MEDIA_MOUNTED.equals(state)) {
             return true;
@@ -151,14 +134,36 @@ public class CameraActivity extends AppCompatActivity {
         return false;
     }
 
-    public File getAlbumStorageDir(Context context, String albumName) {
+    private File getAlbumStorageDir(Context context, String albumName) {
         // Get the directory for the app's private pictures directory.
-        File file = new File(context.getExternalFilesDir(
-                Environment.DIRECTORY_PICTURES), albumName);
-        if (!file.mkdirs()) {
-            Log.e("SAVE TEMP IMAGE", "Directory not created");
-        }
+        File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), albumName);
         return file;
     }
 
+
+
+
+    @Override
+    public void navigateToRegisterUserView(byte[] byteImage) {
+        String randomFileName = RandomStringUtils.randomAlphanumeric(20);
+
+        File storageDir = getAlbumStorageDir(getApplicationContext(), "tmp");
+
+        File image = new File(storageDir, randomFileName + ".jpg");
+        FileOutputStream stream = null;
+        try {
+            stream = new FileOutputStream(image);
+            stream.write(byteImage);
+            stream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Intent i = new Intent();
+        i.putExtra("image", image.toURI().toString());
+        setResult(Activity.RESULT_OK, i);
+        finish();
+    }
 }

@@ -47,7 +47,7 @@
         <activity android:name=".application.event.main.EventActivity">
         </activity>
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
-        <activity android:name=".application.auth.register.CameraActivity"
+        <activity android:name=".application.auth.register.camera.CameraActivity"
             android:screenOrientation="portrait"/>
     </application>
 

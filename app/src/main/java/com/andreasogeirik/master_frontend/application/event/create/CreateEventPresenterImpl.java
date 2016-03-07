@@ -11,6 +11,8 @@ import com.andreasogeirik.master_frontend.application.general.interactors.Genera
 import com.andreasogeirik.master_frontend.listener.OnSampleImageFinishedListener;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.util.Constants;
+import com.andreasogeirik.master_frontend.util.image.ImageStatusCode;
+import com.andreasogeirik.master_frontend.util.image.SampleImageTask;
 import com.andreasogeirik.master_frontend.util.validation.CreateEventStatusCodes;
 import com.andreasogeirik.master_frontend.util.validation.CreateEventValidationContainer;
 import com.andreasogeirik.master_frontend.util.validation.InputValidation;
