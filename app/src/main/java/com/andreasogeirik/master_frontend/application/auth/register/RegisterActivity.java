@@ -2,6 +2,7 @@ package com.andreasogeirik.master_frontend.application.auth.register;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Camera;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -82,6 +83,8 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        int a = 0;
+
         // Checks if the returned result comes from the image picker
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
             if (data != null && data.getData() != null) {
@@ -96,7 +99,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
         }
         // Checks if the returned result comes from an image capture
         else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Uri data1 = data.getData();
+//            byte[] byteImage = data.getByteArrayExtra("image");
             Bundle extras = data.getExtras();
             Bitmap bitmap = (Bitmap) extras.get("data");
             setImage(bitmap);
@@ -228,10 +231,12 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     }
 
     private void newImage() {
-        Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (i.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(i, REQUEST_IMAGE_CAPTURE);
-        }
+        Intent i = new Intent(this, CameraActivity.class);
+        startActivityForResult(i, REQUEST_IMAGE_CAPTURE);
+//        Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        if (i.resolveActivity(getPackageManager()) != null) {
+//            startActivityForResult(i, REQUEST_IMAGE_CAPTURE);
+//        }
     }
 
     private void beginCrop(Uri source) {
