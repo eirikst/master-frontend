@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -30,13 +31,11 @@ import com.soundcloud.android.crop.Crop;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.io.InputStream;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -93,8 +92,6 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        int a = 0;
-
         // Checks if the returned result comes from the image picker
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
             if (data != null && data.getData() != null) {
@@ -105,27 +102,16 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
         }
         // Checks if the returned result comes from the image cropper
         else if (requestCode == Crop.REQUEST_CROP) {
-            handleCrop(resultCode, data);
+            if (data != null){
+                sampleImage(Crop.getOutput(data));
+            }
         }
         // Checks if the returned result comes from an image capture
         else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-
             Bundle extras = data.getExtras();
-            Bitmap bitmap = (Bitmap) extras.get("data");
-
-            saveImage(bitmap);
-
-
-
-//            String stringImageURI = data.getStringExtra("image");
-//            Uri uri = Uri.parse(stringImageURI);
-//            try {
-//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
-//                setImage(bitmap);
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
+            Uri imageUri = (Uri) extras.get("image");
+            this.imageView.setImageURI(imageUri);
+            this.imageView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -161,15 +147,14 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
 
     @OnClick(R.id.register_button)
     public void onClick() {
-        User user = new User();
-        user.setEmail(emailView.getText().toString());
-        user.setPassword(passwordView.getText().toString());
+        String email = emailView.getText().toString();
+        String password = passwordView.getText().toString();
         String rePassword = rePasswordView.getText().toString();
-        user.setFirstname(firstnameView.getText().toString());
-        user.setLastname(lastnameView.getText().toString());
-        user.setLocation(locationView.getText().toString());
+        String firstname = firstnameView.getText().toString();
+        String lastname = lastnameView.getText().toString();
+        String location = locationView.getText().toString();
 
-        presenter.registerUser(user, rePassword);
+        presenter.registerUser(email, password, rePassword, firstname, lastname, location);
     }
 
     @Override
@@ -200,6 +185,22 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     public void setImage(Bitmap image) {
         this.imageView.setImageBitmap(image);
         this.imageView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void saveImage(byte[] byteImage) {
+        try {
+            File storageDir = getAlbumStorageDir(getApplicationContext(), "tmp");
+            String randomFileName = RandomStringUtils.randomAlphanumeric(20);
+            File image = new File(storageDir, randomFileName + ".jpg");
+            FileOutputStream stream = new FileOutputStream(image);
+            stream.write(byteImage);
+            stream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -238,7 +239,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     }
 
     // TODO FIX thIS
-    public void setImageError(String error){
+    public void setImageError(String error) {
 
     }
 
@@ -249,13 +250,13 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     }
 
     private void newImage() {
-//        Intent i = new Intent(this, CameraActivity.class);
-//        startActivityForResult(i, REQUEST_IMAGE_CAPTURE);
-        Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        i.putExtra("android.intent.extras.CAMERA_FACING", 1);
-        if (i.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(i, REQUEST_IMAGE_CAPTURE);
-        }
+        Intent i = new Intent(this, CameraActivity.class);
+        startActivityForResult(i, REQUEST_IMAGE_CAPTURE);
+//        Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        i.putExtra("android.intent.extras.CAMERA_FACING", 1);
+//        if (i.resolveActivity(getPackageManager()) != null) {
+//            startActivityForResult(i, REQUEST_IMAGE_CAPTURE);
+//        }
     }
 
     private void beginCrop(Uri source) {
@@ -274,25 +275,12 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
         }
     }
 
-    private void saveImage(Bitmap bitmap){
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-        byte[] byteImage = stream.toByteArray();
-
-        String randomFileName = RandomStringUtils.randomAlphanumeric(20);
-
-        File storageDir = getAlbumStorageDir(getApplicationContext(), "tmp");
-
-        File image = new File(storageDir, randomFileName + ".jpg");
-        FileOutputStream fileOutputStream = null;
+    private void sampleImage(Uri imageUri) {
         try {
-            fileOutputStream = new FileOutputStream(image);
-            fileOutputStream.write(byteImage);
-            fileOutputStream.close();
-            beginCrop(Uri.parse(image.toURI().toString()));
+            InputStream inputStream = getContentResolver().openInputStream(imageUri);
+            this.presenter.sampleImage(inputStream);
+
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -300,6 +288,9 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     private File getAlbumStorageDir(Context context, String albumName) {
         // Get the directory for the app's private pictures directory.
         File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), albumName);
+        if (!file.mkdirs()) {
+            Log.e("MAKE DIR", "Directory not created");
+        }
         return file;
     }
 }

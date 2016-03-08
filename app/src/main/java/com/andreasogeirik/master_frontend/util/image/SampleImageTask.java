@@ -23,10 +23,16 @@ public class SampleImageTask extends AsyncTask<Void, Void, ImageContainer> {
 
     private OnSampleImageFinishedListener listener;
     private InputStream inputStream;
+    private int width = 700;
+    private int height = 700;
 
-    public SampleImageTask(OnSampleImageFinishedListener listener, InputStream inputStream) {
+    public SampleImageTask(OnSampleImageFinishedListener listener, InputStream inputStream, boolean isProfileImage) {
         this.listener = listener;
         this.inputStream = inputStream;
+        if (!isProfileImage){
+            this.width = 540;
+            this.height = 540;
+        }
     }
 
     protected ImageContainer doInBackground(Void... params) {
@@ -38,7 +44,7 @@ public class SampleImageTask extends AsyncTask<Void, Void, ImageContainer> {
             BitmapFactory.decodeStream(inputStreamWrapper, null, options);
 
             if (options.outHeight != -1 && options.outWidth != 1) {
-                options.inSampleSize = ImageHandler.calculateInSampleSize(options, 540, 540);
+                options.inSampleSize = ImageHandler.calculateInSampleSize(options, this.width, this.height);
                 inputStreamWrapper.reset();
                 options.inJustDecodeBounds = false;
                 Bitmap bitmap = BitmapFactory.decodeStream(inputStreamWrapper, null, options);

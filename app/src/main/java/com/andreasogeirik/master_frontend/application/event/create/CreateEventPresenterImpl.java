@@ -61,7 +61,7 @@ public class CreateEventPresenterImpl extends GeneralPresenter implements Create
     @Override
     public void SampleImage(InputStream inputStream) {
         createEventView.showProgress();
-        new SampleImageTask(this, inputStream).execute();
+        new SampleImageTask(this, inputStream, false).execute();
     }
 
     @Override

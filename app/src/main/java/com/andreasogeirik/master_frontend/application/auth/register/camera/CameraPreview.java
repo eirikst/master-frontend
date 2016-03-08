@@ -19,22 +19,22 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     private final String TAG = "PIC-FRAME";
 
-    private SurfaceHolder mHolder;
-    private Camera mCamera;
+    private SurfaceHolder surfaceHolder;
+    private Camera camera;
     private Display display;
+    private final Activity activity;
 
     public CameraPreview(Context context, Camera camera) {
         super(context);
-        mCamera = camera;
+        this.activity = (Activity) context;
+        this.camera = camera;
         display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 
 
         // Install a SurfaceHolder.Callback so we get notified when the
         // underlying surface is created and destroyed.
-        mHolder = getHolder();
-        mHolder.addCallback(this);
-        // deprecated setting, but required on Android versions prior to 3.0
-        mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+        surfaceHolder = getHolder();
+        surfaceHolder.addCallback(this);
 
         setKeepScreenOn(true);
     }
@@ -42,8 +42,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     public void surfaceCreated(SurfaceHolder holder) {
         // The Surface has been created, now tell the camera where to draw the preview.
         try {
-            mCamera.setPreviewDisplay(holder);
-            mCamera.startPreview();
+            camera.setPreviewDisplay(holder);
+            camera.startPreview();
         } catch (IOException e) {
         }
     }
@@ -56,58 +56,85 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         // If your preview can change or rotate, take care of those events here.
         // Make sure to stop the preview before resizing or reformatting it.
 
-//        mCamera.setDisplayOrientation(90);
-        if (mHolder.getSurface() == null){
+        if (surfaceHolder.getSurface() == null){
             // preview surface does not exist
             return;
         }
 
         try {
             // stop preview before making changes
-            mCamera.stopPreview();
+            camera.stopPreview();
 
-            Camera.Parameters parameters = mCamera.getParameters();
+            int rotation = getCameraDisplayOrientation(this.activity);
+
+            Camera.Parameters parameters = camera.getParameters();
             Camera.Size previewSize = parameters.getSupportedPreviewSizes().get(4);
             parameters.setPreviewSize(previewSize.width, previewSize.height);
 
+            //set rotation to save the picture
+            parameters.setRotation(270);
 
-            mCamera.setParameters(parameters);
+            //set the rotation for preview camera
+            camera.setDisplayOrientation(rotation);
+            camera.setParameters(parameters);
 
             // Set the holder size based on the aspect ratio
             int size = Math.min(display.getWidth(), display.getHeight());
             double ratio = (double) previewSize.width / previewSize.height;
+//            surfaceHolder.setFixedSize(size, size);
 
-            mHolder.setFixedSize((int)(size * ratio), size);
-            mCamera.setPreviewDisplay(mHolder);
-            mCamera.startPreview();
+            surfaceHolder.setFixedSize((int) (size * ratio), size);
+            camera.setPreviewDisplay(surfaceHolder);
+            camera.startPreview();
 
         } catch (Exception e){
             Log.d(TAG, "Error starting camera preview: " + e.getMessage());
             // ignore: tried to stop a non-existent preview
         }
         try {
-            mCamera.setPreviewDisplay(mHolder);
-            mCamera.startPreview();
+            camera.setPreviewDisplay(surfaceHolder);
+            camera.startPreview();
 
         } catch (Exception e){
         }
     }
 
     private void stopPreviewAndFreeCamera() {
-        if (mCamera != null) {
+        if (camera != null) {
             // Call stopPreview() to stop updating the preview surface.
-            mCamera.stopPreview();
+            camera.stopPreview();
 
             // Important: Call release() to release the camera for use by other
             // applications. Applications should release the camera immediately
             // during onPause() and re-open() it during onResume()).
-            mCamera.release();
+            camera.release();
 
-            mCamera = null;
+            camera = null;
         }
     }
 
+    private static int getCameraDisplayOrientation(Activity activity) {
+//        android.hardware.Camera.CameraInfo info =
+//                new android.hardware.Camera.CameraInfo();
+//        android.hardware.Camera.getCameraInfo(cameraId, info);
+        int rotation = activity.getWindowManager().getDefaultDisplay()
+                .getRotation();
+        int degrees = 0;
+        switch (rotation) {
+            case Surface.ROTATION_0: degrees = 0; break;
+            case Surface.ROTATION_90: degrees = 90; break;
+            case Surface.ROTATION_180: degrees = 180; break;
+            case Surface.ROTATION_270: degrees = 270; break;
+        }
 
+//        int result;
+//        if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+//            result = (info.orientation + degrees) % 360;
+//            result = (360 - result) % 360;  // compensate the mirror
+//        } else {  // back-facing
+//            result = (info.orientation - degrees + 360) % 360;
+//        }
 
-
+        return (90 + 360 - degrees) % 360;
+    }
 }

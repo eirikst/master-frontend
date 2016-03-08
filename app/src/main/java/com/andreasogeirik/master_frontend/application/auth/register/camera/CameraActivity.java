@@ -3,7 +3,9 @@ package com.andreasogeirik.master_frontend.application.auth.register.camera;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.hardware.Camera;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -83,7 +85,6 @@ public class CameraActivity extends AppCompatActivity implements CameraView {
     }
 
     public static Camera getCameraInstance() throws RuntimeException{
-        // Attempt to get a Camera instance
         Camera c = Camera.open(FRONT_CAMERA_ID);
         return c;
     }
@@ -102,6 +103,7 @@ public class CameraActivity extends AppCompatActivity implements CameraView {
             mPreview = new CameraPreview(this, mCamera);
 
             RelativeLayout preview = (RelativeLayout) findViewById(R.id.camera_preview);
+
             preview.addView(mPreview, 0);
         }
     }
@@ -137,6 +139,9 @@ public class CameraActivity extends AppCompatActivity implements CameraView {
     private File getAlbumStorageDir(Context context, String albumName) {
         // Get the directory for the app's private pictures directory.
         File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), albumName);
+        if (!file.mkdirs()) {
+            Log.e("MAKE DIR", "Directory not created");
+        }
         return file;
     }
 
@@ -144,26 +149,29 @@ public class CameraActivity extends AppCompatActivity implements CameraView {
 
 
     @Override
-    public void navigateToRegisterUserView(byte[] byteImage) {
-        String randomFileName = RandomStringUtils.randomAlphanumeric(20);
+    public void navigateToRegisterUserView(Uri imageUri) {
+        Intent i = new Intent();
+        i.putExtra("image", imageUri);
+        setResult(Activity.RESULT_OK, i);
+        finish();
+    }
 
-        File storageDir = getAlbumStorageDir(getApplicationContext(), "tmp");
-
-        File image = new File(storageDir, randomFileName + ".jpg");
-        FileOutputStream stream = null;
+    @Override
+    public Uri saveImage(byte[] byteImage) {
         try {
-            stream = new FileOutputStream(image);
+            File storageDir = getAlbumStorageDir(getApplicationContext(), "tmp");
+            String randomFileName = RandomStringUtils.randomAlphanumeric(20);
+            File image = new File(storageDir, randomFileName + ".jpg");
+            FileOutputStream stream = new FileOutputStream(image);
             stream.write(byteImage);
             stream.close();
+            return Uri.parse(image.toURI().toString());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        Intent i = new Intent();
-        i.putExtra("image", image.toURI().toString());
-        setResult(Activity.RESULT_OK, i);
-        finish();
+        // TODO HANDLE COULD NOT SAVE IMAGE ERROR
+        return null;
     }
 }

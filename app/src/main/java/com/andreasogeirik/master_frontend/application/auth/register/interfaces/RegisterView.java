@@ -11,6 +11,7 @@ public interface RegisterView {
     void showProgress();
     void hideProgress();
     void setImage(Bitmap image);
+    void saveImage(byte[] byteImage);
     void setEmailError(String error);
     void setPasswordError(String error);
     void setFirstnameError(String error);
