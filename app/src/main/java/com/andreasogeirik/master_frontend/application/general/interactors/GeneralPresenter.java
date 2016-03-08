@@ -14,7 +14,7 @@ import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
  * be used by presenter that needs access to shared preferences or for logged in activities that
  * needs to check if the user singleton is set.
  */
-public abstract class GeneralPresenter {
+public abstract class GeneralPresenter {//todo:create a general fragmentpresenter?? slipper init userpref flere ganger
     private Activity activity;
 
     public GeneralPresenter(Activity activity) {

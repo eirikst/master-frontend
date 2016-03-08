@@ -101,7 +101,9 @@ public class MyEventsFragment extends Fragment implements EventListAdapter.Liste
 
     @Override
     public void displayMessage(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+        if(getActivity() != null) {
+            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -118,5 +120,11 @@ public class MyEventsFragment extends Fragment implements EventListAdapter.Liste
     @Override
     public void setEventImage(String imageUri, Bitmap bitmap) {
         listAdapter.addImage(imageUri, bitmap);
+    }
+
+
+    @Override
+    public void updateListView() {
+        listAdapter.notifyDataSetChanged();
     }
 }
