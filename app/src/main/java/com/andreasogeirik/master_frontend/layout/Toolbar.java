@@ -8,6 +8,7 @@ import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.auth.entrance.EntranceActivity;
 import com.andreasogeirik.master_frontend.application.event.create.CreateEventActivity;
 import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
+import com.andreasogeirik.master_frontend.application.search.UserSearchActivity;
 import com.andreasogeirik.master_frontend.application.settings.SettingsActivity;
 import com.andreasogeirik.master_frontend.application.user.profile.ProfileActivity;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
@@ -40,6 +41,11 @@ public class Toolbar {
                 i.putExtra("user", CurrentUser.getInstance().getUser());
                 context.startActivity(i);
                 return true;
+            case R.id.search_user:
+                i = new Intent(context, UserSearchActivity.class);
+                context.startActivity(i);
+                return true;
+
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.

@@ -34,6 +34,7 @@
     <string name="title_friends_list">Venner</string>
     <string name="title_settings">Innstillinger</string>
     <string name="title_profile">Min profil</string>
+    <string name="title_user_search">Søk brukere</string>
 
 
     <!-- Strings related to login -->
@@ -61,5 +62,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="submit_text_size">Angi tekststørrelse:</string>
+    <string name="search">Søk</string>
+    <string name="search_user">Søk etter bruker</string>
+
 
 </resources>
