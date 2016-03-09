@@ -17,4 +17,4 @@ public interface MyEventView {
     void setMyEvents(Set<Event> events);
     void setEventImage(String imageUri, Bitmap bitmap);
     void updateListView();
-}
+    }

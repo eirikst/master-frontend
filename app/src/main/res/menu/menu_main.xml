@@ -12,7 +12,10 @@
     <item android:id="@+id/settings"
         android:title="@string/title_settings"
         app:showAsAction="never"/>
-    <item android:id="@+id/sign_out"
-        android:title="@string/sign_out"
+    <item android:id="@+id/search_user"
+        android:title="@string/search_user"
         app:showAsAction="never"/>
+    <item android:id="@+id/sign_out"
+    android:title="@string/sign_out"
+    app:showAsAction="never"/>
 </menu>
