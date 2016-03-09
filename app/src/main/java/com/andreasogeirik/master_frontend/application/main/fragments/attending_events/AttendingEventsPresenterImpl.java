@@ -52,7 +52,8 @@ public class AttendingEventsPresenterImpl extends GeneralPresenter implements At
         eventsJoined.addAll(attendedEvents);
         eventsJoined.addAll(attendingEvents);
 
-        view.setAttendingEvents(eventsJoined);    }
+        view.setAttendingEvents(eventsJoined);
+    }
 
     @Override
     public void errorAttendedEvents(int code) {

@@ -1,4 +1,4 @@
-package com.andreasogeirik.master_frontend.application.main.fragments.my_events;
+package com.andreasogeirik.master_frontend.application.main.fragments.recommended_events;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,8 +15,8 @@ import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
-import com.andreasogeirik.master_frontend.application.main.fragments.my_events.interfaces.MyEventView;
-import com.andreasogeirik.master_frontend.application.main.fragments.my_events.interfaces.MyEventsPresenter;
+import com.andreasogeirik.master_frontend.application.main.fragments.recommended_events.interfaces.RecommendedEventsPresenter;
+import com.andreasogeirik.master_frontend.application.main.fragments.recommended_events.interfaces.RecommendedEventsView;
 import com.andreasogeirik.master_frontend.layout.adapter.EventListAdapter;
 import com.andreasogeirik.master_frontend.model.Event;
 
@@ -26,23 +26,23 @@ import java.util.Set;
 /**
  * Created by eirikstadheim on 12/02/16.
  */
-public class MyEventsFragment extends Fragment implements EventListAdapter.Listener,
-        MyEventView {
-    public interface MyEventsListener {
+public class RecommendedEventsFragment extends Fragment implements EventListAdapter.Listener,
+        RecommendedEventsView {
+    public interface RecommendedEventsListener {
         }
 
-    private MyEventsListener callback;//the activity that created the fragment
-    private MyEventsPresenter presenter;
+    private RecommendedEventsListener callback;//the activity that created the fragment
+    private RecommendedEventsPresenter presenter;
     private ListView listView;
-    private EventListAdapter listAdapter;
     private Button footer;
+    private EventListAdapter listAdapter;
 
 
     /*
      * Creates a new instance of the fragment
      */
-    public static MyEventsFragment newInstance() {
-        MyEventsFragment f = new MyEventsFragment();
+    public static RecommendedEventsFragment newInstance() {
+        RecommendedEventsFragment f = new RecommendedEventsFragment();
         return f;
     }
 
@@ -56,10 +56,10 @@ public class MyEventsFragment extends Fragment implements EventListAdapter.Liste
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
-            callback = (MyEventsListener) activity;
+            callback = (RecommendedEventsListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement MyEventsListener");
+                    + " must implement RecommendedEventsListener");
         }
     }
 
@@ -68,7 +68,7 @@ public class MyEventsFragment extends Fragment implements EventListAdapter.Liste
         super.onCreate(savedInstanceState);
 
         listAdapter = new EventListAdapter(getActivity().getApplicationContext(), this);
-        presenter = new MyEventsPresenterImpl(this);
+        presenter = new RecommendedEventsPresenterImpl(this);
     }
 
     /*
@@ -78,7 +78,7 @@ public class MyEventsFragment extends Fragment implements EventListAdapter.Liste
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.my_events_fragment, container, false);
+        View view =  inflater.inflate(R.layout.recommended_events_fragment, container, false);
         listView = (ListView)view.findViewById(R.id.event_list);
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -91,14 +91,13 @@ public class MyEventsFragment extends Fragment implements EventListAdapter.Liste
                 startActivity(intent);
             }
         });
-
-        footer = (Button)inflater.inflate(R.layout.my_events_list_footer, container, false);
+        footer = (Button)inflater.inflate(R.layout.recommended_events_list_footer, container, false);
         listView.addFooterView(footer);
 
         footer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.findMyPastEvents();
+                presenter.findRecommendedEvents();
             }
         });
 
@@ -124,7 +123,7 @@ public class MyEventsFragment extends Fragment implements EventListAdapter.Liste
     }
 
     @Override
-    public void setMyEvents(Set<Event> events) {
+    public void setRecommendedEvents(Set<Event> events) {
         listAdapter.clear();
         listAdapter.addAll(events);
     }
@@ -133,7 +132,6 @@ public class MyEventsFragment extends Fragment implements EventListAdapter.Liste
     public void setEventImage(String imageUri, Bitmap bitmap) {
         listAdapter.addImage(imageUri, bitmap);
     }
-
 
     @Override
     public void setNoMoreEventsToLoad() {

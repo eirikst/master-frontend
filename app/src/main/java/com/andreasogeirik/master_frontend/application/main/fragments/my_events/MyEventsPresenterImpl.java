@@ -10,8 +10,10 @@ import com.andreasogeirik.master_frontend.application.main.fragments.my_events.i
 import com.andreasogeirik.master_frontend.application.main.fragments.my_events.interfaces.MyEventsInteractor;
 import com.andreasogeirik.master_frontend.application.main.fragments.my_events.interfaces.MyEventsPresenter;
 import com.andreasogeirik.master_frontend.model.Event;
+import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.ImageInteractor;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -23,7 +25,8 @@ public class MyEventsPresenterImpl extends GeneralPresenter implements MyEventsP
     private MyEventsInteractor eventInteractor;
 
     //model
-    private Set<Event> myEvents;
+    private Set<Event> myEvents = new HashSet<>();
+    private Set<Event> myPastEvents = new HashSet<>();
 
     public MyEventsPresenterImpl(MyEventView view) {
         super(((Fragment)view).getActivity());
@@ -32,6 +35,7 @@ public class MyEventsPresenterImpl extends GeneralPresenter implements MyEventsP
         //TODO:Sjekke user cookie etc.
 
         eventInteractor.findMyEvents();
+        eventInteractor.findMyPastEvents(0);
     }
 
     @Override
@@ -41,11 +45,44 @@ public class MyEventsPresenterImpl extends GeneralPresenter implements MyEventsP
 
     @Override
     public void successMyEvents(Set<Event> events) {
-        view.setMyEvents(events);
+        myEvents.addAll(events);
+
+        Set<Event> joined = new HashSet<>();
+        joined.addAll(myEvents);
+        joined.addAll(myPastEvents);
+
+        view.setMyEvents(joined);
     }
 
     @Override
     public void errorMyEvents(int code) {
+        view.displayMessage("Feil ved lasting av aktiviteter");
+    }
+
+
+    @Override
+    public void findMyPastEvents() {
+        eventInteractor.findMyPastEvents(myPastEvents.size());
+    }
+
+    @Override
+    public void successMyPastEvents(Set<Event> events) {
+        if(!events.isEmpty()) {
+            myPastEvents.addAll(events);
+
+            Set<Event> joined = new HashSet<>();
+            joined.addAll(myEvents);
+            joined.addAll(myPastEvents);
+
+            view.setMyEvents(joined);
+        }
+        if(events.size() < Constants.NUMBER_OF_EVENTS_RETURNED) {
+            view.setNoMoreEventsToLoad();
+        }
+    }
+
+    @Override
+    public void errorMyPastEvents(int code) {
         view.displayMessage("Feil ved lasting av aktiviteter");
     }
 

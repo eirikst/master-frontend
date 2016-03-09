@@ -4,14 +4,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="10"
-    tools:context=".application.auth.entrance.EntranceActivity">
+    tools:context=".application.auth.entrance.EntranceActivity"
+    android:background="@drawable/profile2"
+    >
 
-    <ImageView
+    <Space
         android:layout_width="match_parent"
-        android:src="@drawable/profile2"
         android:layout_height="0dp"
         android:layout_weight="4"
-        android:padding="20dp"/>
+        />
+
 
     <TextView
         android:layout_width="match_parent"
@@ -38,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
-        android:background="@color/teal"
+        android:background="@color/teal_fade"
         android:text="LOGG INN"
         android:textSize="25dp"
         android:textColor="@color/app_font"
@@ -49,7 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
-        android:background="@color/grey"
+        android:background="@color/grey_fade"
         android:text="REGISTRER BRUKER"
         android:textSize="25dp"
         android:textColor="@color/app_font"

@@ -3,7 +3,6 @@ package com.andreasogeirik.master_frontend.communication;
 import android.os.AsyncTask;
 import android.util.Pair;
 
-import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
@@ -21,17 +20,19 @@ import org.springframework.web.client.RestTemplate;
 /**
  * Created by eirikstadheim on 06/02/16.
  */
-public class GetMyEventsTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntity<String>>> {
-    public interface OnFinishedLoadingMyEventsListener {
-        void onSuccessMyEvents(JSONArray events);
-        void onFailureMyEvents(int code);
+public class GetMyPastEventsTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntity<String>>> {
+    public interface OnFinishedLoadingMyPastEventsListener {
+        void onSuccessMyPastEvents(JSONArray events);
+        void onFailureMyPastEvents(int code);
     }
 
 
-    private OnFinishedLoadingMyEventsListener listener;
+    private OnFinishedLoadingMyPastEventsListener listener;
+    private int offset;
 
-    public GetMyEventsTask(OnFinishedLoadingMyEventsListener listener) {
+    public GetMyPastEventsTask(OnFinishedLoadingMyPastEventsListener listener, int offset) {
         this.listener = listener;
+        this.offset = offset;
     }
 
     @Override
@@ -47,7 +48,7 @@ public class GetMyEventsTask extends AsyncTask<Void, Void, Pair<Integer, Respons
         HttpEntity<String> entity = new HttpEntity(null, headers);
 
         try {
-            response = template.exchange(Constants.BACKEND_URL + "me/events",
+            response = template.exchange(Constants.BACKEND_URL + "me/events/past?offset=" + offset,
                     HttpMethod.GET, entity, String.class);
             return new Pair(Constants.OK, response);
         }
@@ -67,16 +68,16 @@ public class GetMyEventsTask extends AsyncTask<Void, Void, Pair<Integer, Respons
 
             try {
                 JSONArray events = new JSONArray(response.second.getBody());
-                listener.onSuccessMyEvents(events);
+                listener.onSuccessMyPastEvents(events);
             }
             catch(JSONException e) {
                 System.out.println("JSON error:" + e);
-                listener.onFailureMyEvents(Constants.JSON_PARSE_ERROR);
+                listener.onFailureMyPastEvents(Constants.JSON_PARSE_ERROR);
             }
 
         }
         else {
-            listener.onFailureMyEvents(response.first);
+            listener.onFailureMyPastEvents(response.first);
         }
     }
 }

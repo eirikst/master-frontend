@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.andreasogeirik.master_frontend.application.main.fragments.attending_events.AttendingEventsFragment;
 import com.andreasogeirik.master_frontend.application.main.fragments.my_events.MyEventsFragment;
 import com.andreasogeirik.master_frontend.application.auth.entrance.EntranceActivity;
+import com.andreasogeirik.master_frontend.application.main.fragments.recommended_events.RecommendedEventsFragment;
 import com.andreasogeirik.master_frontend.application.main.interfaces.EventPresenter;
 import com.andreasogeirik.master_frontend.application.main.interfaces.EventView;
 import com.andreasogeirik.master_frontend.R;
@@ -26,6 +27,7 @@ import butterknife.ButterKnife;
 
 public class MainPageActivity extends AppCompatActivity implements EventView,
         AttendingEventsFragment.AttendingEventsListener, MyEventsFragment.MyEventsListener,
+        RecommendedEventsFragment.RecommendedEventsListener,
         ViewPager.OnPageChangeListener {
     private EventPresenter presenter;
 
@@ -120,14 +122,17 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
     public void onPageSelected(int position) {
         Fragment fragment = pagerAdapter.getRegisteredFragment(position);
 
+        //this is done because image would not always load
         if(fragment != null) {
             if(fragment instanceof AttendingEventsFragment) {
                 ((AttendingEventsFragment) fragment).updateListView();
             }
+            else if(fragment instanceof RecommendedEventsFragment) {
+                ((RecommendedEventsFragment) fragment).updateListView();
+            }
             else if(fragment instanceof MyEventsFragment) {
                 ((MyEventsFragment) fragment).updateListView();
             }
-            //TODO:add for third fragment when the time comes
         }
     }
 

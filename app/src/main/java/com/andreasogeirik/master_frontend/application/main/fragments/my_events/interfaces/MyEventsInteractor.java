@@ -5,4 +5,5 @@ package com.andreasogeirik.master_frontend.application.main.fragments.my_events.
  */
 public interface MyEventsInteractor {
     void findMyEvents();
+    void findMyPastEvents(int offset);
 }

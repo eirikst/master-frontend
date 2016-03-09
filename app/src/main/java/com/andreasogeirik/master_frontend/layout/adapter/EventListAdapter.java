@@ -58,7 +58,7 @@ public class EventListAdapter extends ArrayAdapter<Event> {
          * Past events comes after the future, with the latest first
          */
         comparator = new Comparator<Event>() {
-            private Calendar cal = new GregorianCalendar();
+            Calendar cal = new GregorianCalendar();
             @Override
             public int compare(Event lhs, Event rhs) {
                 if(lhs.getStartDate().before(cal) && rhs.getStartDate().before(cal)) {
