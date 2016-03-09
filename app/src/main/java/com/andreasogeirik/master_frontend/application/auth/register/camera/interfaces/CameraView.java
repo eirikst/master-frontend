@@ -7,5 +7,5 @@ import android.net.Uri;
  */
 public interface CameraView {
     void navigateToRegisterUserView(Uri imageUri);
-    Uri saveImage(byte[] byteImage);
+    Uri cacheImage(byte[] byteImage);
 }

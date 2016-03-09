@@ -10,8 +10,7 @@ public interface RegisterView {
     void registrationFailed(String error);
     void showProgress();
     void hideProgress();
-    void setImage(Bitmap image);
-    void saveImage(byte[] byteImage);
+    void setImage(byte[] byteImage, Bitmap image);
     void setEmailError(String error);
     void setPasswordError(String error);
     void setFirstnameError(String error);

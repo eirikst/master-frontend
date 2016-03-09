@@ -1,6 +1,7 @@
 package com.andreasogeirik.master_frontend.application.auth.register;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.text.TextUtils;
 
 import com.andreasogeirik.master_frontend.application.auth.register.interfaces.RegisterInteractor;
@@ -11,6 +12,8 @@ import com.andreasogeirik.master_frontend.util.image.SampleImageTask;
 import com.andreasogeirik.master_frontend.listener.OnSampleImageFinishedListener;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
+
+import org.apache.commons.io.IOUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -23,7 +26,6 @@ public class RegisterPresenterImpl implements RegisterPresenter, OnSampleImageFi
 
     private RegisterView registerView;
     private RegisterInteractor interactor;
-    private byte[] byteImage;
 
     public RegisterPresenterImpl(RegisterView registerView) {
         this.registerView = registerView;
@@ -32,7 +34,7 @@ public class RegisterPresenterImpl implements RegisterPresenter, OnSampleImageFi
 
 
     @Override
-    public void registerUser(String email, String password, String rePassword, String firstname, String lastname, String location) {
+    public void registerUser(String email, String password, String rePassword, String firstname, String lastname, String location, byte[] byteImage) {
         // TODO: Må forbedre validering med email regex, password policy, osv.
         if (TextUtils.isEmpty(email)){
             registerView.setEmailError("The email is empty");
@@ -86,21 +88,18 @@ public class RegisterPresenterImpl implements RegisterPresenter, OnSampleImageFi
     }
 
     @Override
-    public void onSuccess(Bitmap bitmap, byte[] byteImage) {
-//        registerView.hideProgress();
+    public void onSampleSuccess(Bitmap bitmap, byte[] byteImage) {
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, 300, 300, false);
 
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         byte[] scaledByteImage = stream.toByteArray();
 
-        this.byteImage = scaledByteImage;
-        registerView.saveImage(scaledByteImage);
-        registerView.setImage(scaledBitmap);
+        registerView.setImage(scaledByteImage, scaledBitmap);
     }
 
     @Override
-    public void onError(ImageStatusCode statusCode) {
+    public void onSampleError(ImageStatusCode statusCode) {
 
     }
 }

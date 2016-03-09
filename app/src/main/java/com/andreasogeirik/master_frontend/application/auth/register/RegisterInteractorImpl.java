@@ -2,8 +2,8 @@ package com.andreasogeirik.master_frontend.application.auth.register;
 
 import com.andreasogeirik.master_frontend.application.auth.register.interfaces.RegisterInteractor;
 import com.andreasogeirik.master_frontend.application.auth.register.interfaces.RegisterPresenter;
-import com.andreasogeirik.master_frontend.communication.GetEventTask;
 import com.andreasogeirik.master_frontend.communication.RegisterTask;
+import com.andreasogeirik.master_frontend.communication.UpdateUserTask;
 import com.andreasogeirik.master_frontend.communication.UploadImageTask;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.listener.OnImageUploadFinishedListener;

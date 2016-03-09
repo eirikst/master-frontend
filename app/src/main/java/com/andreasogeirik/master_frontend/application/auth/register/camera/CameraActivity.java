@@ -146,8 +146,6 @@ public class CameraActivity extends AppCompatActivity implements CameraView {
     }
 
 
-
-
     @Override
     public void navigateToRegisterUserView(Uri imageUri) {
         Intent i = new Intent();
@@ -157,15 +155,13 @@ public class CameraActivity extends AppCompatActivity implements CameraView {
     }
 
     @Override
-    public Uri saveImage(byte[] byteImage) {
+    public Uri cacheImage(byte[] byteImage) {
+        File imageFile = new File(getCacheDir(), "profilePic.jpg");
         try {
-            File storageDir = getAlbumStorageDir(getApplicationContext(), "tmp");
-            String randomFileName = RandomStringUtils.randomAlphanumeric(20);
-            File image = new File(storageDir, randomFileName + ".jpg");
-            FileOutputStream stream = new FileOutputStream(image);
+            FileOutputStream stream = new FileOutputStream(imageFile);
             stream.write(byteImage);
             stream.close();
-            return Uri.parse(image.toURI().toString());
+            return Uri.parse(imageFile.toURI().toString());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

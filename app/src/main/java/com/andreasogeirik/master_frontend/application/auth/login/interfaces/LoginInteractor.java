@@ -6,5 +6,5 @@ import com.andreasogeirik.master_frontend.model.User;
  * Created by eirikstadheim on 09/02/16.
  */
 public interface LoginInteractor {
-    public void attemptLogin(User user);
+    void attemptLogin(User user);
 }
