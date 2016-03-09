@@ -26,6 +26,8 @@
 
     <string name="action_settings">Innstillinger</string>
     <string name="title_activity_login">Logg inn</string>
+    <string name="title_activity_welcome">VELKOMMEN</string>
+
     <string name="title_activity_my_profile">MEG</string>
     <string name="title_activity_others_profile">Profil</string>
     <string name="title_main_page">Aktiviterer</string>

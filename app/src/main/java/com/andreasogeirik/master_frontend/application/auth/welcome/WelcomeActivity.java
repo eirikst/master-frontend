@@ -11,6 +11,7 @@ import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.auth.welcome.interfaces.WelcomePresenter;
 import com.andreasogeirik.master_frontend.application.auth.welcome.interfaces.WelcomeView;
 import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
+import com.andreasogeirik.master_frontend.application.user.photo.PhotoActivity;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
 
@@ -20,7 +21,7 @@ import butterknife.OnClick;
 
 public class WelcomeActivity extends AppCompatActivity implements WelcomeView {
 
-    @Bind(R.id.welcome_continue)
+    @Bind(R.id.welcome_button)
     Button continueButton;
     @Bind(R.id.welcome_form)
     View mWelcomeFormView;
@@ -39,15 +40,17 @@ public class WelcomeActivity extends AppCompatActivity implements WelcomeView {
         this.progressBarManager = new ProgressBarManager(this, mWelcomeFormView, mProgressView);
     }
 
-    @OnClick(R.id.welcome_continue)
+    @OnClick(R.id.welcome_button)
     public void submit() {
-        presenter.attemptLogin(CurrentUser.getInstance().getUser());
+        Intent i = getIntent();
+        String password = i.getStringExtra("password");
+        presenter.attemptLogin(CurrentUser.getInstance().getUser(), password);
     }
 
 
     @Override
     public void navigateToEventView() {
-        Intent i = new Intent(this, MainPageActivity.class);
+        Intent i = new Intent(this, PhotoActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
     }

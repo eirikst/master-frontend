@@ -11,6 +11,7 @@ import com.andreasogeirik.master_frontend.util.image.SampleImageTask;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.InputStream;
 
 /**
@@ -34,19 +35,19 @@ public class CameraPresenterImpl implements CameraPresenter, OnSampleImageFinish
     }
 
     @Override
-    public void onSuccess(Bitmap bitmap, byte[] byteImage) {
+    public void onSampleSuccess(Bitmap bitmap, byte[] byteImage) {
 
-        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, 700, 700, false);
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, 300, 300, false);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         byte[] scaledByteImage = stream.toByteArray();
 
-        Uri uri = cameraView.saveImage(scaledByteImage);
+        Uri uri = cameraView.cacheImage(scaledByteImage);
         cameraView.navigateToRegisterUserView(uri);
     }
 
     @Override
-    public void onError(ImageStatusCode statusCode) {
+    public void onSampleError(ImageStatusCode statusCode) {
 
     }
 }

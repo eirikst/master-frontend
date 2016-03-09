@@ -110,14 +110,14 @@ public class CreateEventPresenterImpl extends GeneralPresenter implements Create
     }
 
     @Override
-    public void onSuccess(Bitmap bitmap, byte[] byteImage) {
+    public void onSampleSuccess(Bitmap bitmap, byte[] byteImage) {
         createEventView.hideProgress();
         this.byteImage = byteImage;
         createEventView.setImage(bitmap);
     }
 
     @Override
-    public void onError(ImageStatusCode statusCode) {
+    public void onSampleError(ImageStatusCode statusCode) {
         createEventView.hideProgress();
         if (statusCode == ImageStatusCode.FILE_NOT_FOUND) {
             createEventView.setImageError("Finner ikke filen");

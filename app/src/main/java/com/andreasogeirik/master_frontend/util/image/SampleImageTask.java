@@ -5,9 +5,6 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
 import com.andreasogeirik.master_frontend.listener.OnSampleImageFinishedListener;
-import com.andreasogeirik.master_frontend.util.image.ImageContainer;
-import com.andreasogeirik.master_frontend.util.image.ImageHandler;
-import com.andreasogeirik.master_frontend.util.image.ImageStatusCode;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -65,9 +62,9 @@ public class SampleImageTask extends AsyncTask<Void, Void, ImageContainer> {
 
     protected void onPostExecute(ImageContainer imageContainer) {
         if (imageContainer.getStatus() == ImageStatusCode.FILE_ENCODED) {
-            listener.onSuccess(imageContainer.getBitmap(), imageContainer.getByteImage());
+            listener.onSampleSuccess(imageContainer.getBitmap(), imageContainer.getByteImage());
         } else {
-            listener.onError(imageContainer.getStatus());
+            listener.onSampleError(imageContainer.getStatus());
         }
     }
 }

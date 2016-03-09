@@ -26,10 +26,10 @@ public class WelcomeInteractorImpl implements WelcomeInteractor, OnLoginFinished
     }
 
     @Override
-    public void attemptLogin(User user) {
+    public void attemptLogin(User user, String password) {
         MultiValueMap<String, String> credentials = new LinkedMultiValueMap<>();
         credentials.add("username", user.getEmail());
-        credentials.add("password", user.getPassword());
+        credentials.add("password", password);
 
         new LoginTask(credentials, this).execute();
     }
@@ -42,12 +42,6 @@ public class WelcomeInteractorImpl implements WelcomeInteractor, OnLoginFinished
     @Override
     public void onLoginSuccess(JSONObject user, String sessionId) {
         //save current user and session
-        try {
-            CurrentUser.getInstance().setUser(new User(user));
-        }
-        catch (JSONException e) {
-            presenter.loginError(Constants.JSON_PARSE_ERROR);
-        }
 
         UserPreferencesManager.getInstance().saveCookie(sessionId);
         presenter.loginSuccess();

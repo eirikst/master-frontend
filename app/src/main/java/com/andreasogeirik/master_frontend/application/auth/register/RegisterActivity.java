@@ -20,20 +20,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
-import com.andreasogeirik.master_frontend.application.auth.register.camera.CameraActivity;
 import com.andreasogeirik.master_frontend.application.auth.register.interfaces.RegisterPresenter;
 import com.andreasogeirik.master_frontend.application.auth.register.interfaces.RegisterView;
 import com.andreasogeirik.master_frontend.application.auth.welcome.WelcomeActivity;
+import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
 import com.andreasogeirik.master_frontend.model.User;
+import com.desmond.squarecamera.CameraActivity;
 import com.soundcloud.android.crop.Crop;
 
 
-import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.io.IOUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -78,6 +78,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     private ProgressBarManager progressBarManager;
     private int PICK_IMAGE_REQUEST = 1;
     static final int REQUEST_IMAGE_CAPTURE = 2;
+    private byte[] byteImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +93,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        // Checks if the returned result comes from the image picker
+        // Image picker
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
             if (data != null && data.getData() != null) {
                 beginCrop(data.getData());
@@ -100,17 +101,24 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
                 setImageError("Kunne ikke finne det valgte bildet");
             }
         }
-        // Checks if the returned result comes from the image cropper
+        // Image cropper
         else if (requestCode == Crop.REQUEST_CROP) {
             if (data != null){
                 sampleImage(Crop.getOutput(data));
             }
         }
-        // Checks if the returned result comes from an image capture
+        // Image capture
         else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Uri imageUri = (Uri) extras.get("image");
-            this.imageView.setImageURI(imageUri);
+            Uri photoUri = data.getData();
+            try {
+                InputStream stream = getContentResolver().openInputStream(photoUri);
+                this.byteImage = IOUtils.toByteArray(stream);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            this.imageView.setImageURI(photoUri);
             this.imageView.setVisibility(View.VISIBLE);
         }
     }
@@ -154,12 +162,13 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
         String lastname = lastnameView.getText().toString();
         String location = locationView.getText().toString();
 
-        presenter.registerUser(email, password, rePassword, firstname, lastname, location);
+        presenter.registerUser(email, password, rePassword, firstname, lastname, location, byteImage);
     }
 
     @Override
     public void navigateToWelcomeView() {
         Intent i = new Intent(this, WelcomeActivity.class);
+        i.putExtra("password", passwordView.getText().toString());
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
     }
@@ -182,25 +191,12 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     }
 
     @Override
-    public void setImage(Bitmap image) {
+    public void setImage(byte[] byteImage, Bitmap image) {
+        this.byteImage = byteImage;
+        this.imageView.setImageDrawable(null);
+        this.imageView.setVisibility(View.GONE);
         this.imageView.setImageBitmap(image);
         this.imageView.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void saveImage(byte[] byteImage) {
-        try {
-            File storageDir = getAlbumStorageDir(getApplicationContext(), "tmp");
-            String randomFileName = RandomStringUtils.randomAlphanumeric(20);
-            File image = new File(storageDir, randomFileName + ".jpg");
-            FileOutputStream stream = new FileOutputStream(image);
-            stream.write(byteImage);
-            stream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -250,13 +246,10 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     }
 
     private void newImage() {
-        Intent i = new Intent(this, CameraActivity.class);
-        startActivityForResult(i, REQUEST_IMAGE_CAPTURE);
-//        Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        i.putExtra("android.intent.extras.CAMERA_FACING", 1);
-//        if (i.resolveActivity(getPackageManager()) != null) {
-//            startActivityForResult(i, REQUEST_IMAGE_CAPTURE);
-//        }
+        Intent startCustomCameraIntent = new Intent(this, CameraActivity.class);
+        startActivityForResult(startCustomCameraIntent, REQUEST_IMAGE_CAPTURE);
+//        Intent i = new Intent(this, CameraActivity.class);
+//        startActivityForResult(i, REQUEST_IMAGE_CAPTURE);
     }
 
     private void beginCrop(Uri source) {
