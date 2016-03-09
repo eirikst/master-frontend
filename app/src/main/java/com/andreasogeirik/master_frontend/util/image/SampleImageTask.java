@@ -1,11 +1,13 @@
-package com.andreasogeirik.master_frontend.application.event.create;
+package com.andreasogeirik.master_frontend.util.image;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
-import com.andreasogeirik.master_frontend.listener.OnEncodeImageFinishedListener;
-import com.andreasogeirik.master_frontend.util.ImageHandler;
+import com.andreasogeirik.master_frontend.listener.OnSampleImageFinishedListener;
+import com.andreasogeirik.master_frontend.util.image.ImageContainer;
+import com.andreasogeirik.master_frontend.util.image.ImageHandler;
+import com.andreasogeirik.master_frontend.util.image.ImageStatusCode;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -17,14 +19,20 @@ import java.io.InputStream;
  * Created by Andreas on 19.02.2016.
  */
 
-public class EncodeImageTask extends AsyncTask<Void, Void, ImageContainer> {
+public class SampleImageTask extends AsyncTask<Void, Void, ImageContainer> {
 
-    private OnEncodeImageFinishedListener listener;
+    private OnSampleImageFinishedListener listener;
     private InputStream inputStream;
+    private int width = 700;
+    private int height = 700;
 
-    public EncodeImageTask(OnEncodeImageFinishedListener listener, InputStream inputStream) {
+    public SampleImageTask(OnSampleImageFinishedListener listener, InputStream inputStream, boolean isProfileImage) {
         this.listener = listener;
         this.inputStream = inputStream;
+        if (!isProfileImage){
+            this.width = 540;
+            this.height = 540;
+        }
     }
 
     protected ImageContainer doInBackground(Void... params) {
@@ -36,7 +44,7 @@ public class EncodeImageTask extends AsyncTask<Void, Void, ImageContainer> {
             BitmapFactory.decodeStream(inputStreamWrapper, null, options);
 
             if (options.outHeight != -1 && options.outWidth != 1) {
-                options.inSampleSize = ImageHandler.calculateInSampleSize(options, 540, 540);
+                options.inSampleSize = ImageHandler.calculateInSampleSize(options, this.width, this.height);
                 inputStreamWrapper.reset();
                 options.inJustDecodeBounds = false;
                 Bitmap bitmap = BitmapFactory.decodeStream(inputStreamWrapper, null, options);

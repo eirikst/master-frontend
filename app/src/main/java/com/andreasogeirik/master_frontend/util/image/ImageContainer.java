@@ -1,4 +1,4 @@
-package com.andreasogeirik.master_frontend.application.event.create;
+package com.andreasogeirik.master_frontend.util.image;
 
 import android.graphics.Bitmap;
 

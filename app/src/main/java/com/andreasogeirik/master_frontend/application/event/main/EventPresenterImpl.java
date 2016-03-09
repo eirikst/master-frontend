@@ -9,10 +9,10 @@ import com.andreasogeirik.master_frontend.application.event.main.interfaces.Even
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventView;
 import com.andreasogeirik.master_frontend.application.general.interactors.GeneralPresenter;
 import com.andreasogeirik.master_frontend.model.Event;
-import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.ImageInteractor;
 
 import org.apache.commons.io.FilenameUtils;
+
 
 import static com.andreasogeirik.master_frontend.util.Constants.CLIENT_ERROR;
 import static com.andreasogeirik.master_frontend.util.Constants.RESOURCE_ACCESS_ERROR;

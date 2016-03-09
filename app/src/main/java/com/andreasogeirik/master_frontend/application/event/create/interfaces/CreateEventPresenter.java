@@ -16,5 +16,5 @@ public interface CreateEventPresenter {
     void create(String name, String location, String description, Calendar startDate, Calendar endDate, Pair<Integer, Integer> startTimePair, Pair<Integer, Integer> endTimePair);
     void createEventSuccess(JSONObject event);
     void createEventError(int error);
-    void encodeImage(InputStream inputStream);
+    void SampleImage(InputStream inputStream);
 }

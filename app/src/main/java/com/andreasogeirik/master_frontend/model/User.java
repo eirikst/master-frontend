@@ -28,6 +28,14 @@ public class User implements Serializable {
     public User() {
     }
 
+    public User(String email, String password, String firstname, String lastname, String location) {
+        this.email = email;
+        this.password = password;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.location = location;
+    }
+
     public User(int id, String email, boolean enabled, String firstname, String lastname, String location,
                 String imageUri) {
         this.id = id;
