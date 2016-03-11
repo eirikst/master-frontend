@@ -17,6 +17,7 @@ import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.ImageInteractor;
 import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -75,6 +76,16 @@ public class MainPagePresenterImpl extends GeneralPresenter implements EventPres
     public void successFriendshipsLoad(Set<Friendship> friendships, Set<Friendship> requests) {
         CurrentUser.getInstance().getUser().setFriends(friendships);
         CurrentUser.getInstance().getUser().setRequests(requests);
+
+        int requestCount = 0;
+        for(Friendship friendship: requests) {
+            if(friendship.getStatus() == Friendship.FRIEND_REQUESTED) {
+                requestCount++;
+            }
+        }
+        if(requestCount != 0) {
+            view.setNotificationCount(requestCount);
+        }
     }
 
     @Override
@@ -98,5 +109,20 @@ public class MainPagePresenterImpl extends GeneralPresenter implements EventPres
     @Override
     public void findUserFailure(int code) {
         view.navigateToLogin();
+    }
+
+    @Override
+    public void accessNotificationCenter() {
+        //get all friendships, place them in set of objects
+        Set<Object> requests = new HashSet<>();
+
+        Set<Friendship> friendships = CurrentUser.getInstance().getUser().getRequests();
+        for(Friendship friendship: friendships) {
+            if(friendship.getStatus() == Friendship.FRIEND_REQUESTED) {
+                requests.add(friendship);
+            }
+        }
+
+        view.showNotificationCenter(requests);
     }
 }
