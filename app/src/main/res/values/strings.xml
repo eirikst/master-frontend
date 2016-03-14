@@ -66,6 +66,10 @@
     <string name="submit_text_size">Angi tekststørrelse:</string>
     <string name="search">Søk</string>
     <string name="search_user">Søk etter bruker</string>
+    <string name="notifications">Varslinger</string>
+    <string name="accept">Godta</string>
+    <string name="reject">Avvis</string>
+
 
 
 </resources>

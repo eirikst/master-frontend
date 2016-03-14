@@ -102,6 +102,6 @@ public class MainPageInteractorImpl implements EventInteractor, OnFinishedLoadin
 
     @Override
     public void onLoadingUserFailure(int code) {
-
+        presenter.findUserFailure(code);
     }
 }

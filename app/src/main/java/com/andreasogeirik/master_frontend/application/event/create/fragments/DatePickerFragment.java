@@ -1,4 +1,4 @@
-package com.andreasogeirik.master_frontend.application.event.create;
+package com.andreasogeirik.master_frontend.application.event.create.fragments;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;

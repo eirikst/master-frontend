@@ -3,17 +3,15 @@ package com.andreasogeirik.master_frontend.application.event.main;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Environment;
-import android.view.View;
 
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventInteractor;
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventPresenter;
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventView;
 import com.andreasogeirik.master_frontend.application.general.interactors.GeneralPresenter;
-import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.Event;
-import com.andreasogeirik.master_frontend.model.User;
-import com.andreasogeirik.master_frontend.util.DateUtility;
 import com.andreasogeirik.master_frontend.util.ImageInteractor;
+
+import org.apache.commons.io.FilenameUtils;
 
 
 import static com.andreasogeirik.master_frontend.util.Constants.CLIENT_ERROR;
@@ -43,6 +41,7 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
 //        this.eventView.showProgress();
         interactor.attendEvent(this.event.getId());
     }
+
 
     @Override
     public void unAttendEvent() {

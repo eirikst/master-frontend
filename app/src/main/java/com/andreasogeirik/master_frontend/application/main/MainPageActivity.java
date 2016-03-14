@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
@@ -15,6 +16,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.application.main.fragments.attending_events.AttendingEventsFragment;
@@ -24,8 +28,12 @@ import com.andreasogeirik.master_frontend.application.main.fragments.recommended
 import com.andreasogeirik.master_frontend.application.main.interfaces.EventPresenter;
 import com.andreasogeirik.master_frontend.application.main.interfaces.EventView;
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.application.main.notification.NotificationCenterDialogFragment;
 import com.andreasogeirik.master_frontend.layout.adapter.MainPagerAdapter;
 
+
+import java.util.HashSet;
+import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -42,6 +50,11 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
     ViewPager viewPager;
     @Bind(R.id.sliding_tabs)
     TabLayout tabLayout;
+    @Bind(R.id.notification_img)
+    ImageView notificationImg;
+    @Bind(R.id.notification_count)
+    TextView notificationCount;
+
     private MainPagerAdapter pagerAdapter;
 
 
@@ -57,17 +70,18 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
         }
     };
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_page_activity);
-        ButterKnife.bind(this);
+
         presenter = new MainPagePresenterImpl(this);
 
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
                 new IntentFilter("custom-event-name"));
     }
 
+    //TODO:remove if not used bro
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -75,6 +89,9 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
 
     @Override
     public void initGUI() {
+        setContentView(R.layout.main_page_activity);
+        ButterKnife.bind(this);
+
         setupToolbar();
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
@@ -90,6 +107,12 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
             }
         });
 
+        notificationImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.accessNotificationCenter();
+            }
+        });
     }
 
     /*
@@ -100,11 +123,30 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
+    @Override
+    public void showNotificationCenter(Set<Object> notifications) {
+        // DialogFragment.show() will take care of adding the fragment
+        // in a transaction.  We also want to remove any currently showing
+        // dialog, so make our own transaction and take care of that here.
+        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager()
+                .beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        // Create and show the dialog.
+        DialogFragment newFragment = NotificationCenterDialogFragment.newInstance(
+                new HashSet<Object>(notifications));
+        newFragment.show(ft, "dialog");
+    }
+
 
     public void navigateToLogin() {
         Intent i = new Intent(this, EntranceActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
-        finish();
     }
 
     @Override
@@ -122,6 +164,12 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
             return super.onOptionsItemSelected(item);
         }
         return true;
+    }
+
+    @Override
+    public void setNotificationCount(int count) {
+        notificationCount.setText("" + count);
+        notificationCount.setVisibility(View.VISIBLE);
     }
 
     @Override

@@ -21,4 +21,6 @@ public interface EventPresenter {
     void findUser();
     void findUserSuccess(User user);
     void findUserFailure(int code);
+
+    void accessNotificationCenter();
 }

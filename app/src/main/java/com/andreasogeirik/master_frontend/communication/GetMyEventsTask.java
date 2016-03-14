@@ -3,7 +3,6 @@ package com.andreasogeirik.master_frontend.communication;
 import android.os.AsyncTask;
 import android.util.Pair;
 
-import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
@@ -12,6 +11,7 @@ import org.json.JSONException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.HttpClientErrorException;
@@ -51,13 +51,22 @@ public class GetMyEventsTask extends AsyncTask<Void, Void, Pair<Integer, Respons
                     HttpMethod.GET, entity, String.class);
             return new Pair(Constants.OK, response);
         }
-        catch (HttpClientErrorException e) {
-            System.out.println("Client exception:" + e);
-            return new Pair(Constants.CLIENT_ERROR, null);
-        }
         catch (ResourceAccessException e) {
             System.out.println("Resource error:" + e);
             return new Pair(Constants.RESOURCE_ACCESS_ERROR, null);
+        }
+        catch (HttpClientErrorException e) {
+            System.out.println("Client exception:" + e);
+
+            if(e.getStatusCode() == HttpStatus.UNAUTHORIZED) {
+                return new Pair(Constants.UNAUTHORIZED, null);
+            }
+
+            return new Pair(Constants.CLIENT_ERROR, null);
+        }
+        catch(Exception e) {
+            System.out.println("Some error:" + e);
+            return new Pair(Constants.SOME_ERROR, null);
         }
     }
 

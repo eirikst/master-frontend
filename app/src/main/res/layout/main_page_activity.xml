@@ -16,6 +16,32 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
+        <RelativeLayout
+            android:layout_width="40dp"
+            android:layout_height="40dp">
+
+            <ImageView
+                android:id="@+id/notification_img"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_person_black_24dp"
+                android:foregroundGravity="center"
+                />
+
+            <TextView
+                android:id="@+id/notification_count"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:textStyle="bold"
+                android:background="@drawable/shape_new_friend_background"
+                android:gravity="center"
+                android:visibility="gone"
+                />
+
+        </RelativeLayout>
+
         <com.andreasogeirik.master_frontend.layout.view.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
