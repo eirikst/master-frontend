@@ -1,24 +1,19 @@
 package com.andreasogeirik.master_frontend.application.main;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Environment;
 
 import com.andreasogeirik.master_frontend.application.main.interfaces.EventInteractor;
 import com.andreasogeirik.master_frontend.application.main.interfaces.EventPresenter;
 import com.andreasogeirik.master_frontend.application.main.interfaces.EventView;
-import com.andreasogeirik.master_frontend.application.general.interactors.GeneralPresenter;
+import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
-import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
-import com.andreasogeirik.master_frontend.util.ImageInteractor;
 import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -28,9 +23,6 @@ public class MainPagePresenterImpl extends GeneralPresenter implements EventPres
     private EventView view;
     private EventInteractor interactor;
 
-    //model
-    private Set<Event> attendingEvents;
-
     public MainPagePresenterImpl(EventView view) {
         super((Activity)view);
         this.view = view;
@@ -39,21 +31,12 @@ public class MainPagePresenterImpl extends GeneralPresenter implements EventPres
         //init text size
         Constants.USER_SET_SIZE = UserPreferencesManager.getInstance().getTextSize();
 
-
-        //TODO:kan denne legges i generell presenter?
-        if (UserPreferencesManager.getInstance().getCookie() == null){
+        // This is called so that we will have no latency waiting for a 401 of the user is not authenticated
+        if(UserPreferencesManager.getInstance().getCookie() == null) {
             view.navigateToLogin();
             return;
         }
-        if(CurrentUser.getInstance().getUser() == null) {
-            //TODO: get user from nettet eller gå til login
-            interactor.findUser();
-            return;
-        }
-        else {
-            initDomain();
-            view.initGUI();
-        }
+        findUser();
     }
 
     @Override
@@ -90,8 +73,7 @@ public class MainPagePresenterImpl extends GeneralPresenter implements EventPres
 
     @Override
     public void errorFriendshipsLoad(int code) {
-        //TODO:don't do
-        interactor.findUser();
+        view.navigateToLogin();
     }
 
     @Override

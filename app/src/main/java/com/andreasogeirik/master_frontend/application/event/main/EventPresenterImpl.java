@@ -7,7 +7,7 @@ import android.os.Environment;
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventInteractor;
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventPresenter;
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventView;
-import com.andreasogeirik.master_frontend.application.general.interactors.GeneralPresenter;
+import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.util.ImageInteractor;
 

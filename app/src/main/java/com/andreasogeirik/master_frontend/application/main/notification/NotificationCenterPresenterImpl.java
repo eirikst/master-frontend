@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
 
-import com.andreasogeirik.master_frontend.application.general.interactors.GeneralPresenter;
+import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
 import com.andreasogeirik.master_frontend.application.main.notification.interfaces.NotificationCenterInteractor;
 import com.andreasogeirik.master_frontend.application.main.notification.interfaces.NotificationCenterPresenter;
 import com.andreasogeirik.master_frontend.application.main.notification.interfaces.NotificationCenterView;

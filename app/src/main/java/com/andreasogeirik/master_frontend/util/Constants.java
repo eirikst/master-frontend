@@ -10,7 +10,7 @@ public class Constants {
     //public static final String BACKEND_URL = "http://78.91.1.192:8080/";
 
     //Eirik NTNU
-    public static final String BACKEND_URL = "http://78.91.3.124:8080/";
+    public static final String BACKEND_URL = "http://78.91.1.162:8080/";
 
     //Eirik hjemme
     //public static final String BACKEND_URL = "http://10.0.0.58:8080/";
@@ -22,6 +22,8 @@ public class Constants {
     public static final int RESOURCE_ACCESS_ERROR = -1;
     public static final int CLIENT_ERROR = -2;
     public static final int JSON_PARSE_ERROR = -3;
+    public static final int UNAUTHORIZED = -4;
+    public static final int SOME_ERROR = -5;
 
     //Number of posts returned when querying post
     public static int NUMBER_OF_POSTS_RETURNED = 10;

@@ -1,11 +1,10 @@
 package com.andreasogeirik.master_frontend.application.main.fragments.my_events;
 
 import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
 
-import com.andreasogeirik.master_frontend.application.general.interactors.GeneralPresenter;
+import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
 import com.andreasogeirik.master_frontend.application.main.fragments.my_events.interfaces.MyEventView;
 import com.andreasogeirik.master_frontend.application.main.fragments.my_events.interfaces.MyEventsInteractor;
 import com.andreasogeirik.master_frontend.application.main.fragments.my_events.interfaces.MyEventsPresenter;

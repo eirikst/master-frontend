@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.HttpClientErrorException;
@@ -42,12 +43,23 @@ public class GetEventTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEn
         try {
             response = template.exchange(Constants.BACKEND_URL + "events/" + eventId, HttpMethod.GET, entity, String.class);
             return new Pair(Constants.OK, response);
-        } catch (HttpClientErrorException e) {
-            System.out.println("Client error:" + e);
-            return new Pair(Constants.CLIENT_ERROR, null);
-        } catch (ResourceAccessException e) {
+        }
+        catch (ResourceAccessException e) {
             System.out.println("Resource error:" + e);
             return new Pair(Constants.RESOURCE_ACCESS_ERROR, null);
+        }
+        catch (HttpClientErrorException e) {
+            System.out.println("Client exception:" + e);
+
+            if(e.getStatusCode() == HttpStatus.UNAUTHORIZED) {
+                return new Pair(Constants.UNAUTHORIZED, null);
+            }
+
+            return new Pair(Constants.CLIENT_ERROR, null);
+        }
+        catch(Exception e) {
+            System.out.println("Some error:" + e);
+            return new Pair(Constants.SOME_ERROR, null);
         }
     }
 

@@ -46,25 +46,20 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
     @Bind(R.id.sliding_tabs)
     TabLayout tabLayout;
     @Bind(R.id.notification_img)
-    ImageView notidicationImg;
+    ImageView notificationImg;
     @Bind(R.id.notification_count)
     TextView notificationCount;
 
     private MainPagerAdapter pagerAdapter;
 
-
-    //private AttendingEventsFragment attendingFragment;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_page_activity);
-        ButterKnife.bind(this);
 
         presenter = new MainPagePresenterImpl(this);
     }
 
+    //TODO:remove if not used bro
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -72,6 +67,9 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
 
     @Override
     public void initGUI() {
+        setContentView(R.layout.main_page_activity);
+        ButterKnife.bind(this);
+
         setupToolbar();
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
@@ -87,7 +85,7 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
             }
         });
 
-        notidicationImg.setOnClickListener(new View.OnClickListener() {
+        notificationImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 presenter.accessNotificationCenter();
@@ -125,8 +123,8 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
 
     public void navigateToLogin() {
         Intent i = new Intent(this, EntranceActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
-        finish();
     }
 
     @Override

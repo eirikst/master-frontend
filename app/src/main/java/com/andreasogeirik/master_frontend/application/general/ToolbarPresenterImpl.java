@@ -1,10 +1,10 @@
-package com.andreasogeirik.master_frontend.application.general.interactors;
+package com.andreasogeirik.master_frontend.application.general;
 
 import android.app.Activity;
 import android.content.Intent;
 
+import com.andreasogeirik.master_frontend.application.general.interfaces.ToolbarPresenter;
 import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
-import com.andreasogeirik.master_frontend.application.general.interactors.interfaces.ToolbarPresenter;
 
 /**
  * Created by eirikstadheim on 24/02/16.

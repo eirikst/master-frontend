@@ -1,6 +1,7 @@
 package com.andreasogeirik.master_frontend.application.main.fragments.attending_events;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -52,15 +53,15 @@ public class AttendingEventsFragment extends Fragment implements EventListAdapte
      * Checks that the activity that creates the fragment implements the interface for callback
      */
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
 
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
-            callback = (AttendingEventsListener) activity;
+            callback = (AttendingEventsListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
+            throw new ClassCastException(context.toString()
                     + " must implement AttendingEventsListener");
         }
     }

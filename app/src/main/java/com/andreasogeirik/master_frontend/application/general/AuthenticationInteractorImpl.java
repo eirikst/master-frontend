@@ -1,5 +1,6 @@
-package com.andreasogeirik.master_frontend.application.general.interactors;
+package com.andreasogeirik.master_frontend.application.general;
 
+import com.andreasogeirik.master_frontend.application.general.interfaces.AuthenticationInteractor;
 import com.andreasogeirik.master_frontend.communication.GetMeTask;
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingUserListener;
 import com.andreasogeirik.master_frontend.model.User;
@@ -11,11 +12,8 @@ import org.json.JSONObject;
 /**
  * Created by eirikstadheim on 23/02/16.
  */
-public class AuthenticationInteractorImpl implements OnFinishedLoadingUserListener {
-    public interface AuthenticationListener {
-        void findMeSuccess(User user);
-        void findMeFailure(int code);
-    }
+public class AuthenticationInteractorImpl implements AuthenticationInteractor,
+        OnFinishedLoadingUserListener {
 
     private AuthenticationListener listener;
 

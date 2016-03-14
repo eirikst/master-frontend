@@ -12,6 +12,7 @@ import org.json.JSONException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.HttpClientErrorException;
@@ -48,13 +49,22 @@ public class GetFriendsTask extends AsyncTask<Void, Void, Pair<Integer, Response
                     HttpMethod.GET, entity, String.class);
             return new Pair(Constants.OK, response);
         }
-        catch (HttpClientErrorException e) {
-            System.out.println("Client exception:" + e);
-            return new Pair(Constants.CLIENT_ERROR, null);
-        }
         catch (ResourceAccessException e) {
             System.out.println("Resource error:" + e);
             return new Pair(Constants.RESOURCE_ACCESS_ERROR, null);
+        }
+        catch (HttpClientErrorException e) {
+            System.out.println("Client exception:" + e);
+
+            if(e.getStatusCode() == HttpStatus.UNAUTHORIZED) {
+                return new Pair(Constants.UNAUTHORIZED, null);
+            }
+
+            return new Pair(Constants.CLIENT_ERROR, null);
+        }
+        catch(Exception e) {
+            System.out.println("Some error:" + e);
+            return new Pair(Constants.SOME_ERROR, null);
         }
     }
 

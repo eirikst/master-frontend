@@ -51,12 +51,11 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        //TODO:set fragment based on position
         switch(position) {
             case ATTENDING:
                 return AttendingEventsFragment.newInstance();
             case RECOMMENDED:
-                return RecommendedEventsFragment.newInstance();//TODO:change
+                return RecommendedEventsFragment.newInstance();
             case MY:
                 return MyEventsFragment.newInstance();
             default:
