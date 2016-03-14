@@ -3,15 +3,17 @@ package com.andreasogeirik.master_frontend.application.event.main;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Environment;
+import android.view.View;
 
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventInteractor;
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventPresenter;
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventView;
 import com.andreasogeirik.master_frontend.application.general.interactors.GeneralPresenter;
+import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.Event;
+import com.andreasogeirik.master_frontend.model.User;
+import com.andreasogeirik.master_frontend.util.DateUtility;
 import com.andreasogeirik.master_frontend.util.ImageInteractor;
-
-import org.apache.commons.io.FilenameUtils;
 
 
 import static com.andreasogeirik.master_frontend.util.Constants.CLIENT_ERROR;
@@ -27,35 +29,43 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
     private Event event;
 
 
-    public EventPresenterImpl(EventView eventView) {
+    public EventPresenterImpl(EventView eventView, Event event) {
         super((Activity) eventView);
         this.eventView = eventView;
         this.interactor = new EventInteractorImpl(this);
+        this.event = event;
         //check that current user singleton is set, if not redirection
 //        userAvailable();
     }
 
     @Override
-    public void getEvent(int eventId) {
-//        eventView.showProgress();
-        interactor.getEvent(eventId);
-    }
-
-
-    @Override
-    public void setEventView(Event event) {
-        eventView.setEventView(event);
+    public void attendEvent() {
+//        this.eventView.showProgress();
+        interactor.attendEvent(this.event.getId());
     }
 
     @Override
-    public void displayError(int error) {
+    public void unAttendEvent() {
+//        this.eventView.showProgress();
+        interactor.unAttendEvent(this.event.getId());
+    }
 
+    @Override
+    public void attendSuccess(Event event) {
+        this.eventView.hideProgress();
+        this.event = event;
+        updateView();
+    }
+
+    @Override
+    public void attendError(int error) {
+        this.eventView.hideProgress();
         switch (error) {
             case CLIENT_ERROR:
-            eventView.setEventError("Fant ikke hendelse med gitt ID");
+                eventView.showErrorMessage("Du deltar allerede i denne aktiviteten");
                 break;
             case RESOURCE_ACCESS_ERROR:
-                eventView.setEventError("Fant ikke ressurs. Prøv igjen");
+                eventView.showErrorMessage("Fant ikke ressurs. Prøv igjen");
                 break;
         }
     }
@@ -63,14 +73,63 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
     @Override
     public void findImage(String imageUrl) {
 //        eventView.showProgress();
-        String fileName = FilenameUtils.getName(imageUrl);
         ImageInteractor.getInstance().findImage(imageUrl, getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), this);
+    }
+
+    @Override
+    public void initGui() {
+        this.eventView.initGui();
+    }
+
+    @Override
+    public void updateView() {
+
+        String participants = "";
+
+        int NoOfParticipants = this.event.getUsers().size();
+        if (NoOfParticipants == 1){
+            participants = "1 DELTAKER";
+        }
+        else{
+            participants = NoOfParticipants + " DELTAKERE";
+        }
+
+
+        this.eventView.updateMandatoryFields(event.getName(), "Sted: " + event.getLocation(), "Detaljer: " + event.getDescription(), "Tidspunkt (start): " + DateUtility.formatFull(this.event.getStartDate().getTime()),
+                participants);
+        if (this.event.getEndDate() != null) {
+            this.eventView.updateEndTime("Tidspunkt (slutt): " + DateUtility.formatFull(this.event.getEndDate().getTime()));
+        }
+
+        if (!this.event.getImageURI().isEmpty()) {
+            findImage(this.event.getImageURI());
+        }
+
+        User currentUser = CurrentUser.getInstance().getUser();
+        boolean userInEvent = false;
+
+        for (User user : this.event.getUsers()) {
+            if (currentUser.getId() == user.getId()) {
+                userInEvent = true;
+                this.eventView.setUnAttendButton();
+                break;
+            }
+        }
+        if (!userInEvent) {
+            this.eventView.setAttendButton();
+        }
+
+    }
+
+    @Override
+    public void navigateToParticipants() {
+        this.eventView.navigateToParticipants(this.event.getUsers());
     }
 
     @Override
     public void foundImage(String imageUri, Bitmap bitmap) {
 //        eventView.hideProgress();
-        eventView.setImage(bitmap);
+        this.eventView.setImage(bitmap);
     }
 
     @Override

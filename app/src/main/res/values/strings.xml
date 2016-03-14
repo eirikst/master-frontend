@@ -3,25 +3,27 @@
 
     // Toolbar
     <string name="sign_out">Logg ut</string>
-    <string name="create_event">Ny hendelse</string>
-    <string name="get_event">Les hendelse</string>
+    <string name="create_event">Ny aktivitet</string>
 
 
     //Create Event
-    <string name="event_create_name">Navn på hendelse</string>
-    <string name="event_create_location">Sted</string>
-    <string name="event_create_description">Beskrivelse</string>
-    <string name="event_create_start_date_label">Dato</string>
-    <string name="event_create_start_time_label">Tid</string>
+    <string name="event_create_name">NAVN PÅ AKTIVITET</string>
+    <string name="event_create_location">STED</string>
+    <string name="event_create_description">BESKRIVELSE</string>
+    <string name="event_create_start_date_label">DATO</string>
+    <string name="event_create_start_time_label">TID</string>
 
 
     <string name="create_create_checkbox">Velg slutttidspunkt (valgfritt)</string>
-    <string name="event_create_end_date_label">Dato (Slutt)</string>
-    <string name="event_create_end_time_label">Tid (Slutt)</string>
+    <string name="event_create_end_date_label">DATO</string>
+    <string name="event_create_end_time_label">TID</string>
 
 
-    <string name="event_create_select_image">Velg bilde</string>
-    <string name="event_create_submit">Opprett hendelse</string>
+    <string name="event_create_select_image">VELG BILDE</string>
+    <string name="event_create_submit">OPPRETT AKTIVITET</string>
+
+    // Read Event
+    <string name="event_read_participants">DELTAKERE</string>
 
 
     <string name="action_settings">Innstillinger</string>

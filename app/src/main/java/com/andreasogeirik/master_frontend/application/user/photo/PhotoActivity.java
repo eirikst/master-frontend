@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
@@ -159,5 +160,12 @@ public class PhotoActivity extends AppCompatActivity implements PhotoView {
     public void setImage(byte[] byteImage, Bitmap bitmap) {
         this.byteImage = byteImage;
         this.profilePicView.setImageBitmap(bitmap);
+    }
+
+    @Override
+    public void sendMessage() {
+        Intent intent = new Intent("custom-event-name");
+        intent.putExtra("message", "Profil oppdatert!");
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 }

@@ -3,7 +3,7 @@ package com.andreasogeirik.master_frontend.communication;
 import android.os.AsyncTask;
 import android.util.Pair;
 
-import com.andreasogeirik.master_frontend.listener.OnEventLoadedListener;
+import com.andreasogeirik.master_frontend.listener.OnAttendEventFinishedListener;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
@@ -19,16 +19,21 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * Created by Andreas on 24.02.2016.
+ * Created by Andreas on 10.03.2016.
  */
-public class GetEventTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntity<String>>> {
+public class AttendEventTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntity<String>>> {
 
     private int eventId;
-    private OnEventLoadedListener listener;
+    private OnAttendEventFinishedListener listener;
+    private String attendType = "/attend";
 
-    public GetEventTask(int eventId, OnEventLoadedListener listener) {
+    public AttendEventTask(int eventId, OnAttendEventFinishedListener listener, boolean isAttendRequest) {
         this.eventId = eventId;
         this.listener = listener;
+        if (!isAttendRequest){
+            this.attendType = "/unattend";
+        }
+
     }
 
     protected Pair<Integer, ResponseEntity<String>> doInBackground(Void... params) {
@@ -37,10 +42,11 @@ public class GetEventTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEn
         ((SimpleClientHttpRequestFactory) template.getRequestFactory()).setConnectTimeout(1000 * 10);
         HttpHeaders headers = new HttpHeaders();
         headers.set("Cookie", UserPreferencesManager.getInstance().getCookie());
-        HttpEntity<String> entity = new HttpEntity(headers);
+        HttpEntity<String> entity = new HttpEntity(null, headers);
 
         try {
-            response = template.exchange(Constants.BACKEND_URL + "events/" + eventId, HttpMethod.GET, entity, String.class);
+            System.out.println("REQUEST GÅR");
+            response = template.exchange(Constants.BACKEND_URL + "events/" + eventId + attendType, HttpMethod.POST, entity, String.class);
             return new Pair(Constants.OK, response);
         } catch (HttpClientErrorException e) {
             System.out.println("Client error:" + e);
@@ -52,18 +58,16 @@ public class GetEventTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEn
     }
 
     protected void onPostExecute(Pair<Integer, ResponseEntity<String>> response) {
+        System.out.println("REQUEST TILBAKE");
         if (response.first == Constants.OK) {
-
             try {
                 JSONObject jsonEvent = new JSONObject(response.second.getBody());
-                listener.onSuccess(jsonEvent);
+                listener.onAttendSuccess(jsonEvent);
             } catch (JSONException e) {
-                System.out.println("JSON error:" + e);
-                listener.onError(Constants.JSON_PARSE_ERROR);
+                e.printStackTrace();
             }
-
         } else {
-            listener.onError(response.first);
+            listener.onAttendError(response.first);
         }
     }
 }

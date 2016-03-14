@@ -2,8 +2,8 @@ package com.andreasogeirik.master_frontend.application.event.main;
 
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventInteractor;
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventPresenter;
-import com.andreasogeirik.master_frontend.communication.GetEventTask;
-import com.andreasogeirik.master_frontend.listener.OnEventLoadedListener;
+import com.andreasogeirik.master_frontend.communication.AttendEventTask;
+import com.andreasogeirik.master_frontend.listener.OnAttendEventFinishedListener;
 import com.andreasogeirik.master_frontend.model.Event;
 
 import org.json.JSONException;
@@ -13,32 +13,36 @@ import org.json.JSONObject;
 /**
  * Created by Andreas on 10.02.2016.
  */
-public class EventInteractorImpl implements EventInteractor, OnEventLoadedListener {
+public class EventInteractorImpl implements EventInteractor, OnAttendEventFinishedListener {
 
     private EventPresenter presenter;
-    private Event event;
 
     public EventInteractorImpl(EventPresenter presenter) {
         this.presenter = presenter;
     }
 
     @Override
-    public void getEvent(int eventId) {
-        new GetEventTask(eventId, this).execute();
+    public void attendEvent(int eventId) {
+        new AttendEventTask(eventId, this, true).execute();
     }
 
     @Override
-    public void onSuccess(JSONObject jsonEvent) {
+    public void unAttendEvent(int eventId) {
+        new AttendEventTask(eventId, this, false).execute();
+    }
+
+    @Override
+    public void onAttendSuccess(JSONObject jsonEvent) {
         try {
             Event event = new Event(jsonEvent);
-            presenter.setEventView(event);
+            presenter.attendSuccess(event);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void onError(int error) {
-        presenter.displayError(error);
+    public void onAttendError(int error) {
+        presenter.attendError(error);
     }
 }

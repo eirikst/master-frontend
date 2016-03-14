@@ -9,4 +9,5 @@ public interface PhotoView {
     void navigateToMainView();
     void setImageError(String error);
     void setImage(byte[] byteImage, Bitmap bitmap);
+    void sendMessage();
 }

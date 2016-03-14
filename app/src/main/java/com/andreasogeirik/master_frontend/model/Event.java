@@ -34,6 +34,7 @@ public class Event implements Serializable {
     }
 
     public Event(JSONObject jsonEvent) throws JSONException {
+        this.id = jsonEvent.getInt("id");
         this.name = jsonEvent.getString("name");
         this.location = jsonEvent.getString("location");
         this.description = jsonEvent.getString("description");

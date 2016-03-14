@@ -184,8 +184,8 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         } else {
             endDateButton.setVisibility(View.GONE);
             endTimeButton.setVisibility(View.GONE);
-            this.endDateButton.setText("Dato (Slutt)");
-            this.endTimeButton.setText("Tid (Slutt)");
+            this.endDateButton.setText("DATO");
+            this.endTimeButton.setText("TID");
             this.endDate = null;
             this.endTimePair = null;
             this.endDateError.setText("");
@@ -337,11 +337,11 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         int year = eventDate.get(Calendar.YEAR);
 
         if (isStartDate) {
-            this.startDateButton.setText("Dato: " + day + "." + month + "." + year);
+            this.startDateButton.setText("DATO: " + day + "." + month + "." + year);
             this.startDate = eventDate;
             this.startDateError.setVisibility(View.GONE);
         } else {
-            this.endDateButton.setText("Dato (slutt): " + day + "." + month + "." + year);
+            this.endDateButton.setText("DATO: " + day + "." + month + "." + year);
             this.endDate = eventDate;
             this.endDateError.setVisibility(View.GONE);
         }
@@ -352,16 +352,16 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
 
         if (isStartTime) {
             if (hourMinutePair.second < 10) {
-                this.startTimeButton.setText("Tidspunkt: " + hourMinutePair.first + ":0" + hourMinutePair.second);
+                this.startTimeButton.setText("TID: " + hourMinutePair.first + ":0" + hourMinutePair.second);
             } else {
-                this.startTimeButton.setText("Tidspunkt: " + hourMinutePair.first + ":" + hourMinutePair.second);
+                this.startTimeButton.setText("TID: " + hourMinutePair.first + ":" + hourMinutePair.second);
             }
             this.startTimePair = hourMinutePair;
         } else {
             if (hourMinutePair.second < 10) {
-                this.endTimeButton.setText("Tidspunkt (slutt): " + hourMinutePair.first + ":0" + hourMinutePair.second);
+                this.endTimeButton.setText("TID: " + hourMinutePair.first + ":0" + hourMinutePair.second);
             } else {
-                this.endTimeButton.setText("Tidspunkt (slutt): " + hourMinutePair.first + ":" + hourMinutePair.second);
+                this.endTimeButton.setText("TID: " + hourMinutePair.first + ":" + hourMinutePair.second);
             }
             this.endTimePair = hourMinutePair;
 

@@ -38,7 +38,7 @@ public class PhotoPresenterImpl implements PhotoPresenter, OnSampleImageFinished
 
     @Override
     public void userUpdatedSuccess() {
-//        photoView.navigateToMainView();
+        photoView.sendMessage();
     }
 
     @Override
