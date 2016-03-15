@@ -1,4 +1,4 @@
-package com.andreasogeirik.master_frontend.application.user.profile_not_friend;
+package com.andreasogeirik.master_frontend.application.user.profile_others;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -14,8 +14,8 @@ import android.widget.Toast;
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.general.ToolbarPresenterImpl;
 import com.andreasogeirik.master_frontend.application.general.interfaces.ToolbarPresenter;
-import com.andreasogeirik.master_frontend.application.user.profile_not_friend.interfaces.ProfileOthersPresenter;
-import com.andreasogeirik.master_frontend.application.user.profile_not_friend.interfaces.ProfileOthersView;
+import com.andreasogeirik.master_frontend.application.user.profile_others.interfaces.ProfileOthersPresenter;
+import com.andreasogeirik.master_frontend.application.user.profile_others.interfaces.ProfileOthersView;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.User;
 

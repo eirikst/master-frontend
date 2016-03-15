@@ -7,6 +7,7 @@ import com.andreasogeirik.master_frontend.communication.UploadImageTask;
 import com.andreasogeirik.master_frontend.listener.OnCreateEventFinishedListener;
 import com.andreasogeirik.master_frontend.listener.OnImageUploadFinishedListener;
 import com.andreasogeirik.master_frontend.model.Event;
+import com.andreasogeirik.master_frontend.util.Constants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,7 +42,12 @@ public class CreateEventInteractorImpl implements CreateEventInteractor, OnCreat
 
     @Override
     public void onCreateEventSuccess(JSONObject event) {
-        presenter.createEventSuccess(event);
+        try {
+            presenter.createEventSuccess(new Event(event));
+        }
+        catch(JSONException e) {
+            presenter.createEventError(Constants.JSON_PARSE_ERROR);
+        }
     }
 
     @Override

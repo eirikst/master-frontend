@@ -12,7 +12,7 @@ import com.andreasogeirik.master_frontend.application.search.interfaces.UserSear
 import com.andreasogeirik.master_frontend.application.search.interfaces.UserSearchPresenter;
 import com.andreasogeirik.master_frontend.application.search.interfaces.UserSearchView;
 import com.andreasogeirik.master_frontend.application.user.profile.ProfileActivity;
-import com.andreasogeirik.master_frontend.application.user.profile_not_friend.ProfileOthersActivity;
+import com.andreasogeirik.master_frontend.application.user.profile_others.ProfileOthersActivity;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
@@ -30,7 +30,7 @@ public class UserSearchPresenterImpl extends GeneralPresenter implements UserSea
     private String lastSearch = "";
 
     public UserSearchPresenterImpl(UserSearchView view, List<User> users) {
-        super((Activity)view);
+        super((Activity)view, CHECK_USER_AVAILABLE);
         this.view = view;
         this.interactor = new UserSearchInteractorImpl(this);
         if(users != null) {
@@ -92,7 +92,12 @@ public class UserSearchPresenterImpl extends GeneralPresenter implements UserSea
 
     @Override
     public void onFailureUserSearch(int code) {
-        view.displayMessage("Vennligst prøv igjen senere.");
+        if(code == Constants.UNAUTHORIZED) {
+            checkAuth();
+        }
+        else {
+            view.displayMessage("Vennligst prøv igjen.");
+        }
     }
 
     @Override

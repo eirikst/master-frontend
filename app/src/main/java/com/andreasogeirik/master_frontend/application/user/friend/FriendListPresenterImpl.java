@@ -10,7 +10,7 @@ import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
 import com.andreasogeirik.master_frontend.application.user.friend.interfaces.FriendListPresenter;
 import com.andreasogeirik.master_frontend.application.user.friend.interfaces.FriendListView;
 import com.andreasogeirik.master_frontend.application.user.profile.ProfileActivity;
-import com.andreasogeirik.master_frontend.application.user.profile_not_friend.ProfileOthersActivity;
+import com.andreasogeirik.master_frontend.application.user.profile_others.ProfileOthersActivity;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.util.ImageInteractor;
@@ -29,7 +29,7 @@ public class FriendListPresenterImpl extends GeneralPresenter implements FriendL
     List<Friendship> friendships;
 
     public FriendListPresenterImpl(FriendListView view, List<Friendship> friendships) {
-        super((Activity)view);
+        super((Activity)view, CHECK_USER_AVAILABLE);
         if (friendships == null) {
             throw new NullPointerException("Friendship list cannot be null in " + this.toString());
         }
@@ -39,9 +39,6 @@ public class FriendListPresenterImpl extends GeneralPresenter implements FriendL
 
         this.view = view;
         this.friendships = friendships;
-
-        //check that current user singleton is set, if not redirection
-        userAvailable();
 
         view.initGUI(this.friendships);
     }

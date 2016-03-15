@@ -9,7 +9,7 @@ import com.andreasogeirik.master_frontend.application.event.main.participants.in
 import com.andreasogeirik.master_frontend.application.event.main.participants.interfaces.ParticipantsView;
 import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
 import com.andreasogeirik.master_frontend.application.user.profile.ProfileActivity;
-import com.andreasogeirik.master_frontend.application.user.profile_not_friend.ProfileOthersActivity;
+import com.andreasogeirik.master_frontend.application.user.profile_others.ProfileOthersActivity;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.ImageInteractor;
@@ -27,7 +27,7 @@ public class ParticipantsPresenterImpl extends GeneralPresenter implements Parti
     private ParticipantsView participantsView;
 
     public ParticipantsPresenterImpl(ParticipantsView participantsView, HashSet<User> users) {
-        super((Activity) participantsView);
+        super((Activity) participantsView, CHECK_USER_AVAILABLE);
         this.participantsView = participantsView;
         this.users.addAll(users);
     }

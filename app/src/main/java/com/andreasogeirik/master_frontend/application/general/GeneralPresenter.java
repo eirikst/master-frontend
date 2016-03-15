@@ -20,15 +20,22 @@ import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
  */
 public abstract class GeneralPresenter implements
         AuthenticationInteractorImpl.AuthenticationListener {//todo:create a general fragmentpresenter?? slipper init userpref flere ganger
+    public static int CHECK_USER_AVAILABLE = 1;
+    public static int NO_CHECK = 0;
+
     private Activity activity;
     private AuthenticationInteractor interactor;
 
-    public GeneralPresenter(Activity activity) {
+    public GeneralPresenter(Activity activity, int status) {
         this.activity = activity;
         this.interactor = new AuthenticationInteractorImpl(this);
 
         //setup shared preferences
         UserPreferencesManager.getInstance().initialize(activity);
+
+        if(status == CHECK_USER_AVAILABLE) {
+            userAvailable();
+        }
     }
 
     public Activity getActivity() {
@@ -48,9 +55,13 @@ public abstract class GeneralPresenter implements
         activity.startActivity(intent);
     }
 
+    protected void checkAuth() {
+        interactor.checkAuth();
+    }
+
     @Override
     public void findMeSuccess(User user) {
-
+        //do nothing
     }
 
     @Override

@@ -28,7 +28,7 @@ public class AttendingEventsPresenterImpl extends GeneralPresenter implements At
     private HashSet<Event> attendedEvents = new HashSet<>();
 
     public AttendingEventsPresenterImpl(AttendingEventView view) {
-        super(((Fragment)view).getActivity());
+        super(((Fragment)view).getActivity(), NO_CHECK);
         this.view = view;
         eventInteractor = new AttendingEventsInteractorImpl(this);
         //TODO:Sjekke user cookie etc.

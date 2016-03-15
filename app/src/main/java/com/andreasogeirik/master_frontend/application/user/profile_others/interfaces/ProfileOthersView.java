@@ -1,8 +1,7 @@
-package com.andreasogeirik.master_frontend.application.user.profile_not_friend.interfaces;
+package com.andreasogeirik.master_frontend.application.user.profile_others.interfaces;
 
 import android.graphics.Bitmap;
 
-import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.User;
 
 /**

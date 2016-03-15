@@ -1,5 +1,6 @@
 package com.andreasogeirik.master_frontend.application.event.create.interfaces;
 
+import android.os.Bundle;
 import android.util.Pair;
 
 import com.andreasogeirik.master_frontend.model.Event;
@@ -14,7 +15,7 @@ import java.util.Calendar;
  */
 public interface CreateEventPresenter {
     void create(String name, String location, String description, Calendar startDate, Calendar endDate, Pair<Integer, Integer> startTimePair, Pair<Integer, Integer> endTimePair);
-    void createEventSuccess(JSONObject event);
+    void createEventSuccess(Event event);
     void createEventError(int error);
-    void SampleImage(InputStream inputStream);
+    void sampleImage(InputStream inputStream);
 }

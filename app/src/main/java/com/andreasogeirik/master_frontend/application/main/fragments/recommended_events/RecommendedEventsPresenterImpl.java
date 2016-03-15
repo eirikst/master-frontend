@@ -27,7 +27,7 @@ public class RecommendedEventsPresenterImpl extends GeneralPresenter implements 
     private Set<Event> events = new HashSet<>();
 
     public RecommendedEventsPresenterImpl(RecommendedEventsView view) {
-        super(((Fragment)view).getActivity());
+        super(((Fragment)view).getActivity(), NO_CHECK);
         this.view = view;
         eventInteractor = new RecommendedEventsInteractorImpl(this);
         //TODO:Sjekke user cookie etc.

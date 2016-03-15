@@ -18,6 +18,7 @@ import com.andreasogeirik.master_frontend.util.ImageInteractor;
 
 import static com.andreasogeirik.master_frontend.util.Constants.CLIENT_ERROR;
 import static com.andreasogeirik.master_frontend.util.Constants.RESOURCE_ACCESS_ERROR;
+import static com.andreasogeirik.master_frontend.util.Constants.UNAUTHORIZED;
 
 
 /**
@@ -30,12 +31,10 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
 
 
     public EventPresenterImpl(EventView eventView, Event event) {
-        super((Activity) eventView);
+        super((Activity) eventView, CHECK_USER_AVAILABLE);
         this.eventView = eventView;
         this.interactor = new EventInteractorImpl(this);
         this.event = event;
-        //check that current user singleton is set, if not redirection
-//        userAvailable();
     }
 
     @Override
@@ -68,6 +67,10 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
             case RESOURCE_ACCESS_ERROR:
                 eventView.showErrorMessage("Fant ikke ressurs. Prøv igjen");
                 break;
+            case UNAUTHORIZED:
+                checkAuth();
+                break;
+
         }
     }
 

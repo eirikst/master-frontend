@@ -1,7 +1,9 @@
 package com.andreasogeirik.master_frontend.application.user.photo;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 
+import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
 import com.andreasogeirik.master_frontend.application.user.photo.interfaces.PhotoInteractor;
 import com.andreasogeirik.master_frontend.application.user.photo.interfaces.PhotoPresenter;
 import com.andreasogeirik.master_frontend.application.user.photo.interfaces.PhotoView;
@@ -17,12 +19,14 @@ import java.io.InputStream;
 /**
  * Created by Andreas on 09.03.2016.
  */
-public class PhotoPresenterImpl implements PhotoPresenter, OnSampleImageFinishedListener, OnImageUploadFinishedListener {
+public class PhotoPresenterImpl extends GeneralPresenter implements PhotoPresenter,
+        OnSampleImageFinishedListener, OnImageUploadFinishedListener {
 
     private PhotoView photoView;
     private PhotoInteractor interactor;
 
     public PhotoPresenterImpl(PhotoView photoView) {
+        super((Activity)photoView, GeneralPresenter.NO_CHECK);
         this.photoView = photoView;
         this.interactor = new PhotoInteractorImpl(this);
     }
@@ -43,7 +47,7 @@ public class PhotoPresenterImpl implements PhotoPresenter, OnSampleImageFinished
 
     @Override
     public void userUpdatedError(int error) {
-        photoView.setImageError("");
+        checkAuth();
     }
 
 
@@ -70,6 +74,6 @@ public class PhotoPresenterImpl implements PhotoPresenter, OnSampleImageFinished
 
     @Override
     public void onImageUploadError(int error) {
-
+        checkAuth();
     }
 }

@@ -15,6 +15,7 @@ import com.andreasogeirik.master_frontend.model.UserPost;
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfilePresenter;
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfileView;
 import com.andreasogeirik.master_frontend.model.User;
+import com.andreasogeirik.master_frontend.util.Constants;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -31,7 +32,7 @@ public class ProfilePresenterImpl extends GeneralPresenter implements ProfilePre
 
 
     public ProfilePresenterImpl(ProfileView view, User user) {
-        super((Activity)view);
+        super((Activity)view, CHECK_USER_AVAILABLE);
         if(user == null) {
             throw new NullPointerException("User object cannot be null in " + this.toString());
         }
@@ -42,9 +43,6 @@ public class ProfilePresenterImpl extends GeneralPresenter implements ProfilePre
         this.view = view;
         this.interactor = new ProfileInteractorImpl(this);
         this.user = user;
-
-        //check that current user singleton is set, if not redirection
-        userAvailable();
 
         //init gui
         boolean thisIsMyProfile = CurrentUser.getInstance().getUser().equals(user);
@@ -73,8 +71,12 @@ public class ProfilePresenterImpl extends GeneralPresenter implements ProfilePre
 
     @Override
     public void errorPostsLoad(int code) {
-        //TODO: use code? Don't think so. Eller hvis ikke logget inn, redirect til login
-        view.displayMessage("Feil ved lasting av poster");
+        if(code == Constants.UNAUTHORIZED) {
+            checkAuth();
+        }
+        else {
+            view.displayMessage("Feil ved lasting av poster");
+        }
     }
 
     /*
@@ -92,8 +94,12 @@ public class ProfilePresenterImpl extends GeneralPresenter implements ProfilePre
 
     @Override
     public void errorFriendsLoad(int code) {
-        //TODO: use code? Don't think so. Eller hvis ikke logget inn, redirect til login
-        view.displayMessage("Feil ved lasting av venner");
+        if(code == Constants.UNAUTHORIZED) {
+            checkAuth();
+        }
+        else {
+            view.displayMessage("Feil ved lasting av venner");
+        }
     }
 
     /*
