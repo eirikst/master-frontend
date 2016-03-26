@@ -72,18 +72,12 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
     }
 
     @Override
-    public void findImage(String imageUrl) {
-//        eventView.showProgress();
-        ImageInteractor.getInstance().findImage(imageUrl, getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), this);
-    }
-
-    @Override
     public void initGui() {
         this.eventView.initGui();
     }
 
     @Override
-    public void updateView() {
+    public void setEventAttributes() {
 
         String participants = "";
 
@@ -96,14 +90,14 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
         }
 
 
-        this.eventView.updateMandatoryFields(event.getName(), "Sted: " + event.getLocation(), "Detaljer: " + event.getDescription(), "Tidspunkt (start): " + DateUtility.formatFull(this.event.getStartDate().getTime()),
+        this.eventView.setEventAttributes(event.getName(), event.getLocation(), event.getDescription(), DateUtility.formatFull(this.event.getStartDate().getTime()),
                 participants);
         if (this.event.getEndDate() != null) {
-            this.eventView.updateEndTime("Tidspunkt (slutt): " + DateUtility.formatFull(this.event.getEndDate().getTime()));
+            this.eventView.updateEndTime(DateUtility.formatFull(this.event.getEndDate().getTime()));
         }
 
         if (!this.event.getImageURI().isEmpty()) {
-            findImage(this.event.getImageURI());
+            ImageInteractor.getInstance().findImage(this.event.getImageURI(), getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), this);
         }
 
         User currentUser = CurrentUser.getInstance().getUser();
@@ -120,11 +114,49 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
             this.eventView.setAttendButton();
         }
 
+        if (currentUser.getId() == this.event.getAdmin().getId()){
+            this.eventView.setEditButton();
+        }
+
+    }
+
+    @Override
+    public void updateView() {
+        User currentUser = CurrentUser.getInstance().getUser();
+        boolean userInEvent = false;
+
+        for (User user : this.event.getUsers()) {
+            if (currentUser.getId() == user.getId()) {
+                userInEvent = true;
+                this.eventView.setUnAttendButton();
+                break;
+            }
+        }
+        if (!userInEvent) {
+            this.eventView.setAttendButton();
+        }
+
+        String participants = "";
+
+        int NoOfParticipants = this.event.getUsers().size();
+        if (NoOfParticipants == 1){
+            participants = "1 DELTAKER";
+        }
+        else{
+            participants = NoOfParticipants + " DELTAKERE";
+        }
+
+        this.eventView.setParticipants(participants);
     }
 
     @Override
     public void navigateToParticipants() {
         this.eventView.navigateToParticipants(this.event.getUsers());
+    }
+
+    @Override
+    public void navigateToEditEvent() {
+        this.eventView.navigateToEditEvent(this.event);
     }
 
     @Override

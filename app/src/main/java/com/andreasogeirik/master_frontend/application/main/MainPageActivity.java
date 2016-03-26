@@ -74,7 +74,10 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.main_page_activity);
+        ButterKnife.bind(this);
 
+        setupToolbar();
         presenter = new MainPagePresenterImpl(this);
 
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
@@ -89,10 +92,6 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
 
     @Override
     public void initGUI() {
-        setContentView(R.layout.main_page_activity);
-        ButterKnife.bind(this);
-
-        setupToolbar();
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         pagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), this);

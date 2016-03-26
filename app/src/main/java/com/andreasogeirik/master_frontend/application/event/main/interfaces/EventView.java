@@ -11,14 +11,17 @@ import java.util.Set;
  * Created by Andreas on 10.02.2016.
  */
 public interface EventView {
-    void updateMandatoryFields(String name, String location, String description, String startTime, String participants);
+    void setEventAttributes(String name, String location, String description, String startTime, String participants);
     void updateEndTime(String endTime);
     void setAttendButton();
+    void setParticipants(String participants);
     void setUnAttendButton();
+    void setEditButton();
     void showErrorMessage(String error);
     void showProgress();
     void hideProgress();
     void setImage(Bitmap image);
     void initGui();
     void navigateToParticipants(Set<User> users);
+    void navigateToEditEvent(Event event);
 }

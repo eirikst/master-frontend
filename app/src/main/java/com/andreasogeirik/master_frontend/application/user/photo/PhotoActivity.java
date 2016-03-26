@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -33,8 +32,6 @@ import butterknife.OnClick;
 
 public class PhotoActivity extends AppCompatActivity implements PhotoView {
 
-    @Bind(R.id.profile_pic)
-    Button profilePic;
     @Bind(R.id.submit)
     Button done;
     @Bind(R.id.my_profile_image)
@@ -86,9 +83,9 @@ public class PhotoActivity extends AppCompatActivity implements PhotoView {
         }
     }
 
-    @OnClick(R.id.profile_pic)
+    @OnClick(R.id.my_profile_image)
     public void selectImage() {
-        PopupMenu popup = new PopupMenu(this, profilePic);
+        PopupMenu popup = new PopupMenu(this, profilePicView);
         popup.getMenuInflater().inflate(R.menu.menu_register, popup.getMenu());
 
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {

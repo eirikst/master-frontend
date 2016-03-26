@@ -57,49 +57,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/image_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:visibility="gone"/>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_below="@id/image_view"
-                android:weightSum="8">
+                android:orientation="vertical">
 
-                <LinearLayout
+                <EditText
+                    android:id="@+id/email_register"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_weight="1"
-                    android:weightSum="2">
-
-                    <EditText
-                        android:id="@+id/email_register"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/prompt_email"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:layout_weight="1.7"/>
-
-                    <Button
-                        android:id="@+id/register_image"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/ic_add_a_photo_black_24dp"
-                        android:textColor="@color/app_font"
-                        android:layout_weight="0.3"
-                        android:layout_marginRight="5dp"/>
-
-                </LinearLayout>
-
-
-
+                    android:layout_height="0dp"
+                    android:hint="@string/prompt_email"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:layout_weight="1"/>
 
                 <EditText
                     android:id="@+id/password_register"
@@ -173,7 +143,6 @@
                     android:layout_weight="1"/>
 
             </LinearLayout>
-
 
         </RelativeLayout>
 

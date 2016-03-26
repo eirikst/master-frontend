@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -23,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/create_event"
+            android:text="@string/edit_event"
             android:textColor="@color/app_font"
             android:textStyle="bold" />
 
@@ -31,7 +32,7 @@
 
     <!-- Register progress -->
     <ProgressBar
-        android:id="@+id/create_event_progress"
+        android:id="@+id/progress"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -40,7 +41,7 @@
 
 
     <ScrollView
-        android:id="@+id/create_event_form"
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
@@ -51,115 +52,106 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-                <EditText
-                    android:id="@+id/create_event_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/event_create_name"
-                    android:maxLines="1"
-                    android:singleLine="true" />
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/event_edit_name"
+                android:maxLines="1"
+                android:singleLine="true" />
 
-                <EditText
-                    android:id="@+id/create_event_location"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/event_create_location"
-                    android:maxLines="1"
-                    android:singleLine="true" />
+            <EditText
+                android:id="@+id/location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/event_edit_location"
+                android:maxLines="1"
+                android:singleLine="true" />
 
 
-                <EditText
-                    android:id="@+id/create_event_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/event_create_description" />
+            <EditText
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/event_edit_description" />
 
             <com.andreasogeirik.master_frontend.layout.view.CustomTextView
-                android:id="@+id/create_event_start_date_error"
+                android:id="@+id/start_date_error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:focusableInTouchMode="true"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/app_error"
                 android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:weightSum="2">
+                android:orientation="horizontal">
 
                 <com.andreasogeirik.master_frontend.layout.view.CustomButton
-                    android:id="@+id/create_event_start_date_button"
-                    style="?android:textAppearanceSmall"
+                    android:id="@+id/start_date_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:background="@color/teal"
-                    android:text="@string/event_create_start_date_label"
+                    android:text="@string/event_edit_start_date_label"
                     android:textColor="@color/app_font"
                     android:textStyle="bold" />
 
                 <com.andreasogeirik.master_frontend.layout.view.CustomButton
-                    android:id="@+id/create_event_start_time_button"
-                    style="?android:textAppearanceSmall"
+                    android:id="@+id/start_time_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:background="@color/teal"
-                    android:text="@string/event_create_start_time_label"
+                    android:text="@string/event_edit_start_time_label"
                     android:textColor="@color/app_font"
                     android:textStyle="bold" />
             </LinearLayout>
 
             <CheckBox
-                android:id="@+id/create_event_checkbox"
+                android:id="@+id/checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/create_create_checkbox"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/event_edit_checkbox"
                 android:textColor="@color/app_font" />
 
             <com.andreasogeirik.master_frontend.layout.view.CustomTextView
-                android:id="@+id/create_event_end_date_error"
+                android:id="@+id/end_date_error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:focusableInTouchMode="true"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/app_error"
                 android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:weightSum="2">
+                android:orientation="horizontal">
 
                 <com.andreasogeirik.master_frontend.layout.view.CustomButton
-                    android:id="@+id/create_event_end_date_button"
-                    style="?android:textAppearanceSmall"
+                    android:id="@+id/end_date_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:background="@color/grey"
-                    android:text="@string/event_create_end_date_label"
+                    android:text="@string/event_edit_end_date_label"
                     android:textColor="@color/app_font"
                     android:textStyle="bold"
                     android:visibility="gone" />
 
 
                 <com.andreasogeirik.master_frontend.layout.view.CustomButton
-                    android:id="@+id/create_event_end_time_button"
-                    style="?android:textAppearanceSmall"
+                    android:id="@+id/end_time_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:background="@color/grey"
-                    android:text="@string/event_create_end_time_label"
+                    android:text="@string/event_edit_end_time_label"
                     android:textColor="@color/app_font"
                     android:textStyle="bold"
                     android:visibility="gone" />
@@ -167,8 +159,9 @@
 
             </LinearLayout>
 
+
             <RelativeLayout
-                android:id="@+id/event_image_container"
+                android:id="@+id/image_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/event_name"
@@ -178,49 +171,45 @@
                 android:visibility="gone">
 
                 <ImageView
-                    android:id="@+id/create_event_image_view"
+                    android:id="@+id/image_view"
                     android:layout_width="match_parent"
                     android:layout_height="180dp"/>
 
             </RelativeLayout>
 
             <com.andreasogeirik.master_frontend.layout.view.CustomTextView
-                android:id="@+id/create_event_image_error"
+                android:id="@+id/image_error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:focusableInTouchMode="true"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/app_error"
                 android:visibility="gone" />
 
             <com.andreasogeirik.master_frontend.layout.view.CustomButton
-                android:id="@+id/create_event_image_select_button"
-                style="?android:textAppearanceSmall"
+                android:id="@+id/image_select_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@color/teal"
-                android:text="@string/event_create_select_image"
+                android:text="@string/event_edit_select_image"
                 android:textColor="@color/app_font"
                 android:textStyle="bold" />
 
             <com.andreasogeirik.master_frontend.layout.view.CustomTextView
-                android:id="@+id/create_event_error"
+                android:id="@+id/error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:focusableInTouchMode="true"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/app_error"
                 android:visibility="gone" />
 
             <com.andreasogeirik.master_frontend.layout.view.CustomButton
-                android:id="@+id/create_event_submit_button"
-                style="?android:textAppearanceSmall"
+                android:id="@+id/submit_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@color/grey"
-                android:text="@string/event_create_submit"
+                android:text="@string/event_edit_submit"
                 android:textColor="@color/app_font"
                 android:textStyle="bold" />
         </LinearLayout>
