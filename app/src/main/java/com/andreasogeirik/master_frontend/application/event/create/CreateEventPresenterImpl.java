@@ -8,6 +8,7 @@ import com.andreasogeirik.master_frontend.application.event.create.interfaces.Cr
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventPresenter;
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventView;
 import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
+import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.listener.OnSampleImageFinishedListener;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.util.Constants;
@@ -16,8 +17,6 @@ import com.andreasogeirik.master_frontend.util.image.SampleImageTask;
 import com.andreasogeirik.master_frontend.util.validation.CreateEventStatusCodes;
 import com.andreasogeirik.master_frontend.util.validation.CreateEventValidationContainer;
 import com.andreasogeirik.master_frontend.util.validation.InputValidation;
-
-import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.util.Calendar;
@@ -33,18 +32,15 @@ public class CreateEventPresenterImpl extends GeneralPresenter implements Create
 
 
     public CreateEventPresenterImpl(CreateEventView createEventView) {
-        super((Activity) createEventView);
+        super((Activity) createEventView, GeneralPresenter.CHECK_USER_AVAILABLE);
         this.createEventView = createEventView;
         this.interactor = new CreateEventInteractorImpl(this);
-
-        //check that current user singleton is set, if not redirection
-//        userAvailable();
     }
 
 
     @Override
-    public void createEventSuccess(JSONObject event) {
-        createEventView.navigateToEventView();
+    public void createEventSuccess(Event event) {
+        createEventView.navigateToEventView(event);
     }
 
     @Override
@@ -56,10 +52,13 @@ public class CreateEventPresenterImpl extends GeneralPresenter implements Create
         } else if (error == Constants.RESOURCE_ACCESS_ERROR) {
             createEventView.createEventFailed("Fant ikke ressurs. Prøv igjen.");
         }
+        else if(error == Constants.UNAUTHORIZED) {
+            checkAuth();
+        }
     }
 
     @Override
-    public void SampleImage(InputStream inputStream) {
+    public void sampleImage(InputStream inputStream) {
         createEventView.showProgress();
         new SampleImageTask(this, inputStream, false).execute();
     }

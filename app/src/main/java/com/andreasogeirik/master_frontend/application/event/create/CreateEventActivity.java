@@ -22,12 +22,14 @@ import android.widget.TextView;
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.event.create.fragments.DatePickerFragment;
 import com.andreasogeirik.master_frontend.application.event.create.fragments.TimePickerFragment;
+import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
 import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventPresenter;
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventView;
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
 import com.andreasogeirik.master_frontend.listener.OnDateSetListener;
 import com.andreasogeirik.master_frontend.listener.OnTimeSetListener;
+import com.andreasogeirik.master_frontend.model.Event;
 
 import java.io.FileNotFoundException;
 import java.util.Calendar;
@@ -151,7 +153,7 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
             if (data != null && data.getData() != null) {
                 Uri selectedImage = data.getData();
                 try {
-                    presenter.SampleImage(getContentResolver().openInputStream(selectedImage));
+                    presenter.sampleImage(getContentResolver().openInputStream(selectedImage));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                     setImageError("Kunne ikke finne det valgte bildet");
@@ -236,10 +238,11 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     }
 
     @Override
-    public void navigateToEventView() {
-        Intent i = new Intent(this, MainPageActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+    public void navigateToEventView(Event event) {
+        Intent i = new Intent(this, EventActivity.class);
+        i.putExtra("event", event);
         startActivity(i);
+        finish();
     }
 
     @Override

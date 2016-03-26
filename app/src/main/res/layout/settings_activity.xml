@@ -51,21 +51,21 @@
                 android:id="@+id/text_size_small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Small"
+                android:text="Liten"
                 android:textSize="16dp"
                 />
             <RadioButton
                 android:id="@+id/text_size_medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Medium"
+                android:text="Middels"
                 android:textSize="22dp"
                 />
             <RadioButton
                 android:id="@+id/text_size_large"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Large"
+                android:text="Stor"
                 android:textSize="30dp"
                 />
         </RadioGroup>

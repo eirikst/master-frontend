@@ -24,12 +24,15 @@ public class MainPagePresenterImpl extends GeneralPresenter implements EventPres
     private EventInteractor interactor;
 
     public MainPagePresenterImpl(EventView view) {
-        super((Activity)view);
+        super((Activity)view, GeneralPresenter.NO_CHECK);
         this.view = view;
         this.interactor = new MainPageInteractorImpl(this);
 
         //init text size
         Constants.USER_SET_SIZE = UserPreferencesManager.getInstance().getTextSize();
+        if(Constants.USER_SET_SIZE < 1) {
+            Constants.USER_SET_SIZE = Constants.MEDIUM;
+        }
 
         // This is called so that we will have no latency waiting for a 401 of the user is not authenticated
         if(UserPreferencesManager.getInstance().getCookie() == null) {

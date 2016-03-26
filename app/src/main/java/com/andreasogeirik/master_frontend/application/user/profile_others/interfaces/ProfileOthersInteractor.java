@@ -1,4 +1,4 @@
-package com.andreasogeirik.master_frontend.application.user.profile_not_friend.interfaces;
+package com.andreasogeirik.master_frontend.application.user.profile_others.interfaces;
 
 import com.andreasogeirik.master_frontend.model.User;
 

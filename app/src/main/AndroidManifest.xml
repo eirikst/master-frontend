@@ -35,7 +35,7 @@
         </activity>
         <activity android:name=".application.user.profile.ProfileActivity" />
         <activity android:name=".application.user.friend.FriendListActivity" />
-        <activity android:name=".application.user.profile_not_friend.ProfileOthersActivity" />
+        <activity android:name=".application.user.profile_others.ProfileOthersActivity" />
         <activity android:name=".application.auth.register.RegisterActivity" />
         <activity
             android:name=".application.event.create.CreateEventActivity"

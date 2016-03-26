@@ -27,7 +27,7 @@ public class NotificationCenterPresenterImpl extends GeneralPresenter implements
 
 
     public NotificationCenterPresenterImpl(NotificationCenterView view, Set<Object> notifications) {
-        super(((Fragment) view).getActivity());
+        super(((Fragment) view).getActivity(), NO_CHECK);
         this.view = view;
         this.notifications = notifications;
         this.interactor = new NotificationCenterInteractorImpl(this);

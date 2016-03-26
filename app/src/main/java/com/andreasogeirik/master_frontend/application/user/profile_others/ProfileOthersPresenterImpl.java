@@ -1,4 +1,4 @@
-package com.andreasogeirik.master_frontend.application.user.profile_not_friend;
+package com.andreasogeirik.master_frontend.application.user.profile_others;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,12 +8,13 @@ import android.os.Environment;
 
 import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
 import com.andreasogeirik.master_frontend.application.user.profile.ProfileActivity;
-import com.andreasogeirik.master_frontend.application.user.profile_not_friend.interfaces.ProfileOthersInteractor;
-import com.andreasogeirik.master_frontend.application.user.profile_not_friend.interfaces.ProfileOthersPresenter;
-import com.andreasogeirik.master_frontend.application.user.profile_not_friend.interfaces.ProfileOthersView;
+import com.andreasogeirik.master_frontend.application.user.profile_others.interfaces.ProfileOthersInteractor;
+import com.andreasogeirik.master_frontend.application.user.profile_others.interfaces.ProfileOthersPresenter;
+import com.andreasogeirik.master_frontend.application.user.profile_others.interfaces.ProfileOthersView;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.User;
+import com.andreasogeirik.master_frontend.util.Constants;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -29,7 +30,7 @@ public class ProfileOthersPresenterImpl extends GeneralPresenter implements Prof
     private User user;
 
     public ProfileOthersPresenterImpl(ProfileOthersView view, User user) {
-        super((Activity)view);
+        super((Activity)view, CHECK_USER_AVAILABLE);
         if(user == null) {
             throw new NullPointerException("User object cannot be null in " + this.toString());
         }
@@ -40,9 +41,6 @@ public class ProfileOthersPresenterImpl extends GeneralPresenter implements Prof
         this.view = view;
         interactor = new ProfileOthersInteractorImpl(this);
         this.user = user;
-
-        //check that current user singleton is set, if not redirection
-        userAvailable();
 
         //setup gui
         if(CurrentUser.getInstance().getUser().iHaveRequested(user)) {
@@ -77,7 +75,12 @@ public class ProfileOthersPresenterImpl extends GeneralPresenter implements Prof
 
     @Override
     public void friendRequestFailure(int code) {
-        view.displayMessage("En feil skjedde under forespørsel");
+        if(code == Constants.UNAUTHORIZED) {
+            checkAuth();
+        }
+        else {
+            view.displayMessage("En feil skjedde under forespørsel");
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -112,7 +115,12 @@ public class ProfileOthersPresenterImpl extends GeneralPresenter implements Prof
 
     @Override
     public void acceptRequestFailure(int code) {
-        view.displayMessage("En feil skjedde under akseptering");
+        if(code == Constants.UNAUTHORIZED) {
+            checkAuth();
+        }
+        else {
+            view.displayMessage("En feil skjedde under akseptering");
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -143,7 +151,12 @@ public class ProfileOthersPresenterImpl extends GeneralPresenter implements Prof
 
     @Override
     public void rejectRequestFailure(int code) {
-        view.displayMessage("En feil skjedde under fjerning av forespørsel");
+        if(code == Constants.UNAUTHORIZED) {
+            checkAuth();
+        }
+        else {
+            view.displayMessage("En feil skjedde under fjerning av forespørsel");
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

@@ -28,7 +28,7 @@ public class MyEventsPresenterImpl extends GeneralPresenter implements MyEventsP
     private Set<Event> myPastEvents = new HashSet<>();
 
     public MyEventsPresenterImpl(MyEventView view) {
-        super(((Fragment)view).getActivity());
+        super(((Fragment)view).getActivity(), NO_CHECK);
         this.view = view;
         eventInteractor = new MyEventsInteractorImpl(this);
         //TODO:Sjekke user cookie etc.

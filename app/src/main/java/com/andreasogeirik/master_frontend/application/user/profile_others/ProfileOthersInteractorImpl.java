@@ -1,9 +1,9 @@
-package com.andreasogeirik.master_frontend.application.user.profile_not_friend;
+package com.andreasogeirik.master_frontend.application.user.profile_others;
 
 import android.graphics.Bitmap;
 
-import com.andreasogeirik.master_frontend.application.user.profile_not_friend.interfaces.ProfileOthersInteractor;
-import com.andreasogeirik.master_frontend.application.user.profile_not_friend.interfaces.ProfileOthersPresenter;
+import com.andreasogeirik.master_frontend.application.user.profile_others.interfaces.ProfileOthersInteractor;
+import com.andreasogeirik.master_frontend.application.user.profile_others.interfaces.ProfileOthersPresenter;
 import com.andreasogeirik.master_frontend.communication.AcceptRequestTask;
 import com.andreasogeirik.master_frontend.communication.FriendRequestTask;
 import com.andreasogeirik.master_frontend.communication.UnFriendTask;

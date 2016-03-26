@@ -110,16 +110,6 @@ public class FriendListActivity extends AppCompatActivity implements FriendListV
     @Override
     public void setProfileImage(String imageUri, Bitmap bitmap) {
         listAdapter.addImage(imageUri, bitmap);
-        new Thread() {
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        listAdapter.notifyDataSetChanged();
-                    }
-                });
-            }
-        }.start();
     }
 
     @Override
