@@ -46,7 +46,7 @@ public class EditEventPresenterImpl extends GeneralPresenter implements EditEven
     private Pair<Integer, Integer> endTimePair;
 
     public EditEventPresenterImpl(EditEventView editEventView, Event event) {
-        super((Activity) editEventView);
+        super((Activity) editEventView, GeneralPresenter.NO_CHECK);
         this.editEventView = editEventView;
         this.interactor = new EditEventInteractorImpl(this);
         this.event = event;
