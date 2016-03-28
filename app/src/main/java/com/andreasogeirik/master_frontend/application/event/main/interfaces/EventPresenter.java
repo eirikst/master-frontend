@@ -15,4 +15,7 @@ public interface EventPresenter {
     void navigateToParticipants();
     void updateView();
     void navigateToEditEvent();
+    void deleteEvent();
+    void deleteSuccess();
+    void deleteError(int error);
 }

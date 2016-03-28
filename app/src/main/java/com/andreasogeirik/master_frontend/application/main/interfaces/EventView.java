@@ -12,4 +12,6 @@ public interface EventView {
     void setNotificationCount(int count);
     void displayMessage(String message);
     void showNotificationCenter(Set<Object> notifications);
+    void showProgress();
+    void hideProgress();
 }

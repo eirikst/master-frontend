@@ -25,6 +25,7 @@ import com.andreasogeirik.master_frontend.application.event.create.fragments.Dat
 import com.andreasogeirik.master_frontend.application.event.create.fragments.TimePickerFragment;
 import com.andreasogeirik.master_frontend.application.event.edit.interfaces.EditEventPresenter;
 import com.andreasogeirik.master_frontend.application.event.edit.interfaces.EditEventView;
+import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
 import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
 import com.andreasogeirik.master_frontend.listener.OnDateSetListener;
@@ -102,7 +103,8 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
     EditEventPresenter presenter;
     private ProgressBarManager progressBarManager;
 
-    private int PICK_IMAGE_REQUEST = 1;
+    private static int PICK_IMAGE_REQUEST = 1;
+    private static int EDIT_EVENT_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -219,8 +221,11 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
     }
 
     @Override
-    public void navigateToEventView() {
-        Intent i = new Intent(this, MainPageActivity.class);
+    public void navigateToEventView(Event event) {
+        Intent i = new Intent(this, EventActivity.class);
+        i.putExtra("event", event);
+        i.putExtra("requestCode", EDIT_EVENT_REQUEST);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
     }
 

@@ -2,10 +2,12 @@ package com.andreasogeirik.master_frontend.application.event.edit;
 
 import com.andreasogeirik.master_frontend.application.event.edit.interfaces.EditEventInteractor;
 import com.andreasogeirik.master_frontend.application.event.edit.interfaces.EditEventPresenter;
+import com.andreasogeirik.master_frontend.communication.EditEventTask;
 import com.andreasogeirik.master_frontend.communication.UploadImageTask;
 import com.andreasogeirik.master_frontend.listener.OnEditEventFinishedListener;
 import com.andreasogeirik.master_frontend.listener.OnImageUploadFinishedListener;
 import com.andreasogeirik.master_frontend.model.Event;
+import com.andreasogeirik.master_frontend.util.Constants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,7 +30,7 @@ public class EditEventInteractorImpl implements EditEventInteractor, OnEditEvent
     @Override
     public void onImageUploadSuccess(String imageUrl) {
         event.setImageURI(imageUrl);
-//        new EditEventTask(eventToJson(event), this).execute();
+        new EditEventTask(this.event.getId(), eventToJson(event), this).execute();
     }
 
     @Override
@@ -70,13 +72,18 @@ public class EditEventInteractorImpl implements EditEventInteractor, OnEditEvent
             new UploadImageTask(byteImage, this).execute();
         } else {
             // No image selected, create event without image
-//            new EditEventTask(eventToJson(event), this).execute();
+            new EditEventTask(this.event.getId(), eventToJson(event), this).execute();
         }
     }
 
     @Override
     public void onEditEventSuccess(JSONObject event) {
-        presenter.editEventSuccess(event);
+        try {
+            presenter.editEventSuccess(new Event(event));
+        }
+        catch(JSONException e) {
+            presenter.editEventError(Constants.JSON_PARSE_ERROR);
+        }
     }
 
     @Override

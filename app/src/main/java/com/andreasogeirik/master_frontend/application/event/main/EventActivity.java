@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,6 +20,7 @@ import com.andreasogeirik.master_frontend.application.event.edit.EditEventActivi
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventPresenter;
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventView;
 import com.andreasogeirik.master_frontend.application.event.main.participants.ParticipantsActivity;
+import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
 import com.andreasogeirik.master_frontend.layout.adapter.EventMainAdapter;
 import com.andreasogeirik.master_frontend.model.Event;
@@ -56,6 +56,7 @@ public class EventActivity extends AppCompatActivity implements EventView {
     private Button attendButton;
     private Button unAttendButton;
     private Button editButton;
+    private Button deleteButton;
 
     private TextView eventName;
     private TextView startTime;
@@ -68,6 +69,8 @@ public class EventActivity extends AppCompatActivity implements EventView {
 
     private EventPresenter presenter;
     private ProgressBarManager progressBarManager;
+
+    private static int EDIT_EVENT_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,6 +143,11 @@ public class EventActivity extends AppCompatActivity implements EventView {
     }
 
     @Override
+    public void setDeleteButton() {
+        this.deleteButton.setVisibility(View.VISIBLE);
+    }
+
+    @Override
     public void setUnAttendButton() {
         this.unAttendButton.setVisibility(View.VISIBLE);
         this.attendButton.setVisibility(View.GONE);
@@ -201,6 +209,14 @@ public class EventActivity extends AppCompatActivity implements EventView {
             }
         });
 
+        this.deleteButton = (Button) headerView.findViewById(R.id.event_delete);
+        this.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.deleteEvent();
+            }
+        });
+
         this.eventImageContainer = headerView.findViewById(R.id.event_image_container);
         this.imageView = (ImageView) headerView.findViewById(R.id.event_image);
         this.eventName = (TextView) headerView.findViewById(R.id.event_name);
@@ -221,6 +237,13 @@ public class EventActivity extends AppCompatActivity implements EventView {
     }
 
     @Override
+    public void navigateToMain() {
+        Intent i = new Intent(this, MainPageActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
+    }
+
+    @Override
     public void navigateToParticipants(Set<User> _users) {
         Intent i = new Intent(this, ParticipantsActivity.class);
         HashSet<User> users = new HashSet(_users);
@@ -234,6 +257,27 @@ public class EventActivity extends AppCompatActivity implements EventView {
             return super.onOptionsItemSelected(item);
         }
         return true;
-
     }
+
+    @Override
+    public void onBackPressed() {
+
+        Intent i = getIntent();
+        int requestCode = i.getIntExtra("requestCode", 0);
+        if (requestCode == EDIT_EVENT_REQUEST){
+            Intent intent = new Intent(this, MainPageActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        else{
+            super.onBackPressed();
+        }
+    }
+
+    //    @Override
+//    public void onBackPressed() {
+//        Intent intent = new Intent(this, MainPageActivity.class);
+//        startActivity(intent);
+//        finish();
+//    }
 }

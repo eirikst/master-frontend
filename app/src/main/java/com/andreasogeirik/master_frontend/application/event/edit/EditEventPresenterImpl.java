@@ -59,8 +59,8 @@ public class EditEventPresenterImpl extends GeneralPresenter implements EditEven
     }
 
     @Override
-    public void editEventSuccess(JSONObject event) {
-        this.editEventView.navigateToEventView();
+    public void editEventSuccess(Event event) {
+        this.editEventView.navigateToEventView(event);
     }
 
     @Override
@@ -162,15 +162,19 @@ public class EditEventPresenterImpl extends GeneralPresenter implements EditEven
             // Set start time in milliseconds
             Calendar startDateCal = new GregorianCalendar();
             startDateCal.setTimeInMillis(dateToLong(startDate, startTimePair.first, startTimePair.second));
-            Event event = new Event(name, location, description, startDateCal);
+            this.event.setName(name);
+            this.event.setLocation(location);
+            this.event.setDescription(description);
+            this.event.setStartDate(startDateCal);
+
             // Check if end date and time is chosen
             if (endDate != null && endTimePair != null) {
                 Calendar endDateCal = new GregorianCalendar();
                 endDateCal.setTimeInMillis(dateToLong(endDate, endTimePair.first, endTimePair.second));
-                event.setEndDate(endDateCal);
+                this.event.setEndDate(endDateCal);
             }
             this.editEventView.showProgress();
-            interactor.editEvent(event, byteImage);
+            interactor.editEvent(this.event, byteImage);
         }
     }
 

@@ -2,7 +2,8 @@ package com.andreasogeirik.master_frontend.application.event.edit.interfaces;
 
 import android.util.Pair;
 
-import org.json.JSONObject;
+import com.andreasogeirik.master_frontend.model.Event;
+
 
 import java.io.InputStream;
 import java.util.Calendar;
@@ -12,7 +13,7 @@ import java.util.Calendar;
  */
 public interface EditEventPresenter {
     void editEvent(String name, String location, String description);
-    void editEventSuccess(JSONObject event);
+    void editEventSuccess(Event event);
     void editEventError(int error);
     void SampleImage(InputStream inputStream);
     void setEventAttributes();

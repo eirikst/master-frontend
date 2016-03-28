@@ -17,6 +17,7 @@ public interface EventView {
     void setParticipants(String participants);
     void setUnAttendButton();
     void setEditButton();
+    void setDeleteButton();
     void showErrorMessage(String error);
     void showProgress();
     void hideProgress();
@@ -24,4 +25,5 @@ public interface EventView {
     void initGui();
     void navigateToParticipants(Set<User> users);
     void navigateToEditEvent(Event event);
+    void navigateToMain();
 }

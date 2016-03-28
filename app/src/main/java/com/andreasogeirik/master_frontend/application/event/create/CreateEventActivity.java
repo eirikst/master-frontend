@@ -97,7 +97,6 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     TextView createEventError;
     @Bind(R.id.create_event_submit_button)
     Button createEventButton;
-
     CreateEventPresenter presenter;
 
     private Calendar startDate;

@@ -3,11 +3,13 @@ package com.andreasogeirik.master_frontend.application.event.edit.interfaces;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
+import com.andreasogeirik.master_frontend.model.Event;
+
 /**
  * Created by Andreas on 10.02.2016.
  */
 public interface EditEventView {
-    void navigateToEventView();
+    void navigateToEventView(Event event);
     void editEventFailed(String errorMessage);
     void showProgress();
     void hideProgress();

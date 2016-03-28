@@ -119,6 +119,7 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
 
         if (currentUser.getId() == this.event.getAdmin().getId()){
             this.eventView.setEditButton();
+            this.eventView.setDeleteButton();
         }
 
     }
@@ -163,6 +164,11 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
     }
 
     @Override
+    public void deleteEvent() {
+        this.interactor.deleteEvent(this.event.getId());
+    }
+
+    @Override
     public void foundImage(String imageUri, Bitmap bitmap) {
 //        eventView.hideProgress();
         this.eventView.setImage(bitmap);
@@ -178,5 +184,14 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
         eventView.hideProgress();
     }
 
+    @Override
+    public void deleteSuccess() {
+        this.eventView.navigateToMain();
+    }
 
+    // TODO HANDLE THIS
+    @Override
+    public void deleteError(int error) {
+
+    }
 }
