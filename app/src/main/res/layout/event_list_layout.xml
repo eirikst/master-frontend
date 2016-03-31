@@ -35,14 +35,14 @@
         android:id="@+id/post_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="10"
+        android:weightSum="40"
         android:orientation="horizontal"
         android:layout_below="@+id/space"
         >
 
         <ImageView
             android:id="@+id/event_image"
-            android:layout_weight="2"
+            android:layout_weight="8"
             android:layout_width="0dp"
             android:layout_height="100dp"
             android:scaleType="fitStart"
@@ -56,25 +56,67 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="8"
-            android:layout_margin="5dp"
+            android:layout_weight="32"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="5dp"
+
             >
 
-            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
-                android:id="@+id/event_name"
+            <LinearLayout
+                android:id="@+id/name_and_count_panel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Event name comes here"
-                android:textColor="@color/app_font"
-                />
+                android:layout_marginTop="5dp"
+                android:weightSum="40"
+                >
+
+                <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+                    android:id="@+id/event_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Tur til Geitfjellet"
+                    android:textColor="@color/app_font"
+                    android:textStyle="bold"
+                    android:layout_weight="30"
+                    />
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="10"
+                    android:gravity="right"
+                    >
+                    <ImageView
+                        android:id="@+id/participants_number_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_people_black_24dp"
+                        android:layout_marginRight="2dp"
+                        />
+
+                    <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+                        android:id="@+id/event_participants_nr"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="55"
+                        android:textColor="@color/app_font"
+                        android:layout_marginRight="10dp"
+                        android:textStyle="italic"
+                        android:layout_toRightOf="@+id/participants_number_image"
+                        />
+                </RelativeLayout>
+            </LinearLayout>
+
 
             <com.andreasogeirik.master_frontend.layout.view.CustomTextView
                 android:id="@+id/event_time_start"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/event_name"
-                android:text="Date comes here"
+                android:text="27.01.2016"
                 android:textColor="@color/app_font"
+                android:textStyle="italic"
+                android:layout_below="@+id/name_and_count_panel"
                 />
 
 
@@ -85,34 +127,19 @@
                 android:layout_below="@+id/event_time_start"
                 >
 
-                <ImageView
-                    android:id="@+id/participants_number_image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_people_black_24dp"
-                    />
-
-                <com.andreasogeirik.master_frontend.layout.view.CustomTextView
-                    android:id="@+id/event_participants"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="3"
-                    android:textColor="@color/app_font"
-                    android:layout_toRightOf="@+id/participants_number_image"
-                    android:layout_marginRight="5dp"
-                    />
-
                 <com.andreasogeirik.master_frontend.layout.view.CustomTextView
                     android:id="@+id/event_friends"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/event_participants"
                     android:text="Eirik og 2 andre deltar"
                     android:textColor="@color/app_font"
+                    android:textStyle="italic"
                     />
 
             </RelativeLayout>
         </RelativeLayout>
+
+
 
     </LinearLayout>
 </RelativeLayout>

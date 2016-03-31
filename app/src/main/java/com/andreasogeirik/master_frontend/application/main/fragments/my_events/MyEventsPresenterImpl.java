@@ -8,6 +8,7 @@ import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
 import com.andreasogeirik.master_frontend.application.main.fragments.my_events.interfaces.MyEventView;
 import com.andreasogeirik.master_frontend.application.main.fragments.my_events.interfaces.MyEventsInteractor;
 import com.andreasogeirik.master_frontend.application.main.fragments.my_events.interfaces.MyEventsPresenter;
+import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.ImageInteractor;
@@ -35,6 +36,8 @@ public class MyEventsPresenterImpl extends GeneralPresenter implements MyEventsP
 
         eventInteractor.findMyEvents();
         eventInteractor.findMyPastEvents(0);
+
+        view.setUser(CurrentUser.getInstance().getUser());
     }
 
     @Override

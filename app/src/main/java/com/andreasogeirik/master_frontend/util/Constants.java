@@ -5,7 +5,7 @@ package com.andreasogeirik.master_frontend.util;
  */
 public class Constants {
     //Azure
-    //public static final String BACKEND_URL = "http://sportydul.azurewebsites.net/";
+    public static final String BACKEND_URL = "http://sportydul.azurewebsites.net/";
 
     //Home
 //    public static final String BACKEND_URL = "http://10.0.0.121:8080/";
@@ -13,10 +13,10 @@ public class Constants {
     //public static final String BACKEND_URL = "http://78.91.3.10:8080/";
 
     //Eirik NTNU
-    //public static final String BACKEND_URL = "http://sportydul.azurewebsites.net/";
+    //public static final String BACKEND_URL = "http://78.91.3.200:8080/";
 
     //Eirik hjemme
-    public static final String BACKEND_URL = "http://78.91.3.200:8080/";
+    //public static final String BACKEND_URL = "http://10.0.0.78:8080/";
 
 
 

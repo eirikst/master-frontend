@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import com.andreasogeirik.master_frontend.model.Event;
+import com.andreasogeirik.master_frontend.model.User;
 
 import java.util.Set;
 
@@ -18,4 +19,5 @@ public interface MyEventView {
     void setEventImage(String imageUri, Bitmap bitmap);
     void updateListView();
     void setNoMoreEventsToLoad();
+    void setUser(User user);
     }

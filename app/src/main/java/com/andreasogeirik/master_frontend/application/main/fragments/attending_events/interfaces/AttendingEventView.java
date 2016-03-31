@@ -4,6 +4,7 @@ package com.andreasogeirik.master_frontend.application.main.fragments.attending_
 import android.graphics.Bitmap;
 
 import com.andreasogeirik.master_frontend.model.Event;
+import com.andreasogeirik.master_frontend.model.User;
 
 import java.util.Set;
 
@@ -17,4 +18,5 @@ public interface AttendingEventView {
     void setAttendingImage(String imageUri, Bitmap bitmap);
     void setNoMoreEventsToLoad();
     void updateListView();
+    void setUser(User user);
 }

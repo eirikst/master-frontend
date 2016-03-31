@@ -8,6 +8,7 @@ import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
 import com.andreasogeirik.master_frontend.application.main.fragments.recommended_events.interfaces.RecommendedEventsInteractor;
 import com.andreasogeirik.master_frontend.application.main.fragments.recommended_events.interfaces.RecommendedEventsPresenter;
 import com.andreasogeirik.master_frontend.application.main.fragments.recommended_events.interfaces.RecommendedEventsView;
+import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.ImageInteractor;
@@ -33,6 +34,8 @@ public class RecommendedEventsPresenterImpl extends GeneralPresenter implements 
         //TODO:Sjekke user cookie etc.
 
         eventInteractor.findRecommendedEvents(0);
+
+        view.setUser(CurrentUser.getInstance().getUser());
     }
 
     @Override

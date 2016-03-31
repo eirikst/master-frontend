@@ -1,6 +1,5 @@
 package com.andreasogeirik.master_frontend.layout.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +12,7 @@ import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.model.Event;
+import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.DateUtility;
 
 import java.util.ArrayList;
@@ -20,13 +20,11 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by eirikstadheim on 05/02/16.
@@ -36,20 +34,16 @@ public class EventListAdapter extends ArrayAdapter<Event> {
         public void findImage(String imageUri);
     }
 
-    private List<Event> events;
+    private User user;
     private Map<String, Bitmap> eventImages;
     private Context context;
     private Listener listener;
     private Bitmap defaultImage;
     private Comparator<Event> comparator;
 
-    private List<Event> future = new ArrayList<>();
-    private List<Event> past = new ArrayList<>();
-
     public EventListAdapter(Context context, Listener listener) {
         super(context, 0);
         this.context = context;
-        this.events = new ArrayList<Event>();
         this.listener = listener;
         this.eventImages = new HashMap<>();
 
@@ -76,50 +70,88 @@ public class EventListAdapter extends ArrayAdapter<Event> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        System.out.println("dette er position " + position);
         Event event = getItem(position);
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(
-                    R.layout.attending_events_list_layout, parent, false);
+                    R.layout.event_list_layout, parent, false);
         }
 
         /*
          * Adds a past view on the first list element with an event from the past
          * Adds a future view on the first list element with an event from the future
          */
-        TextView pastView = (TextView)convertView.findViewById(R.id.past_header);
-        TextView futureView = (TextView)convertView.findViewById(R.id.future_header);
+        TextView pastView = (TextView) convertView.findViewById(R.id.past_header);
+        TextView futureView = (TextView) convertView.findViewById(R.id.future_header);
 
-        if(!future.isEmpty() && event.equals(future.get(0))) {
-            futureView.setVisibility(View.VISIBLE);
+        Date now = new Date();
+
+        if (position == 0) {
+            if (event.getStartDate().getTime().after(now)) {
+                futureView.setVisibility(View.VISIBLE);
+                pastView.setVisibility(View.GONE);
+            } else {
+                pastView.setVisibility(View.VISIBLE);
+                futureView.setVisibility(View.GONE);
+            }
+        } else if (position > 0) {
+            if (event.getStartDate().getTime().before(now) && getItem(position - 1).getStartDate().getTime().after(now)) {
+                pastView.setVisibility(View.VISIBLE);
+                futureView.setVisibility(View.GONE);
+            } else {
+                pastView.setVisibility(View.GONE);
+                futureView.setVisibility(View.GONE);
+            }
+        } else {
+            futureView.setVisibility(View.GONE);
             pastView.setVisibility(View.GONE);
         }
-        else if(!past.isEmpty() && event.equals(past.get(0))) {
-            pastView.setVisibility(View.VISIBLE);
-            futureView.setVisibility(View.GONE);
-        }
-        else {
-            futureView.setVisibility(View.GONE);
-            pastView.setVisibility(View.GONE);
-        }
+
 
         /*
          * Sets the data for the view
          */
-        TextView name = (TextView)convertView.findViewById(R.id.event_name);
-        TextView timeStart = (TextView)convertView.findViewById(R.id.event_time_start);
-        TextView participants = (TextView)convertView.findViewById(R.id.event_participants);
+        TextView name = (TextView) convertView.findViewById(R.id.event_name);
+        TextView timeStart = (TextView) convertView.findViewById(R.id.event_time_start);
+        TextView participants = (TextView) convertView.findViewById(R.id.event_participants_nr);
+        TextView friends = (TextView) convertView.findViewById(R.id.event_friends);
+        friends.setVisibility(View.VISIBLE);
+
+        if (user != null) {
+            int friendCount = 0;
+            List<String> friendNames = new ArrayList<>();
+
+            for (User eventUser : event.getUsers()) {
+                if (user.isFriendWith(eventUser)) {
+                    friendCount++;
+                    friendNames.add(eventUser.getFirstname());
+                }
+            }
+
+            if (friendCount > 3) {
+                friends.setText(friendNames.get(0) + " og " + friendCount + " andre venner deltar");
+            }
+            else if(friendCount == 2) {
+                friends.setText(friendNames.get(0) + " og " + friendNames.get(1) + " deltar");
+            }
+            else if(friendCount == 1) {
+                friends.setText(friendNames.get(0) + " deltar");
+            }
+            else {
+                friends.setVisibility(View.GONE);
+            }
+        }
+        else {
+            friends.setVisibility(View.GONE);
+        }
 
         // Populate the data using the events
         name.setText(event.getName());
         timeStart.setText(DateUtility.formatFull(event.getStartDate().getTime()));
-        if(event.getUsers().size() == 1) {
-            participants.setText(event.getUsers().size() + " bruker deltar");
-        }
-        else {
-            participants.setText(event.getUsers().size() + " brukere deltar");
-        }
+        participants.setText(event.getUsers().size() + "");
+
 
         // Setup imageview
         ImageView image = (ImageView)convertView.findViewById(R.id.event_image);
@@ -151,53 +183,18 @@ public class EventListAdapter extends ArrayAdapter<Event> {
     public void add(Event object) {
         super.add(object);
         sort(comparator);
-
-        Calendar cal = new GregorianCalendar();
-
-        if(object.getStartDate().before(cal)) {
-            past.add(object);
-        }
-        else {
-            future.add(object);
-        }
-        Collections.sort(past, comparator);
-        Collections.sort(future, comparator);
     }
 
     @Override
     public void addAll(Collection<? extends Event> collection) {
         super.addAll(collection);
         sort(comparator);
-
-        Calendar cal = new GregorianCalendar();
-        for(Event e: collection) {
-            if(e.getStartDate().before(cal)) {
-                past.add(e);
-            }
-            else {
-                future.add(e);
-            }
-        }
-        Collections.sort(past, comparator);
-        Collections.sort(future, comparator);
     }
 
     @Override
     public void addAll(Event... items) {
         super.addAll(items);
         sort(comparator);
-
-        Calendar cal = new GregorianCalendar();
-        for(Event e: items) {
-            if(e.getStartDate().before(cal)) {
-                past.add(e);
-            }
-            else {
-                future.add(e);
-            }
-        }
-        Collections.sort(past, comparator);
-        Collections.sort(future, comparator);
     }
 
     /*
@@ -217,5 +214,9 @@ public class EventListAdapter extends ArrayAdapter<Event> {
             image.setImageBitmap(defaultImage);
             eventImages.put(imageName, defaultImage);
         }
+    }
+
+    public void setUser(User user) {
+        this.user  = user;
     }
 }
