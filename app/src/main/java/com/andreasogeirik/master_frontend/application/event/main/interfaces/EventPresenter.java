@@ -10,8 +10,12 @@ public interface EventPresenter {
     void unAttendEvent();
     void attendSuccess(Event event);
     void attendError(int error);
-    void findImage(String imageUrl);
     void initGui();
-    void updateView();
+    void setEventAttributes();
     void navigateToParticipants();
+    void updateView();
+    void navigateToEditEvent();
+    void deleteEvent();
+    void deleteSuccess();
+    void deleteError(int error);
 }

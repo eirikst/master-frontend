@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -26,61 +26,34 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:layout_below="@id/toolbar"
+        android:orientation="vertical"
         android:padding="5dp">
 
         <ImageView
             android:id="@+id/my_profile_image"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:src="@drawable/default_profile"
-            android:layout_weight="1"
             android:layout_marginTop="20dp"
-            />
+            android:layout_weight="1"
+            android:src="@drawable/default_profile" />
 
-        <LinearLayout
+        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+            android:id="@+id/photo_text"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:orientation="horizontal"
             android:layout_weight="1"
-            android:layout_marginTop="20dp"
-            >
-
-            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
-                android:id="@+id/photo_text"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:text="Hei! Du har nå opprettet en profil. Hvis du ønsker, kan du legge til et profilbilde ved å trykke på kameraikonet til høyre."
-                android:textColor="@color/app_font"
-                android:layout_weight="1.7"/>
-
-            <Button
-                android:id="@+id/profile_pic"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_add_a_photo_black_24dp"
-                android:textColor="@color/app_font"
-                android:layout_weight=".3"
-                android:layout_marginRight="5dp"/>
-
-        </LinearLayout>
-
+            android:text="Hei! Du har nå opprettet en profil. Hvis du ønsker, kan du legge til et profilbilde ved å trykke på bildet over."
+            android:textColor="@color/app_font" />
 
         <com.andreasogeirik.master_frontend.layout.view.CustomButton
             android:id="@+id/submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="FERDIG"
-            android:textStyle="bold"
-            android:layout_centerInParent="true"
             android:background="@color/teal"
-            android:textColor="@color/app_font"/>
-
-
+            android:text="FERDIG"
+            android:textColor="@color/app_font"
+            android:textStyle="bold" />
 
     </LinearLayout>
-
-
-
 </RelativeLayout>

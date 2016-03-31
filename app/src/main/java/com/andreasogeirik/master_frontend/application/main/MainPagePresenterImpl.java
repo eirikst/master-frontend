@@ -11,6 +11,7 @@ import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
+import com.andreasogeirik.master_frontend.util.LogoutHandler;
 import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
 import java.util.HashSet;
@@ -81,11 +82,13 @@ public class MainPagePresenterImpl extends GeneralPresenter implements EventPres
 
     @Override
     public void findUser() {
+        this.view.showProgress();
         interactor.findUser();
     }
 
     @Override
     public void findUserSuccess(User user) {
+        this.view.hideProgress();
         CurrentUser.getInstance().setUser(user);
         initDomain();
         view.initGUI();
@@ -93,6 +96,7 @@ public class MainPagePresenterImpl extends GeneralPresenter implements EventPres
 
     @Override
     public void findUserFailure(int code) {
+        this.view.hideProgress();
         view.navigateToLogin();
     }
 

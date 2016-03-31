@@ -20,7 +20,8 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme.NoActionBar"
+        android:theme="@style/Theme.MyTheme"
+
         tools:replace="theme">
         <activity
             android:name=".application.auth.entrance.EntranceActivity"
@@ -37,19 +38,26 @@
         <activity android:name=".application.user.friend.FriendListActivity" />
         <activity android:name=".application.user.profile_others.ProfileOthersActivity" />
         <activity android:name=".application.auth.register.RegisterActivity" />
-        <activity android:name=".application.auth.welcome.WelcomeActivity" />
         <activity
             android:name=".application.event.create.CreateEventActivity"
             android:label="" />
         <activity android:name=".application.settings.SettingsActivity" />
         <activity android:name=".application.event.main.EventActivity" />
-        <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
+        <activity
+            android:name="com.soundcloud.android.crop.CropImageActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.desmond.squarecamera.CameraActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".application.user.photo.PhotoActivity" />
+        <activity
+            android:name=".application.user.photo.PhotoActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".application.search.UserSearchActivity" />
-        <activity android:name=".application.event.main.participants.ParticipantsActivity"></activity>
+        <activity
+            android:name=".application.event.main.participants.ParticipantsActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".application.event.edit.EditEventActivity"/>
     </application>
 
 </manifest>

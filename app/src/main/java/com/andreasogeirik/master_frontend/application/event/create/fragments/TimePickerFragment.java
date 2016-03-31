@@ -65,6 +65,6 @@ public class TimePickerFragment extends DialogFragment
         if (arguments.get("time").equals("end")) {
             isStartTime = false;
         }
-        callback.onTimeSet(new Pair<>(hourOfDay, minute), isStartTime);
+        callback.onTimeSelected(new Pair<>(hourOfDay, minute), isStartTime);
     }
 }

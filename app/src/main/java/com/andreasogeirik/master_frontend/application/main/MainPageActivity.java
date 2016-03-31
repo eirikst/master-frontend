@@ -18,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +30,9 @@ import com.andreasogeirik.master_frontend.application.main.interfaces.EventPrese
 import com.andreasogeirik.master_frontend.application.main.interfaces.EventView;
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.main.notification.NotificationCenterDialogFragment;
+import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
 import com.andreasogeirik.master_frontend.layout.adapter.MainPagerAdapter;
+import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
 
 import java.util.HashSet;
@@ -44,6 +47,10 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
         ViewPager.OnPageChangeListener {
     private EventPresenter presenter;
 
+    @Bind(R.id.progress)
+    View progressView;
+    @Bind(R.id.main_container)
+    View mainContainer;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.viewpager)
@@ -56,6 +63,7 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
     TextView notificationCount;
 
     private MainPagerAdapter pagerAdapter;
+    private ProgressBarManager progressBarManager;
 
 
     //private AttendingEventsFragment attendingFragment;
@@ -74,7 +82,11 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.main_page_activity);
+        ButterKnife.bind(this);
 
+        setupToolbar();
+        progressBarManager = new ProgressBarManager(this, mainContainer, progressView);
         presenter = new MainPagePresenterImpl(this);
 
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
@@ -89,10 +101,6 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
 
     @Override
     public void initGUI() {
-        setContentView(R.layout.main_page_activity);
-        ButterKnife.bind(this);
-
-        setupToolbar();
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         pagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), this);
@@ -203,5 +211,15 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
     @Override
     public void onPageScrollStateChanged(int state) {
         //do nothing
+    }
+
+    @Override
+    public void showProgress() {
+        this.progressBarManager.showProgress(true);
+    }
+
+    @Override
+    public void hideProgress() {
+        this.progressBarManager.showProgress(false);
     }
 }

@@ -2,58 +2,56 @@ package com.andreasogeirik.master_frontend.application.auth.register;
 
 import com.andreasogeirik.master_frontend.application.auth.register.interfaces.RegisterInteractor;
 import com.andreasogeirik.master_frontend.application.auth.register.interfaces.RegisterPresenter;
+import com.andreasogeirik.master_frontend.communication.LoginTask;
 import com.andreasogeirik.master_frontend.communication.RegisterTask;
-import com.andreasogeirik.master_frontend.communication.UpdateUserTask;
-import com.andreasogeirik.master_frontend.communication.UploadImageTask;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
-import com.andreasogeirik.master_frontend.listener.OnImageUploadFinishedListener;
+import com.andreasogeirik.master_frontend.listener.OnLoginFinishedListener;
 import com.andreasogeirik.master_frontend.listener.OnRegisterFinishedListener;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
+import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 
 /**
  * Created by Andreas on 05.02.2016.
  */
-public class RegisterInteractorImpl implements RegisterInteractor, OnRegisterFinishedListener, OnImageUploadFinishedListener {
+public class RegisterInteractorImpl implements RegisterInteractor, OnRegisterFinishedListener, OnLoginFinishedListener {
     private RegisterPresenter presenter;
-    private User user;
+    private String password;
 
     public RegisterInteractorImpl(RegisterPresenter presenter) {
         this.presenter = presenter;
     }
 
-
     @Override
-    public void registerUser(User user, byte[] byteImage) {
-        this.user = user;
+    public void registerUser(User user) {
+        this.password = user.getPassword();
+        new RegisterTask(userToJson(user), this).execute();
 
-        if (byteImage != null) {
-            // Execute image upload
-            new UploadImageTask(byteImage, this).execute();
-        } else {
-            // No image selected, create event without image
-            new RegisterTask(userToJson(user), this).execute();
-        }
     }
 
     @Override
-    public void onRegisterSuccess(JSONObject user) {
+    public void onRegisterSuccess(JSONObject jsonUser) {
         try {
-            CurrentUser.getInstance().setUser(new User(user));
+            User user = new User(jsonUser);
+            CurrentUser.getInstance().setUser(user);
+            MultiValueMap<String, String> credentials = new LinkedMultiValueMap<>();
+            credentials.add("username", user.getEmail());
+            credentials.add("password", this.password);
+            new LoginTask(credentials, this).execute();
+        } catch (JSONException e) {
+            this.presenter.registerOrLoginError(Constants.JSON_PARSE_ERROR);
         }
-        catch (JSONException e) {
-            presenter.registerError(Constants.JSON_PARSE_ERROR);
-        }
-        presenter.registerSuccess();
     }
 
     @Override
     public void onRegisterError(int error) {
-        presenter.registerError(error);
+        presenter.registerOrLoginError(error);
     }
 
     private JSONObject userToJson(User user) {
@@ -65,9 +63,6 @@ public class RegisterInteractorImpl implements RegisterInteractor, OnRegisterFin
             jsonUser.put("firstname", user.getFirstname());
             jsonUser.put("lastname", user.getLastname());
             jsonUser.put("location", user.getLocation());
-            if (user.getImageUri() != null) {
-                jsonUser.put("imageUri", user.getImageUri());
-            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -75,15 +70,13 @@ public class RegisterInteractorImpl implements RegisterInteractor, OnRegisterFin
     }
 
     @Override
-    public void onImageUploadSuccess(String imageUrl) {
-        System.out.println("JADA");
-        user.setImageUri(imageUrl);
-        new RegisterTask(userToJson(user), this).execute();
+    public void onLoginError(int error) {
+        this.presenter.registerOrLoginError(error);
     }
 
     @Override
-    public void onImageUploadError(int error) {
-        System.out.println("FEIL");
-        presenter.registerError(error);
+    public void onLoginSuccess(JSONObject jsonUser, String sessionId) {
+        UserPreferencesManager.getInstance().saveCookie(sessionId);
+        this.presenter.registerAndLoginSuccess();
     }
 }

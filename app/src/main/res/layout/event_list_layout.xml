@@ -78,14 +78,40 @@
                 />
 
 
-            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
-                android:id="@+id/event_participants"
+            <RelativeLayout
+                android:id="@+id/participants_number_panel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/event_time_start"
-                android:text="Date comes here"
-                android:textColor="@color/app_font"
-                />
+                >
+
+                <ImageView
+                    android:id="@+id/participants_number_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_people_black_24dp"
+                    />
+
+                <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+                    android:id="@+id/event_participants"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3"
+                    android:textColor="@color/app_font"
+                    android:layout_toRightOf="@+id/participants_number_image"
+                    android:layout_marginRight="5dp"
+                    />
+
+                <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+                    android:id="@+id/event_friends"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/event_participants"
+                    android:text="Eirik og 2 andre deltar"
+                    android:textColor="@color/app_font"
+                    />
+
+            </RelativeLayout>
         </RelativeLayout>
 
     </LinearLayout>

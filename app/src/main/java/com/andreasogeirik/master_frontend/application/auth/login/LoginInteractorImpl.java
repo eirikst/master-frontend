@@ -37,13 +37,12 @@ public class LoginInteractorImpl implements LoginInteractor, OnLoginFinishedList
     public void onLoginSuccess(JSONObject user, String sessionId) {
         try {
             CurrentUser.getInstance().setUser(new User(user));
+            UserPreferencesManager.getInstance().saveCookie(sessionId);
+            presenter.loginSuccess();
         }
         catch (JSONException e) {
             presenter.loginError(Constants.JSON_PARSE_ERROR);
         }
-
-        UserPreferencesManager.getInstance().saveCookie(sessionId);
-        presenter.loginSuccess();
     }
 
     @Override

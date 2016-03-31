@@ -4,6 +4,7 @@
     // Toolbar
     <string name="sign_out">Logg ut</string>
     <string name="create_event">Ny aktivitet</string>
+    <string name="edit_event">ENDRE AKTIVITET</string>
 
 
     //Create Event
@@ -14,7 +15,7 @@
     <string name="event_create_start_time_label">TID</string>
 
 
-    <string name="create_create_checkbox">Velg slutttidspunkt (valgfritt)</string>
+    <string name="create_create_checkbox">SLUTTTID (VALGFRITT)</string>
     <string name="event_create_end_date_label">DATO</string>
     <string name="event_create_end_time_label">TID</string>
 
@@ -23,7 +24,32 @@
     <string name="event_create_submit">OPPRETT AKTIVITET</string>
 
     // Read Event
+    <string name="event_read_attend">MELD PÅ</string>
+    <string name="event_read_unAttend">MELD AV</string>
+    <string name="event_read_edit">ENDRE AKTIVITET</string>
+    <string name="event_read_delete">SLETT</string>
+    <string name="event_read_start">"START: "</string>
+    <string name="event_read_end">"SLUTT: "</string>
+    <string name="event_read_location">"STED: "</string>
+    <string name="event_read_description">"BESKRIVELSE: "</string>
     <string name="event_read_participants">DELTAKERE</string>
+
+    // Edit Event
+    <string name="event_edit_name">NAVN PÅ AKTIVITET</string>
+    <string name="event_edit_location">STED</string>
+    <string name="event_edit_description">BESKRIVELSE</string>
+    <string name="event_edit_start_date_label">DATO</string>
+    <string name="event_edit_start_time_label">TID</string>
+    <string name="event_edit_checkbox">SLUTTTID (VALGFRITT)</string>
+    <string name="event_edit_end_date_label">DATO</string>
+    <string name="event_edit_end_time_label">TID</string>
+    <string name="event_edit_select_image">ENDRE BILDE</string>
+    <string name="event_edit_submit">LAGRE AKTIVITET</string>
+
+
+
+
+
 
 
     <string name="action_settings">Innstillinger</string>

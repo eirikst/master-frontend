@@ -10,6 +10,7 @@ import java.util.Date;
 public class DateUtility {
     private static DateFormat fullFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
     private static DateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+    private static DateFormat timeFormat = new SimpleDateFormat("HH:mm");
 
     //dd.HH.yyyy HH:mm
     public static String formatFull(Date date) {
@@ -19,5 +20,10 @@ public class DateUtility {
     //dd.HH.yyyy
     public static String format(Date date) {
         return format.format(date);
+    }
+
+    // HH:mm
+    public static String formatTime(Date date){
+        return timeFormat.format(date);
     }
 }

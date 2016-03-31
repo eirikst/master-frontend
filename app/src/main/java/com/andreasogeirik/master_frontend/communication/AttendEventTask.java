@@ -46,7 +46,6 @@ public class AttendEventTask extends AsyncTask<Void, Void, Pair<Integer, Respons
         HttpEntity<String> entity = new HttpEntity(null, headers);
 
         try {
-            System.out.println("REQUEST GÅR");
             response = template.exchange(Constants.BACKEND_URL + "events/" + eventId + attendType, HttpMethod.POST, entity, String.class);
             return new Pair(Constants.OK, response);
         }
@@ -70,7 +69,6 @@ public class AttendEventTask extends AsyncTask<Void, Void, Pair<Integer, Respons
     }
 
     protected void onPostExecute(Pair<Integer, ResponseEntity<String>> response) {
-        System.out.println("REQUEST TILBAKE");
         if (response.first == Constants.OK) {
             try {
                 JSONObject jsonEvent = new JSONObject(response.second.getBody());

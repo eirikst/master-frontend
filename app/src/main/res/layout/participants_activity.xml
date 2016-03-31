@@ -1,22 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background_main">
+    android:layout_height="match_parent">
 
-    <com.andreasogeirik.master_frontend.layout.view.CustomTitleTextView
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="DELTAKERE"
-        android:gravity="center_horizontal"
-        android:id="@+id/event_participants_title"/>
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/teal"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <com.andreasogeirik.master_frontend.layout.view.CustomButton
+            android:id="@+id/home"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/ic_home_black_24dp"
+            />
+
+        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="DELTAKERE"
+            android:textColor="@color/app_font"
+            android:textStyle="bold" />
+
+    </android.support.v7.widget.Toolbar>
 
     <ListView
-        android:layout_below="@+id/event_participants_title"
+        android:layout_below="@+id/toolbar"
         android:id="@+id/event_participants"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:divider="@android:color/transparent"
