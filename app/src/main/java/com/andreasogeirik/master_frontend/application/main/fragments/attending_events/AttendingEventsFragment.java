@@ -20,6 +20,7 @@ import com.andreasogeirik.master_frontend.application.main.fragments.attending_e
 import com.andreasogeirik.master_frontend.application.main.fragments.attending_events.interfaces.AttendingEventsPresenter;
 import com.andreasogeirik.master_frontend.layout.adapter.EventListAdapter;
 import com.andreasogeirik.master_frontend.model.Event;
+import com.andreasogeirik.master_frontend.model.User;
 
 import java.util.Set;
 
@@ -109,6 +110,13 @@ public class AttendingEventsFragment extends Fragment implements EventListAdapte
     }
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        presenter = new AttendingEventsPresenterImpl(this);
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         //save nothing, should get a fresh set of events
@@ -139,11 +147,18 @@ public class AttendingEventsFragment extends Fragment implements EventListAdapte
 
     @Override
     public void setNoMoreEventsToLoad() {
-        footer.setVisibility(View.GONE);
+        if(footer != null) {
+            footer.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void updateListView() {
         listAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void setUser(User user) {
+        listAdapter.setUser(user);
     }
 }

@@ -49,6 +49,9 @@ public class RegisterTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEn
         } catch (ResourceAccessException e) {
             System.out.println("Resource error:" + e);
             return new Pair(Constants.RESOURCE_ACCESS_ERROR, null);
+        } catch(Exception e) {
+            System.out.println("Some error:" + e);
+            return new Pair(Constants.SOME_ERROR, null);
         }
     }
 

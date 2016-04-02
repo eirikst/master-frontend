@@ -59,6 +59,10 @@ public class LoginTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntit
             System.out.println("Resource error:" + e);
             return new Pair(Constants.RESOURCE_ACCESS_ERROR, null);
         }
+        catch(Exception e) {
+            System.out.println("Some error:" + e);
+            return new Pair(Constants.SOME_ERROR, null);
+        }
     }
 
     protected void onPostExecute(Pair<Integer, ResponseEntity<String>> response) {

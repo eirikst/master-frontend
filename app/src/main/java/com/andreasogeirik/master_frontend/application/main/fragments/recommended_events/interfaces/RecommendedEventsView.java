@@ -4,6 +4,7 @@ package com.andreasogeirik.master_frontend.application.main.fragments.recommende
 import android.graphics.Bitmap;
 
 import com.andreasogeirik.master_frontend.model.Event;
+import com.andreasogeirik.master_frontend.model.User;
 
 import java.util.Set;
 
@@ -17,4 +18,5 @@ public interface RecommendedEventsView {
     void setEventImage(String imageUri, Bitmap bitmap);
     void updateListView();
     void setNoMoreEventsToLoad();
+    void setUser(User user);
 }

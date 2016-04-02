@@ -8,7 +8,9 @@ import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
 import com.andreasogeirik.master_frontend.application.main.fragments.attending_events.interfaces.AttendingEventView;
 import com.andreasogeirik.master_frontend.application.main.fragments.attending_events.interfaces.AttendingEventsInteractor;
 import com.andreasogeirik.master_frontend.application.main.fragments.attending_events.interfaces.AttendingEventsPresenter;
+import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.Event;
+import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.ImageInteractor;
 

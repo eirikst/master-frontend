@@ -4,16 +4,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="10"
-    tools:context=".application.auth.entrance.EntranceActivity"
-    android:background="@drawable/profile2"
-    >
+    tools:context=".application.auth.entrance.EntranceActivity">
 
-    <Space
+    <ImageView
         android:layout_width="match_parent"
+        android:src="@drawable/profile2"
         android:layout_height="0dp"
         android:layout_weight="4"
-        />
-
+        android:padding="20dp"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -22,7 +20,6 @@
         android:text="Sportydul"
         android:gravity="center_horizontal"
         android:textSize="40dp"
-        android:textColor="@color/app_font"
         />
 
     <TextView
@@ -32,7 +29,6 @@
         android:textSize="20dp"
         android:gravity="center_horizontal"
         android:text="Det handler om å være sporty"
-        android:textColor="@color/app_font"
         />
 
     <com.andreasogeirik.master_frontend.layout.view.CustomButton
@@ -40,10 +36,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
-        android:background="@color/teal_fade"
-        android:text="LOGG INN"
+        android:background="@color/app_main"
+        android:text="Login"
         android:textSize="25dp"
-        android:textColor="@color/app_font"
         />
 
     <com.andreasogeirik.master_frontend.layout.view.CustomButton
@@ -51,13 +46,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
-        android:background="@color/grey_fade"
-        android:text="REGISTRER BRUKER"
+        android:background="@color/app_main2"
+        android:text="Register"
         android:textSize="25dp"
-        android:textColor="@color/app_font"
         />
-
-
-
 
 </LinearLayout>

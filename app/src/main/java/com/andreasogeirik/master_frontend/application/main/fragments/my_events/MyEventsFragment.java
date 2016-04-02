@@ -19,6 +19,7 @@ import com.andreasogeirik.master_frontend.application.main.fragments.my_events.i
 import com.andreasogeirik.master_frontend.application.main.fragments.my_events.interfaces.MyEventsPresenter;
 import com.andreasogeirik.master_frontend.layout.adapter.EventListAdapter;
 import com.andreasogeirik.master_frontend.model.Event;
+import com.andreasogeirik.master_frontend.model.User;
 
 import java.util.Set;
 
@@ -68,12 +69,18 @@ public class MyEventsFragment extends Fragment implements EventListAdapter.Liste
         super.onCreate(savedInstanceState);
 
         listAdapter = new EventListAdapter(getActivity().getApplicationContext(), this);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
         presenter = new MyEventsPresenterImpl(this);
     }
 
     /*
-     * Inflates the layout, set adapter
-     */
+         * Inflates the layout, set adapter
+         */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -137,11 +144,18 @@ public class MyEventsFragment extends Fragment implements EventListAdapter.Liste
 
     @Override
     public void setNoMoreEventsToLoad() {
-        footer.setVisibility(View.GONE);
+        if(footer != null) {
+            footer.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void updateListView() {
         listAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void setUser(User user) {
+        listAdapter.setUser(user);
     }
 }
