@@ -37,6 +37,8 @@ public class AttendingEventsPresenterImpl extends GeneralPresenter implements At
 
         eventInteractor.findAttendingEvents();
         eventInteractor.findAttendedEvents(0);//0 for init
+
+        view.setUser(CurrentUser.getInstance().getUser());
     }
 
     @Override

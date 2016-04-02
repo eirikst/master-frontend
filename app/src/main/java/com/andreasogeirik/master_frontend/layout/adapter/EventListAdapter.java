@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.User;
+import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.DateUtility;
 
 import java.util.ArrayList;
@@ -70,7 +71,6 @@ public class EventListAdapter extends ArrayAdapter<Event> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        System.out.println("dette er position " + position);
         Event event = getItem(position);
 
         // Check if an existing view is being reused, otherwise inflate the view
@@ -78,6 +78,30 @@ public class EventListAdapter extends ArrayAdapter<Event> {
             convertView = LayoutInflater.from(getContext()).inflate(
                     R.layout.event_list_layout, parent, false);
         }
+
+        /*
+         * Sets the difficulty level drawables based on the event
+         */
+        View easyEvent = convertView.findViewById(R.id.easy_event);
+        View mediumEvent = convertView.findViewById(R.id.medium_event);
+        View hardEvent = convertView.findViewById(R.id.hard_event);
+
+        if(event.getDifficulty() == Constants.EVENT_DIFFICULTY_EASY) {
+            easyEvent.setVisibility(View.VISIBLE);
+            mediumEvent.setVisibility(View.GONE);
+            hardEvent.setVisibility(View.GONE);
+        }
+        else if(event.getDifficulty() == Constants.EVENT_DIFFICULTY_MEDIUM) {
+            easyEvent.setVisibility(View.GONE);
+            mediumEvent.setVisibility(View.VISIBLE);
+            hardEvent.setVisibility(View.GONE);
+        }
+        else if(event.getDifficulty() == Constants.EVENT_DIFFICULTY_HARD) {
+            easyEvent.setVisibility(View.GONE);
+            mediumEvent.setVisibility(View.GONE);
+            hardEvent.setVisibility(View.VISIBLE);
+        }
+
 
         /*
          * Adds a past view on the first list element with an event from the past
@@ -117,7 +141,6 @@ public class EventListAdapter extends ArrayAdapter<Event> {
         TextView timeStart = (TextView) convertView.findViewById(R.id.event_time_start);
         TextView participants = (TextView) convertView.findViewById(R.id.event_participants_nr);
         TextView friends = (TextView) convertView.findViewById(R.id.event_friends);
-        friends.setVisibility(View.VISIBLE);
 
         if (user != null) {
             int friendCount = 0;
@@ -129,15 +152,19 @@ public class EventListAdapter extends ArrayAdapter<Event> {
                     friendNames.add(eventUser.getFirstname());
                 }
             }
+            System.out.println("friendcount " + friendCount + " for " + event.getName());
 
-            if (friendCount > 3) {
-                friends.setText(friendNames.get(0) + " og " + friendCount + " andre venner deltar");
+            if (friendCount > 2) {
+                friends.setText(friendNames.get(0) + " og " + (friendCount - 1) + " andre venner deltar");
+                friends.setVisibility(View.VISIBLE);
             }
             else if(friendCount == 2) {
                 friends.setText(friendNames.get(0) + " og " + friendNames.get(1) + " deltar");
+                friends.setVisibility(View.VISIBLE);
             }
             else if(friendCount == 1) {
                 friends.setText(friendNames.get(0) + " deltar");
+                friends.setVisibility(View.VISIBLE);
             }
             else {
                 friends.setVisibility(View.GONE);

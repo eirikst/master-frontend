@@ -51,7 +51,7 @@ public class MainPagePresenterImpl extends GeneralPresenter implements EventPres
     private void initDomain() {
         //TODO:tenke på hvordan dette gjøres vs saveinstancestate: presenter lages jo på nytt etter
         // ny instance, altså lastes dette fra nett
-        findFriendships();
+        //findFriendships();
     }
 
     @Override
@@ -90,7 +90,7 @@ public class MainPagePresenterImpl extends GeneralPresenter implements EventPres
     public void findUserSuccess(User user) {
         this.view.hideProgress();
         CurrentUser.getInstance().setUser(user);
-        initDomain();
+        //initDomain();
         view.initGUI();
     }
 

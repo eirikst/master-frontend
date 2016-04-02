@@ -56,58 +56,23 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="32"
+            android:layout_weight="24"
             android:layout_marginRight="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginBottom="5dp"
 
             >
 
-            <LinearLayout
-                android:id="@+id/name_and_count_panel"
+
+            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+                android:id="@+id/event_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:weightSum="40"
-                >
-
-                <com.andreasogeirik.master_frontend.layout.view.CustomTextView
-                    android:id="@+id/event_name"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="Tur til Geitfjellet"
-                    android:textColor="@color/app_font"
-                    android:textStyle="bold"
-                    android:layout_weight="30"
-                    />
-
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="10"
-                    android:gravity="right"
-                    >
-                    <ImageView
-                        android:id="@+id/participants_number_image"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_people_black_24dp"
-                        android:layout_marginRight="2dp"
-                        />
-
-                    <com.andreasogeirik.master_frontend.layout.view.CustomTextView
-                        android:id="@+id/event_participants_nr"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="55"
-                        android:textColor="@color/app_font"
-                        android:layout_marginRight="10dp"
-                        android:textStyle="italic"
-                        android:layout_toRightOf="@+id/participants_number_image"
-                        />
-                </RelativeLayout>
-            </LinearLayout>
-
+                android:text="Tur til Geitfjellet"
+                android:textColor="@color/app_font"
+                android:textStyle="bold"
+                android:layout_weight="30"
+                />
 
             <com.andreasogeirik.master_frontend.layout.view.CustomTextView
                 android:id="@+id/event_time_start"
@@ -116,7 +81,7 @@
                 android:text="27.01.2016"
                 android:textColor="@color/app_font"
                 android:textStyle="italic"
-                android:layout_below="@+id/name_and_count_panel"
+                android:layout_below="@+id/event_name"
                 />
 
 
@@ -139,7 +104,74 @@
             </RelativeLayout>
         </RelativeLayout>
 
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="8"
+            >
+            <RelativeLayout
+                android:id="@+id/nr_panel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_marginBottom="5dp"
+                >
+                <ImageView
+                    android:id="@+id/participants_number_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_people_black_24dp"
+                    android:layout_marginRight="2dp"
+                    />
+
+                <TextView
+                    android:id="@+id/event_participants_nr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1"
+                    android:textColor="@color/app_font"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="2dp"
+                    android:textStyle="italic"
+                    android:layout_toRightOf="@+id/participants_number_image"
+                    android:textSize="20dp"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/nr_panel"
+                android:gravity="center_horizontal"
+                >
+
+                <View
+                    android:id="@+id/easy_event"
+                    android:layout_width="18dp"
+                    android:layout_height="56dp"
+                    android:background="@drawable/shape_event_easy"
+                    android:visibility="visible"
+                    />
+                <View
+                    android:id="@+id/medium_event"
+                    android:layout_width="18dp"
+                    android:layout_height="56dp"
+                    android:background="@drawable/shape_event_medium"
+                    android:visibility="gone"
+                    />
+                <View
+                    android:id="@+id/hard_event"
+                    android:layout_width="18dp"
+                    android:layout_height="56dp"
+                    android:background="@drawable/shape_event_hard"
+                    android:visibility="gone"
+                    />
+            </RelativeLayout>
+        </RelativeLayout>
 
 
     </LinearLayout>
 </RelativeLayout>
+
+
