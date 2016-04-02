@@ -15,10 +15,9 @@
 
         <com.andreasogeirik.master_frontend.layout.view.CustomButton
             android:id="@+id/home"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/ic_event_black_24dp"
-            />
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_home_black_24dp" />
 
     </android.support.v7.widget.Toolbar>
 

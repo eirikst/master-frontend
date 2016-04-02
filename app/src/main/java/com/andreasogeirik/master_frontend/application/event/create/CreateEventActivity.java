@@ -2,6 +2,8 @@ package com.andreasogeirik.master_frontend.application.event.create;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
@@ -27,6 +29,7 @@ import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventPresenter;
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventView;
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
+import com.andreasogeirik.master_frontend.layout.view.CustomSlider;
 import com.andreasogeirik.master_frontend.listener.OnDateSetListener;
 import com.andreasogeirik.master_frontend.listener.OnTimeSetListener;
 import com.andreasogeirik.master_frontend.model.Event;
@@ -39,7 +42,7 @@ import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
-public class CreateEventActivity extends AppCompatActivity implements CreateEventView, OnDateSetListener, OnTimeSetListener {
+public class CreateEventActivity extends AppCompatActivity implements CreateEventView, OnDateSetListener, OnTimeSetListener, CustomSlider.OnValueChangedListener {
 
     // Containers
     @Bind(R.id.create_event_progress)
@@ -62,6 +65,10 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     EditText locationView;
     @Bind(R.id.create_event_description)
     EditText descriptionView;
+    @Bind(R.id.event_level)
+    TextView eventLevel;
+    @Bind(R.id.slider)
+    CustomSlider slider;
 
     // Date/time
     // Validation
@@ -117,6 +124,7 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         presenter = new CreateEventPresenterImpl(this);
         this.progressBarManager = new ProgressBarManager(this, createEventFormView, progressView);
         setupToolbar();
+        this.slider.setOnValueChangedListener(this);
     }
 
     /*
@@ -382,5 +390,22 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
             return super.onOptionsItemSelected(item);
         }
         return true;
+    }
+
+    @Override
+    public void onValueChanged(int i) {
+        Drawable d;
+
+        switch (i) {
+            case 0:
+                this.slider.setBackgroundColor(Color.parseColor("#42A5F5"));
+                break;
+            case 1:
+                this.slider.setBackgroundColor(Color.parseColor("#66BB6A"));
+                break;
+            case 2:
+                this.slider.setBackgroundColor(Color.parseColor("#EF5350"));
+                break;
+        }
     }
 }

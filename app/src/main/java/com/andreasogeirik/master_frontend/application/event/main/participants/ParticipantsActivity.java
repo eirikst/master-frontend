@@ -1,5 +1,6 @@
 package com.andreasogeirik.master_frontend.application.event.main.participants;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,12 +10,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.event.main.EventPresenterImpl;
 import com.andreasogeirik.master_frontend.application.event.main.participants.interfaces.ParticipantsPresenter;
 import com.andreasogeirik.master_frontend.application.event.main.participants.interfaces.ParticipantsView;
+import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
 import com.andreasogeirik.master_frontend.layout.adapter.ParticipantsListAdapter;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.User;
@@ -26,6 +29,7 @@ import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ParticipantsActivity extends AppCompatActivity implements ParticipantsView, AdapterView.OnItemClickListener, ParticipantsListAdapter.Listener {
 
@@ -33,6 +37,8 @@ public class ParticipantsActivity extends AppCompatActivity implements Participa
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+    @Bind(R.id.home)
+    Button homeBtn;
     @Bind(R.id.event_participants)
     ListView listView;
 
@@ -56,6 +62,13 @@ public class ParticipantsActivity extends AppCompatActivity implements Participa
     private void setupToolbar() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
+
+    @OnClick(R.id.home)
+    public void navigateToHome() {
+        Intent intent = new Intent(this, MainPageActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
     @Override

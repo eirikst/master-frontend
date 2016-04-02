@@ -4,10 +4,11 @@ package com.andreasogeirik.master_frontend.util;
  * Created by Andreas on 26.01.2016.
  */
 public class Constants {
+    public static final String BACKEND_URL = "http://sportydul.azurewebsites.net/";
     //Home
-    public static final String BACKEND_URL = "http://10.0.0.17:8080/";
+//    public static final String BACKEND_URL = "http://10.0.0.17:8080/";
     //NTNU
-//    public static final String BACKEND_URL = "http://192.168.43.207:8080/";
+//    public static final String BACKEND_URL = "http://10.20.53.30:8080/";
 
     //Eirik NTNU
 //    public static final String BACKEND_URL = "http://78.91.1.162:8080/";

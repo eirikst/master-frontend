@@ -4,18 +4,18 @@
 
     <!-- Settings, should always be in the overflow -->
     <item android:id="@+id/create_event"
-        android:title="@string/create_event"
+        android:title="@string/drop_new_activity"
         app:showAsAction="never"/>
     <item android:id="@+id/my_profile"
-        android:title="@string/title_profile"
+        android:title="@string/drop_my_profile"
         app:showAsAction="never"/>
     <item android:id="@+id/settings"
-        android:title="@string/title_settings"
+        android:title="@string/drop_settings"
         app:showAsAction="never"/>
     <item android:id="@+id/search_user"
-        android:title="@string/search_user"
+        android:title="@string/drop_search_user"
         app:showAsAction="never"/>
     <item android:id="@+id/sign_out"
-    android:title="@string/sign_out"
+    android:title="@string/drop_sign_out"
     app:showAsAction="never"/>
 </menu>

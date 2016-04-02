@@ -1,7 +1,9 @@
 package com.andreasogeirik.master_frontend.application.event.main;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -9,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -26,6 +29,7 @@ import com.andreasogeirik.master_frontend.layout.adapter.EventMainAdapter;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.EventPost;
 import com.andreasogeirik.master_frontend.model.User;
+import com.andreasogeirik.master_frontend.util.Constants;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -33,8 +37,9 @@ import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class EventActivity extends AppCompatActivity implements EventView {
+public class EventActivity extends AppCompatActivity implements EventView, OnClickListener {
 
     // Containers
     @Bind(R.id.event_progress)
@@ -50,6 +55,8 @@ public class EventActivity extends AppCompatActivity implements EventView {
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+    @Bind(R.id.home)
+    Button homeBtn;
 
     private View headerView;
     private View eventImageContainer;
@@ -96,6 +103,13 @@ public class EventActivity extends AppCompatActivity implements EventView {
     private void setupToolbar() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
+
+    @OnClick(R.id.home)
+    public void navigateToHome() {
+        Intent intent = new Intent(this, MainPageActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
 
@@ -179,43 +193,15 @@ public class EventActivity extends AppCompatActivity implements EventView {
         headerView = getLayoutInflater().inflate(R.layout.event_list_header, null);
         listView.addHeaderView(headerView);
         this.numberOfParticipants = (TextView) headerView.findViewById(R.id.event_participants);
-        this.unAttendButton = (Button) headerView.findViewById(R.id.event_unattend);
-        this.unAttendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.unAttendEvent();
-            }
-        });
         this.attendButton = (Button) headerView.findViewById(R.id.event_attend);
-        this.attendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.attendEvent();
-            }
-        });
-
-        this.numberOfParticipants.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.navigateToParticipants();
-            }
-        });
-
+        this.unAttendButton = (Button) headerView.findViewById(R.id.event_unattend);
         this.editButton = (Button) headerView.findViewById(R.id.event_edit);
-        this.editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.navigateToEditEvent();
-            }
-        });
-
         this.deleteButton = (Button) headerView.findViewById(R.id.event_delete);
-        this.deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.deleteEvent();
-            }
-        });
+        this.numberOfParticipants.setOnClickListener(this);
+        this.attendButton.setOnClickListener(this);
+        this.unAttendButton.setOnClickListener(this);
+        this.editButton.setOnClickListener(this);
+        this.deleteButton.setOnClickListener(this);
 
         this.eventImageContainer = headerView.findViewById(R.id.event_image_container);
         this.imageView = (ImageView) headerView.findViewById(R.id.event_image);
@@ -264,20 +250,57 @@ public class EventActivity extends AppCompatActivity implements EventView {
 
         Intent i = getIntent();
         int requestCode = i.getIntExtra("requestCode", 0);
-        if (requestCode == EDIT_EVENT_REQUEST){
+        if (requestCode == EDIT_EVENT_REQUEST) {
             Intent intent = new Intent(this, MainPageActivity.class);
             startActivity(intent);
             finish();
-        }
-        else{
+        } else {
             super.onBackPressed();
         }
     }
 
-    //    @Override
-//    public void onBackPressed() {
-//        Intent intent = new Intent(this, MainPageActivity.class);
-//        startActivity(intent);
-//        finish();
-//    }
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.event_delete:
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+                // set dialog message
+                alertDialogBuilder
+                        .setMessage("Vil du slette denne aktiviteten?")
+                        .setCancelable(false)
+                        .setPositiveButton("Nei", new DialogInterface.OnClickListener() {//this is really negative, wanted to change sides
+                            public void onClick(DialogInterface dialog, int id) {
+                                // if this button is clicked, just close
+                                // the dialog box and do nothing
+                                dialog.cancel();
+                            }
+                        })
+                        .setNegativeButton("Ja", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {//this is really positive, wanted to change sides
+                                // if this button is clicked, close
+                                // current activity
+                                presenter.deleteEvent();
+                            }
+                        });
+                // create alert dialog
+                AlertDialog alertDialog = alertDialogBuilder.create();
+
+                // show it
+                alertDialog.show();
+                break;
+            case R.id.event_edit:
+                presenter.navigateToEditEvent();
+                break;
+            case R.id.event_participants:
+                presenter.navigateToParticipants();
+                break;
+            case R.id.event_attend:
+                presenter.attendEvent();
+                break;
+            case R.id.event_unattend:
+                presenter.unAttendEvent();
+                break;
+        }
+    }
 }
