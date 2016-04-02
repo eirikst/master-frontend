@@ -44,7 +44,7 @@ import butterknife.ButterKnife;
 public class MainPageActivity extends AppCompatActivity implements EventView,
         AttendingEventsFragment.AttendingEventsListener, MyEventsFragment.MyEventsListener,
         RecommendedEventsFragment.RecommendedEventsListener,
-        ViewPager.OnPageChangeListener {
+        ViewPager.OnPageChangeListener, NotificationCenterDialogFragment.NotificationCenterListener {
     private EventPresenter presenter;
 
     @Bind(R.id.progress)
@@ -93,10 +93,11 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
                 new IntentFilter("custom-event-name"));
     }
 
-    //TODO:remove if not used bro
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
+    protected void onResume() {
+        super.onResume();
+
+        presenter.findFriendships();
     }
 
     @Override
@@ -176,8 +177,13 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
 
     @Override
     public void setNotificationCount(int count) {
-        notificationCount.setText("" + count);
-        notificationCount.setVisibility(View.VISIBLE);
+        if(count > 0) {
+            notificationCount.setText("" + count);
+            notificationCount.setVisibility(View.VISIBLE);
+        }
+        else {
+            notificationCount.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -222,4 +228,6 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
     public void hideProgress() {
         this.progressBarManager.showProgress(false);
     }
+
+
 }

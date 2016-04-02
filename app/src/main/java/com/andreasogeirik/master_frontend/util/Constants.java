@@ -13,7 +13,7 @@ public class Constants {
 //    public static final String BACKEND_URL = "http://10.20.53.30:8080/";
 
     //Eirik NTNU
-    //public static final String BACKEND_URL = "http://78.91.3.200:8080/";
+    //public static final String BACKEND_URL = "http://78.91.3.136:8080/";
 
     //Eirik hjemme
     //public static final String BACKEND_URL = "http://10.0.0.78:8080/";
@@ -42,4 +42,9 @@ public class Constants {
     public static final int SMALL = 1;
     public static final int MEDIUM = 2;
     public static final int LARGE = 3;
+
+    //Event difficulty
+    public static final int EVENT_DIFFICULTY_EASY = 1;
+    public static final int EVENT_DIFFICULTY_MEDIUM = 2;
+    public static final int EVENT_DIFFICULTY_HARD = 3;
 }

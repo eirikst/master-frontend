@@ -1,5 +1,7 @@
 package com.andreasogeirik.master_frontend.model;
 
+import com.andreasogeirik.master_frontend.util.Constants;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,6 +24,7 @@ public class Event implements Serializable {
     private Calendar startDate;
     private Calendar endDate;
     private String imageUrl;
+    private int difficulty  = Constants.EVENT_DIFFICULTY_EASY;
     private User admin;
     private Set<User> users = new HashSet<User>(0);
     private Set<EventPost> posts = new HashSet<EventPost>(0);
@@ -47,6 +50,7 @@ public class Event implements Serializable {
             this.endDate.setTimeInMillis(jsonEvent.getLong("timeEnd"));
         }
         this.imageUrl = jsonEvent.getString("imageUri");
+        this.difficulty = jsonEvent.getInt("difficulty");
         this.admin = new User(jsonEvent.getJSONObject("admin"));
         JSONArray jsonUsers = jsonEvent.getJSONArray("users");
         for (int i = 0; i < jsonUsers.length(); i++) {
@@ -123,6 +127,14 @@ public class Event implements Serializable {
 
     public void setImageURI(String imageURI) {
         this.imageUrl = imageURI;
+    }
+
+    public int getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
     }
 
     public User getAdmin() {

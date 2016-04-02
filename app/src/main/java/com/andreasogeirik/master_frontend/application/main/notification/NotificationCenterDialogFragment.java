@@ -1,5 +1,6 @@
 package com.andreasogeirik.master_frontend.application.main.notification;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -26,6 +27,11 @@ public class NotificationCenterDialogFragment extends DialogFragment implements 
     private NotificationListAdapter adapter;
 
     private NotificationCenterPresenter presenter;
+    private NotificationCenterListener callback;
+
+    public interface NotificationCenterListener {
+        void setNotificationCount(int count);
+    }
 
     /**
      * Create a new instance of NotificationDialogFragment, providing "num"
@@ -39,6 +45,18 @@ public class NotificationCenterDialogFragment extends DialogFragment implements 
         f.setArguments(bundle);
 
         return f;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        try {
+            callback = (NotificationCenterListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement AttendingEventsListener");
+        }
     }
 
     @Override
@@ -122,5 +140,6 @@ public class NotificationCenterDialogFragment extends DialogFragment implements 
     @Override
     public void setNotifications(Set<Object> notifications) {
         adapter.setNotifications(notifications);
+        callback.setNotificationCount(notifications.size());
     }
 }
