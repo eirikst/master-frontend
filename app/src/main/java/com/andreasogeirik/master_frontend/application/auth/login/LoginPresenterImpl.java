@@ -38,6 +38,7 @@ public class LoginPresenterImpl implements LoginPresenter {
 
     @Override
     public void loginSuccess() {
+        loginView.hideProgress();
         loginView.navigateToEventView();
     }
 

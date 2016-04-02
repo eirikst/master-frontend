@@ -10,6 +10,7 @@ import android.widget.DatePicker;
 import com.andreasogeirik.master_frontend.listener.OnDateSetListener;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
@@ -56,7 +57,7 @@ public class DatePickerFragment extends DialogFragment
         DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), DatePickerDialog.THEME_HOLO_LIGHT, this, year, month, day);
 
         // Sets a minimum date for the datepicker
-//        datePickerDialog.getDatePicker().setMinDate(new Date().getTime() - 1000);
+        datePickerDialog.getDatePicker().setMinDate(new Date().getTime() - 1000);
 
         return datePickerDialog;
     }

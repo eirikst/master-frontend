@@ -15,6 +15,8 @@ import com.andreasogeirik.master_frontend.util.DateUtility;
 import com.andreasogeirik.master_frontend.util.ImageInteractor;
 
 
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import static com.andreasogeirik.master_frontend.util.Constants.CLIENT_ERROR;
 import static com.andreasogeirik.master_frontend.util.Constants.RESOURCE_ACCESS_ERROR;
@@ -106,18 +108,20 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
         User currentUser = CurrentUser.getInstance().getUser();
         boolean userInEvent = false;
 
-        for (User user : this.event.getUsers()) {
-            if (currentUser.getId() == user.getId()) {
-                userInEvent = true;
-                this.eventView.setUnAttendButton();
-                break;
+        if (this.event.getStartDate().after(new Date())){
+            for (User user : this.event.getUsers()) {
+                if (currentUser.getId() == user.getId()) {
+                    userInEvent = true;
+                    this.eventView.setUnAttendButton();
+                    break;
+                }
+            }
+            if (!userInEvent) {
+                this.eventView.setAttendButton();
             }
         }
-        if (!userInEvent) {
-            this.eventView.setAttendButton();
-        }
 
-        if (currentUser.getId() == this.event.getAdmin().getId()){
+        if (currentUser.getId() == this.event.getAdmin().getId() && this.event.getStartDate().after(new GregorianCalendar())){
             this.eventView.setEditButton();
             this.eventView.setDeleteButton();
         }
@@ -165,6 +169,7 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
 
     @Override
     public void deleteEvent() {
+        this.eventView.showProgress();
         this.interactor.deleteEvent(this.event.getId());
     }
 
@@ -186,12 +191,13 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
 
     @Override
     public void deleteSuccess() {
+        this.eventView.hideProgress();
         this.eventView.navigateToMain();
     }
 
     // TODO HANDLE THIS
     @Override
     public void deleteError(int error) {
-
+        this.eventView.hideProgress();
     }
 }

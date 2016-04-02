@@ -10,7 +10,7 @@ public class Constants {
     //Home
 //    public static final String BACKEND_URL = "http://10.0.0.121:8080/";
     //NTNU
-    //public static final String BACKEND_URL = "http://78.91.3.10:8080/";
+//    public static final String BACKEND_URL = "http://192.168.43.207:8080/";
 
     //Eirik NTNU
     //public static final String BACKEND_URL = "http://78.91.3.136:8080/";

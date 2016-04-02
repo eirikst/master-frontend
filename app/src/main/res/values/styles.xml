@@ -5,15 +5,9 @@
 
         <!-- Customize your theme here. -->
     </style>
-
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="Theme.MyTheme" parent="AppTheme.NoActionBar">
-        <!-- This disables the black preview screen -->
-        <item name="android:windowDisablePreview">true</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

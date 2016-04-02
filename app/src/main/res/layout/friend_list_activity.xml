@@ -17,15 +17,15 @@
 
         <com.andreasogeirik.master_frontend.layout.view.CustomButton
             android:id="@+id/home"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/ic_event_black_24dp"
-            />
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_home_black_24dp" />
+
         <com.andreasogeirik.master_frontend.layout.view.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/title_friends_list"
+            android:text="@string/friends"
             android:textColor="@color/app_font"
             android:textStyle="bold" />
 
@@ -36,6 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:divider="@android:color/transparent"
