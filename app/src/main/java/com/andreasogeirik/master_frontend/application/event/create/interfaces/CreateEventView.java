@@ -1,6 +1,7 @@
 package com.andreasogeirik.master_frontend.application.event.create.interfaces;
 
 import android.graphics.Bitmap;
+import android.os.Bundle;
 
 import com.andreasogeirik.master_frontend.model.Event;
 
@@ -19,4 +20,10 @@ public interface CreateEventView {
     void setEndDateError(String error);
     void setImageError(String error);
     void setImage(Bitmap bitmap);
+    void onDateSet(Bundle bundle);
+    void onTimeSet(Bundle bundle);
+    void updateStartDateView(int day, int month, int year);
+    void updateEndDateView(int day, int month, int year);
+    void updateStartTimeView(int hour, int minute);
+    void updateEndTimeView(int hour, int minute);
 }

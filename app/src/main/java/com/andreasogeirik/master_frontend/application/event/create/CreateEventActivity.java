@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.R;
@@ -43,74 +44,67 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 public class CreateEventActivity extends AppCompatActivity implements CreateEventView, OnDateSetListener, OnTimeSetListener, CustomSlider.OnValueChangedListener {
-
-    // Containers
-    @Bind(R.id.create_event_progress)
-    View progressView;
-    @Bind(R.id.create_event_form)
-    View createEventFormView;
-    @Bind(R.id.event_image_container)
-    View imageContainer;
-
-
+    // Toolbar
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.home)
     Button homeBtn;
 
-    // Input fields
-    @Bind(R.id.create_event_name)
-    EditText nameView;
-    @Bind(R.id.create_event_location)
-    EditText locationView;
-    @Bind(R.id.create_event_description)
-    EditText descriptionView;
-    @Bind(R.id.event_level)
-    TextView eventLevel;
+    @Bind(R.id.progress)
+    View progress;
+    @Bind(R.id.scroll_view)
+    ScrollView scrollView;
     @Bind(R.id.slider)
     CustomSlider slider;
+    // Input fields
+    @Bind(R.id.name)
+    EditText name;
+    @Bind(R.id.location)
+    EditText location;
+    @Bind(R.id.description)
+    EditText description;
+    @Bind(R.id.difficulty)
+    TextView difficulty;
+
+    @Bind(R.id.image_container)
+    View imageContainer;
 
     // Date/time
     // Validation
-    @Bind(R.id.create_event_start_date_error)
+    @Bind(R.id.start_date_error)
     TextView startDateError;
-    @Bind(R.id.create_event_end_date_error)
+    @Bind(R.id.end_date_error)
     TextView endDateError;
 
     // Buttons
-    @Bind(R.id.create_event_start_date_button)
-    Button startDateButton;
-    @Bind(R.id.create_event_start_time_button)
-    Button startTimeButton;
-    @Bind(R.id.create_event_end_date_button)
-    Button endDateButton;
-    @Bind(R.id.create_event_end_time_button)
-    Button endTimeButton;
+    @Bind(R.id.start_date_button)
+    Button startDateBtn;
+    @Bind(R.id.start_time_button)
+    Button startTimeBtn;
+    @Bind(R.id.end_date_button)
+    Button endDateBtn;
+    @Bind(R.id.end_time_button)
+    Button endTimeBtn;
 
     // Checkbox
-    @Bind(R.id.create_event_checkbox)
-    CheckBox endTimeCheckbox;
+    @Bind(R.id.checkbox)
+    CheckBox checkbox;
 
     // Image
-    @Bind(R.id.create_event_image_error)
+    @Bind(R.id.image_error)
     TextView imageError;
-    @Bind(R.id.create_event_image_select_button)
+    @Bind(R.id.image_select_button)
     Button selectImageButton;
-    @Bind(R.id.create_event_image_view)
+    @Bind(R.id.image_view)
     ImageView imageVIew;
 
     // Submit
-    @Bind(R.id.create_event_error)
-    TextView createEventError;
-    @Bind(R.id.create_event_submit_button)
-    Button createEventButton;
+    @Bind(R.id.error)
+    TextView eventError;
+    @Bind(R.id.submit_button)
+    Button submitBtn;
+
     CreateEventPresenter presenter;
-
-    private Calendar startDate;
-    private Calendar endDate;
-
-    private Pair<Integer, Integer> startTimePair;
-    private Pair<Integer, Integer> endTimePair;
     private ProgressBarManager progressBarManager;
 
     private int PICK_IMAGE_REQUEST = 1;
@@ -122,9 +116,9 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         ButterKnife.bind(this);
 
         presenter = new CreateEventPresenterImpl(this);
-        this.progressBarManager = new ProgressBarManager(this, createEventFormView, progressView);
+        this.progressBarManager = new ProgressBarManager(this, scrollView, progress);
         setupToolbar();
-        this.slider.setOnValueChangedListener(this);
+        setupSlider();
     }
 
     /*
@@ -133,6 +127,11 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     private void setupToolbar() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
+
+    private void setupSlider(){
+        this.slider.setOnValueChangedListener(this);
+//        this.slider.setValue(0);
     }
 
 
@@ -171,77 +170,59 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         }
     }
 
-    @OnClick(R.id.create_event_submit_button)
+    @OnClick(R.id.submit_button)
     public void submit() {
         clearValidationMessages();
         View current = getCurrentFocus();
         if (current != null) current.clearFocus();
-        String name = nameView.getText().toString();
-        String location = locationView.getText().toString();
-        String description = descriptionView.getText().toString();
-        presenter.create(name, location, description, this.startDate, this.endDate, this.startTimePair, this.endTimePair);
+        String name = this.name.getText().toString();
+        String location = this.location.getText().toString();
+        String description = this.description.getText().toString();
+
+        presenter.create(name, location, description, this.slider.getValue());
     }
 
-    @OnClick(R.id.create_event_image_select_button)
+    @OnClick(R.id.image_select_button)
     public void selectImage() {
         Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         i.setType("image/*");
         startActivityForResult(i, PICK_IMAGE_REQUEST);
     }
 
-    @OnCheckedChanged(R.id.create_event_checkbox)
+    @OnCheckedChanged(R.id.checkbox)
     public void endTimeChecked(boolean checked) {
         if (checked) {
-            endDateButton.setVisibility(View.VISIBLE);
-            endTimeButton.setVisibility(View.VISIBLE);
+            endDateBtn.setVisibility(View.VISIBLE);
+            endTimeBtn.setVisibility(View.VISIBLE);
         } else {
-            endDateButton.setVisibility(View.GONE);
-            endTimeButton.setVisibility(View.GONE);
-            this.endDateButton.setText("DATO");
-            this.endTimeButton.setText("TID");
-            this.endDate = null;
-            this.endTimePair = null;
+            endDateBtn.setVisibility(View.GONE);
+            endTimeBtn.setVisibility(View.GONE);
+            this.endDateBtn.setText("DATO");
+            this.endTimeBtn.setText("TID");
             this.endDateError.setText("");
             this.endDateError.setVisibility(View.GONE);
+            this.presenter.deleteEndTimes();
         }
     }
 
-    @OnClick(R.id.create_event_start_time_button)
+    @OnClick(R.id.start_time_button)
     public void startTime() {
-        DialogFragment newFragment = new TimePickerFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("time", "start");
-        if (startTimePair != null) {
-            bundle.putInt("hour", startTimePair.first);
-            bundle.putInt("minute", startTimePair.second);
-
-        }
-        newFragment.setArguments(bundle);
-        newFragment.show(getSupportFragmentManager(), "timePicker");
+        this.presenter.setTime(true);
     }
 
-    @OnClick(R.id.create_event_end_time_button)
+    @OnClick(R.id.end_time_button)
     public void endTime() {
-        DialogFragment newFragment = new TimePickerFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("time", "end");
-        if (endTimePair != null) {
-            bundle.putInt("hour", endTimePair.first);
-            bundle.putInt("minute", endTimePair.second);
-
-        }
-        newFragment.setArguments(bundle);
-        newFragment.show(getSupportFragmentManager(), "timePicker");
+        this.presenter.setTime(false);
     }
 
-    @OnClick(R.id.create_event_start_date_button)
+    @OnClick(R.id.start_date_button)
     public void startDate() {
-        setDate(true);
+        this.presenter.setDate(true);
     }
 
-    @OnClick(R.id.create_event_end_date_button)
+    @OnClick(R.id.end_date_button)
     public void endDate() {
-        setDate(false);
+        this.presenter.setDate(false);
     }
 
     @Override
@@ -254,9 +235,9 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
 
     @Override
     public void createEventFailed(String error) {
-        createEventError.setText(error);
-        createEventError.setVisibility(View.VISIBLE);
-        createEventError.requestFocus();
+        eventError.setText(error);
+        eventError.setVisibility(View.VISIBLE);
+        eventError.requestFocus();
     }
 
     @Override
@@ -271,22 +252,22 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
 
     @Override
     public void setNameError(String error) {
-        nameView.setError(error);
-        View focusView = nameView;
+        name.setError(error);
+        View focusView = name;
         focusView.requestFocus();
     }
 
     @Override
     public void setLocationError(String error) {
-        locationView.setError(error);
-        View focusView = locationView;
+        location.setError(error);
+        View focusView = location;
         focusView.requestFocus();
     }
 
     @Override
     public void setDescriptionError(String error) {
-        descriptionView.setError(error);
-        View focusView = descriptionView;
+        description.setError(error);
+        View focusView = description;
         focusView.requestFocus();
     }
 
@@ -318,70 +299,83 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         this.imageVIew.setImageBitmap(bitmap);
     }
 
-    private void setDate(boolean startDate) {
-        DialogFragment newFragment = new DatePickerFragment();
-        Bundle bundle = new Bundle();
-        Calendar date;
-        if (startDate) {
-            date = this.startDate;
-            bundle.putString("date", "start");
-        } else {
-            date = this.endDate;
-            bundle.putString("date", "end");
+    @Override
+    public void onDateSet(Bundle bundle) {
+        DialogFragment datePickerFragment = new DatePickerFragment();
+        datePickerFragment.setArguments(bundle);
+        datePickerFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    @Override
+    public void onTimeSet(Bundle bundle) {
+        DialogFragment timePickerFragment = new TimePickerFragment();
+        timePickerFragment.setArguments(bundle);
+        timePickerFragment.show(getSupportFragmentManager(), "timePicker");
+    }
+
+    @Override
+    public void updateStartDateView(int day, int month, int year) {
+        this.startDateBtn.setText(day + "." + month + "." + year);
+        this.startDateError.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void updateEndDateView(int day, int month, int year) {
+        this.endDateBtn.setText(day + "." + month + "." + year);
+        this.endDateError.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void updateStartTimeView(int hour, int minute) {
+        if (hour < 10 && minute < 10){
+            this.startTimeBtn.setText("0" + hour + ":0" + minute);
         }
-        if (date != null) {
-            bundle.putInt("day", date.get(Calendar.DAY_OF_MONTH));
-            bundle.putInt("month", date.get(Calendar.MONTH));
-            bundle.putInt("year", date.get(Calendar.YEAR));
+        else if (minute < 10){
+            this.startTimeBtn.setText(hour + ":0" + minute);
+
         }
-        newFragment.setArguments(bundle);
-        newFragment.show(getSupportFragmentManager(), "datePicker");
+        else if (hour < 10){
+            this.startTimeBtn.setText("0" + hour + ":" + minute);
+        }
+        else{
+            this.startTimeBtn.setText(hour + ":" + minute);
+        }
+        this.endDateError.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void updateEndTimeView(int hour, int minute) {
+        if (hour < 10 && minute < 10){
+            this.endTimeBtn.setText("0" + hour + ":0" + minute);
+        }
+        else if (minute < 10){
+            this.endTimeBtn.setText(hour + ":0" + minute);
+        }
+        else if (hour < 10){
+            this.endTimeBtn.setText("0" + hour + ":" + minute);
+        }
+        else{
+            this.endTimeBtn.setText(hour + ":" + minute);
+        }
+        this.endDateError.setVisibility(View.GONE);
     }
 
     private void clearValidationMessages() {
         this.startDateError.setVisibility(View.GONE);
         this.endDateError.setVisibility(View.GONE);
         this.imageError.setVisibility(View.GONE);
-        this.createEventError.setVisibility(View.GONE);
+        this.eventError.setVisibility(View.GONE);
     }
 
     @Override
     public void onDateSelected(Calendar eventDate, Boolean isStartDate) {
-        int day = eventDate.get(Calendar.DAY_OF_MONTH);
-        int month = eventDate.get(Calendar.MONTH) + 1;
-        int year = eventDate.get(Calendar.YEAR);
+        this.presenter.updateDateModel(eventDate, isStartDate);
 
-        if (isStartDate) {
-            this.startDateButton.setText(day + "." + month + "." + year);
-            this.startDate = eventDate;
-            this.startDateError.setVisibility(View.GONE);
-        } else {
-            this.endDateButton.setText(day + "." + month + "." + year);
-            this.endDate = eventDate;
-            this.endDateError.setVisibility(View.GONE);
-        }
     }
 
     @Override
     public void onTimeSelected(Pair<Integer, Integer> hourMinutePair, Boolean isStartTime) {
-
-        if (isStartTime) {
-            if (hourMinutePair.second < 10) {
-                this.startTimeButton.setText(hourMinutePair.first + ":0" + hourMinutePair.second);
-            } else {
-                this.startTimeButton.setText(hourMinutePair.first + ":" + hourMinutePair.second);
-            }
-            this.startTimePair = hourMinutePair;
-        } else {
-            if (hourMinutePair.second < 10) {
-                this.endTimeButton.setText(hourMinutePair.first + ":0" + hourMinutePair.second);
-            } else {
-                this.endTimeButton.setText(hourMinutePair.first + ":" + hourMinutePair.second);
-            }
-            this.endTimePair = hourMinutePair;
-
-        }
-        this.endDateError.setVisibility(View.GONE);
+        this.presenter.updateTimeModel(hourMinutePair, isStartTime);
     }
 
     @Override
@@ -394,17 +388,21 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
 
     @Override
     public void onValueChanged(int i) {
-        Drawable d;
-
         switch (i) {
             case 0:
-                this.slider.setBackgroundColor(Color.parseColor("#42A5F5"));
+                this.slider.setBackgroundColor(getResources().getColor(R.color.app_blue));
+                this.difficulty.setText(getResources().getText(R.string.event_create_difficulty_easy));
+                this.difficulty.setTextColor(getResources().getColor(R.color.app_blue));
                 break;
             case 1:
-                this.slider.setBackgroundColor(Color.parseColor("#66BB6A"));
+                this.slider.setBackgroundColor(getResources().getColor(R.color.app_green));
+                this.difficulty.setText(getResources().getText(R.string.event_create_difficulty_medium));
+                this.difficulty.setTextColor(getResources().getColor(R.color.app_green));
                 break;
             case 2:
-                this.slider.setBackgroundColor(Color.parseColor("#EF5350"));
+                this.slider.setBackgroundColor(getResources().getColor(R.color.app_red));
+                this.difficulty.setText(getResources().getText(R.string.event_create_difficulty_hard));
+                this.difficulty.setTextColor(getResources().getColor(R.color.app_red));
                 break;
         }
     }

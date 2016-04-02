@@ -25,12 +25,14 @@ public class Event implements Serializable {
     private User admin;
     private Set<User> users = new HashSet<User>(0);
     private Set<EventPost> posts = new HashSet<EventPost>(0);
+    private int difficulty;
 
-    public Event(String name, String location, String description, Calendar startDate) {
+    public Event(String name, String location, String description, Calendar startDate, int difficulty) {
         this.name = name;
         this.location = location;
         this.description = description;
         this.startDate = startDate;
+        this.difficulty = difficulty;
     }
 
     public Event(JSONObject jsonEvent) throws JSONException {
@@ -50,6 +52,8 @@ public class Event implements Serializable {
         for (int i = 0; i < jsonUsers.length(); i++) {
             this.users.add(new User(jsonUsers.getJSONObject(i)));
         }
+        this.difficulty = jsonEvent.getInt("difficulty");
+
 
         // TODO FIKSE POSTER
     }
@@ -135,6 +139,14 @@ public class Event implements Serializable {
 
     public void setUsers(Set<User> users) {
         this.users = users;
+    }
+
+    public int getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
     }
 
     public Set<EventPost> getPosts() {

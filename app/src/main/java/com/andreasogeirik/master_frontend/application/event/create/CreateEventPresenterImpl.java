@@ -2,6 +2,7 @@ package com.andreasogeirik.master_frontend.application.event.create;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.util.Pair;
 
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventInteractor;
@@ -30,6 +31,13 @@ public class CreateEventPresenterImpl extends GeneralPresenter implements Create
     private CreateEventInteractor interactor;
     private byte[] byteImage;
 
+    private Calendar startDate;
+    private Calendar endDate;
+
+    private Pair<Integer, Integer> startTimePair;
+    private Pair<Integer, Integer> endTimePair;
+
+    int difficultyLevel;
 
     public CreateEventPresenterImpl(CreateEventView createEventView) {
         super((Activity) createEventView, GeneralPresenter.CHECK_USER_AVAILABLE);
@@ -64,7 +72,79 @@ public class CreateEventPresenterImpl extends GeneralPresenter implements Create
     }
 
     @Override
-    public void create(String name, String location, String description, Calendar startDate, Calendar endDate, Pair<Integer, Integer> startTimePair, Pair<Integer, Integer> endTimePair) {
+    public void deleteEndTimes() {
+        this.endDate = null;
+        this.endTimePair = null;
+    }
+
+    @Override
+    public void setDate(Boolean isStartDate) {
+        Bundle bundle = new Bundle();
+        Calendar date;
+        if (isStartDate) {
+            date = this.startDate;
+            bundle.putString("date", "start");
+        } else {
+            date = this.endDate;
+            bundle.putString("date", "end");
+        }
+        if (date != null) {
+            bundle.putInt("day", date.get(Calendar.DAY_OF_MONTH));
+            bundle.putInt("month", date.get(Calendar.MONTH));
+            bundle.putInt("year", date.get(Calendar.YEAR));
+        }
+        this.createEventView.onDateSet(bundle);
+    }
+
+    @Override
+    public void setTime(Boolean isStarTime) {
+        Bundle bundle = new Bundle();
+        if (isStarTime) {
+            bundle.putString("time", "start");
+            if (this.startTimePair != null) {
+                bundle.putInt("hour", this.startTimePair.first);
+                bundle.putInt("minute", this.startTimePair.second);
+            }
+        } else {
+            bundle.putString("time", "end");
+            if (this.endTimePair != null) {
+                bundle.putInt("hour", this.endTimePair.first);
+                bundle.putInt("minute", this.endTimePair.second);
+            }
+        }
+        this.createEventView.onTimeSet(bundle);
+    }
+
+    @Override
+    public void updateDateModel(Calendar eventDate, Boolean isStartDate) {
+        int day = eventDate.get(Calendar.DAY_OF_MONTH);
+        int month = eventDate.get(Calendar.MONTH) + 1;
+        int year = eventDate.get(Calendar.YEAR);
+
+        if (isStartDate) {
+            this.startDate = eventDate;
+            this.createEventView.updateStartDateView(day, month, year);
+        } else {
+            this.endDate = eventDate;
+            this.createEventView.updateEndDateView(day, month, year);
+        }
+    }
+
+    @Override
+    public void updateTimeModel(Pair<Integer, Integer> hourMinutePair, Boolean isStartTime) {
+        int hour = hourMinutePair.first;
+        int minute = hourMinutePair.second;
+        if (isStartTime) {
+            this.startTimePair = hourMinutePair;
+            this.createEventView.updateStartTimeView(hour, minute);
+        } else {
+            this.endTimePair = hourMinutePair;
+            this.createEventView.updateEndTimeView(hour, minute);
+        }
+    }
+
+    @Override
+    public void create(String name, String location, String description, int difficulty) {
 
         CreateEventValidationContainer createEventValidationContainer = InputValidation.validateEvent(name, location, description, startDate, endDate, startTimePair, endTimePair);
         if (createEventValidationContainer.getStatusCode() != CreateEventStatusCodes.OK) {
@@ -96,7 +176,7 @@ public class CreateEventPresenterImpl extends GeneralPresenter implements Create
             // Set start time in milliseconds
             Calendar startDateCal = new GregorianCalendar();
             startDateCal.setTimeInMillis(dateToLong(startDate, startTimePair.first, startTimePair.second));
-            Event event = new Event(name, location, description, startDateCal);
+            Event event = new Event(name, location, description, startDateCal, difficulty + 1);
             // Check if end date and time is chosen
             if (endDate != null && endTimePair != null) {
                 Calendar endDateCal = new GregorianCalendar();

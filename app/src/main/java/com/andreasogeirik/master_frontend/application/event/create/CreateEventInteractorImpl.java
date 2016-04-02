@@ -75,6 +75,7 @@ public class CreateEventInteractorImpl implements CreateEventInteractor, OnCreat
             jsonEvent.put("location", event.getLocation());
             jsonEvent.put("description", event.getDescription());
             jsonEvent.put("timeStart", event.getStartDate().getTimeInMillis());
+            jsonEvent.put("difficulty", event.getDifficulty());
             if (event.getEndDate() != null) {
                 jsonEvent.put("timeEnd", event.getEndDate().getTimeInMillis());
             }

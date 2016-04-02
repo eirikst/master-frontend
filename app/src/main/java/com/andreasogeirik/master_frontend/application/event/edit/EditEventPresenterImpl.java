@@ -84,9 +84,9 @@ public class EditEventPresenterImpl extends GeneralPresenter implements EditEven
     public void setTime(Boolean isStarTime) {
         Bundle bundle = new Bundle();
         if (isStarTime) {
-            bundle.putString("time", "start");
-            bundle.putInt("hour", this.startTimePair.first);
-            bundle.putInt("minute", this.startTimePair.second);
+                bundle.putString("time", "start");
+                bundle.putInt("hour", this.startTimePair.first);
+                bundle.putInt("minute", this.startTimePair.second);
         } else {
             bundle.putString("time", "end");
             if (this.endTimePair != null) {

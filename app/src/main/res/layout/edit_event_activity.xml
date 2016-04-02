@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusableInTouchMode="true">
@@ -40,7 +41,7 @@
         android:visibility="gone" />
 
 
-    <ScrollView
+    <com.gc.materialdesign.views.ScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -74,6 +75,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/event_edit_description" />
+
+            <com.andreasogeirik.master_frontend.layout.view.CustomSlider
+                android:layout_marginTop="20dp"
+                android:id="@+id/slider"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:background="#42A5F5"
+                materialdesign:max="2"
+                materialdesign:min="0"
+                materialdesign:showNumberIndicator="true"
+                android:layout_gravity="center_horizontal"/>
+
+            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+                android:id="@+id/difficulty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"/>
+
 
             <com.andreasogeirik.master_frontend.layout.view.CustomTextView
                 android:id="@+id/start_date_error"
@@ -155,10 +174,7 @@
                     android:textColor="@color/app_font"
                     android:textStyle="bold"
                     android:visibility="gone" />
-
-
             </LinearLayout>
-
 
             <RelativeLayout
                 android:id="@+id/image_container"
@@ -213,5 +229,5 @@
                 android:textColor="@color/app_font"
                 android:textStyle="bold" />
         </LinearLayout>
-    </ScrollView>
+    </com.gc.materialdesign.views.ScrollView>
 </RelativeLayout>

@@ -12,6 +12,10 @@
     <color name="grey_fade">#BBBDBDBD</color>
     <color name="app_font">#424242</color>
     <color name="app_error">#F44336</color>
-    <color name="app_red">#E57373</color>
+    <!--<color name="app_red">#E57373</color>-->
+    <color name="app_blue">#42A5F5</color>
+    <color name="app_green">#66BB6A</color>
+    <color name="app_red">#EF5350</color>
+
 
 </resources>

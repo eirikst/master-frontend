@@ -393,7 +393,7 @@ public class CustomSlider extends CustomView {
                         numberIndicator.numberIndicator.setText("MODERAT");
                         break;
                     case 2:
-                        numberIndicator.numberIndicator.setText("VANSKELIG");
+                        numberIndicator.numberIndicator.setText("HØY");
                         break;
                     default:
                         numberIndicator.numberIndicator.setText(value + "");
