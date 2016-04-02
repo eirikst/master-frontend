@@ -28,7 +28,6 @@ public class Event implements Serializable {
     private User admin;
     private Set<User> users = new HashSet<User>(0);
     private Set<EventPost> posts = new HashSet<EventPost>(0);
-    private int difficulty;
 
     public Event(String name, String location, String description, Calendar startDate, int difficulty) {
         this.name = name;
@@ -152,15 +151,7 @@ public class Event implements Serializable {
     public void setUsers(Set<User> users) {
         this.users = users;
     }
-
-    public int getDifficulty() {
-        return difficulty;
-    }
-
-    public void setDifficulty(int difficulty) {
-        this.difficulty = difficulty;
-    }
-
+    
     public Set<EventPost> getPosts() {
         return posts;
     }
