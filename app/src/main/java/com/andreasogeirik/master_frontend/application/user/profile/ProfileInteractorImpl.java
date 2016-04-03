@@ -4,10 +4,14 @@ import android.graphics.Bitmap;
 
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfileInteractor;
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfilePresenter;
+import com.andreasogeirik.master_frontend.communication.GetAttendedEventsTask;
+import com.andreasogeirik.master_frontend.communication.GetAttendingEventsTask;
 import com.andreasogeirik.master_frontend.communication.GetFriendsTask;
 import com.andreasogeirik.master_frontend.communication.GetPostsTask;
+import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingFriendshipsListener;
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingPostsListener;
+import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.UserPost;
 import com.andreasogeirik.master_frontend.model.User;
@@ -25,7 +29,9 @@ import java.util.Set;
  * Created by eirikstadheim on 06/02/16.
  */
 public class ProfileInteractorImpl implements ProfileInteractor, OnFinishedLoadingPostsListener,
-        OnFinishedLoadingFriendshipsListener, ImageInteractor.OnImageFoundListener
+        OnFinishedLoadingFriendshipsListener, ImageInteractor.OnImageFoundListener,
+        GetAttendingEventsTask.OnFinishedLoadingAttendingEventsListener
+
 {
     private ProfilePresenter presenter;
 
@@ -119,4 +125,31 @@ public class ProfileInteractorImpl implements ProfileInteractor, OnFinishedLoadi
     public void imageNotFound(String imageUri) {
         presenter.imageNotFound(imageUri);
     }
+
+    @Override
+    public void findAttendingEvents(User user) {
+        new GetAttendingEventsTask(this, user).execute();
+    }
+
+    @Override
+    public void onSuccessAttendingEvents(JSONArray eventsJson) {
+        Set<Event> events = new HashSet<>();
+        try {
+            for(int i = 0; i < eventsJson.length(); i++) {
+                events.add(new Event(eventsJson.getJSONObject(i)));
+            }
+            presenter.successAttendingEvents(events);
+        }
+        catch (JSONException e) {
+            System.out.println("JSON error: " + e);
+            presenter.failureAttendingEvents(Constants.CLIENT_ERROR);
+        }
+    }
+
+    @Override
+    public void onFailureAttendingEvents(int code) {
+        presenter.failureAttendingEvents(code);
+    }
+
+
 }

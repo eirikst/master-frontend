@@ -9,6 +9,7 @@
     <string name="search_user">SØK BRUKERE</string>
     <string name="friends">VENNER</string>
     <string name="others_profile">PROFIL</string>
+    <string name="events">AKTIVITETER</string>
 
     // Toolbar - dropdown
     <string name="drop_search_user">Søk etter bruker</string>
@@ -96,7 +97,6 @@
     <string name="notifications">Varslinger</string>
     <string name="accept">Godta</string>
     <string name="reject">Avvis</string>
-
 
 
 </resources>

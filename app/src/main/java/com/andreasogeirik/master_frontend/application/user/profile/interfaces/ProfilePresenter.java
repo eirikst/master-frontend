@@ -3,6 +3,7 @@ package com.andreasogeirik.master_frontend.application.user.profile.interfaces;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
+import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.UserPost;
 
@@ -26,4 +27,10 @@ public interface ProfilePresenter {
     void friendListSelected();
 
     void saveInstanceState(Bundle bundle);
+
+    void findAttendingEvents();
+    void successAttendingEvents(Set<Event> events);
+    void failureAttendingEvents(int code);
+
+    void accessEvents();
 }

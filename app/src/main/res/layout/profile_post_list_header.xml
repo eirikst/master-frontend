@@ -47,16 +47,27 @@
 
     </LinearLayout>
 
+    <com.andreasogeirik.master_frontend.layout.view.CustomButton
+        android:id="@+id/participating_events_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="EVENTS"
+        android:layout_below="@+id/post_list_header"
+        android:background="#FFFFFF"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        />
+
     <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+        android:id="@+id/posts_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Posts"
         android:gravity="center_horizontal"
         android:textSize="40dp"
-        android:layout_below="@+id/post_list_header"
         android:background="@drawable/shape_post_background"
         android:padding="10dp"
         android:layout_marginTop="5dp"
+        android:layout_below="@+id/participating_events_btn"
         />
-
 </RelativeLayout>

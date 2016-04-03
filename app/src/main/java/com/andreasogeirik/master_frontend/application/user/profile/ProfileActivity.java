@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
 import com.andreasogeirik.master_frontend.application.general.ToolbarPresenterImpl;
 import com.andreasogeirik.master_frontend.application.general.interfaces.ToolbarPresenter;
 import com.andreasogeirik.master_frontend.application.user.profile.fragments.FriendProfileHeader;
@@ -52,6 +53,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     private View headerView;
     private Button footerBtn;
     private TextView nameUserText;
+    private Button eventButton;
 
     //fragments
     private MyProfileHeader myProfileHeaderFragment;
@@ -181,6 +183,14 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
         listView.addHeaderView(headerView);
         nameUserText = (TextView)headerView.findViewById(R.id.name_user);
         nameUserText.setText(name);
+        eventButton = (Button)headerView.findViewById(R.id.participating_events_btn);
+
+        eventButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.accessEvents();
+            }
+        });
 
         //if current user, set MyProfileHeader fragment
         if(myProfile) {
@@ -283,5 +293,10 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
             return super.onOptionsItemSelected(item);
         }
         return true;
+    }
+
+    @Override
+    public void setEventButtonText(String text) {
+        eventButton.setText(text);
     }
 }

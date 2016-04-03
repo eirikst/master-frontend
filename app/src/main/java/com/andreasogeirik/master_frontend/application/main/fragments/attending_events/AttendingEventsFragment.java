@@ -72,7 +72,6 @@ public class AttendingEventsFragment extends Fragment implements EventListAdapte
         super.onCreate(savedInstanceState);
 
         listAdapter = new EventListAdapter(getActivity().getApplicationContext(), this);
-        presenter = new AttendingEventsPresenterImpl(this);
     }
 
     /*
@@ -89,7 +88,6 @@ public class AttendingEventsFragment extends Fragment implements EventListAdapte
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Event event = listAdapter.getItem(position);
-                System.out.println("Trykker på event: " + event);
                 Intent intent = new Intent(getActivity(), EventActivity.class);
                 intent.putExtra("event", event);
                 startActivity(intent);
@@ -113,7 +111,9 @@ public class AttendingEventsFragment extends Fragment implements EventListAdapte
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        presenter = new AttendingEventsPresenterImpl(this);
+        User user = (User)getActivity().getIntent().getSerializableExtra("user");
+
+        presenter = new AttendingEventsPresenterImpl(this, user);
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import org.apache.commons.io.FilenameUtils;
 
@@ -148,7 +149,14 @@ public class ImageInteractor {
                 if (imgFile.exists()) {
                     System.out.println("Image found locally");
                     BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-                    Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath(),bmOptions);
+
+                    Bitmap bitmap = null;
+                    try {
+                        bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath(), bmOptions);
+                    }
+                    catch(Throwable e) {
+                        Log.w(getClass().getSimpleName(), e);
+                    }
                     if(bitmap != null) {
                         return bitmap;
                     }

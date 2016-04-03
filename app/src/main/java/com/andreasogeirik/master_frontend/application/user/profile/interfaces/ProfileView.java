@@ -18,4 +18,5 @@ public interface ProfileView {
     void setProfileImage(Bitmap bitmap);
 
     void displayMessage(String message);
+    void setEventButtonText(String text);
 }

@@ -10,6 +10,7 @@ import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
 import com.andreasogeirik.master_frontend.application.user.friend.FriendListActivity;
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfileInteractor;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
+import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.UserPost;
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfilePresenter;
@@ -52,6 +53,7 @@ public class ProfilePresenterImpl extends GeneralPresenter implements ProfilePre
         findPosts();//get first posts
         findFriends(this.user.getId());
         findImage();
+        findAttendingEvents();
     }
 
 
@@ -79,9 +81,34 @@ public class ProfilePresenterImpl extends GeneralPresenter implements ProfilePre
         }
     }
 
+    @Override
+    public void findAttendingEvents() {
+        interactor.findAttendingEvents(user);
+    }
+
+    @Override
+    public void successAttendingEvents(Set<Event> events) {
+        if(events.size() == 0) {
+            view.setEventButtonText("Se aktiviteter");
+        }
+        else if(events.size() == 1) {
+            for(Event e: events) {
+                view.setEventButtonText("Deltar på " + e.getName());
+            }
+        }
+        else {
+            view.setEventButtonText("Deltar på " + events.size() + " aktiviteter");
+        }
+    }
+
+    @Override
+    public void failureAttendingEvents(int code) {
+        view.displayMessage("Error loading user's events");
+    }
+
     /*
-     * Handling set of friends
-     */
+         * Handling set of friends
+         */
     private void findFriends(int userId) {
         interactor.findFriends(userId);
     }
@@ -140,5 +167,12 @@ public class ProfilePresenterImpl extends GeneralPresenter implements ProfilePre
     @Override
     public void saveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putSerializable("user", user);
+    }
+
+    @Override
+    public void accessEvents() {
+        Intent intent = new Intent(getActivity(), AttendingEventsActivity.class);
+        intent.putExtra("user", user);
+        getActivity().startActivity(intent);
     }
 }

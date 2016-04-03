@@ -24,26 +24,39 @@ public class AttendingEventsPresenterImpl extends GeneralPresenter implements At
         ImageInteractor.OnImageFoundListener {
     private AttendingEventView view;
     private AttendingEventsInteractor eventInteractor;
+    private User user;
 
     //model
     private HashSet<Event> attendingEvents = new HashSet<>();
     private HashSet<Event> attendedEvents = new HashSet<>();
 
-    public AttendingEventsPresenterImpl(AttendingEventView view) {
+    public AttendingEventsPresenterImpl(AttendingEventView view, User user) {
         super(((Fragment)view).getActivity(), NO_CHECK);
         this.view = view;
+
+
         eventInteractor = new AttendingEventsInteractorImpl(this);
         //TODO:Sjekke user cookie etc.
 
-        eventInteractor.findAttendingEvents();
-        eventInteractor.findAttendedEvents(0);//0 for init
+        if(user == null) {
+            this.user = CurrentUser.getInstance().getUser();
+        }
+        else {
+            this.user = user;
+        }
 
+
+        eventInteractor.findAttendingEvents(this.user);
+        eventInteractor.findAttendedEvents(this.user, 0);//0 for init
+
+        //this is the current user because it is used in the list adapter to check which of your
+        // friends are participating etc.(and not necessarily the user that participates in the events)
         view.setUser(CurrentUser.getInstance().getUser());
     }
 
     @Override
     public void findAttendingEvents() {
-        eventInteractor.findAttendingEvents();
+        eventInteractor.findAttendingEvents(user);
     }
 
     @Override
@@ -65,7 +78,7 @@ public class AttendingEventsPresenterImpl extends GeneralPresenter implements At
 
     @Override
     public void findAttendedEvents() {
-        eventInteractor.findAttendedEvents(attendedEvents.size());
+        eventInteractor.findAttendedEvents(user, attendedEvents.size());
     }
 
     @Override

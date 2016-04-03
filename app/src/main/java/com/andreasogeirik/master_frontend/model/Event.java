@@ -72,6 +72,15 @@ public class Event implements Serializable {
         return -1;
     }
 
+    public boolean attends(User user) {
+        for(User u: users) {
+            if(u.equals(user)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public int getId() {
         return id;
     }

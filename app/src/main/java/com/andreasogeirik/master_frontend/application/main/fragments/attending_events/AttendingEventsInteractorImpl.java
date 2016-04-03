@@ -6,6 +6,7 @@ import com.andreasogeirik.master_frontend.communication.GetAttendedEventsTask;
 import com.andreasogeirik.master_frontend.communication.GetAttendingEventsTask;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.Event;
+import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
 
 import org.json.JSONArray;
@@ -27,13 +28,13 @@ public class AttendingEventsInteractorImpl implements AttendingEventsInteractor,
     }
 
     @Override
-    public void findAttendingEvents() {
-        new GetAttendingEventsTask(this, CurrentUser.getInstance().getUser()).execute();
+    public void findAttendingEvents(User user) {
+        new GetAttendingEventsTask(this, user).execute();
     }
 
     @Override
-    public void findAttendedEvents(int start) {
-        new GetAttendedEventsTask(this, CurrentUser.getInstance().getUser(), start).execute();
+    public void findAttendedEvents(User user, int start) {
+        new GetAttendedEventsTask(this, user, start).execute();
     }
 
 
