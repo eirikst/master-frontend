@@ -11,15 +11,6 @@
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-
-        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/title_activity_login"
-            android:textColor="@color/app_font"
-            android:textStyle="bold" />
-
     </android.support.v7.widget.Toolbar>
 
     <!-- Login progress -->
@@ -31,31 +22,13 @@
         android:visibility="gone"
         android:layout_centerInParent="true" />
 
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/toolbar">
-
-        <TextView
-            android:id="@+id/login_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/app_font"
-            android:textSize="40dp"
-            android:text="LOGIN"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:textStyle="bold"
-            />
-
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-        android:padding="5dp"
-        android:layout_below="@+id/login_text"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:layout_below="@+id/toolbar"
         >
 
         <LinearLayout
@@ -63,7 +36,19 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-                <EditText
+            <TextView
+                android:id="@+id/login_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/app_font"
+                android:textSize="40dp"
+                android:text="LOGIN"
+                android:layout_marginTop="20dp"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"
+                />
+
+            <EditText
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -107,6 +92,4 @@
 
         </LinearLayout>
     </ScrollView>
-    </RelativeLayout>
-
 </RelativeLayout>

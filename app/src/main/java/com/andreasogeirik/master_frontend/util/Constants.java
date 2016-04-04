@@ -16,7 +16,7 @@ public class Constants {
     //public static final String BACKEND_URL = "http://78.91.3.136:8080/";
 
     //Eirik hjemme
-    //public static final String BACKEND_URL = "http://10.0.0.78:8080/";
+    //public static final String BACKEND_URL = "http://78.91.1.215:8080/";
 
 
 

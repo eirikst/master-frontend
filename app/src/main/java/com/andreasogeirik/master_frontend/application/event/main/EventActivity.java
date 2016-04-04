@@ -58,6 +58,10 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
     @Bind(R.id.home)
     Button homeBtn;
 
+    private View easyDiff;
+    private View mediumDiff;
+    private View hardDiff;
+
     private View headerView;
     private View eventImageContainer;
     private Button attendButton;
@@ -67,6 +71,7 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
 
     private TextView eventName;
     private TextView startTime;
+    private View endTimePanel;
     private TextView endTime;
     private TextView eventLocation;
     private TextView eventDescription;
@@ -126,7 +131,7 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
         this.unAttendButton.setVisibility(View.GONE);
         this.attendButton.setVisibility(View.GONE);
 
-        this.eventName.append(name);
+        this.eventName.setText(name);
         this.eventLocation.append(location);
         this.eventDescription.append(description);
         this.startTime.append(startTime);
@@ -137,7 +142,7 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
     @Override
     public void updateEndTime(String endTime) {
         this.endTime.append(endTime);
-        this.endTime.setVisibility(View.VISIBLE);
+        this.endTimePanel.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -189,6 +194,28 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
     }
 
     @Override
+    public void setDifficultyView(int difficulty) {
+        if(difficulty == Constants.EVENT_DIFFICULTY_MEDIUM) {
+            easyDiff.setVisibility(View.GONE);
+            mediumDiff.setVisibility(View.VISIBLE);
+            hardDiff.setVisibility(View.GONE);
+
+        }
+        else if(difficulty == Constants.EVENT_DIFFICULTY_HARD) {
+            easyDiff.setVisibility(View.GONE);
+            mediumDiff.setVisibility(View.GONE);
+            hardDiff.setVisibility(View.VISIBLE);
+
+        }
+        else {
+            easyDiff.setVisibility(View.VISIBLE);
+            mediumDiff.setVisibility(View.GONE);
+            hardDiff.setVisibility(View.GONE);
+
+        }
+    }
+
+    @Override
     public void initGui() {
         headerView = getLayoutInflater().inflate(R.layout.event_list_header, null);
         listView.addHeaderView(headerView);
@@ -207,9 +234,14 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
         this.imageView = (ImageView) headerView.findViewById(R.id.event_image);
         this.eventName = (TextView) headerView.findViewById(R.id.event_name);
         this.startTime = (TextView) headerView.findViewById(R.id.event_startTime);
-        this.endTime = (TextView) headerView.findViewById(R.id.event_endTime);
+        this.endTime = (TextView) headerView.findViewById(R.id.event_end_time);
+        this.endTimePanel = headerView.findViewById(R.id.event_end_time_panel);
         this.eventLocation = (TextView) headerView.findViewById(R.id.event_location);
         this.eventDescription = (TextView) headerView.findViewById(R.id.event_description);
+
+        this.easyDiff = headerView.findViewById(R.id.difficulty_easy);
+        this.mediumDiff = headerView.findViewById(R.id.difficulty_medium);
+        this.hardDiff = headerView.findViewById(R.id.difficulty_hard);
 
         adapter = new EventMainAdapter(this, new ArrayList<EventPost>());
         listView.setAdapter(adapter);

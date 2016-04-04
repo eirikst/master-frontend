@@ -74,9 +74,14 @@ public class AttendingEventsFragment extends Fragment implements EventListAdapte
         listAdapter = new EventListAdapter(getActivity().getApplicationContext(), this);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
     /*
-     * Inflates the layout, set adapter
-     */
+         * Inflates the layout, set adapter
+         */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

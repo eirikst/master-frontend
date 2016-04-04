@@ -3,7 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/event_list_header"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <com.andreasogeirik.master_frontend.layout.view.CustomTitleTextView
         android:id="@+id/event_name"
@@ -12,12 +12,12 @@
         android:layout_margin="10dp"
         android:gravity="center_horizontal"
         android:textColor="@color/app_font"
-        android:textStyle="bold" />
+        android:textStyle="bold"/>
 
     <RelativeLayout
         android:id="@+id/event_image_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/event_name"
         android:layout_marginBottom="5dp"
         android:background="@drawable/shape_post_background"
@@ -31,10 +31,10 @@
 
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/event_info_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/event_image_container"
         android:layout_marginBottom="5dp"
         android:background="@drawable/shape_post_background"
@@ -44,8 +44,7 @@
         <com.andreasogeirik.master_frontend.layout.view.CustomButton
             android:id="@+id/event_attend"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="5"
+            android:layout_height="wrap_content"
             android:background="@color/teal"
             android:text="@string/event_read_attend"
             android:textColor="@color/app_font"
@@ -55,19 +54,24 @@
         <com.andreasogeirik.master_frontend.layout.view.CustomButton
             android:id="@+id/event_unattend"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="5"
+            android:layout_height="wrap_content"
             android:background="@color/teal"
             android:text="@string/event_read_unAttend"
             android:textColor="@color/app_font"
             android:visibility="gone"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:layout_below="@+id/event_attend"
+            />
 
         <LinearLayout
+            android:id="@+id/change_delete_event_panel"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@+id/event_unattend"
+            >
 
             <com.andreasogeirik.master_frontend.layout.view.CustomButton
                 android:id="@+id/event_edit"
@@ -94,44 +98,167 @@
         </LinearLayout>
 
 
-
-        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
-            android:id="@+id/event_startTime"
+        <RelativeLayout
+            android:id="@+id/event_start_time_panel"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="10dp"
-            android:layout_weight="5"
-            android:textColor="@color/app_font"
-            android:text="@string/event_read_start"/>
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/change_delete_event_panel"
+            android:layout_marginBottom="20dp"
+            >
 
-        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
-            android:id="@+id/event_endTime"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="10dp"
-            android:layout_weight="5"
-            android:visibility="gone"
-            android:textColor="@color/app_font"
-            android:text="@string/event_read_end"/>
+            <ImageView
+                android:id="@+id/event_time_symbol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_access_time_black_24dp"
+                android:layout_marginRight="10dp"
+                />
 
-        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
-            android:id="@+id/event_location"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="10dp"
-            android:layout_weight="5"
-            android:textColor="@color/app_font"
-            android:text="@string/event_read_location"/>
+            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+                android:id="@+id/event_startTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/app_font"
+                android:text="@string/event_read_start"
+                android:layout_toRightOf="@+id/event_time_symbol"
+                />
 
-        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
-            android:id="@+id/event_description"
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/event_end_time_panel"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="10dp"
-            android:layout_weight="5"
-            android:textColor="@color/app_font"
-            android:text="@string/event_read_description"/>
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/event_start_time_panel"
+            android:visibility="visible"
+            android:layout_marginBottom="20dp"
+            >
+
+            <ImageView
+                android:id="@+id/event_end_time_symbol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_access_time_black_24dp"
+                android:layout_marginRight="10dp"
+                />
+
+            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+                android:id="@+id/event_end_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/app_font"
+                android:text="@string/event_read_end"
+                android:layout_toRightOf="@+id/event_end_time_symbol"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/event_location_panel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/event_end_time_panel"
+            android:layout_marginBottom="20dp"
+            >
+
+            <ImageView
+                android:id="@+id/event_location_symbol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_place_black_24dp"
+                android:layout_marginRight="10dp"
+                />
+
+            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+                android:id="@+id/event_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/app_font"
+                android:text="@string/event_read_location"
+                android:layout_toRightOf="@+id/event_location_symbol"
+                />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/event_difficulty_panel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/event_location_panel"
+            android:layout_marginBottom="20dp"
+            >
+
+            <ImageView
+                android:id="@+id/event_difficulty_symbol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_directions_run_black_24dp"
+                android:layout_marginRight="10dp"
+                />
+
+            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+                android:id="@+id/event_difficulty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/app_font"
+                android:text="@string/event_read_difficulty"
+                android:layout_marginRight="10dp"
+                />
+
+            <View
+                android:id="@+id/difficulty_easy"
+                android:layout_width="56dp"
+                android:layout_height="18dp"
+                android:background="@drawable/shape_event_easy_horizontal"
+                android:layout_gravity="center_vertical"
+                android:visibility="visible"
+                />
+
+            <View
+                android:id="@+id/difficulty_medium"
+                android:layout_width="56dp"
+                android:layout_height="18dp"
+                android:background="@drawable/shape_event_medium_horizontal"
+                android:layout_gravity="center_vertical"
+                android:visibility="gone"
+                />
+
+            <View
+                android:id="@+id/difficulty_hard"
+                android:layout_width="56dp"
+                android:layout_height="18dp"
+                android:background="@drawable/shape_event_hard_horizontal"
+                android:layout_gravity="center_vertical"
+                android:visibility="gone"
+                />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/event_description_panel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/event_difficulty_panel"
+            >
+
+            <ImageView
+                android:id="@+id/event_description_symbol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_description_black_24dp"
+                android:layout_gravity="top"
+                android:layout_marginRight="10dp"
+                />
+            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+                android:id="@+id/event_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/app_font"
+                android:text="@string/event_read_description"
+                android:layout_toRightOf="@+id/event_description_symbol"
+                />
+        </RelativeLayout>
+
+
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

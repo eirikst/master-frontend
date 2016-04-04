@@ -108,7 +108,7 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
         User currentUser = CurrentUser.getInstance().getUser();
         boolean userInEvent = false;
 
-        if (this.event.getStartDate().after(new Date())){
+        if (this.event.getStartDate().after(new GregorianCalendar())){
             for (User user : this.event.getUsers()) {
                 if (currentUser.getId() == user.getId()) {
                     userInEvent = true;
@@ -125,6 +125,8 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
             this.eventView.setEditButton();
             this.eventView.setDeleteButton();
         }
+
+        eventView.setDifficultyView(event.getDifficulty());
 
     }
 

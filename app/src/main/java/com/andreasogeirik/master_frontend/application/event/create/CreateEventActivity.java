@@ -78,13 +78,13 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
 
     // Buttons
     @Bind(R.id.start_date_button)
-    Button startDateBtn;
+    EditText startDateBtn;
     @Bind(R.id.start_time_button)
-    Button startTimeBtn;
+    EditText startTimeBtn;
     @Bind(R.id.end_date_button)
-    Button endDateBtn;
+    EditText endDateBtn;
     @Bind(R.id.end_time_button)
-    Button endTimeBtn;
+    EditText endTimeBtn;
 
     // Checkbox
     @Bind(R.id.checkbox)
@@ -94,7 +94,7 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     @Bind(R.id.image_error)
     TextView imageError;
     @Bind(R.id.image_select_button)
-    Button selectImageButton;
+    ImageView selectImageButton;
     @Bind(R.id.image_view)
     ImageView imageVIew;
 

@@ -4,12 +4,13 @@
     // Toolbar
     <string name="create_event">NY AKTIVITET</string>
     <string name="edit_event">ENDRE AKTIVITET</string>
-    <string name="my_profile">MIN PROFIL</string>
+    <string name="profile">PROFIL</string>
     <string name="settings">INNSTILLINGER</string>
     <string name="search_user">SØK BRUKERE</string>
     <string name="friends">VENNER</string>
     <string name="others_profile">PROFIL</string>
     <string name="events">AKTIVITETER</string>
+    <string name="event_read">AKTIVITET</string>
 
     // Toolbar - dropdown
     <string name="drop_search_user">Søk etter bruker</string>
@@ -27,7 +28,7 @@
     <string name="event_create_checkbox">SLUTTTID (VALGFRITT)</string>
     <string name="event_create_end_date_label">DATO</string>
     <string name="event_create_end_time_label">TID</string>
-    <string name="event_create_difficulty">INTENSITET:</string>
+    <string name="event_create_difficulty">DRA FOR Å VELGE INTENSITET:</string>
     <string name="event_create_difficulty_easy">ENKEL</string>
     <string name="event_create_difficulty_medium">MODERAT</string>
     <string name="event_create_difficulty_hard">HØY</string>
@@ -45,6 +46,7 @@
     <string name="event_read_location">"STED: "</string>
     <string name="event_read_description">"BESKRIVELSE: "</string>
     <string name="event_read_participants">DELTAKERE</string>
+    <string name="event_read_difficulty">INTENSITET:</string>
 
     // Edit Event
     <string name="event_edit_name">NAVN PÅ AKTIVITET</string>

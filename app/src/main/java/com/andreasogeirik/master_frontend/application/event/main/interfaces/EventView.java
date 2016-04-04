@@ -21,6 +21,7 @@ public interface EventView {
     void showErrorMessage(String error);
     void showProgress();
     void hideProgress();
+    void setDifficultyView(int difficulty);
     void setImage(Bitmap image);
     void initGui();
     void navigateToParticipants(Set<User> users);
