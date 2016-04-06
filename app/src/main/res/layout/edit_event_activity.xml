@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusableInTouchMode="true">
@@ -40,26 +40,57 @@
         android:layout_centerInParent="true"
         android:visibility="gone" />
 
-
-    <com.gc.materialdesign.views.ScrollView
+    <com.andreasogeirik.master_frontend.layout.view.CustomScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
-        android:layout_marginTop="10dp"
-        android:padding="5dp">
+        android:layout_margin="10dp"
+        android:background="@drawable/shape_post_background"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <EditText
-                android:id="@+id/name"
+
+            <RelativeLayout
+                android:id="@+id/image_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/event_edit_name"
-                android:maxLines="1"
-                android:singleLine="true" />
+                android:padding="5dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/image_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/event_edit_name"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:layout_weight="8"
+                    />
+
+                <ImageView
+                    android:id="@+id/image_select_button"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="2"
+                    android:src="@drawable/ic_add_a_photo_black_24dp"
+                    android:layout_toRightOf="@+id/name"
+                    />
+
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/location"
@@ -76,23 +107,6 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/event_edit_description" />
 
-            <com.andreasogeirik.master_frontend.layout.view.CustomSlider
-                android:layout_marginTop="20dp"
-                android:id="@+id/slider"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:background="#42A5F5"
-                materialdesign:max="2"
-                materialdesign:min="0"
-                materialdesign:showNumberIndicator="true"
-                android:layout_gravity="center_horizontal"/>
-
-            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
-                android:id="@+id/difficulty"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"/>
-
 
             <com.andreasogeirik.master_frontend.layout.view.CustomTextView
                 android:id="@+id/start_date_error"
@@ -107,35 +121,46 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <com.andreasogeirik.master_frontend.layout.view.CustomButton
+                <EditText
                     android:id="@+id/start_date_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
-                    android:layout_weight="1"
-                    android:background="@color/teal"
+                    android:layout_weight="5"
                     android:text="@string/event_edit_start_date_label"
-                    android:textColor="@color/app_font"
-                    android:textStyle="bold" />
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:clickable="true"
+                    android:editable="false"
+                    />
 
-                <com.andreasogeirik.master_frontend.layout.view.CustomButton
+                <EditText
                     android:id="@+id/start_time_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:layout_weight="1"
-                    android:background="@color/teal"
+                    android:layout_weight="3"
                     android:text="@string/event_edit_start_time_label"
-                    android:textColor="@color/app_font"
-                    android:textStyle="bold" />
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:clickable="true"
+                    android:editable="false"
+                    />
             </LinearLayout>
 
-            <CheckBox
-                android:id="@+id/checkbox"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/event_edit_checkbox"
-                android:textColor="@color/app_font" />
+                >
+                <CheckBox
+                    android:id="@+id/checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/event_edit_checkbox"
+                    android:textColor="@color/app_font"
+                    />
+            </RelativeLayout>
 
             <com.andreasogeirik.master_frontend.layout.view.CustomTextView
                 android:id="@+id/end_date_error"
@@ -150,46 +175,81 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <com.andreasogeirik.master_frontend.layout.view.CustomButton
+                <EditText
                     android:id="@+id/end_date_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
-                    android:layout_weight="1"
-                    android:background="@color/grey"
+                    android:layout_weight="5"
                     android:text="@string/event_edit_end_date_label"
-                    android:textColor="@color/app_font"
-                    android:textStyle="bold"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:clickable="true"
                     android:visibility="gone" />
 
-
-                <com.andreasogeirik.master_frontend.layout.view.CustomButton
+                <EditText
                     android:id="@+id/end_time_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:layout_weight="1"
-                    android:background="@color/grey"
+                    android:layout_weight="3"
                     android:text="@string/event_edit_end_time_label"
-                    android:textColor="@color/app_font"
-                    android:textStyle="bold"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:clickable="true"
                     android:visibility="gone" />
             </LinearLayout>
 
             <RelativeLayout
-                android:id="@+id/image_container"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/event_name"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/shape_post_background"
-                android:padding="16dp"
-                android:visibility="gone">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="20dp"
 
-                <ImageView
-                    android:id="@+id/image_view"
+                >
+
+                <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+                    android:id="@+id/difficulty_label"
                     android:layout_width="match_parent"
-                    android:layout_height="180dp"/>
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="@string/event_edit_difficulty"/>
+
+
+                <RelativeLayout
+                    android:id="@+id/difficulty_wrapper"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:layout_below="@+id/difficulty_label"
+                    >
+
+                    <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+                        android:id="@+id/difficulty"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="@string/event_edit_difficulty_easy"
+                        android:textColor="@color/app_blue"
+                        android:layout_weight=".4"
+                        />
+
+
+                </RelativeLayout>
+
+                <com.andreasogeirik.master_frontend.layout.view.CustomSlider
+                    android:id="@+id/slider"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#42A5F5"
+                    materialdesign:max="2"
+                    materialdesign:min="0"
+                    android:layout_weight=".6"
+                    android:layout_below="@+id/difficulty_wrapper"
+                    />
 
             </RelativeLayout>
 
@@ -200,16 +260,6 @@
                 android:focusableInTouchMode="true"
                 android:textColor="@color/app_error"
                 android:visibility="gone" />
-
-            <com.andreasogeirik.master_frontend.layout.view.CustomButton
-                android:id="@+id/image_select_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@color/teal"
-                android:text="@string/event_edit_select_image"
-                android:textColor="@color/app_font"
-                android:textStyle="bold" />
 
             <com.andreasogeirik.master_frontend.layout.view.CustomTextView
                 android:id="@+id/error"
@@ -224,10 +274,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
                 android:background="@color/grey"
                 android:text="@string/event_edit_submit"
                 android:textColor="@color/app_font"
                 android:textStyle="bold" />
         </LinearLayout>
-    </com.gc.materialdesign.views.ScrollView>
+    </com.andreasogeirik.master_frontend.layout.view.CustomScrollView>
 </RelativeLayout>

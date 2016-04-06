@@ -14,6 +14,7 @@ import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -30,6 +31,7 @@ import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventPresenter;
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventView;
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
+import com.andreasogeirik.master_frontend.layout.view.CustomScrollView;
 import com.andreasogeirik.master_frontend.layout.view.CustomSlider;
 import com.andreasogeirik.master_frontend.listener.OnDateSetListener;
 import com.andreasogeirik.master_frontend.listener.OnTimeSetListener;
@@ -43,7 +45,7 @@ import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
-public class CreateEventActivity extends AppCompatActivity implements CreateEventView, OnDateSetListener, OnTimeSetListener, CustomSlider.OnValueChangedListener {
+public class CreateEventActivity extends AppCompatActivity implements CreateEventView, OnDateSetListener, OnTimeSetListener, CustomSlider.OnValueChangedListener, CustomSlider.OnTouchListener {
     // Toolbar
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -53,7 +55,7 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     @Bind(R.id.progress)
     View progress;
     @Bind(R.id.scroll_view)
-    ScrollView scrollView;
+    CustomScrollView scrollView;
     @Bind(R.id.slider)
     CustomSlider slider;
     // Input fields
@@ -131,6 +133,7 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
 
     private void setupSlider(){
         this.slider.setOnValueChangedListener(this);
+        this.slider.setOnTouchListener(this);
 //        this.slider.setValue(0);
     }
 
@@ -405,5 +408,18 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
                 this.difficulty.setTextColor(getResources().getColor(R.color.app_red));
                 break;
         }
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                this.scrollView.setScrollingEnabled(false);
+                break;
+            case MotionEvent.ACTION_UP:
+                this.scrollView.setScrollingEnabled(true);
+                break;
+        }
+        return false;
     }
 }

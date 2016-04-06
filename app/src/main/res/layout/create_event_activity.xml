@@ -39,7 +39,7 @@
         android:layout_centerInParent="true"
         android:visibility="gone" />
 
-    <com.gc.materialdesign.views.ScrollView
+    <com.andreasogeirik.master_frontend.layout.view.CustomScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -246,7 +246,6 @@
                     android:background="#42A5F5"
                     materialdesign:max="2"
                     materialdesign:min="0"
-                    materialdesign:showNumberIndicator="true"
                     android:layout_weight=".6"
                     android:layout_below="@+id/difficulty_wrapper"
                     />
@@ -281,5 +280,5 @@
                 android:textColor="@color/app_font"
                 android:textStyle="bold" />
         </LinearLayout>
-    </com.gc.materialdesign.views.ScrollView>
+    </com.andreasogeirik.master_frontend.layout.view.CustomScrollView>
 </RelativeLayout>
