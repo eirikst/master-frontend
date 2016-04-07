@@ -48,6 +48,26 @@ public class UserPreferencesManager {
         preferences.edit().remove("cookie").commit();
     }
 
+/*    public void saveGcmToken(String token) {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("gcmToken", token);
+        editor.commit();
+    }
+
+    public String getGcmToken() {
+        String gcmToken = preferences.getString("gcmToken", null);
+        return gcmToken;
+    }
+
+    public void removeGcmToken(){
+        preferences.edit().remove("gcmToken").commit();
+    }
+
+    public boolean tokenAvailable() {
+        return getGcmToken() != null;
+    }
+*/
+
     public void saveTextSize(int textSize) {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("text_size", "" + textSize);

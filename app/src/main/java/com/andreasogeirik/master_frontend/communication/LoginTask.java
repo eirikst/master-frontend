@@ -1,8 +1,11 @@
 package com.andreasogeirik.master_frontend.communication;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import android.util.Pair;
 
+import com.andreasogeirik.master_frontend.gcm.GcmApiService;
+import com.andreasogeirik.master_frontend.gcm.GcmTokenSingleton;
 import com.andreasogeirik.master_frontend.listener.OnLoginFinishedListener;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.User;
@@ -66,8 +69,12 @@ public class LoginTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntit
     }
 
     protected void onPostExecute(Pair<Integer, ResponseEntity<String>> response) {
-
         if (response.first == Constants.OK) {
+            //set gcm token on server after login
+            if(GcmTokenSingleton.getInstance().tokenAvailable()) {
+                new GcmApiService(GcmTokenSingleton.getInstance().getToken(), GcmApiService.ADD_TOKEN, null).execute();
+                Log.i(getClass().getSimpleName(), "Adding token " + GcmTokenSingleton.getInstance().getToken());
+            }
 
             try {
                 JSONObject user = new JSONObject(response.second.getBody());

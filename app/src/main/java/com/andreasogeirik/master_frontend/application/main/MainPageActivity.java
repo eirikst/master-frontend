@@ -1,9 +1,14 @@
 package com.andreasogeirik.master_frontend.application.main;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -11,6 +16,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -18,7 +24,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,10 +35,13 @@ import com.andreasogeirik.master_frontend.application.main.interfaces.EventPrese
 import com.andreasogeirik.master_frontend.application.main.interfaces.EventView;
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.main.notification.NotificationCenterDialogFragment;
+import com.andreasogeirik.master_frontend.gcm.QuickstartPreferences;
+import com.andreasogeirik.master_frontend.gcm.RegistrationIntentService;
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
 import com.andreasogeirik.master_frontend.layout.adapter.MainPagerAdapter;
-import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
-
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -45,6 +53,11 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
         AttendingEventsFragment.AttendingEventsListener, MyEventsFragment.MyEventsListener,
         RecommendedEventsFragment.RecommendedEventsListener,
         ViewPager.OnPageChangeListener, NotificationCenterDialogFragment.NotificationCenterListener {
+    private String tag = getClass().getSimpleName();
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private BroadcastReceiver registrationBroadcastReceiver;
+    public boolean isReceiverRegistered;
+
     private EventPresenter presenter;
 
     @Bind(R.id.progress)
@@ -82,22 +95,75 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_page_activity);
-        ButterKnife.bind(this);
 
-        setupToolbar();
-        progressBarManager = new ProgressBarManager(this, mainContainer, progressView);
-        presenter = new MainPagePresenterImpl(this);
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
-                new IntentFilter("custom-event-name"));
+        registrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                SharedPreferences sharedPreferences =
+                        PreferenceManager.getDefaultSharedPreferences(context);
+                boolean sentToken = sharedPreferences
+                        .getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
+                if (sentToken) {
+                    //ok
+                } else {
+                    //TODO:possibly handle this
+                }
+            }
+        };
+
+        // Registering BroadcastReceiver
+        registerReceiver();
+
+        if (checkPlayServices()) {
+            setContentView(R.layout.main_page_activity);
+            // Start IntentService to register this application with GCM.
+            Intent intent = new Intent(this, RegistrationIntentService.class);
+            startService(intent);
+
+            ButterKnife.bind(this);
+            setupToolbar();
+            progressBarManager = new ProgressBarManager(this, mainContainer, progressView);
+            presenter = new MainPagePresenterImpl(this);
+            LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
+                    new IntentFilter("custom-event-name"));
+        }
+        else {
+            Log.w(tag, "No Play Services on device");
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        presenter.findFriendships();
+        GoogleApiAvailability api = GoogleApiAvailability.getInstance();
+        int code = api.isGooglePlayServicesAvailable(this);
+
+        if (code == ConnectionResult.SUCCESS) {
+            presenter.findFriendships();
+        }
+        else {
+            GooglePlayServicesUtil.getErrorDialog(ConnectionResult.SERVICE_MISSING, this, 1).show();
+        }
+
+        registerReceiver();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(registrationBroadcastReceiver);
+        isReceiverRegistered = false;
+    }
+
+    private void registerReceiver(){
+        if(!isReceiverRegistered) {
+            LocalBroadcastManager.getInstance(this).registerReceiver(registrationBroadcastReceiver,
+                    new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
+            isReceiverRegistered = true;
+        }
     }
 
     @Override
@@ -230,4 +296,55 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
     }
 
 
+    //TODO:Fjern
+    void notifyMe() {
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_directions_run_black_24dp)
+                        .setContentTitle("My notification")
+                        .setContentText("Hello World!");
+// Creates an explicit intent for an Activity in your app
+        Intent resultIntent = new Intent(this, MainPageActivity.class);
+
+// The stack builder object will contain an artificial back stack for the
+// started Activity.
+// This ensures that navigating backward from the Activity leads out of
+// your application to the Home screen.
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+// Adds the back stack for the Intent (but not the Intent itself)
+        stackBuilder.addParentStack(MainPageActivity.class);
+// Adds the Intent that starts the Activity to the top of the stack
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(
+                        0,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        mBuilder.setContentIntent(resultPendingIntent);
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+// mId allows you to update the notification later on.
+        mNotificationManager.notify(1232, mBuilder.build());
+    }
+
+    /**
+     * Check the device to make sure it has the Google Play Services APK. If
+     * it doesn't, display a dialog that allows users to download the APK from
+     * the Google Play Store or enable it in the device's system settings.
+     */
+    private boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                Log.i(tag, "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }
 }

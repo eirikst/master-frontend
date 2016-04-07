@@ -6,6 +6,9 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
+/*
+ * This code is fetched directly from the following github project: https://github.com/navasmdc/MaterialDesignLibrary
+ */
 public class CustomView extends RelativeLayout{
 
 

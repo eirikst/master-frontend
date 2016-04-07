@@ -1,7 +1,5 @@
 package com.andreasogeirik.master_frontend.communication;
 
-import android.util.Pair;
-
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
