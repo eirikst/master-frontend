@@ -4,6 +4,7 @@ import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.User;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.Set;
 
 /**
@@ -15,4 +16,7 @@ public interface ProfileInteractor {
     void findImage(String imageUri, File storagePath);
 
     void findAttendingEvents(User user);
+
+    void updateProfileImage(byte[] byteImage);
+    void sampleImage(InputStream inputStream);
 }

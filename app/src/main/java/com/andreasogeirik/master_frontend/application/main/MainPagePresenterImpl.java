@@ -35,12 +35,12 @@ public class MainPagePresenterImpl extends GeneralPresenter implements EventPres
             Constants.USER_SET_SIZE = Constants.MEDIUM;
         }
 
-        // This is called so that we will have no latency waiting for a 401 of the user is not authenticated
-        if(UserPreferencesManager.getInstance().getCookie() == null) {
-            view.navigateToLogin();
-            return;
-        }
-        findUser();
+//        // This is called so that we will have no latency waiting for a 401 of the user is not authenticated
+//        if(UserPreferencesManager.getInstance().getCookie() == null) {
+//            view.navigateToLogin();
+//            return;
+//        }
+//        findUser();
     }
 
     @Override
@@ -82,13 +82,13 @@ public class MainPagePresenterImpl extends GeneralPresenter implements EventPres
 
     @Override
     public void findUser() {
-        this.view.showProgress();
+//        this.view.showProgress();
         interactor.findUser();
     }
 
     @Override
     public void findUserSuccess(User user) {
-        this.view.hideProgress();
+//        this.view.hideProgress();
         CurrentUser.getInstance().setUser(user);
         //initDomain();
         view.initGUI();
@@ -96,7 +96,7 @@ public class MainPagePresenterImpl extends GeneralPresenter implements EventPres
 
     @Override
     public void findUserFailure(int code) {
-        this.view.hideProgress();
+//        this.view.hideProgress();
         view.navigateToLogin();
     }
 
@@ -113,5 +113,14 @@ public class MainPagePresenterImpl extends GeneralPresenter implements EventPres
         }
 
         view.showNotificationCenter(requests);
+    }
+
+    @Override
+    public void checkUser() {
+        if(UserPreferencesManager.getInstance().getCookie() == null) {
+            view.navigateToLogin();
+            return;
+        }
+        findUser();
     }
 }

@@ -56,7 +56,8 @@
             android:name=".application.event.main.participants.ParticipantsActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".application.event.edit.EditEventActivity" />
-        <activity android:name=".application.user.profile.AttendingEventsActivity"></activity>
+        <activity android:name=".application.user.profile.AttendingEventsActivity"/>
+        <activity android:name=".application.user.edit.EditUserActivity"/>
     </application>
 
 </manifest>

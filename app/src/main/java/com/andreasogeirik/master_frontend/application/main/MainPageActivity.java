@@ -82,26 +82,29 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_page_activity);
-        ButterKnife.bind(this);
-
-        setupToolbar();
-        progressBarManager = new ProgressBarManager(this, mainContainer, progressView);
+//        ButterKnife.bind(this);
         presenter = new MainPagePresenterImpl(this);
-
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
-                new IntentFilter("custom-event-name"));
+        presenter.checkUser();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        presenter.findFriendships();
+//        presenter.findFriendships();
     }
 
     @Override
     public void initGUI() {
+
+        setContentView(R.layout.main_page_activity);
+        ButterKnife.bind(this);
+
+        setupToolbar();
+        progressBarManager = new ProgressBarManager(this, mainContainer, progressView);
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
+                new IntentFilter("custom-event-name"));
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         pagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), this);
@@ -156,6 +159,7 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
         Intent i = new Intent(this, EntranceActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
+        finish();
     }
 
     @Override

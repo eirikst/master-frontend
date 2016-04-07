@@ -35,7 +35,10 @@ public class GetMeTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntit
         ResponseEntity<String> response;
 
         RestTemplate template = new RestTemplate();
-        ((SimpleClientHttpRequestFactory) template.getRequestFactory()).setConnectTimeout(1000 * 5);
+        SimpleClientHttpRequestFactory requestFactory = (SimpleClientHttpRequestFactory) template.getRequestFactory();
+        requestFactory.setConnectTimeout(1000 * 5);
+        requestFactory.setReadTimeout(1000 * 5);
+
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Cookie", UserPreferencesManager.getInstance().getCookie());

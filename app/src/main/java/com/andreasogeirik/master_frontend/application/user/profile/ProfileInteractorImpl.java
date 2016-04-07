@@ -8,20 +8,29 @@ import com.andreasogeirik.master_frontend.communication.GetAttendedEventsTask;
 import com.andreasogeirik.master_frontend.communication.GetAttendingEventsTask;
 import com.andreasogeirik.master_frontend.communication.GetFriendsTask;
 import com.andreasogeirik.master_frontend.communication.GetPostsTask;
+import com.andreasogeirik.master_frontend.communication.UpdateUserTask;
+import com.andreasogeirik.master_frontend.communication.UploadImageTask;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingFriendshipsListener;
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingPostsListener;
+import com.andreasogeirik.master_frontend.listener.OnImageUploadFinishedListener;
+import com.andreasogeirik.master_frontend.listener.OnSampleImageFinishedListener;
+import com.andreasogeirik.master_frontend.listener.OnUpdateUserFinishedListener;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.UserPost;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.ImageInteractor;
+import com.andreasogeirik.master_frontend.util.image.ImageStatusCode;
+import com.andreasogeirik.master_frontend.util.image.SampleImageTask;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,10 +39,11 @@ import java.util.Set;
  */
 public class ProfileInteractorImpl implements ProfileInteractor, OnFinishedLoadingPostsListener,
         OnFinishedLoadingFriendshipsListener, ImageInteractor.OnImageFoundListener,
-        GetAttendingEventsTask.OnFinishedLoadingAttendingEventsListener
+        GetAttendingEventsTask.OnFinishedLoadingAttendingEventsListener, OnSampleImageFinishedListener, OnImageUploadFinishedListener, OnUpdateUserFinishedListener
 
 {
     private ProfilePresenter presenter;
+    private byte[] profileImage;
 
     public ProfileInteractorImpl(ProfilePresenter presenter) {
         this.presenter = presenter;
@@ -132,6 +142,16 @@ public class ProfileInteractorImpl implements ProfileInteractor, OnFinishedLoadi
     }
 
     @Override
+    public void updateProfileImage(byte[] byteImage) {
+
+    }
+
+    @Override
+    public void sampleImage(InputStream inputStream) {
+        new SampleImageTask(this, inputStream, true).execute();
+    }
+
+    @Override
     public void onSuccessAttendingEvents(JSONArray eventsJson) {
         Set<Event> events = new HashSet<>();
         try {
@@ -152,4 +172,84 @@ public class ProfileInteractorImpl implements ProfileInteractor, OnFinishedLoadi
     }
 
 
+    @Override
+    public void onImageUploadSuccess(String imageUrl) {
+        User user = CurrentUser.getInstance().getUser();
+
+        JSONObject jsonUser = new JSONObject();
+
+        try {
+            jsonUser.put("firstname", user.getFirstname());
+            jsonUser.put("lastname", user.getLastname());
+            jsonUser.put("location", user.getLocation());
+            jsonUser.put("imageUri", imageUrl);
+            new UpdateUserTask(jsonUser, this).execute();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onImageUploadError(int error) {
+        switch (error) {
+            case Constants.RESOURCE_ACCESS_ERROR:
+                presenter.userUpdateError("Kunne ikke laste opp bilde, ingen kontakt med server");
+                break;
+            // Should not happen, do nothing
+            case Constants.UNAUTHORIZED:
+                break;
+            // Should not happen, do nothing
+            case Constants.CLIENT_ERROR:
+                break;
+            case Constants.SOME_ERROR:
+                presenter.userUpdateError("Noe gikk galt, prøv igjen senere");
+                break;
+        }
+    }
+
+    @Override
+    public void onSampleSuccess(Bitmap bitmap, byte[] byteImage) {
+        new UploadImageTask(byteImage, this).execute();
+    }
+
+    @Override
+    public void onSampleError(ImageStatusCode statusCode) {
+        switch (statusCode) {
+            case NOT_AN_IMAGE:
+                presenter.userUpdateError("Den valgte filen er ikke et bilde");
+                break;
+            case FILE_NOT_FOUND:
+                presenter.userUpdateError("Fant ikke den valgte filen");
+                break;
+        }
+    }
+
+    @Override
+    public void onUpdateSuccess(JSONObject user) {
+        try {
+            CurrentUser.getInstance().setUser(new User(user));
+        }
+        catch (JSONException e) {
+
+        }
+        presenter.userUpdateSuccess();
+    }
+
+    @Override
+    public void onUpdateError(int error) {
+        switch (error) {
+            case Constants.RESOURCE_ACCESS_ERROR:
+                presenter.userUpdateError("Kunne ikke oppdatere bruker, ingen kontakt med server");
+                break;
+            // Should not happen, do nothing
+            case Constants.UNAUTHORIZED:
+                break;
+            // Should not happen, do nothing
+            case Constants.CLIENT_ERROR:
+                break;
+            case Constants.SOME_ERROR:
+                presenter.userUpdateError("Noe gikk galt, prøv igjen senere");
+                break;
+        }
+    }
 }

@@ -21,6 +21,7 @@ public class FriendProfileHeader extends Fragment {
     private int friendCount;
 
     private TextView friendText;
+    private TextView editProfile;
 
     /*
      * Creates a new instance of the fragment, adds the friend list
@@ -67,6 +68,8 @@ public class FriendProfileHeader extends Fragment {
                 callback.onFriendListSelected();
             }
         });
+
+
 
         return view;
     }
