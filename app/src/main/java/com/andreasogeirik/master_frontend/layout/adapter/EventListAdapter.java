@@ -152,7 +152,6 @@ public class EventListAdapter extends ArrayAdapter<Event> {
                     friendNames.add(eventUser.getFirstname());
                 }
             }
-            System.out.println("friendcount " + friendCount + " for " + event.getName());
 
             boolean userAttendsEvent = event.attends(user);
 

@@ -11,6 +11,14 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!--GCM-->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <permission android:name="com.andreasogeirik.master_frontend.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="com.andreasogeirik.master_frontend.permission.C2D_MESSAGE"></uses-permission>
+    <!--GCM-->
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -18,7 +26,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:theme="@style/AppTheme.NoActionBar"
         tools:replace="theme">
@@ -58,6 +66,40 @@
         <activity android:name=".application.event.edit.EditEventActivity" />
         <activity android:name=".application.user.profile.AttendingEventsActivity"/>
         <activity android:name=".application.user.edit.EditUserActivity"/>
+
+        <!--GCM-->
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+                <category android:name="com.example.gcm" />
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.andreasogeirik.master_frontend.gcm.GcmListenerService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.andreasogeirik.master_frontend.gcm.MyInstanceIDListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
+            </intent-filter>
+        </service>
+
+
+        <service android:name="com.andreasogeirik.master_frontend.gcm.RegistrationIntentService" android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID"/>
+            </intent-filter>
+        </service>
+        <!--GCM-->
     </application>
 
 </manifest>

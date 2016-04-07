@@ -23,6 +23,9 @@ import com.gc.materialdesign.R;
 import com.gc.materialdesign.utils.Utils;
 import com.nineoldandroids.view.ViewHelper;
 
+/*
+ * This code is fetched directly from the following github project: https://github.com/navasmdc/MaterialDesignLibrary
+ */
 public class CustomSlider extends CustomView {
 
     private int backgroundColor = Color.parseColor("#4CAF50");
