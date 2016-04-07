@@ -12,6 +12,7 @@ import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -28,6 +29,8 @@ import com.andreasogeirik.master_frontend.application.event.edit.interfaces.Edit
 import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
 import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
+import com.andreasogeirik.master_frontend.layout.view.CustomScrollView;
+import com.andreasogeirik.master_frontend.layout.view.CustomSlider;
 import com.andreasogeirik.master_frontend.listener.OnDateSetListener;
 import com.andreasogeirik.master_frontend.listener.OnTimeSetListener;
 import com.andreasogeirik.master_frontend.model.Event;
@@ -40,30 +43,32 @@ import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
-public class EditEventActivity extends AppCompatActivity implements EditEventView, OnDateSetListener, OnTimeSetListener {
+public class EditEventActivity extends AppCompatActivity implements EditEventView, OnDateSetListener, OnTimeSetListener, CustomSlider.OnValueChangedListener, CustomSlider.OnTouchListener {
 
-    // Containers
-    @Bind(R.id.progress)
-    View progressView;
-    @Bind(R.id.scroll_view)
-    ScrollView scrollView;
-    @Bind(R.id.image_container)
-    View imageContainer;
-
-
+    // Toolbar
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-
     @Bind(R.id.home)
     Button homeBtn;
 
+    @Bind(R.id.progress)
+    View progress;
+    @Bind(R.id.scroll_view)
+    CustomScrollView scrollView;
+    @Bind(R.id.slider)
+    CustomSlider slider;
     // Input fields
     @Bind(R.id.name)
-    EditText nameView;
+    EditText name;
     @Bind(R.id.location)
-    EditText locationView;
+    EditText location;
     @Bind(R.id.description)
-    EditText descriptionView;
+    EditText description;
+    @Bind(R.id.difficulty)
+    TextView difficulty;
+
+    @Bind(R.id.image_container)
+    View imageContainer;
 
     // Date/time
     // Validation
@@ -74,23 +79,23 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
 
     // Buttons
     @Bind(R.id.start_date_button)
-    Button startDateButton;
+    EditText startDateBtn;
     @Bind(R.id.start_time_button)
-    Button startTimeButton;
+    EditText startTimeBtn;
     @Bind(R.id.end_date_button)
-    Button endDateButton;
+    EditText endDateBtn;
     @Bind(R.id.end_time_button)
-    Button endTimeButton;
+    EditText endTimeBtn;
 
     // Checkbox
     @Bind(R.id.checkbox)
-    CheckBox endTimeCheckbox;
+    CheckBox checkbox;
 
     // Image
     @Bind(R.id.image_error)
     TextView imageError;
     @Bind(R.id.image_select_button)
-    Button selectImageButton;
+    ImageView selectImageButton;
     @Bind(R.id.image_view)
     ImageView imageVIew;
 
@@ -98,7 +103,7 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
     @Bind(R.id.error)
     TextView eventError;
     @Bind(R.id.submit_button)
-    Button submitButton;
+    Button submitBtn;
 
     EditEventPresenter presenter;
     private ProgressBarManager progressBarManager;
@@ -112,8 +117,10 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
         setContentView(R.layout.edit_event_activity);
         ButterKnife.bind(this);
 
-        this.progressBarManager = new ProgressBarManager(this, scrollView, progressView);
+        this.progressBarManager = new ProgressBarManager(this, scrollView, progress);
         setupToolbar();
+        this.slider.setOnValueChangedListener(this);
+        this.slider.setOnTouchListener(this);
 
         try {
             this.presenter = new EditEventPresenterImpl(this, (Event) getIntent().getSerializableExtra("event"));
@@ -171,9 +178,9 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
         clearValidationMessages();
         View current = getCurrentFocus();
         if (current != null) current.clearFocus();
-        String name = nameView.getText().toString();
-        String location = locationView.getText().toString();
-        String description = descriptionView.getText().toString();
+        String name = this.name.getText().toString();
+        String location = this.location.getText().toString();
+        String description = this.description.getText().toString();
         this.presenter.editEvent(name, location, description);
     }
 
@@ -187,13 +194,13 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
     @OnCheckedChanged(R.id.checkbox)
     public void endTimeChecked(boolean checked) {
         if (checked) {
-            endDateButton.setVisibility(View.VISIBLE);
-            endTimeButton.setVisibility(View.VISIBLE);
+            this.endDateBtn.setVisibility(View.VISIBLE);
+            this.endTimeBtn.setVisibility(View.VISIBLE);
         } else {
-            endDateButton.setVisibility(View.GONE);
-            endTimeButton.setVisibility(View.GONE);
-            this.endDateButton.setText("DATO");
-            this.endTimeButton.setText("TID");
+            this.endDateBtn.setVisibility(View.GONE);
+            this.endTimeBtn.setVisibility(View.GONE);
+            this.endDateBtn.setText("DATO");
+            this.endTimeBtn.setText("TID");
             this.endDateError.setText("");
             this.endDateError.setVisibility(View.GONE);
             this.presenter.deleteEndTimes();
@@ -248,22 +255,22 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
 
     @Override
     public void setNameError(String error) {
-        nameView.setError(error);
-        View focusView = nameView;
+        this.name.setError(error);
+        View focusView = this.name;
         focusView.requestFocus();
     }
 
     @Override
     public void setLocationError(String error) {
-        locationView.setError(error);
-        View focusView = locationView;
+        this.location.setError(error);
+        View focusView = this.location;
         focusView.requestFocus();
     }
 
     @Override
     public void setDescriptionError(String error) {
-        descriptionView.setError(error);
-        View focusView = descriptionView;
+        this.description.setError(error);
+        View focusView = this.description;
         focusView.requestFocus();
     }
 
@@ -291,20 +298,20 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
 
     @Override
     public void setEventAttributes(String name, String location, String description, String startDate, String startTime) {
-        this.nameView.setText(name);
-        this.locationView.setText(location);
-        this.descriptionView.setText(description);
-        this.startDateButton.setText(startDate);
-        this.startTimeButton.setText(startTime);
+        this.name.setText(name);
+        this.location.setText(location);
+        this.description.setText(description);
+        this.startDateBtn.setText(startDate);
+        this.startTimeBtn.setText(startTime);
     }
 
     @Override
     public void setEndDate(String endDate, String endTime) {
-        this.endTimeCheckbox.setChecked(true);
-        this.endDateButton.setVisibility(View.VISIBLE);
-        this.endTimeButton.setVisibility(View.VISIBLE);
-        this.endDateButton.setText(endDate);
-        this.endTimeButton.setText(endTime);
+        this.checkbox.setChecked(true);
+        this.endDateBtn.setVisibility(View.VISIBLE);
+        this.endTimeBtn.setVisibility(View.VISIBLE);
+        this.endDateBtn.setText(endDate);
+        this.endTimeBtn.setText(endTime);
     }
 
     @Override
@@ -346,47 +353,41 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
 
     @Override
     public void updateStartDateView(int day, int month, int year) {
-        this.startDateButton.setText(day + "." + month + "." + year);
+        this.startDateBtn.setText(day + "." + month + "." + year);
         this.startDateError.setVisibility(View.GONE);
     }
 
     @Override
     public void updateEndDateView(int day, int month, int year) {
-        this.endDateButton.setText(day + "." + month + "." + year);
+        this.endDateBtn.setText(day + "." + month + "." + year);
         this.endDateError.setVisibility(View.GONE);
     }
 
     @Override
     public void updateStartTimeView(int hour, int minute) {
-        if (hour < 10 && minute < 10){
-            this.startTimeButton.setText("0" + hour + ":0" + minute);
-        }
-        else if (minute < 10){
-            this.startTimeButton.setText(hour + ":0" + minute);
+        if (hour < 10 && minute < 10) {
+            this.startTimeBtn.setText("0" + hour + ":0" + minute);
+        } else if (minute < 10) {
+            this.startTimeBtn.setText(hour + ":0" + minute);
 
-        }
-        else if (hour < 10){
-            this.startTimeButton.setText("0" + hour + ":" + minute);
-        }
-        else{
-            this.startTimeButton.setText(hour + ":" + minute);
+        } else if (hour < 10) {
+            this.startTimeBtn.setText("0" + hour + ":" + minute);
+        } else {
+            this.startTimeBtn.setText(hour + ":" + minute);
         }
         this.endDateError.setVisibility(View.GONE);
     }
 
     @Override
     public void updateEndTimeView(int hour, int minute) {
-        if (hour < 10 && minute < 10){
-            this.endTimeButton.setText("0" + hour + ":0" + minute);
-        }
-        else if (minute < 10){
-            this.endTimeButton.setText(hour + ":0" + minute);
-        }
-        else if (hour < 10){
-            this.endTimeButton.setText("0" + hour + ":" + minute);
-        }
-        else{
-            this.endTimeButton.setText(hour + ":" + minute);
+        if (hour < 10 && minute < 10) {
+            this.endTimeBtn.setText("0" + hour + ":0" + minute);
+        } else if (minute < 10) {
+            this.endTimeBtn.setText(hour + ":0" + minute);
+        } else if (hour < 10) {
+            this.endTimeBtn.setText("0" + hour + ":" + minute);
+        } else {
+            this.endTimeBtn.setText(hour + ":" + minute);
         }
         this.endDateError.setVisibility(View.GONE);
     }
@@ -397,5 +398,39 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
             return super.onOptionsItemSelected(item);
         }
         return true;
+    }
+
+    @Override
+    public void onValueChanged(int i) {
+        switch (i) {
+            case 0:
+                this.slider.setBackgroundColor(getResources().getColor(R.color.app_blue));
+                this.difficulty.setText(getResources().getText(R.string.event_create_difficulty_easy));
+                this.difficulty.setTextColor(getResources().getColor(R.color.app_blue));
+                break;
+            case 1:
+                this.slider.setBackgroundColor(getResources().getColor(R.color.app_green));
+                this.difficulty.setText(getResources().getText(R.string.event_create_difficulty_medium));
+                this.difficulty.setTextColor(getResources().getColor(R.color.app_green));
+                break;
+            case 2:
+                this.slider.setBackgroundColor(getResources().getColor(R.color.app_red));
+                this.difficulty.setText(getResources().getText(R.string.event_create_difficulty_hard));
+                this.difficulty.setTextColor(getResources().getColor(R.color.app_red));
+                break;
+        }
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                this.scrollView.setScrollingEnabled(false);
+                break;
+            case MotionEvent.ACTION_UP:
+                this.scrollView.setScrollingEnabled(true);
+                break;
+        }
+        return false;
     }
 }

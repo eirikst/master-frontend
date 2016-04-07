@@ -213,7 +213,7 @@ public class CustomSlider extends CustomView {
                         canvas.getHeight(), Bitmap.Config.ARGB_8888);
             }
             Canvas temp = new Canvas(bitmap);
-            paint.setColor(Color.parseColor("#B0B0B0"));
+            paint.setColor(getResources().getColor(com.andreasogeirik.master_frontend.R.color.app_blue));
             paint.setStrokeWidth(Utils.dpToPx(2, getResources()));
             temp.drawLine(getHeight() / 2, getHeight() / 2, getWidth()
                     - getHeight() / 2, getHeight() / 2, paint);

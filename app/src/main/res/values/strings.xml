@@ -29,7 +29,7 @@
     <string name="event_create_end_date_label">DATO</string>
     <string name="event_create_end_time_label">TID</string>
     <string name="event_create_difficulty">DRA FOR Å VELGE INTENSITET:</string>
-    <string name="event_create_difficulty_easy">ENKEL</string>
+    <string name="event_create_difficulty_easy">LETT</string>
     <string name="event_create_difficulty_medium">MODERAT</string>
     <string name="event_create_difficulty_hard">HØY</string>
 
@@ -59,7 +59,10 @@
     <string name="event_edit_end_time_label">TID</string>
     <string name="event_edit_select_image">ENDRE BILDE</string>
     <string name="event_edit_submit">LAGRE AKTIVITET</string>
-
+    <string name="event_edit_difficulty">DRA FOR Å VELGE INTENSITET:</string>
+    <string name="event_edit_difficulty_easy">LETT</string>
+    <string name="event_edit_difficulty_medium">MODERAT</string>
+    <string name="event_edit_difficulty_hard">HØY</string>
 
     <string name="action_settings">Innstillinger</string>
     <string name="title_activity_login">Logg inn</string>
