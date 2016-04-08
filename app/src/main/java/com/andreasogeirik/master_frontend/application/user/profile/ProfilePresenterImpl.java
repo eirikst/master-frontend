@@ -169,7 +169,7 @@ public class ProfilePresenterImpl extends GeneralPresenter implements ProfilePre
     }
 
     @Override
-    public void userUpdateError(String errorMessage) {
-        view.updateUserError(errorMessage);
+    public void userUpdateError(int error) {
+
     }
 }

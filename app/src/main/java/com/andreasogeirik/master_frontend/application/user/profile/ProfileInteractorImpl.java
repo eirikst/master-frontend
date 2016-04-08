@@ -1,6 +1,8 @@
 package com.andreasogeirik.master_frontend.application.user.profile;
 
 
+import android.graphics.Bitmap;
+
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfileInteractor;
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfilePresenter;
 import com.andreasogeirik.master_frontend.communication.GetAttendingEventsTask;
@@ -19,7 +21,6 @@ import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.UserPost;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
-import com.andreasogeirik.master_frontend.util.ImageInteractor;
 import com.andreasogeirik.master_frontend.util.image.ImageStatusCode;
 import com.andreasogeirik.master_frontend.util.image.SampleImageTask;
 
@@ -27,6 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,11 +36,10 @@ import java.util.Set;
  * Created by eirikstadheim on 06/02/16.
  */
 public class ProfileInteractorImpl implements ProfileInteractor, OnFinishedLoadingPostsListener,
-        OnFinishedLoadingFriendshipsListener, GetAttendingEventsTask.OnFinishedLoadingAttendingEventsListener
+        OnFinishedLoadingFriendshipsListener, GetAttendingEventsTask.OnFinishedLoadingAttendingEventsListener, OnSampleImageFinishedListener, OnImageUploadFinishedListener, OnUpdateUserFinishedListener
 
 {
     private ProfilePresenter presenter;
-    private byte[] profileImage;
 
     public ProfileInteractorImpl(ProfilePresenter presenter) {
         this.presenter = presenter;
@@ -121,6 +122,7 @@ public class ProfileInteractorImpl implements ProfileInteractor, OnFinishedLoadi
         new SampleImageTask(this, inputStream, true).execute();
     }
 
+
     @Override
     public void onSuccessAttendingEvents(JSONArray eventsJson) {
         Set<Event> events = new HashSet<>();
@@ -142,4 +144,45 @@ public class ProfileInteractorImpl implements ProfileInteractor, OnFinishedLoadi
     }
 
 
+    @Override
+    public void onSampleSuccess(Bitmap bitmap, byte[] byteImage) {
+        new UploadImageTask(byteImage, this).execute();
+    }
+
+    @Override
+    public void onSampleError(ImageStatusCode statusCode) {
+
+    }
+
+    @Override
+    public void onImageUploadSuccess(String imageUrl) {
+        User user = CurrentUser.getInstance().getUser();
+
+        JSONObject jsonUser = new JSONObject();
+
+        try {
+            jsonUser.put("firstname", user.getFirstname());
+            jsonUser.put("lastname", user.getLastname());
+            jsonUser.put("location", user.getLocation());
+            jsonUser.put("imageUri", imageUrl);
+            new UpdateUserTask(jsonUser, this).execute();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onImageUploadError(int error) {
+
+    }
+
+    @Override
+    public void onUpdateSuccess(JSONObject user) {
+        presenter.userUpdateSuccess();
+    }
+
+    @Override
+    public void onUpdateError(int error) {
+        presenter.userUpdateError(error);
+    }
 }

@@ -139,7 +139,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
         else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Uri photoUri = data.getData();
             updateUser(photoUri);
-//            imageView.setImageURI(photoUri);
         }
     }
 

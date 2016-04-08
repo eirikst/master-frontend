@@ -3,7 +3,6 @@ package com.andreasogeirik.master_frontend.application.event.edit;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Pair;
 
 import com.andreasogeirik.master_frontend.application.event.edit.interfaces.EditEventInteractor;
@@ -16,10 +15,6 @@ import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.DateUtility;
 import com.andreasogeirik.master_frontend.util.image.ImageStatusCode;
 import com.andreasogeirik.master_frontend.util.image.SampleImageTask;
-import com.andreasogeirik.master_frontend.util.validation.CreateEventStatusCodes;
-import com.andreasogeirik.master_frontend.util.validation.CreateEventValidationContainer;
-import com.andreasogeirik.master_frontend.util.validation.InputValidation;
-
 import com.andreasogeirik.master_frontend.util.validation.event.CreateEventStatusCodes;
 import com.andreasogeirik.master_frontend.util.validation.event.CreateEventValidationContainer;
 import com.andreasogeirik.master_frontend.util.validation.event.InputValidation;

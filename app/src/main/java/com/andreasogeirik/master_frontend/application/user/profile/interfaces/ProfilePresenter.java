@@ -34,5 +34,5 @@ public interface ProfilePresenter {
 
     void updateUser(InputStream inputStream);
     void userUpdateSuccess();
-    void userUpdateError(String errorMessage);
+    void userUpdateError(int error);
 }

@@ -7,7 +7,6 @@ import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
 import com.andreasogeirik.master_frontend.application.user.edit.interfaces.EditUserInteractor;
 import com.andreasogeirik.master_frontend.application.user.edit.interfaces.EditUserPresenter;
 import com.andreasogeirik.master_frontend.application.user.edit.interfaces.EditUserView;
-import com.andreasogeirik.master_frontend.application.user.profile.ProfileInteractorImpl;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
