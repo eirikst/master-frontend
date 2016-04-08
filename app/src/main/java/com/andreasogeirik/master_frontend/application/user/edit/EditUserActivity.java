@@ -131,8 +131,10 @@ public class EditUserActivity extends AppCompatActivity implements EditUserView 
     }
 
     @Override
-    public void naviagetToProfileView() {
+    public void naviagteToProfileView(int userId) {
         Intent i = new Intent(this, ProfileActivity.class);
+        i.putExtra("user", userId);
+
         startActivity(i);
     }
 

@@ -6,7 +6,7 @@ import java.util.Set;
 /**
  * Created by eirikstadheim on 16/02/16.
  */
-public interface EventView {
+public interface MainPageView {
     void initGUI();
     void navigateToEntrance();
     void setNotificationCount(int count);

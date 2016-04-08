@@ -2,15 +2,12 @@ package com.andreasogeirik.master_frontend.application.main;
 
 import android.util.Log;
 
-import com.andreasogeirik.master_frontend.application.main.interfaces.EventInteractor;
-import com.andreasogeirik.master_frontend.application.main.interfaces.EventPresenter;
-import com.andreasogeirik.master_frontend.communication.GetAttendingEventsTask;
+import com.andreasogeirik.master_frontend.application.main.interfaces.MainPageInteractor;
+import com.andreasogeirik.master_frontend.application.main.interfaces.MainPagePresenter;
 import com.andreasogeirik.master_frontend.communication.GetMyFriendsTask;
 import com.andreasogeirik.master_frontend.communication.GetMeTask;
-import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingFriendshipsListener;
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingUserListener;
-import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
@@ -27,13 +24,13 @@ import java.util.Set;
 /**
  * Created by eirikstadheim on 16/02/16.
  */
-public class MainPageInteractorImpl implements EventInteractor, OnFinishedLoadingFriendshipsListener ,
-        OnFinishedLoadingUserListener {
+public class MainPageInteractorImpl implements MainPageInteractor, OnFinishedLoadingFriendshipsListener ,
+        GetMeTask.OnFinishedLoadingMeListener {
     private String tag = getClass().getSimpleName();
 
-    private EventPresenter presenter;
+    private MainPagePresenter presenter;
 
-    public MainPageInteractorImpl(EventPresenter presenter) {
+    public MainPageInteractorImpl(MainPagePresenter presenter) {
         this.presenter = presenter;
     }
 
@@ -94,7 +91,7 @@ public class MainPageInteractorImpl implements EventInteractor, OnFinishedLoadin
     }
 
     @Override
-    public void onLoadingUserSuccess(JSONObject jsonUser) {
+    public void onLoadingMeSuccess(JSONObject jsonUser) {
         try {
             User user = new User(jsonUser);
             presenter.findUserSuccess(user);
@@ -105,7 +102,7 @@ public class MainPageInteractorImpl implements EventInteractor, OnFinishedLoadin
     }
 
     @Override
-    public void onLoadingUserFailure(int code) {
+    public void onLoadingMeFailure(int code) {
         presenter.findUserFailure(code);
     }
 }

@@ -38,7 +38,7 @@ public class Toolbar {
                 return true;
             case R.id.my_profile:
                 i = new Intent(context, ProfileActivity.class);
-                i.putExtra("user", CurrentUser.getInstance().getUser());
+                i.putExtra("user", CurrentUser.getInstance().getUser().getId());
                 context.startActivity(i);
                 return true;
             case R.id.search_user:

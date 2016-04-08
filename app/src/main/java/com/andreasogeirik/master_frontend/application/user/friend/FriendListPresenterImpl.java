@@ -48,7 +48,7 @@ public class FriendListPresenterImpl extends GeneralPresenter implements FriendL
         if (CurrentUser.getInstance().getUser().isFriendWith(friendships.get(position).getFriend()) ||
                 CurrentUser.getInstance().getUser().equals(friendships.get(position).getFriend())) {
             Intent intent = new Intent(getActivity(), ProfileActivity.class);
-            intent.putExtra("user", friendships.get(position).getFriend());
+            intent.putExtra("user", friendships.get(position).getFriend().getId());
             getActivity().startActivity(intent);
         }
         //or if not friend

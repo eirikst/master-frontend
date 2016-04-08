@@ -28,6 +28,10 @@ public class User implements Serializable {
     public User() {
     }
 
+    public User(int id) {
+        this.id = id;
+    }
+
     public User(String email, String password, String firstname, String lastname, String location) {
         this.email = email;
         this.password = password;
@@ -191,6 +195,16 @@ public class User implements Serializable {
                 this.requests.add(friendship);
             }
         }
+    }
+
+    public void copyUser(User user) {
+        this.id = user.id;
+        this.firstname = user.firstname;
+        this.lastname = user.lastname;
+        this.imageUri = user.imageUri;
+        this.email = user.email;
+        this.location = user.location;
+        this.enabled = user.enabled;
     }
 
     public int getId() {

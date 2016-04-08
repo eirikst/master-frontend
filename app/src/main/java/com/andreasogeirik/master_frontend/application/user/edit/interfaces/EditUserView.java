@@ -6,7 +6,7 @@ package com.andreasogeirik.master_frontend.application.user.edit.interfaces;
 public interface EditUserView {
     void showPasswordCenter();
     void setUserAttributes(String firstname, String lastname, String location);
-    void naviagetToProfileView();
+    void naviagteToProfileView(int userId);
     void displayUpdateError(String message);
     void firstnameError(String message);
     void lastnameError(String message);

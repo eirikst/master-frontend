@@ -41,7 +41,7 @@ public class ParticipantsPresenterImpl extends GeneralPresenter implements Parti
         if (CurrentUser.getInstance().getUser().isFriendWith(users.get(position)) ||
                 CurrentUser.getInstance().getUser().equals(users.get(position))) {
             Intent intent = new Intent(getActivity(), ProfileActivity.class);
-            intent.putExtra("user", users.get(position));
+            intent.putExtra("user", users.get(position).getId());
             getActivity().startActivity(intent);
         }
         //or if not friend

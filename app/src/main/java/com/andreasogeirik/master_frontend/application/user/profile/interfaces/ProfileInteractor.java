@@ -11,6 +11,8 @@ import java.util.Set;
  * Created by eirikstadheim on 06/02/16.
  */
 public interface ProfileInteractor {
+    void findUser(int userId);
+
     void findPosts(User user, int start);
     void findFriends(int userId);
 

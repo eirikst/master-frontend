@@ -1,9 +1,7 @@
 package com.andreasogeirik.master_frontend.application.main.fragments.attending_events;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -73,14 +71,9 @@ public class AttendingEventsFragment extends Fragment implements AttendingEventV
         listAdapter = new EventListAdapter(getActivity().getApplicationContext());
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
     /*
-         * Inflates the layout, set adapter
-         */
+     * Inflates the layout, set adapter
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -104,7 +97,9 @@ public class AttendingEventsFragment extends Fragment implements AttendingEventV
         footer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.findAttendedEvents();
+                if(presenter != null) {
+                    presenter.findAttendedEvents();
+                }
             }
         });
 
@@ -112,18 +107,11 @@ public class AttendingEventsFragment extends Fragment implements AttendingEventV
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onResume() {
+        super.onResume();
 
         User user = (User)getActivity().getIntent().getSerializableExtra("user");
-
         presenter = new AttendingEventsPresenterImpl(this, user);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        //save nothing, should get a fresh set of events
     }
 
     @Override
@@ -137,11 +125,6 @@ public class AttendingEventsFragment extends Fragment implements AttendingEventV
     public void setAttendingEvents(Set<Event> events) {
         listAdapter.clear();
         listAdapter.addAll(events);
-    }
-
-    @Override
-    public void setAttendingImage(String imageUri, Bitmap bitmap) {
-        //TODO.remove? ja
     }
 
     @Override

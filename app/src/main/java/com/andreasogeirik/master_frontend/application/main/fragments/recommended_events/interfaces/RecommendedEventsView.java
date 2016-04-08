@@ -15,7 +15,6 @@ public interface RecommendedEventsView {
 
     void displayMessage(String message);
     void setRecommendedEvents(Set<Event> events);
-    void setEventImage(String imageUri, Bitmap bitmap);
     void updateListView();
     void setNoMoreEventsToLoad();
     void setUser(User user);

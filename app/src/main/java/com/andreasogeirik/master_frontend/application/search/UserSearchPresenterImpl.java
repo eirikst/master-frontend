@@ -110,7 +110,7 @@ public class UserSearchPresenterImpl extends GeneralPresenter implements UserSea
         if (CurrentUser.getInstance().getUser().isFriendWith(user) ||
                 CurrentUser.getInstance().getUser().equals(user)) {
             Intent intent = new Intent(getActivity(), ProfileActivity.class);
-            intent.putExtra("user", user);
+            intent.putExtra("user", user.getId());
             getActivity().startActivity(intent);
         }
         //or if not friend

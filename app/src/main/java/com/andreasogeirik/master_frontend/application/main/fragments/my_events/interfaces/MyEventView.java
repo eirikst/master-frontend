@@ -16,7 +16,6 @@ public interface MyEventView {
 
     void displayMessage(String message);
     void setMyEvents(Set<Event> events);
-    void setEventImage(String imageUri, Bitmap bitmap);
     void updateListView();
     void setNoMoreEventsToLoad();
     void setUser(User user);

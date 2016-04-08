@@ -3,9 +3,9 @@ package com.andreasogeirik.master_frontend.application.main;
 import android.app.Activity;
 import android.os.Bundle;
 
-import com.andreasogeirik.master_frontend.application.main.interfaces.EventInteractor;
-import com.andreasogeirik.master_frontend.application.main.interfaces.EventPresenter;
-import com.andreasogeirik.master_frontend.application.main.interfaces.EventView;
+import com.andreasogeirik.master_frontend.application.main.interfaces.MainPageInteractor;
+import com.andreasogeirik.master_frontend.application.main.interfaces.MainPagePresenter;
+import com.andreasogeirik.master_frontend.application.main.interfaces.MainPageView;
 import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.Friendship;
@@ -19,11 +19,11 @@ import java.util.Set;
 /**
  * Created by eirikstadheim on 06/02/16.
  */
-public class MainPagePresenterImpl extends GeneralPresenter implements EventPresenter {
-    private EventView view;
-    private EventInteractor interactor;
+public class MainPagePresenterImpl extends GeneralPresenter implements MainPagePresenter {
+    private MainPageView view;
+    private MainPageInteractor interactor;
 
-    public MainPagePresenterImpl(EventView view) {
+    public MainPagePresenterImpl(MainPageView view) {
         super((Activity)view, GeneralPresenter.NO_CHECK);
         this.view = view;
         this.interactor = new MainPageInteractorImpl(this);
@@ -34,23 +34,17 @@ public class MainPagePresenterImpl extends GeneralPresenter implements EventPres
             Constants.USER_SET_SIZE = Constants.MEDIUM;
         }
 
-//        // This is called so that we will have no latency waiting for a 401 of the user is not authenticated
-//        if(UserPreferencesManager.getInstance().getCookie() == null) {
-//            view.navigateToEntrance();
-//            return;
-//        }
-//        findUser();
+        // This is called so that we will have no latency waiting for a 401 if the user is not authenticated
+        if(UserPreferencesManager.getInstance().getCookie() == null) {
+            view.navigateToEntrance();
+            return;
+        }
+        findUser();
     }
 
     @Override
     public void saveInstanceState(Bundle instanceState) {
         //Todo:add state???
-    }
-
-    private void initDomain() {
-        //TODO:tenke på hvordan dette gjøres vs saveinstancestate: presenter lages jo på nytt etter
-        // ny instance, altså lastes dette fra nett
-        //findFriendships();
     }
 
     @Override
@@ -112,14 +106,5 @@ public class MainPagePresenterImpl extends GeneralPresenter implements EventPres
         }
 
         view.showNotificationCenter(requests);
-    }
-
-    @Override
-    public void checkUser() {
-        if(UserPreferencesManager.getInstance().getCookie() == null) {
-            view.navigateToEntrance();
-            return;
-        }
-        findUser();
     }
 }

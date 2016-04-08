@@ -50,7 +50,7 @@ public class EditPasswordPresenterImpl extends GeneralPresenter implements EditP
 
     @Override
     public void updateSuccess() {
-        this.view.navigateToProfile();
+        view.navigateBack();
     }
 
     @Override

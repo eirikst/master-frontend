@@ -77,11 +77,8 @@ public class EditPasswordDialogFragment extends DialogFragment implements EditPa
     }
 
     @Override
-    public void navigateToProfile() {
-        FragmentActivity activity = getActivity();
-        Intent i = new Intent(activity, ProfileActivity.class);
-        startActivity(i);
-        activity.finish();
+    public void navigateBack() {
+        dismiss();
     }
 
     @Override

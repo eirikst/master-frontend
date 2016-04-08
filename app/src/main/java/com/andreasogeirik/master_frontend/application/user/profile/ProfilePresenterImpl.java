@@ -32,34 +32,54 @@ import java.util.Set;
 public class ProfilePresenterImpl extends GeneralPresenter implements ProfilePresenter {
     private ProfileView view;
     private ProfileInteractor interactor;
+    boolean thisIsMyProfile;
 
     //model
     private User user;
 
-    public ProfilePresenterImpl(ProfileView view, User user) {
+    public ProfilePresenterImpl(ProfileView view, int userId) {
         super((Activity)view, CHECK_USER_AVAILABLE);
-        if(user == null) {
-            throw new NullPointerException("User object cannot be null in " + this.toString());
-        }
-        if(view == null) {
-            throw new NullPointerException("View cannot be null in " + this.toString());
-        }
 
+        this.user = new User(userId);
         this.view = view;
         this.interactor = new ProfileInteractorImpl(this);
-        this.user = user;
 
         //init gui
-        boolean thisIsMyProfile = CurrentUser.getInstance().getUser().equals(user);
-        view.initView(this.user, thisIsMyProfile);
+        thisIsMyProfile = CurrentUser.getInstance().getUser().equals(user);
+        view.initView();
 
         //init model
+        findUser(userId);
         findPosts();//get first posts
         findFriends(this.user.getId());
-        view.setProfileImage(user.getImageUri());
         findAttendingEvents();
     }
 
+
+    /*
+     * Get user
+     */
+    @Override
+    public void findUser(int userId) {
+        interactor.findUser(userId);
+    }
+
+    @Override
+    public void onSuccessUserLoad(User user) {
+        this.user.copyUser(user);
+        view.initUser(user, thisIsMyProfile);
+        view.setProfileImage(user.getImageUri());
+    }
+
+    @Override
+    public void onFailedUserLoad(int code) {
+        if(code == Constants.UNAUTHORIZED) {
+            checkAuth();
+        }
+        else {
+            view.displayMessage("Feil ved lasting av bruker");
+        }
+    }
 
     /*
      * Handling set of posts

@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.util.Pair;
 
+import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingUserListener;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
@@ -22,18 +23,15 @@ import org.springframework.web.client.RestTemplate;
 /**
  * Created by eirikstadheim on 06/02/16.
  */
-public class GetMeTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntity<String>>> {
-    public interface OnFinishedLoadingMeListener {
-        void onLoadingMeSuccess(JSONObject user);
-        void onLoadingMeFailure(int code);
-    }
-
+public class GetUserTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntity<String>>> {
     private String tag = getClass().getSimpleName();
 
-    private OnFinishedLoadingMeListener listener;
+    private OnFinishedLoadingUserListener listener;
+    private int userId;
 
-    public GetMeTask(OnFinishedLoadingMeListener listener) {
+    public GetUserTask(OnFinishedLoadingUserListener listener, int userId) {
         this.listener = listener;
+        this.userId = userId;
     }
 
     @Override
@@ -52,7 +50,7 @@ public class GetMeTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntit
         HttpEntity<String> entity = new HttpEntity(null, headers);
 
         try {
-            response = template.exchange(Constants.BACKEND_URL + "me",
+            response = template.exchange(Constants.BACKEND_URL + "users/" + userId,
                     HttpMethod.GET, entity, String.class);
             return new Pair(Constants.OK, response);
         }
@@ -81,16 +79,16 @@ public class GetMeTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntit
 
             try {
                 JSONObject user = new JSONObject(response.second.getBody());
-                listener.onLoadingMeSuccess(user);
+                listener.onLoadingUserSuccess(user);
             }
             catch(JSONException e) {
                 Log.w(tag, "JSON error:" + e);
-                listener.onLoadingMeFailure(Constants.JSON_PARSE_ERROR);
+                listener.onLoadingUserFailure(Constants.JSON_PARSE_ERROR);
             }
 
         }
         else {
-            listener.onLoadingMeFailure(response.first);
+            listener.onLoadingUserFailure(response.first);
         }
     }
 }

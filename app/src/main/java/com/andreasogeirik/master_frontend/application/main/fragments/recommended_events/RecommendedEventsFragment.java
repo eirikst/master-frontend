@@ -1,6 +1,6 @@
 package com.andreasogeirik.master_frontend.application.main.fragments.recommended_events;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
-import com.andreasogeirik.master_frontend.application.main.fragments.attending_events.AttendingEventsPresenterImpl;
 import com.andreasogeirik.master_frontend.application.main.fragments.recommended_events.interfaces.RecommendedEventsPresenter;
 import com.andreasogeirik.master_frontend.application.main.fragments.recommended_events.interfaces.RecommendedEventsView;
 import com.andreasogeirik.master_frontend.layout.adapter.EventListAdapter;
@@ -51,15 +50,15 @@ public class RecommendedEventsFragment extends Fragment implements RecommendedEv
      * Checks that the activity that creates the fragment implements the interface for callback
      */
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
 
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
-            callback = (RecommendedEventsListener) activity;
+            callback = (RecommendedEventsListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
+            throw new ClassCastException(context.toString()
                     + " must implement RecommendedEventsListener");
         }
     }
@@ -97,7 +96,9 @@ public class RecommendedEventsFragment extends Fragment implements RecommendedEv
         footer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.findRecommendedEvents();
+                if(presenter != null) {
+                    presenter.findRecommendedEvents();
+                }
             }
         });
 
@@ -105,16 +106,9 @@ public class RecommendedEventsFragment extends Fragment implements RecommendedEv
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
+    public void onResume() {
+        super.onResume();
         presenter = new RecommendedEventsPresenterImpl(this);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        //save nothing, should get a fresh set of events
     }
 
     @Override
@@ -128,11 +122,6 @@ public class RecommendedEventsFragment extends Fragment implements RecommendedEv
     public void setRecommendedEvents(Set<Event> events) {
         listAdapter.clear();
         listAdapter.addAll(events);
-    }
-
-    @Override
-    public void setEventImage(String imageUri, Bitmap bitmap) {
-        //TODO:fjern
     }
 
     @Override

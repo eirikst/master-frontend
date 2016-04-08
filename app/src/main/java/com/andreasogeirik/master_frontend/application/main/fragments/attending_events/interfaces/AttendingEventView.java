@@ -15,7 +15,6 @@ public interface AttendingEventView {
 
     void displayMessage(String message);
     void setAttendingEvents(Set<Event> events);
-    void setAttendingImage(String imageUri, Bitmap bitmap);
     void setNoMoreEventsToLoad();
     void updateListView();
     void setUser(User user);

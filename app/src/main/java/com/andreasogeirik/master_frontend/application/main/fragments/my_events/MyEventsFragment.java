@@ -1,6 +1,7 @@
 package com.andreasogeirik.master_frontend.application.main.fragments.my_events;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -50,15 +51,15 @@ public class MyEventsFragment extends Fragment implements MyEventView {
      * Checks that the activity that creates the fragment implements the interface for callback
      */
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
 
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
-            callback = (MyEventsListener) activity;
+            callback = (MyEventsListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
+            throw new ClassCastException(context.toString()
                     + " must implement MyEventsListener");
         }
     }
@@ -68,13 +69,6 @@ public class MyEventsFragment extends Fragment implements MyEventView {
         super.onCreate(savedInstanceState);
 
         listAdapter = new EventListAdapter(getActivity().getApplicationContext());
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        presenter = new MyEventsPresenterImpl(this);
     }
 
     /*
@@ -103,7 +97,9 @@ public class MyEventsFragment extends Fragment implements MyEventView {
         footer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.findMyPastEvents();
+                if(presenter != null) {
+                    presenter.findMyPastEvents();
+                }
             }
         });
 
@@ -111,9 +107,9 @@ public class MyEventsFragment extends Fragment implements MyEventView {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        //save nothing, should get a fresh set of events
+    public void onResume() {
+        super.onResume();
+        presenter = new MyEventsPresenterImpl(this);
     }
 
     @Override
@@ -127,11 +123,6 @@ public class MyEventsFragment extends Fragment implements MyEventView {
     public void setMyEvents(Set<Event> events) {
         listAdapter.clear();
         listAdapter.addAll(events);
-    }
-
-    @Override
-    public void setEventImage(String imageUri, Bitmap bitmap) {
-        //TODO fjern
     }
 
 

@@ -11,7 +11,7 @@ import java.util.Set;
 /**
  * Created by eirikstadheim on 06/02/16.
  */
-public interface EventPresenter {
+public interface MainPagePresenter {
     void saveInstanceState(Bundle instanceState);
 
     void findFriendships();
@@ -23,6 +23,4 @@ public interface EventPresenter {
     void findUserFailure(int code);
 
     void accessNotificationCenter();
-
-    void checkUser();
 }

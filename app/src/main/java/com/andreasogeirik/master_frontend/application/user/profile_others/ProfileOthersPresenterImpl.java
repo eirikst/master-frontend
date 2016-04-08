@@ -108,7 +108,7 @@ public class ProfileOthersPresenterImpl extends GeneralPresenter implements Prof
         view.displayMessage("Venneforespørsel akseptert");
 
         Intent intent = new Intent(getActivity(), ProfileActivity.class);
-        intent.putExtra("user", friendship.getFriend());
+        intent.putExtra("user", friendship.getFriend().getId());
         getActivity().startActivity(intent);
         getActivity().finish();
     }

@@ -71,7 +71,7 @@ public class EditUserPresenterImpl extends GeneralPresenter implements EditUserP
 
     @Override
     public void updateSuccess() {
-        this.view.naviagetToProfileView();
+        this.view.naviagteToProfileView(user.getId());
     }
 
     @Override

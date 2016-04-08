@@ -91,8 +91,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
         //should get a user if not null
         if (savedInstanceState != null) {
             try {
-                presenter = new ProfilePresenterImpl(this,
-                        (User) savedInstanceState.getSerializable("user"));
+                presenter = new ProfilePresenterImpl(this, savedInstanceState.getInt("user"));
             } catch (ClassCastException e) {
                 throw new ClassCastException(e + "/nObject in savedInstanceState bundle cannot " +
                         "be cast to User in " + this.toString());
@@ -101,8 +100,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
         } else {
             Intent intent = getIntent();
             try {
-                presenter = new ProfilePresenterImpl(this,
-                        (User) intent.getSerializableExtra("user"));
+                presenter = new ProfilePresenterImpl(this, intent.getIntExtra("user", -1));
             } catch (ClassCastException e) {
                 throw new ClassCastException(e + "/nObject in Intent bundle cannot " +
                         "be cast to User in " + this.toString());
@@ -166,11 +164,15 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     }
 
     @Override
-    public void initView(User user, boolean me) {
-        setupToolbar();
+    public void initUser(User user, boolean me) {
         initListView(user);
-        initFooter();
         initHeader(user.getFirstname() + " " + user.getLastname(), user.getFriends().size(), me);
+    }
+
+    @Override
+    public void initView() {
+        setupToolbar();
+        initFooter();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.Friendship;
+import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.model.UserPost;
 
 import java.io.InputStream;
@@ -14,6 +15,10 @@ import java.util.Set;
  * Created by eirikstadheim on 06/02/16.
  */
 public interface ProfilePresenter {
+    void findUser(int userId);
+    void onSuccessUserLoad(User user);
+    void onFailedUserLoad(int code);
+
     void findPosts();
 
     void successPostsLoad(Set<UserPost> posts);

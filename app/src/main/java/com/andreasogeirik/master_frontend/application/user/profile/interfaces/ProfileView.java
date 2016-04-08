@@ -11,7 +11,8 @@ import java.util.Set;
  * Created by eirikstadheim on 05/02/16.
  */
 public interface ProfileView {
-    void initView(User user, boolean me);
+    void initUser(User user, boolean me);
+    void initView();
 
     void addPosts(Set<UserPost> posts);
     void setFriendCount(int count);

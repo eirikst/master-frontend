@@ -24,7 +24,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,8 +31,8 @@ import com.andreasogeirik.master_frontend.application.main.fragments.attending_e
 import com.andreasogeirik.master_frontend.application.main.fragments.my_events.MyEventsFragment;
 import com.andreasogeirik.master_frontend.application.auth.entrance.EntranceActivity;
 import com.andreasogeirik.master_frontend.application.main.fragments.recommended_events.RecommendedEventsFragment;
-import com.andreasogeirik.master_frontend.application.main.interfaces.EventPresenter;
-import com.andreasogeirik.master_frontend.application.main.interfaces.EventView;
+import com.andreasogeirik.master_frontend.application.main.interfaces.MainPagePresenter;
+import com.andreasogeirik.master_frontend.application.main.interfaces.MainPageView;
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.main.notification.NotificationCenterDialogFragment;
 import com.andreasogeirik.master_frontend.gcm.QuickstartPreferences;
@@ -51,7 +50,7 @@ import java.util.Set;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainPageActivity extends AppCompatActivity implements EventView,
+public class MainPageActivity extends AppCompatActivity implements MainPageView,
         AttendingEventsFragment.AttendingEventsListener, MyEventsFragment.MyEventsListener,
         RecommendedEventsFragment.RecommendedEventsListener,
         ViewPager.OnPageChangeListener, NotificationCenterDialogFragment.NotificationCenterListener {
@@ -60,7 +59,7 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
     private BroadcastReceiver registrationBroadcastReceiver;
     public boolean isReceiverRegistered;
 
-    private EventPresenter presenter;
+    private MainPagePresenter presenter;
 
     @Bind(R.id.progress)
     View progressView;
@@ -117,7 +116,6 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
 
         if (checkPlayServices()) {
             presenter = new MainPagePresenterImpl(this);
-            presenter.checkUser();
         }
         else {
             Log.w(tag, "No Play Services on device");
@@ -132,7 +130,7 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
         int code = api.isGooglePlayServicesAvailable(this);
 
         if (code == ConnectionResult.SUCCESS) {
-//            presenter.findFriendships();
+            presenter.findFriendships();
         }
         else {
             GooglePlayServicesUtil.getErrorDialog(ConnectionResult.SERVICE_MISSING, this, 1).show();

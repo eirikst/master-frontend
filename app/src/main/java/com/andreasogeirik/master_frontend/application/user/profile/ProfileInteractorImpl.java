@@ -8,12 +8,15 @@ import com.andreasogeirik.master_frontend.application.user.profile.interfaces.Pr
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfilePresenter;
 import com.andreasogeirik.master_frontend.communication.GetAttendingEventsTask;
 import com.andreasogeirik.master_frontend.communication.GetFriendsTask;
+import com.andreasogeirik.master_frontend.communication.GetMeTask;
 import com.andreasogeirik.master_frontend.communication.GetPostsTask;
+import com.andreasogeirik.master_frontend.communication.GetUserTask;
 import com.andreasogeirik.master_frontend.communication.UpdateUserTask;
 import com.andreasogeirik.master_frontend.communication.UploadImageTask;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingFriendshipsListener;
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingPostsListener;
+import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingUserListener;
 import com.andreasogeirik.master_frontend.listener.OnImageUploadFinishedListener;
 import com.andreasogeirik.master_frontend.listener.OnSampleImageFinishedListener;
 import com.andreasogeirik.master_frontend.listener.OnUpdateUserFinishedListener;
@@ -37,7 +40,9 @@ import java.util.Set;
  * Created by eirikstadheim on 06/02/16.
  */
 public class ProfileInteractorImpl implements ProfileInteractor, OnFinishedLoadingPostsListener,
-        OnFinishedLoadingFriendshipsListener, GetAttendingEventsTask.OnFinishedLoadingAttendingEventsListener, OnSampleImageFinishedListener, OnImageUploadFinishedListener, OnUpdateUserFinishedListener
+        OnFinishedLoadingFriendshipsListener, GetAttendingEventsTask.OnFinishedLoadingAttendingEventsListener,
+        OnSampleImageFinishedListener, OnImageUploadFinishedListener, OnUpdateUserFinishedListener,
+        OnFinishedLoadingUserListener
 
 {
     private String tag = getClass().getSimpleName();
@@ -48,6 +53,26 @@ public class ProfileInteractorImpl implements ProfileInteractor, OnFinishedLoadi
         this.presenter = presenter;
     }
 
+
+    @Override
+    public void findUser(int userId) {
+        new GetUserTask(this, userId).execute();
+    }
+
+    @Override
+    public void onLoadingUserSuccess(JSONObject user) {
+        try {
+            presenter.onSuccessUserLoad(new User(user));
+        }
+        catch (JSONException e) {
+            presenter.errorPostsLoad(Constants.JSON_PARSE_ERROR);
+        }
+    }
+
+    @Override
+    public void onLoadingUserFailure(int code) {
+        presenter.errorPostsLoad(Constants.CLIENT_ERROR);
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /*
@@ -68,7 +93,8 @@ public class ProfileInteractorImpl implements ProfileInteractor, OnFinishedLoadi
             }
         }
         catch (JSONException e) {
-            presenter.errorPostsLoad(Constants.CLIENT_ERROR);
+            Log.w(tag, "JSON error: " + e);
+            presenter.errorPostsLoad(Constants.JSON_PARSE_ERROR);
         }
         presenter.successPostsLoad(posts);
     }
@@ -99,7 +125,7 @@ public class ProfileInteractorImpl implements ProfileInteractor, OnFinishedLoadi
         }
         catch (JSONException e) {
             Log.w(tag, "JSON error: " + e);
-            presenter.errorFriendsLoad(Constants.CLIENT_ERROR);
+            presenter.errorFriendsLoad(Constants.JSON_PARSE_ERROR);
         }
 
         presenter.successFriendsLoad(friendships);

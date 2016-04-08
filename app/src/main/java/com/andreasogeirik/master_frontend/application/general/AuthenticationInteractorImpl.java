@@ -13,7 +13,7 @@ import org.json.JSONObject;
  * Created by eirikstadheim on 23/02/16.
  */
 public class AuthenticationInteractorImpl implements AuthenticationInteractor,
-        OnFinishedLoadingUserListener {
+        GetMeTask.OnFinishedLoadingMeListener {
 
     private AuthenticationListener listener;
 
@@ -32,7 +32,7 @@ public class AuthenticationInteractorImpl implements AuthenticationInteractor,
     }
 
     @Override
-    public void onLoadingUserSuccess(JSONObject jsonUser) {
+    public void onLoadingMeSuccess(JSONObject jsonUser) {
         try {
             User user = new User(jsonUser);
             listener.findMeSuccess(user);
@@ -44,7 +44,7 @@ public class AuthenticationInteractorImpl implements AuthenticationInteractor,
     }
 
     @Override
-    public void onLoadingUserFailure(int code) {
+    public void onLoadingMeFailure(int code) {
         listener.findMeFailure(code);
     }
 }
