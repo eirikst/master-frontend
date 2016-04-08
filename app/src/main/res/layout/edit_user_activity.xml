@@ -74,11 +74,23 @@
             android:maxLines="1"
             android:singleLine="true" />
 
+        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+            android:id="@id/error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/app_error"
+            android:layout_below="@id/location"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:visibility="gone"
+            />
+
         <Button
             android:id="@+id/submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/location"
+            android:layout_below="@id/error"
             android:text="@string/user_edit_submit"
             android:background="@color/teal"
             android:textStyle="bold"

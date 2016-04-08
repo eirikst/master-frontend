@@ -8,4 +8,7 @@ public interface EditUserView {
     void setUserAttributes(String firstname, String lastname, String location);
     void naviagetToProfileView();
     void displayUpdateError(String message);
+    void firstnameError(String message);
+    void lastnameError(String message);
+    void locationError(String message);
 }

@@ -11,7 +11,6 @@ import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
-import com.andreasogeirik.master_frontend.util.LogoutHandler;
 import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
 import java.util.HashSet;
@@ -37,7 +36,7 @@ public class MainPagePresenterImpl extends GeneralPresenter implements EventPres
 
 //        // This is called so that we will have no latency waiting for a 401 of the user is not authenticated
 //        if(UserPreferencesManager.getInstance().getCookie() == null) {
-//            view.navigateToLogin();
+//            view.navigateToEntrance();
 //            return;
 //        }
 //        findUser();
@@ -77,7 +76,7 @@ public class MainPagePresenterImpl extends GeneralPresenter implements EventPres
 
     @Override
     public void errorFriendshipsLoad(int code) {
-        view.navigateToLogin();
+        view.navigateToEntrance();
     }
 
     @Override
@@ -97,7 +96,7 @@ public class MainPagePresenterImpl extends GeneralPresenter implements EventPres
     @Override
     public void findUserFailure(int code) {
 //        this.view.hideProgress();
-        view.navigateToLogin();
+        view.navigateToEntrance();
     }
 
     @Override
@@ -118,7 +117,7 @@ public class MainPagePresenterImpl extends GeneralPresenter implements EventPres
     @Override
     public void checkUser() {
         if(UserPreferencesManager.getInstance().getCookie() == null) {
-            view.navigateToLogin();
+            view.navigateToEntrance();
             return;
         }
         findUser();

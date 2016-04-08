@@ -1,10 +1,7 @@
-package com.andreasogeirik.master_frontend.util.validation;
+package com.andreasogeirik.master_frontend.util.validation.event;
 
 import android.text.TextUtils;
 import android.util.Pair;
-
-import com.andreasogeirik.master_frontend.util.validation.CreateEventStatusCodes;
-import com.andreasogeirik.master_frontend.util.validation.CreateEventValidationContainer;
 
 import java.util.Calendar;
 import java.util.Date;

@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -47,6 +48,8 @@ public class EditUserActivity extends AppCompatActivity implements EditUserView 
     Button homeBtn;
     @Bind(R.id.edit_password_btn)
     RelativeLayout editPasswordBtn;
+    @Bind(R.id.error)
+    TextView error;
     @Bind(R.id.submit)
     Button submit;
 
@@ -92,6 +95,7 @@ public class EditUserActivity extends AppCompatActivity implements EditUserView 
 
     @OnClick(R.id.submit)
     public void submit(){
+        this.error.setVisibility(View.GONE);
         String firstname = this.firstname.getText().toString();
         String lastname = this.lastname.getText().toString();
         String location = this.location.getText().toString();
@@ -114,8 +118,6 @@ public class EditUserActivity extends AppCompatActivity implements EditUserView 
         }
         ft.addToBackStack(null);
 
-        // Create and show the dialog.
-
         DialogFragment newFragment = EditPasswordDialogFragment.newInstance();
         newFragment.show(ft, "passwordDialog");
 
@@ -136,6 +138,25 @@ public class EditUserActivity extends AppCompatActivity implements EditUserView 
 
     @Override
     public void displayUpdateError(String message) {
-        Toast.makeText(EditUserActivity.this, message, Toast.LENGTH_LONG).show();
+        this.error.setText(message);
+        this.error.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void firstnameError(String message) {
+        firstname.setError(message);
+        firstname.requestFocus();
+    }
+
+    @Override
+    public void lastnameError(String message) {
+        lastname.setError(message);
+        lastname.requestFocus();
+    }
+
+    @Override
+    public void locationError(String message) {
+        location.setError(message);
+        location.requestFocus();
     }
 }

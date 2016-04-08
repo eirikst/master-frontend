@@ -9,15 +9,14 @@ import com.andreasogeirik.master_frontend.application.event.create.interfaces.Cr
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventPresenter;
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventView;
 import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
-import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.listener.OnSampleImageFinishedListener;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.image.ImageStatusCode;
 import com.andreasogeirik.master_frontend.util.image.SampleImageTask;
-import com.andreasogeirik.master_frontend.util.validation.CreateEventStatusCodes;
-import com.andreasogeirik.master_frontend.util.validation.CreateEventValidationContainer;
-import com.andreasogeirik.master_frontend.util.validation.InputValidation;
+import com.andreasogeirik.master_frontend.util.validation.event.CreateEventStatusCodes;
+import com.andreasogeirik.master_frontend.util.validation.event.CreateEventValidationContainer;
+import com.andreasogeirik.master_frontend.util.validation.event.InputValidation;
 
 import java.io.InputStream;
 import java.util.Calendar;

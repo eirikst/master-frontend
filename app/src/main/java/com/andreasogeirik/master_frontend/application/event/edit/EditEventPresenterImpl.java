@@ -4,11 +4,8 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.app.DialogFragment;
 import android.util.Pair;
-import android.view.View;
 
-import com.andreasogeirik.master_frontend.application.event.create.fragments.DatePickerFragment;
 import com.andreasogeirik.master_frontend.application.event.edit.interfaces.EditEventInteractor;
 import com.andreasogeirik.master_frontend.application.event.edit.interfaces.EditEventPresenter;
 import com.andreasogeirik.master_frontend.application.event.edit.interfaces.EditEventView;
@@ -20,11 +17,9 @@ import com.andreasogeirik.master_frontend.util.DateUtility;
 import com.andreasogeirik.master_frontend.util.ImageInteractor;
 import com.andreasogeirik.master_frontend.util.image.ImageStatusCode;
 import com.andreasogeirik.master_frontend.util.image.SampleImageTask;
-import com.andreasogeirik.master_frontend.util.validation.CreateEventStatusCodes;
-import com.andreasogeirik.master_frontend.util.validation.CreateEventValidationContainer;
-import com.andreasogeirik.master_frontend.util.validation.InputValidation;
-
-import org.json.JSONObject;
+import com.andreasogeirik.master_frontend.util.validation.event.CreateEventStatusCodes;
+import com.andreasogeirik.master_frontend.util.validation.event.CreateEventValidationContainer;
+import com.andreasogeirik.master_frontend.util.validation.event.InputValidation;
 
 import java.io.InputStream;
 import java.util.Calendar;

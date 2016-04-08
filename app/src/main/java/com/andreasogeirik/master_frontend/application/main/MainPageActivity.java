@@ -97,13 +97,6 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new MainPagePresenterImpl(this);
-        presenter.checkUser();
-        setupToolbar();
-        progressBarManager = new ProgressBarManager(this, mainContainer, progressView);
-
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
-                new IntentFilter("custom-event-name"));
 
         registrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -123,17 +116,8 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
         registerReceiver();
 
         if (checkPlayServices()) {
-            setContentView(R.layout.main_page_activity);
-            // Start IntentService to register this application with GCM.
-            Intent intent = new Intent(this, RegistrationIntentService.class);
-            startService(intent);
-
-            ButterKnife.bind(this);
-            setupToolbar();
-            progressBarManager = new ProgressBarManager(this, mainContainer, progressView);
             presenter = new MainPagePresenterImpl(this);
-            LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
-                    new IntentFilter("custom-event-name"));
+            presenter.checkUser();
         }
         else {
             Log.w(tag, "No Play Services on device");
@@ -148,7 +132,7 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
         int code = api.isGooglePlayServicesAvailable(this);
 
         if (code == ConnectionResult.SUCCESS) {
-            presenter.findFriendships();
+//            presenter.findFriendships();
         }
         else {
             GooglePlayServicesUtil.getErrorDialog(ConnectionResult.SERVICE_MISSING, this, 1).show();
@@ -177,11 +161,13 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
     public void initGUI() {
 
         setContentView(R.layout.main_page_activity);
-        ButterKnife.bind(this);
+        // Start IntentService to register this application with GCM.
+        Intent intent = new Intent(this, RegistrationIntentService.class);
+        startService(intent);
 
+        ButterKnife.bind(this);
         setupToolbar();
         progressBarManager = new ProgressBarManager(this, mainContainer, progressView);
-
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
                 new IntentFilter("custom-event-name"));
 
@@ -234,10 +220,11 @@ public class MainPageActivity extends AppCompatActivity implements EventView,
     }
 
 
-    public void navigateToLogin() {
+    public void navigateToEntrance() {
         Intent i = new Intent(this, EntranceActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
+        finish();
+        overridePendingTransition(R.anim.fadeout, R.anim.fadein);
     }
 
     @Override

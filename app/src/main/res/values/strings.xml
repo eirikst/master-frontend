@@ -78,11 +78,12 @@
     <string name="user_edit_lastname">ETTERNAVN</string>
     <string name="user_edit_location">STED</string>
     <string name="user_edit_password_btn">ENDRE PASSORD</string>
-    <string name="user_edit_current_password">NÅVERENDE PASSORD</string>
+    <string name="user_edit_current_password">NÅVÆRENDE PASSORD</string>
     <string name="user_edit_password">NYTT PASSORD</string>
     <string name="user_edit_re_password">SKRIV INN PASSORD PÅ NYTT</string>
     <string name="user_edit_password_save">LAGRE PASSORD</string>
     <string name="user_edit_submit">LAGRE</string>
+    <string name="user_edit_client_error">Nåværende passord er ikke riktig</string>
 
     // Password dialog
     <string name="password_dialog_label">ENDRE PASSORD</string>
@@ -117,6 +118,11 @@
     <string name="notifications">Varslinger</string>
     <string name="accept">Godta</string>
     <string name="reject">Avvis</string>
+
+    // Generic error messages
+    <string name="resource_access_error">Fant ikke ressurs. Prøv igjen</string>
+    <string name="some_error">Noe gikk galt, prøv igjen senere</string>
+
 
 
 </resources>
