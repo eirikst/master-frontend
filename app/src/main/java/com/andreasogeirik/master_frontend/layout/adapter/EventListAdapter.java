@@ -1,7 +1,6 @@
 package com.andreasogeirik.master_frontend.layout.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -30,7 +30,6 @@ public class EventListAdapter extends ArrayAdapter<Event> {
 
     private User user;
     private Context context;
-    private Bitmap defaultImage;
     private Comparator<Event> comparator;
 
     public EventListAdapter(Context context) {
@@ -223,6 +222,23 @@ public class EventListAdapter extends ArrayAdapter<Event> {
         return convertView;
     }
 
+    @Override
+    public void add(Event object) {
+        super.add(object);
+        sort(comparator);
+    }
+
+    @Override
+    public void addAll(Collection<? extends Event> collection) {
+        super.addAll(collection);
+        sort(comparator);
+    }
+
+    @Override
+    public void addAll(Event... items) {
+        super.addAll(items);
+        sort(comparator);
+    }
 
     public void setUser(User user) {
         this.user  = user;
