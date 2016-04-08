@@ -55,7 +55,6 @@ public class EditPasswordPresenterImpl extends GeneralPresenter implements EditP
 
     @Override
     public void updateError(int error) {
-        System.out.println(error);
         switch (error) {
             case Constants.RESOURCE_ACCESS_ERROR:
                 this.view.displayErrors(getActivity().getResources().getString(R.string.resource_access_error));

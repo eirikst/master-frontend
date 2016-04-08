@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -51,6 +52,8 @@ import butterknife.ButterKnife;
  */
 public class ProfileActivity extends AppCompatActivity implements ProfileView,
         AdapterView.OnItemClickListener, MyProfileHeaderListener, View.OnClickListener {
+    private String tag = getClass().getSimpleName();
+
     private ProfilePresenter presenter;
     private ToolbarPresenter toolbarPresenter;
 
@@ -94,7 +97,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
                 throw new ClassCastException(e + "/nObject in savedInstanceState bundle cannot " +
                         "be cast to User in " + this.toString());
             }
-            System.out.println("Saved instance state restored");
+            Log.i(tag, "Saved instance state restored");
         } else {
             Intent intent = getIntent();
             try {
@@ -104,7 +107,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
                 throw new ClassCastException(e + "/nObject in Intent bundle cannot " +
                         "be cast to User in " + this.toString());
             }
-            System.out.println("New instance state from intent");
+            Log.i(tag, "New instance state from intent");
         }
 
         toolbarPresenter = new ToolbarPresenterImpl(this);
