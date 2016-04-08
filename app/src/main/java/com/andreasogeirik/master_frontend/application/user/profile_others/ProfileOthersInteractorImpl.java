@@ -13,7 +13,6 @@ import com.andreasogeirik.master_frontend.listener.OnUnfriendedListener;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
-import com.andreasogeirik.master_frontend.util.ImageInteractor;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,8 +23,7 @@ import java.io.File;
  * Created by eirikstadheim on 17/02/16.
  */
 public class ProfileOthersInteractorImpl implements ProfileOthersInteractor,
-        OnFriendRequestedListener, OnUnfriendedListener, OnAcceptRequestListener,
-        ImageInteractor.OnImageFoundListener{
+        OnFriendRequestedListener, OnUnfriendedListener, OnAcceptRequestListener {
     private ProfileOthersPresenter presenter;
 
     public ProfileOthersInteractorImpl(ProfileOthersPresenter presenter) {
@@ -94,32 +92,5 @@ public class ProfileOthersInteractorImpl implements ProfileOthersInteractor,
     @Override
     public void onRejectFriendFailure(int code) {
         presenter.rejectRequestFailure(code);
-    }
-
-
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    /*
-     * Image handling
-     */
-    @Override
-    public void findImage(String imageUri, File storagePath) {
-        ImageInteractor.getInstance().findImage(imageUri, storagePath, this);
-    }
-
-    @Override
-    public void foundImage(String imageUrl, Bitmap bitmap) {
-        presenter.imageFound(imageUrl, bitmap);
-    }
-
-    @Override
-    public void onProgressChange(int percent) {
-        //TODO:handle this maybe maybe not
-    }
-
-    @Override
-    public void imageNotFound(String imageUri) {
-        //TODO: imageUri?
-        presenter.imageNotFound();
     }
 }

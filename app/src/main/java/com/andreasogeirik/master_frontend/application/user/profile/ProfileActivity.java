@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
 import com.andreasogeirik.master_frontend.application.general.ToolbarPresenterImpl;
 import com.andreasogeirik.master_frontend.application.general.interfaces.ToolbarPresenter;
 import com.andreasogeirik.master_frontend.application.user.profile.fragments.FriendProfileHeader;
@@ -32,6 +33,7 @@ import com.andreasogeirik.master_frontend.application.user.profile.interfaces.Pr
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfileView;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
+import com.squareup.picasso.Picasso;
 import com.desmond.squarecamera.CameraActivity;
 import com.soundcloud.android.crop.Crop;
 
@@ -197,7 +199,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
 
         //set adapter on listview
         postListAdapter = new PostListAdapter(ProfileActivity.this,
-                new ArrayList<>(user.getPosts()));
+                new ArrayList<>(user.getPosts()), user);
         listView.setAdapter(postListAdapter);
     }
 
@@ -313,15 +315,24 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
      * Set profile image
      */
     @Override
-    public void setProfileImage(Bitmap bitmap) {
-        //update adapter to display profile image on posts
-        postListAdapter.setProfileImage(bitmap);
-        postListAdapter.notifyDataSetChanged();
+    public void setProfileImage(String imageUri) {
+        ImageView headerImage = (ImageView)findViewById(R.id.my_profile_image);
 
-        //set header image
-        if (bitmap != null) {
-            ImageView headerImage = (ImageView) findViewById(R.id.my_profile_image);
-            headerImage.setImageBitmap(bitmap);
+        //load image
+        if(imageUri != null && !imageUri.isEmpty()) {
+            Picasso.with(this)
+                    .load(imageUri)
+                    .error(R.drawable.default_profile)
+                    .resize(Constants.USER_IMAGE_WIDTH, Constants.USER_IMAGE_HEIGHT)
+                    .centerCrop()
+                    .into(headerImage);
+        }
+        else {
+            Picasso.with(this)
+                    .load(R.drawable.default_profile)
+                    .resize(Constants.USER_IMAGE_WIDTH, Constants.USER_IMAGE_HEIGHT)
+                    .centerCrop()
+                    .into(headerImage);
         }
     }
 

@@ -109,11 +109,6 @@ public class NotificationCenterDialogFragment extends DialogFragment implements 
     }
 
     @Override
-    public void findImage(String imageUri) {
-        presenter.findImage(imageUri);
-    }
-
-    @Override
     public void acceptFriendship(int friendshipId) {
         presenter.acceptFriendship(friendshipId);
     }
@@ -121,11 +116,6 @@ public class NotificationCenterDialogFragment extends DialogFragment implements 
     @Override
     public void rejectFriendship(int friendshipId) {
         presenter.rejectFriendship(friendshipId);
-    }
-
-    @Override
-    public void setImage(String imageUri, Bitmap bitmap) {
-        adapter.addImage(imageUri, bitmap);
     }
 
     @Override

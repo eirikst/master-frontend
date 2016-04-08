@@ -15,7 +15,6 @@ public interface UserSearchPresenter {
     void onSuccessUserSearch(Set<User> users, int offset);
     void onFailureUserSearch(int code);
 
-    void findImage(String imageUri);
     void saveInstanceState(Bundle state);
     void profileChosen(User user);
 }

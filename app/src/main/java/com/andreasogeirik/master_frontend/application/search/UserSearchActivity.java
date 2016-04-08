@@ -29,8 +29,7 @@ import java.util.Set;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class UserSearchActivity extends AppCompatActivity implements UserSearchView,
-        UserSearchListAdapter.Listener {
+public class UserSearchActivity extends AppCompatActivity implements UserSearchView {
     @Bind(R.id.user_list)
     ListView userListView;
 
@@ -67,7 +66,7 @@ public class UserSearchActivity extends AppCompatActivity implements UserSearchV
 
     @Override
     public void setupView(List<User> users) {
-        adapter = new UserSearchListAdapter(this, new ArrayList<>(users), this);
+        adapter = new UserSearchListAdapter(this, new ArrayList<>(users));
         userListView.setAdapter(adapter);
 
         View listHeader = getLayoutInflater().inflate(R.layout.user_search_list_header, null);
@@ -131,16 +130,6 @@ public class UserSearchActivity extends AppCompatActivity implements UserSearchV
     @Override
     public void setUsers(List<User> users) {
         adapter.setData(users);
-    }
-
-    @Override
-    public void setImage(String imageUri, Bitmap image) {
-        adapter.addImage(imageUri, image);
-    }
-
-    @Override
-    public void findImage(String imageUri) {
-        presenter.findImage(imageUri);
     }
 
     @Override

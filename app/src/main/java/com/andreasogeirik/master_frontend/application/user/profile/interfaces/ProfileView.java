@@ -15,7 +15,7 @@ public interface ProfileView {
 
     void addPosts(Set<UserPost> posts);
     void setFriendCount(int count);
-    void setProfileImage(Bitmap bitmap);
+    void setProfileImage(String imageUri);
 
     void displayMessage(String message);
     void setEventButtonText(String text);

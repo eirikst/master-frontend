@@ -56,7 +56,7 @@ public class ProfilePresenterImpl extends GeneralPresenter implements ProfilePre
         //init model
         findPosts();//get first posts
         findFriends(this.user.getId());
-        findImage();
+        view.setProfileImage(user.getImageUri());
         findAttendingEvents();
     }
 
@@ -131,28 +131,6 @@ public class ProfilePresenterImpl extends GeneralPresenter implements ProfilePre
         else {
             view.displayMessage("Feil ved lasting av venner");
         }
-    }
-
-    /*
-     * Image handling
-     */
-    private void findImage() {
-        if(user.getImageUri() == null || user.getImageUri().isEmpty()) {
-            System.out.println("User's image uri null or empty for user " + user.getId());
-            return;
-        }
-        interactor.findImage(user.getImageUri(), getActivity().getExternalFilesDir(Environment.
-                DIRECTORY_PICTURES));
-    }
-
-    @Override
-    public void imageFound(String imageUrl, Bitmap result) {
-        view.setProfileImage(result);
-    }
-
-    @Override
-    public void imageNotFound(String imageUri) {
-        view.setProfileImage(null);//null means set standard image
     }
 
     /*

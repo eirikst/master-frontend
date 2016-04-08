@@ -12,7 +12,6 @@ import java.util.List;
 public interface UserSearchView {
     void setupView(List<User> users);
     void setUsers(List<User> users);
-    void setImage(String imageUri, Bitmap image);
     void displayMessage(String message);
     void showLoadMore(boolean show);
 }

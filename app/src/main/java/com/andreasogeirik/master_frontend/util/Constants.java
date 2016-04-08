@@ -47,4 +47,12 @@ public class Constants {
     public static final int EVENT_DIFFICULTY_EASY = 1;
     public static final int EVENT_DIFFICULTY_MEDIUM = 2;
     public static final int EVENT_DIFFICULTY_HARD = 3;
+
+    //image
+    public static final int EVENT_IMAGE_HEIGHT = 394;
+    public static final int EVENT_IMAGE_WIDTH = 700;
+    public static final int LIST_IMAGE_HEIGHT = 150;
+    public static final int LIST_IMAGE_WIDTH = 150;
+    public static final int USER_IMAGE_HEIGHT = 540;
+    public static final int USER_IMAGE_WIDTH = 540;
 }

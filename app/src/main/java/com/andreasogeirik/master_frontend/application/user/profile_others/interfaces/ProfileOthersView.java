@@ -10,7 +10,7 @@ import com.andreasogeirik.master_frontend.model.User;
 public interface ProfileOthersView {
     void setupGUI(User user, int requested);
 
-    void setProfileImage(Bitmap bitmap);
+    void setProfileImage(String imageUri);
 
     void setRequestFriendButton();
     void setHaveBeenRequestedButtons(String firstname);

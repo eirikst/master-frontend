@@ -10,8 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.model.UserPost;
+import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.DateUtility;
+import com.squareup.picasso.Picasso;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -24,13 +27,14 @@ public class PostListAdapter extends ArrayAdapter<UserPost> {
     public static final int SET_ALL = -1;
 
     private List<UserPost> posts;
-    private Bitmap profileImage;
     private Comparator comparator;
+    private User user;
 
 
-    public PostListAdapter(Context context, List<UserPost> posts) {
+    public PostListAdapter(Context context, List<UserPost> posts, User user) {
         super(context, 0, posts);
         this.posts = posts;
+        this.user = user;
 
         comparator = new Comparator<UserPost>() {
             @Override
@@ -53,12 +57,23 @@ public class PostListAdapter extends ArrayAdapter<UserPost> {
 
         // Lookup views
         ImageView image = (ImageView)convertView.findViewById(R.id.event_image);
-        if(profileImage != null) {
-            image.setImageBitmap(profileImage);
+
+        if(user.getImageUri() != null && user.getImageUri().isEmpty()) {
+            Picasso.with(getContext())
+                    .load(user.getImageUri())
+                    .error(R.drawable.default_profile)
+                    .resize(Constants.LIST_IMAGE_WIDTH, Constants.LIST_IMAGE_HEIGHT)
+                    .centerCrop()
+                    .into(image);
         }
         else {
-            //set standard image
+            Picasso.with(getContext())
+                    .load(R.drawable.default_profile)
+                    .resize(Constants.LIST_IMAGE_WIDTH, Constants.LIST_IMAGE_HEIGHT)
+                    .centerCrop()
+                    .into(image);
         }
+
 
         TextView message = (TextView)convertView.findViewById(R.id.post_message);
         TextView dateCreated = (TextView)convertView.findViewById(R.id.post_date);
@@ -91,9 +106,5 @@ public class PostListAdapter extends ArrayAdapter<UserPost> {
     public void addAll(UserPost... items) {
         super.addAll(items);
         sort(comparator);
-    }
-
-    public void setProfileImage(Bitmap profileImage) {
-        this.profileImage = profileImage;
     }
 }

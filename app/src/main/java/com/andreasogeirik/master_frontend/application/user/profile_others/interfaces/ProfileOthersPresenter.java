@@ -21,8 +21,5 @@ public interface ProfileOthersPresenter {
     void rejectRequestSuccess(int friendshipId);
     void rejectRequestFailure(int code);
 
-    void imageFound(String imageUrl, Bitmap bitmap);
-    void imageNotFound();
-
     void saveInstanceState(Bundle savedInstanceState);
 }

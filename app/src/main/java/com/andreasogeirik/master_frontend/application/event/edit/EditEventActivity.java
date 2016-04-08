@@ -18,7 +18,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.R;
@@ -34,6 +33,8 @@ import com.andreasogeirik.master_frontend.layout.view.CustomSlider;
 import com.andreasogeirik.master_frontend.listener.OnDateSetListener;
 import com.andreasogeirik.master_frontend.listener.OnTimeSetListener;
 import com.andreasogeirik.master_frontend.model.Event;
+import com.andreasogeirik.master_frontend.util.Constants;
+import com.squareup.picasso.Picasso;
 
 import java.io.FileNotFoundException;
 import java.util.Calendar;
@@ -43,7 +44,8 @@ import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
-public class EditEventActivity extends AppCompatActivity implements EditEventView, OnDateSetListener, OnTimeSetListener, CustomSlider.OnValueChangedListener, CustomSlider.OnTouchListener {
+public class EditEventActivity extends AppCompatActivity implements EditEventView, OnDateSetListener,
+        OnTimeSetListener, CustomSlider.OnValueChangedListener, CustomSlider.OnTouchListener {
 
     // Toolbar
     @Bind(R.id.toolbar)
@@ -97,7 +99,7 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
     @Bind(R.id.image_select_button)
     ImageView selectImageButton;
     @Bind(R.id.image_view)
-    ImageView imageVIew;
+    ImageView imageView;
 
     // Submit
     @Bind(R.id.error)
@@ -293,7 +295,7 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
         imageError.setText(error);
         imageError.setVisibility(View.VISIBLE);
         imageError.requestFocus();
-        imageVIew.setImageDrawable(null);
+        imageView.setImageDrawable(null);
     }
 
     @Override
@@ -317,7 +319,26 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
     @Override
     public void setImage(Bitmap bitmap) {
         this.imageContainer.setVisibility(View.VISIBLE);
-        this.imageVIew.setImageBitmap(bitmap);
+        this.imageView.setImageBitmap(bitmap);
+    }
+
+    @Override
+    public void setImage(String imageUri) {
+        this.imageContainer.setVisibility(View.VISIBLE);
+        if(imageUri != null && !imageUri.isEmpty()) {
+            Picasso.with(this)
+                    .load(imageUri)
+                    .error(R.drawable.default_event)
+                    .resize(Constants.EVENT_IMAGE_WIDTH, Constants.EVENT_IMAGE_HEIGHT)
+                    .into(imageView);
+        }
+        else {
+            Picasso.with(this)
+                    .load(R.drawable.default_event)
+                    .resize(Constants.EVENT_IMAGE_WIDTH, Constants.EVENT_IMAGE_HEIGHT)
+                    .into(imageView);
+        }
+
     }
 
     private void clearValidationMessages() {

@@ -14,9 +14,12 @@ import com.andreasogeirik.master_frontend.listener.OnSampleImageFinishedListener
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.DateUtility;
-import com.andreasogeirik.master_frontend.util.ImageInteractor;
 import com.andreasogeirik.master_frontend.util.image.ImageStatusCode;
 import com.andreasogeirik.master_frontend.util.image.SampleImageTask;
+import com.andreasogeirik.master_frontend.util.validation.CreateEventStatusCodes;
+import com.andreasogeirik.master_frontend.util.validation.CreateEventValidationContainer;
+import com.andreasogeirik.master_frontend.util.validation.InputValidation;
+
 import com.andreasogeirik.master_frontend.util.validation.event.CreateEventStatusCodes;
 import com.andreasogeirik.master_frontend.util.validation.event.CreateEventValidationContainer;
 import com.andreasogeirik.master_frontend.util.validation.event.InputValidation;
@@ -28,7 +31,7 @@ import java.util.GregorianCalendar;
 /**
  * Created by Andreas on 10.02.2016.
  */
-public class EditEventPresenterImpl extends GeneralPresenter implements EditEventPresenter, OnSampleImageFinishedListener, ImageInteractor.OnImageFoundListener {
+public class EditEventPresenterImpl extends GeneralPresenter implements EditEventPresenter, OnSampleImageFinishedListener {
     EditEventView editEventView;
     private EditEventInteractor interactor;
     private byte[] byteImage;
@@ -115,8 +118,8 @@ public class EditEventPresenterImpl extends GeneralPresenter implements EditEven
     public void setEventAttributes() {
         this.editEventView.setEventAttributes(event.getName(), event.getLocation(), event.getDescription(), DateUtility.format(event.getStartDate().getTime()), DateUtility.formatTime(event.getStartDate().getTime()));
 
-        if (!this.event.getImageURI().isEmpty()) {
-            ImageInteractor.getInstance().findImage(event.getImageURI(), getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), this);
+        if (this.event.getImageURI() != null && !this.event.getImageURI().isEmpty()) {
+            editEventView.setImage(this.event.getImageURI());
         }
 
         if (event.getEndDate() != null) {
@@ -227,20 +230,5 @@ public class EditEventPresenterImpl extends GeneralPresenter implements EditEven
     private long dateToLong(Calendar eventDate, int hour, int minute) {
         Calendar calendar = new GregorianCalendar(eventDate.get(Calendar.YEAR), eventDate.get(Calendar.MONTH), eventDate.get(Calendar.DAY_OF_MONTH), hour, minute);
         return calendar.getTimeInMillis();
-    }
-
-    @Override
-    public void foundImage(String imageUri, Bitmap bitmap) {
-        this.editEventView.setImage(bitmap);
-    }
-
-    @Override
-    public void onProgressChange(int percent) {
-
-    }
-
-    @Override
-    public void imageNotFound(String imageUri) {
-
     }
 }

@@ -28,7 +28,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class FriendListActivity extends AppCompatActivity implements FriendListView,
-        AdapterView.OnItemClickListener, FriendListAdapter.Listener {
+        AdapterView.OnItemClickListener {
     private FriendListPresenter presenter;
     private ToolbarPresenter toolbarPresenter;
     private FriendListAdapter listAdapter;
@@ -95,7 +95,7 @@ public class FriendListActivity extends AppCompatActivity implements FriendListV
 
     @Override
     public void initGUI(List<Friendship> friendships) {
-        listAdapter = new FriendListAdapter(this, friendships, this);
+        listAdapter = new FriendListAdapter(this, friendships);
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener(this);
         initToolbar();
@@ -116,19 +116,6 @@ public class FriendListActivity extends AppCompatActivity implements FriendListV
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         presenter.profileChosen(position);
-    }
-
-    @Override
-    public void findImage(String imageUri) {
-        presenter.findImage(imageUri);
-    }
-
-    /*
-     * Sets image on adapter. Runs on ui thread...
-     */
-    @Override
-    public void setProfileImage(String imageUri, Bitmap bitmap) {
-        listAdapter.addImage(imageUri, bitmap);
     }
 
     @Override

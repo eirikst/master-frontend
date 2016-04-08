@@ -2,9 +2,7 @@ package com.andreasogeirik.master_frontend.application.user.friend;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Environment;
 
 import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
 import com.andreasogeirik.master_frontend.application.user.friend.interfaces.FriendListPresenter;
@@ -13,7 +11,6 @@ import com.andreasogeirik.master_frontend.application.user.profile.ProfileActivi
 import com.andreasogeirik.master_frontend.application.user.profile_others.ProfileOthersActivity;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.Friendship;
-import com.andreasogeirik.master_frontend.util.ImageInteractor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +18,7 @@ import java.util.List;
 /**
  * Created by eirikstadheim on 20/02/16.
  */
-public class FriendListPresenterImpl extends GeneralPresenter implements FriendListPresenter,
-        ImageInteractor.OnImageFoundListener {
+public class FriendListPresenterImpl extends GeneralPresenter implements FriendListPresenter {
     private FriendListView view;
 
     //model
@@ -41,30 +37,6 @@ public class FriendListPresenterImpl extends GeneralPresenter implements FriendL
         this.friendships = friendships;
 
         view.initGUI(this.friendships);
-    }
-
-    @Override
-    public void findImage(String imageUri) {
-        if (imageUri == null || imageUri.equals("")) {
-            return;//do nothing and default image is still there
-        }
-        ImageInteractor.getInstance().findImage(imageUri, getActivity().getExternalFilesDir(Environment.
-                DIRECTORY_PICTURES), this);
-    }
-
-    @Override
-    public void foundImage(String imageUri, Bitmap bitmap) {
-        view.setProfileImage(imageUri, bitmap);
-    }
-
-    @Override
-    public void onProgressChange(int percent) {
-        //Not implemented, doesn't need to
-    }
-
-    @Override
-    public void imageNotFound(String imageUri) {
-        //do nothing, default image is set
     }
 
     /*

@@ -11,6 +11,4 @@ public interface ProfileOthersInteractor {
     void requestFriendship(User user);
     void acceptFriendship(int friendshipId);
     void rejectFriendship(int friendshipId);
-
-    void findImage(String imageUri, File storagePath);
 }

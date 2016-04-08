@@ -11,6 +11,4 @@ public interface RecommendedEventsPresenter {
     void findRecommendedEvents();
     void successRecommendedEvents(Set<Event> events);
     void errorRecommendedEvents(int code);
-
-    void findImage(String imageUri);
 }

@@ -18,6 +18,8 @@ import com.andreasogeirik.master_frontend.application.user.profile_others.interf
 import com.andreasogeirik.master_frontend.application.user.profile_others.interfaces.ProfileOthersView;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.User;
+import com.andreasogeirik.master_frontend.util.Constants;
+import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -163,9 +165,23 @@ public class ProfileOthersActivity extends AppCompatActivity implements ProfileO
 
 
     @Override
-    public void setProfileImage(Bitmap bitmap) {
-        //set profile image
-        profileImage.setImageBitmap(bitmap);
+    public void setProfileImage(String imageUri) {
+        //load image
+        if(imageUri != null && !imageUri.isEmpty()) {
+            Picasso.with(this)
+                    .load(imageUri)
+                    .error(R.drawable.default_profile)
+                    .resize(Constants.USER_IMAGE_WIDTH, Constants.USER_IMAGE_HEIGHT)
+                    .centerCrop()
+                    .into(profileImage);
+        }
+        else {
+            Picasso.with(this)
+                    .load(R.drawable.default_profile)
+                    .resize(Constants.USER_IMAGE_WIDTH, Constants.USER_IMAGE_HEIGHT)
+                    .centerCrop()
+                    .into(profileImage);
+        }
     }
 
     /*

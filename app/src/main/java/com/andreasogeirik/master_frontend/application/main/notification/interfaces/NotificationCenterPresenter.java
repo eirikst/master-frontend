@@ -4,7 +4,6 @@ package com.andreasogeirik.master_frontend.application.main.notification.interfa
  * Created by eirikstadheim on 10/03/16.
  */
 public interface NotificationCenterPresenter {
-    void findImage(String imageUri);
     void acceptFriendship(int friendshipId);
     void successAcceptFriendship(int friendshipId);
     void failureAcceptFriendship(int code);
