@@ -21,9 +21,6 @@ public interface ProfilePresenter {
     void successFriendsLoad(Set<Friendship> friends);
     void errorFriendsLoad(int code);
 
-    void imageFound(String imageUrl, Bitmap bitmap);
-    void imageNotFound(String imageUri);
-
     void friendListSelected();
 
     void saveInstanceState(Bundle bundle);

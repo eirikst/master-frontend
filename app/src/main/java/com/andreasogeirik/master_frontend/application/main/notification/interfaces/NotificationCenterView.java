@@ -9,6 +9,5 @@ import java.util.Set;
  */
 public interface NotificationCenterView {
     void setNotifications(Set<Object> notifications);
-    void setImage(String imageUri, Bitmap bitmap);
     void displayMessage(String message);
 }

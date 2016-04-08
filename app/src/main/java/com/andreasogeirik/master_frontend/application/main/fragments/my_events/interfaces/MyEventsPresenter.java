@@ -16,6 +16,4 @@ public interface MyEventsPresenter {
     void findMyPastEvents();
     void successMyPastEvents(Set<Event> events);
     void errorMyPastEvents(int code);
-
-    void findImage(String imageUri);
 }

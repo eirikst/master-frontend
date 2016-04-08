@@ -22,7 +22,7 @@ public interface EventView {
     void showProgress();
     void hideProgress();
     void setDifficultyView(int difficulty);
-    void setImage(Bitmap image);
+    void setImage(String imageUri);
     void initGui();
     void navigateToParticipants(Set<User> users);
     void navigateToEditEvent(Event event);

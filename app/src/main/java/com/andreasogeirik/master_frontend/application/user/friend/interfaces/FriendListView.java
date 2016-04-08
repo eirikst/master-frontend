@@ -11,6 +11,5 @@ import java.util.List;
  */
 public interface FriendListView {
     void initGUI(List<Friendship> friendships);
-    void setProfileImage(String imageUri, Bitmap bitmap);
     void displayMessage(String message);
 }

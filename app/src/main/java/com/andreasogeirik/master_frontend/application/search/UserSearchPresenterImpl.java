@@ -3,9 +3,7 @@ package com.andreasogeirik.master_frontend.application.search;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Environment;
 
 import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
 import com.andreasogeirik.master_frontend.application.search.interfaces.UserSearchInteractor;
@@ -16,14 +14,12 @@ import com.andreasogeirik.master_frontend.application.user.profile_others.Profil
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
-import com.andreasogeirik.master_frontend.util.ImageInteractor;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class UserSearchPresenterImpl extends GeneralPresenter implements UserSearchPresenter,
-        ImageInteractor.OnImageFoundListener {
+public class UserSearchPresenterImpl extends GeneralPresenter implements UserSearchPresenter {
     private UserSearchView view;
     private List<User> users;
     private UserSearchInteractor interactor;
@@ -98,27 +94,6 @@ public class UserSearchPresenterImpl extends GeneralPresenter implements UserSea
         else {
             view.displayMessage("Vennligst prøv igjen.");
         }
-    }
-
-    @Override
-    public void findImage(String imageUri) {
-        ImageInteractor.getInstance().findImage(imageUri, getActivity().getExternalFilesDir
-                (Environment.DIRECTORY_PICTURES), this);
-    }
-
-    @Override
-    public void foundImage(String imageUri, Bitmap bitmap) {
-        view.setImage(imageUri, bitmap);
-    }
-
-    @Override
-    public void onProgressChange(int percent) {
-        //do nothing
-    }
-
-    @Override
-    public void imageNotFound(String imageUri) {
-        //do nothing, default image is displayed
     }
 
     @Override

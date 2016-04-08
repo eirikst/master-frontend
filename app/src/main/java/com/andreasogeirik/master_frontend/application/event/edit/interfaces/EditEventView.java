@@ -19,6 +19,7 @@ public interface EditEventView {
     void setStartDateError(String error);
     void setEndDateError(String error);
     void setImageError(String error);
+    void setImage(String imageUri);
     void setImage(Bitmap bitmap);
     void setEventAttributes(String name, String location, String description, String startDate, String startTime);
     void setEndDate(String endDate, String endTime);

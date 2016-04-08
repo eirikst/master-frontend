@@ -8,7 +8,6 @@ import java.io.File;
  * Created by eirikstadheim on 20/02/16.
  */
 public interface FriendListPresenter {
-    void findImage(String imageUri);
     void profileChosen(int position);
     void saveInstanceState(Bundle outState);
 }

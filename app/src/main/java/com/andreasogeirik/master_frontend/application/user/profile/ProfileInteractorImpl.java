@@ -1,14 +1,11 @@
 package com.andreasogeirik.master_frontend.application.user.profile;
 
-import android.graphics.Bitmap;
 
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfileInteractor;
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfilePresenter;
-import com.andreasogeirik.master_frontend.communication.GetAttendedEventsTask;
 import com.andreasogeirik.master_frontend.communication.GetAttendingEventsTask;
 import com.andreasogeirik.master_frontend.communication.GetFriendsTask;
 import com.andreasogeirik.master_frontend.communication.GetPostsTask;
-import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingFriendshipsListener;
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingPostsListener;
 import com.andreasogeirik.master_frontend.model.Event;
@@ -16,12 +13,10 @@ import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.UserPost;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
-import com.andreasogeirik.master_frontend.util.ImageInteractor;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,8 +24,7 @@ import java.util.Set;
  * Created by eirikstadheim on 06/02/16.
  */
 public class ProfileInteractorImpl implements ProfileInteractor, OnFinishedLoadingPostsListener,
-        OnFinishedLoadingFriendshipsListener, ImageInteractor.OnImageFoundListener,
-        GetAttendingEventsTask.OnFinishedLoadingAttendingEventsListener
+        OnFinishedLoadingFriendshipsListener, GetAttendingEventsTask.OnFinishedLoadingAttendingEventsListener
 
 {
     private ProfilePresenter presenter;
@@ -99,31 +93,6 @@ public class ProfileInteractorImpl implements ProfileInteractor, OnFinishedLoadi
     @Override
     public void onFailedFriendshipsLoad(int code) {
         presenter.errorFriendsLoad(code);
-    }
-
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    /*
-     * Image handling
-     */
-    @Override
-    public void findImage(String imageUri, File storagePath) {
-        ImageInteractor.getInstance().findImage(imageUri, storagePath, this);
-    }
-
-    @Override
-    public void foundImage(String imageUrl, Bitmap bitmap) {
-        presenter.imageFound(imageUrl, bitmap);
-    }
-
-    @Override
-    public void onProgressChange(int percent) {
-        //TODO:handle this maybe maybe not
-    }
-
-    @Override
-    public void imageNotFound(String imageUri) {
-        presenter.imageNotFound(imageUri);
     }
 
     @Override

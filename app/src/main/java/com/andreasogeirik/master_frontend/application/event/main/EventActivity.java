@@ -30,6 +30,7 @@ import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.EventPost;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -188,8 +189,20 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
     }
 
     @Override
-    public void setImage(Bitmap image) {
-        this.imageView.setImageBitmap(image);
+    public void setImage(String imageUri) {
+        if(imageUri != null && !imageUri.isEmpty()) {
+            Picasso.with(this)
+                    .load(imageUri)
+                    .error(R.drawable.default_event)
+                    .resize(Constants.EVENT_IMAGE_WIDTH, Constants.EVENT_IMAGE_HEIGHT)
+                    .into(imageView);
+        }
+        else {
+            Picasso.with(this)
+                    .load(R.drawable.default_event)
+                    .resize(Constants.EVENT_IMAGE_WIDTH, Constants.EVENT_IMAGE_HEIGHT)
+                    .into(imageView);
+        }
         this.eventImageContainer.setVisibility(View.VISIBLE);
     }
 

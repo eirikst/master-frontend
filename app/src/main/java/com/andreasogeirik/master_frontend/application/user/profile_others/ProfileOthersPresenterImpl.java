@@ -53,7 +53,7 @@ public class ProfileOthersPresenterImpl extends GeneralPresenter implements Prof
             view.setupGUI(user, -1);
         }
 
-        findImage();
+        view.setProfileImage(user.getImageUri());
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -157,30 +157,6 @@ public class ProfileOthersPresenterImpl extends GeneralPresenter implements Prof
         else {
             view.displayMessage("En feil skjedde under fjerning av forespørsel");
         }
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    /*
-     * Image handling
-     */
-
-    private void findImage() {
-        if(user.getImageUri() == null || user.getImageUri().isEmpty()) {
-            System.out.println("User's image uri null or empty for user " + user.getId());
-            return;
-        }
-        interactor.findImage(user.getImageUri(), getActivity().getExternalFilesDir
-                (Environment.DIRECTORY_PICTURES));
-    }
-
-    @Override
-    public void imageFound(String imageUrl, Bitmap result) {
-        view.setProfileImage(result);
-    }
-
-    @Override
-    public void imageNotFound() {
-        //Do nothing and default image is still there
     }
 
     /*

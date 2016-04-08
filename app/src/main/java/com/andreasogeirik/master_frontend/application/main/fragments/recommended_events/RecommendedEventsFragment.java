@@ -28,8 +28,7 @@ import java.util.Set;
 /**
  * Created by eirikstadheim on 12/02/16.
  */
-public class RecommendedEventsFragment extends Fragment implements EventListAdapter.Listener,
-        RecommendedEventsView {
+public class RecommendedEventsFragment extends Fragment implements RecommendedEventsView {
     public interface RecommendedEventsListener {
         }
 
@@ -69,7 +68,7 @@ public class RecommendedEventsFragment extends Fragment implements EventListAdap
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        listAdapter = new EventListAdapter(getActivity().getApplicationContext(), this);
+        listAdapter = new EventListAdapter(getActivity().getApplicationContext());
         presenter = new RecommendedEventsPresenterImpl(this);
     }
 
@@ -127,11 +126,6 @@ public class RecommendedEventsFragment extends Fragment implements EventListAdap
     }
 
     @Override
-    public void findImage(String imageUri) {
-        presenter.findImage(imageUri);
-    }
-
-    @Override
     public void setRecommendedEvents(Set<Event> events) {
         listAdapter.clear();
         listAdapter.addAll(events);
@@ -139,7 +133,7 @@ public class RecommendedEventsFragment extends Fragment implements EventListAdap
 
     @Override
     public void setEventImage(String imageUri, Bitmap bitmap) {
-        listAdapter.addImage(imageUri, bitmap);
+        //TODO:fjern
     }
 
     @Override

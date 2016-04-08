@@ -5,6 +5,5 @@ package com.andreasogeirik.master_frontend.application.event.main.participants.i
  */
 public interface ParticipantsPresenter {
     void initGui();
-    void findImage(String imageUri);
     void profileChosen(int position);
 }

@@ -27,8 +27,7 @@ import java.util.Set;
 /**
  * Created by eirikstadheim on 12/02/16.
  */
-public class MyEventsFragment extends Fragment implements EventListAdapter.Listener,
-        MyEventView {
+public class MyEventsFragment extends Fragment implements MyEventView {
     public interface MyEventsListener {
         }
 
@@ -68,7 +67,7 @@ public class MyEventsFragment extends Fragment implements EventListAdapter.Liste
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        listAdapter = new EventListAdapter(getActivity().getApplicationContext(), this);
+        listAdapter = new EventListAdapter(getActivity().getApplicationContext());
     }
 
     @Override
@@ -126,11 +125,6 @@ public class MyEventsFragment extends Fragment implements EventListAdapter.Liste
     }
 
     @Override
-    public void findImage(String imageUri) {
-        presenter.findImage(imageUri);
-    }
-
-    @Override
     public void setMyEvents(Set<Event> events) {
         listAdapter.clear();
         listAdapter.addAll(events);
@@ -138,7 +132,7 @@ public class MyEventsFragment extends Fragment implements EventListAdapter.Liste
 
     @Override
     public void setEventImage(String imageUri, Bitmap bitmap) {
-        listAdapter.addImage(imageUri, bitmap);
+        //TODO fjern
     }
 
 

@@ -31,7 +31,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ParticipantsActivity extends AppCompatActivity implements ParticipantsView, AdapterView.OnItemClickListener, ParticipantsListAdapter.Listener {
+public class ParticipantsActivity extends AppCompatActivity implements ParticipantsView, AdapterView.OnItemClickListener {
 
     private ParticipantsListAdapter listAdapter;
 
@@ -80,20 +80,9 @@ public class ParticipantsActivity extends AppCompatActivity implements Participa
 
     @Override
     public void initGui(List<User> participants) {
-        listAdapter = new ParticipantsListAdapter(this, participants, this);
+        listAdapter = new ParticipantsListAdapter(this, participants);
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener(this);
-    }
-
-    @Override
-    public void setProfileImage(String imageUri, Bitmap bitmap) {
-        listAdapter.addImage(imageUri, bitmap);
-        listAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void findImage(String imageUri) {
-        this.presenter.findImage(imageUri);
     }
 
     @Override

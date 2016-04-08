@@ -1,7 +1,5 @@
 package com.andreasogeirik.master_frontend.application.main.fragments.attending_events;
 
-import android.graphics.Bitmap;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
 
 import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
@@ -12,7 +10,6 @@ import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
-import com.andreasogeirik.master_frontend.util.ImageInteractor;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,8 +17,7 @@ import java.util.Set;
 /**
  * Created by eirikstadheim on 26/02/16.
  */
-public class AttendingEventsPresenterImpl extends GeneralPresenter implements AttendingEventsPresenter,
-        ImageInteractor.OnImageFoundListener {
+public class AttendingEventsPresenterImpl extends GeneralPresenter implements AttendingEventsPresenter {
     private AttendingEventView view;
     private AttendingEventsInteractor eventInteractor;
     private User user;
@@ -101,26 +97,5 @@ public class AttendingEventsPresenterImpl extends GeneralPresenter implements At
     @Override
     public void errorAttendingEvents(int code) {
         view.displayMessage("Feil ved lasting av aktiviteter");
-    }
-
-    @Override
-    public void findImage(String imageUri) {
-        ImageInteractor.getInstance().findImage(imageUri, getActivity().getExternalFilesDir
-                (Environment.DIRECTORY_PICTURES), this);
-    }
-
-    @Override
-    public void foundImage(String imageUri, Bitmap bitmap) {
-        view.setAttendingImage(imageUri, bitmap);
-    }
-
-    @Override
-    public void onProgressChange(int percent) {
-        // not implemented, not necessary
-    }
-
-    @Override
-    public void imageNotFound(String imageUri) {
-        // do nothing, default image is set
     }
 }

@@ -2,7 +2,6 @@ package com.andreasogeirik.master_frontend.layout.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,38 +14,28 @@ import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.DateUtility;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by eirikstadheim on 05/02/16.
  */
 public class EventListAdapter extends ArrayAdapter<Event> {
-    public interface Listener {
-        public void findImage(String imageUri);
-    }
 
     private User user;
-    private Map<String, Bitmap> eventImages;
     private Context context;
-    private Listener listener;
     private Bitmap defaultImage;
     private Comparator<Event> comparator;
 
-    public EventListAdapter(Context context, Listener listener) {
+    public EventListAdapter(Context context) {
         super(context, 0);
         this.context = context;
-        this.listener = listener;
-        this.eventImages = new HashMap<>();
 
         /*
          * The comparator sorts the list so that future events comes first, with the earliest first.
@@ -213,65 +202,27 @@ public class EventListAdapter extends ArrayAdapter<Event> {
         // Setup imageview
         ImageView image = (ImageView)convertView.findViewById(R.id.event_image);
 
-        if(eventImages.containsKey(event.getImageURI())) {
-            System.out.println("Image found and set for " + event.getName());
-            image.setImageBitmap(eventImages.get(event.getImageURI()));
+        //load image
+        if(event.getImageURI() != null && !event.getImageURI().isEmpty()) {
+            Picasso.with(context)
+                    .load(event.getImageURI())
+                    .error(R.drawable.default_event)
+                    .resize(Constants.LIST_IMAGE_WIDTH, Constants.LIST_IMAGE_HEIGHT)
+                    .centerCrop()
+                    .into(image);
         }
         else {
-            //no image, use default
-            if(event.getImageURI() == null || event.getImageURI().equals("")) {
-                System.out.println("Image null or empty for " + event.getName() +
-                        ". Setting default image");
-                setDefaultImage(image, event.getImageURI());
-            }
-            //get image from outside
-            else {
-                System.out.println("Image not found for " + event.getName() + ". Fetching image "
-                        + event.getImageURI());
-                listener.findImage(event.getImageURI());
-            }
+            Picasso.with(context)
+                    .load(R.drawable.default_event)
+                    .resize(Constants.LIST_IMAGE_WIDTH, Constants.LIST_IMAGE_HEIGHT)
+                    .centerCrop()
+                    .into(image);
         }
 
         // Return view for rendering
         return convertView;
     }
 
-    @Override
-    public void add(Event object) {
-        super.add(object);
-        sort(comparator);
-    }
-
-    @Override
-    public void addAll(Collection<? extends Event> collection) {
-        super.addAll(collection);
-        sort(comparator);
-    }
-
-    @Override
-    public void addAll(Event... items) {
-        super.addAll(items);
-        sort(comparator);
-    }
-
-    /*
-     * Set image to null to get default. Name is always needed
-     */
-    public void addImage(String name, Bitmap image) {
-        eventImages.put(name, image);
-        notifyDataSetChanged();
-    }
-
-    private void setDefaultImage(ImageView image, String imageName) {
-        if(defaultImage == null) {
-            defaultImage = BitmapFactory.decodeResource(context.getResources(),
-                    R.drawable.default_event);
-        }
-        if(defaultImage != null) {
-            image.setImageBitmap(defaultImage);
-            eventImages.put(imageName, defaultImage);
-        }
-    }
 
     public void setUser(User user) {
         this.user  = user;

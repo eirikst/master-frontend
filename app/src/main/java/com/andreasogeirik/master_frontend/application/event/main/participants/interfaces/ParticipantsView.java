@@ -11,5 +11,4 @@ import java.util.List;
  */
 public interface ParticipantsView {
     void initGui(List<User> users);
-    void setProfileImage(String imageUri, Bitmap bitmap);
 }

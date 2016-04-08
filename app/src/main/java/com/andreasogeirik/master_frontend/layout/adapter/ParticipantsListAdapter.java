@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.model.User;
+import com.andreasogeirik.master_frontend.util.Constants;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,22 +24,15 @@ import java.util.Map;
  */
 public class ParticipantsListAdapter extends ArrayAdapter<User> {
 
-    public interface Listener {
-        void findImage(String imageUri);
-    }
-
     private Context context;
     private List<User> participants;
     private Map<String, Bitmap> profileImages;
-    private Listener listener;
 
-    public ParticipantsListAdapter(Context context, List<User> participants, Listener
-            listener) {
+    public ParticipantsListAdapter(Context context, List<User> participants) {
         super(context, 0, participants);
         this.context = context;
         this.participants = participants;
         this.profileImages = new HashMap<>();
-        this.listener = listener;
     }
 
     @Override
@@ -52,29 +47,28 @@ public class ParticipantsListAdapter extends ArrayAdapter<User> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.participant_item, parent, false);
         }
         // Lookup view for data population
-        ImageView profilePic = (ImageView) convertView.findViewById(R.id.profile_pic);
+        ImageView image = (ImageView) convertView.findViewById(R.id.profile_pic);
         TextView participantName = (TextView) convertView.findViewById(R.id.name);
 
         // Populate the data into the template view using the data object
 
         // Populate profile image
 
-        //image in local map
-        if(profileImages.containsKey(user.getImageUri())) {
-            System.out.println("Image found and set for " + user.getFirstname());
-            profilePic.setImageBitmap(profileImages.get(user.getImageUri()));
+        //add image
+        if(user.getImageUri() != null && !user.getImageUri().isEmpty()) {
+            Picasso.with(context)
+                    .load(user.getImageUri())
+                    .error(R.drawable.default_profile)
+                    .resize(Constants.LIST_IMAGE_WIDTH, Constants.LIST_IMAGE_HEIGHT)
+                    .centerCrop()
+                    .into(image);
         }
         else {
-            //no image, user standard
-            if(user.getImageUri() == null || user.getImageUri().equals("")) {
-                System.out.println("Image null or empty for " + user.getFirstname() + ". Setting standard image");
-                setDefaultImage(profilePic, user.getImageUri());
-            }
-            //get image from outside
-            else {
-                System.out.println("Image not found for " + user.getFirstname() + ". Fetching...");
-                listener.findImage(user.getImageUri());
-            }
+            Picasso.with(context)
+                    .load(R.drawable.default_profile)
+                    .resize(Constants.LIST_IMAGE_WIDTH, Constants.LIST_IMAGE_HEIGHT)
+                    .centerCrop()
+                    .into(image);
         }
 
         //Populate name
@@ -82,22 +76,5 @@ public class ParticipantsListAdapter extends ArrayAdapter<User> {
 
         // Return the completed view to render on screen
         return convertView;
-    }
-
-    /*
-     * Set image to null to get default. Name is always needed
-     */
-    public void addImage(String name, Bitmap image) {
-        profileImages.put(name, image);
-        notifyDataSetChanged();
-    }
-
-    private void setDefaultImage(ImageView image, String imageName) {
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),
-                R.drawable.default_profile);
-        if(bitmap != null) {
-            image.setImageBitmap(bitmap);
-            profileImages.put(imageName, bitmap);
-        }
     }
 }

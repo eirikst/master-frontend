@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.model.Friendship;
+import com.andreasogeirik.master_frontend.util.Constants;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,14 +26,12 @@ import java.util.Set;
  */
 public class NotificationListAdapter extends ArrayAdapter<Object> {
     public interface Listener {
-        void findImage(String imageUri);
         void acceptFriendship(int friendshipId);
         void rejectFriendship(int friendshipId);
     }
 
     private Context context;
     private List<Object> objects;
-    private Map<String, Bitmap> images;
     private Listener listener;
 
     public NotificationListAdapter(Context context, List<Object> objects, Listener
@@ -39,7 +39,6 @@ public class NotificationListAdapter extends ArrayAdapter<Object> {
         super(context, 0, objects);
         this.context = context;
         this.objects = objects;
-        this.images = new HashMap<String, Bitmap>();
         this.listener = listener;
     }
 
@@ -67,24 +66,21 @@ public class NotificationListAdapter extends ArrayAdapter<Object> {
         TextView text = (TextView)convertView.findViewById(R.id.notification_friend_text);
 
 
-        // Populate profile image
-
-        //image in local map
-        if(images.containsKey(friendship.getFriend().getImageUri())) {
-            System.out.println("Image found and set for " + friendship.getFriend().getFirstname());
-            image.setImageBitmap(images.get(friendship.getFriend().getImageUri()));
+        //load image
+        if(friendship.getFriend().getImageUri() != null && !friendship.getFriend().getImageUri().isEmpty()) {
+            Picasso.with(context)
+                    .load(friendship.getFriend().getImageUri())
+                    .error(R.drawable.default_profile)
+                    .resize(Constants.LIST_IMAGE_WIDTH, Constants.LIST_IMAGE_HEIGHT)
+                    .centerCrop()
+                    .into(image);
         }
         else {
-            //no image, user standard
-            if(friendship.getFriend().getImageUri() == null || friendship.getFriend().getImageUri().equals("")) {
-                System.out.println("Image null or empty for " + friendship.getFriend().getFirstname() + ". Setting default image");
-                setDefaultImage(image, friendship.getFriend().getImageUri());
-            }
-            //get image from outside
-            else {
-                System.out.println("Image not found for " + friendship.getFriend().getFirstname() + ". Fetching...");
-                listener.findImage(friendship.getFriend().getImageUri());
-            }
+            Picasso.with(context)
+                    .load(R.drawable.default_profile)
+                    .resize(Constants.LIST_IMAGE_WIDTH, Constants.LIST_IMAGE_HEIGHT)
+                    .centerCrop()
+                    .into(image);
         }
 
         //Populate name
@@ -109,23 +105,6 @@ public class NotificationListAdapter extends ArrayAdapter<Object> {
 
         // Return view for rendering
         return convertView;
-    }
-
-    /*
-     * Set image to null to get default. Name is always needed
-     */
-    public void addImage(String name, Bitmap image) {
-        images.put(name, image);
-        notifyDataSetChanged();
-    }
-
-    private void setDefaultImage(ImageView image, String imageName) {
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),
-                R.drawable.default_profile);
-        if(bitmap != null) {
-            image.setImageBitmap(bitmap);
-            images.put(imageName, bitmap);
-        }
     }
 
     public void setNotifications(Set<Object> notifications) {

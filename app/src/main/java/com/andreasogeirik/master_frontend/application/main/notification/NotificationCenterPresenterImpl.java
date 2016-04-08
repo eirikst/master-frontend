@@ -1,7 +1,5 @@
 package com.andreasogeirik.master_frontend.application.main.notification;
 
-import android.graphics.Bitmap;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
 
 import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
@@ -10,7 +8,6 @@ import com.andreasogeirik.master_frontend.application.main.notification.interfac
 import com.andreasogeirik.master_frontend.application.main.notification.interfaces.NotificationCenterView;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.Friendship;
-import com.andreasogeirik.master_frontend.util.ImageInteractor;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,8 +15,7 @@ import java.util.Set;
 /**
  * Created by eirikstadheim on 26/02/16.
  */
-public class NotificationCenterPresenterImpl extends GeneralPresenter implements NotificationCenterPresenter,
-        ImageInteractor.OnImageFoundListener {
+public class NotificationCenterPresenterImpl extends GeneralPresenter implements NotificationCenterPresenter {
     private NotificationCenterView view;
     private NotificationCenterInteractor interactor;
     private Set<Object> notifications = new HashSet<>();
@@ -31,27 +27,6 @@ public class NotificationCenterPresenterImpl extends GeneralPresenter implements
         this.view = view;
         this.notifications = notifications;
         this.interactor = new NotificationCenterInteractorImpl(this);
-    }
-
-    @Override
-    public void findImage(String imageUri) {
-        ImageInteractor.getInstance().findImage(imageUri, getActivity().getExternalFilesDir
-                (Environment.DIRECTORY_PICTURES), this);
-    }
-
-    @Override
-    public void foundImage(String imageUri, Bitmap bitmap) {
-        view.setImage(imageUri, bitmap);
-    }
-
-    @Override
-    public void onProgressChange(int percent) {
-        // do nothing
-    }
-
-    @Override
-    public void imageNotFound(String imageUri) {
-        //do nothing, default image set
     }
 
     @Override

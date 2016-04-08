@@ -1,8 +1,6 @@
 package com.andreasogeirik.master_frontend.application.event.main;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.os.Environment;
 
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventInteractor;
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventPresenter;
@@ -12,10 +10,8 @@ import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.DateUtility;
-import com.andreasogeirik.master_frontend.util.ImageInteractor;
 
 
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import static com.andreasogeirik.master_frontend.util.Constants.CLIENT_ERROR;
@@ -26,7 +22,7 @@ import static com.andreasogeirik.master_frontend.util.Constants.UNAUTHORIZED;
 /**
  * Created by Andreas on 10.02.2016.
  */
-public class EventPresenterImpl extends GeneralPresenter implements EventPresenter, ImageInteractor.OnImageFoundListener {
+public class EventPresenterImpl extends GeneralPresenter implements EventPresenter {
     private EventView eventView;
     private EventInteractor interactor;
     private Event event;
@@ -102,7 +98,7 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
         }
 
         if (!this.event.getImageURI().isEmpty()) {
-            ImageInteractor.getInstance().findImage(this.event.getImageURI(), getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), this);
+            eventView.setImage(event.getImageURI());
         }
 
         User currentUser = CurrentUser.getInstance().getUser();
@@ -173,22 +169,6 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
     public void deleteEvent() {
         this.eventView.showProgress();
         this.interactor.deleteEvent(this.event.getId());
-    }
-
-    @Override
-    public void foundImage(String imageUri, Bitmap bitmap) {
-//        eventView.hideProgress();
-        this.eventView.setImage(bitmap);
-    }
-
-    @Override
-    public void onProgressChange(int percent) {
-
-    }
-
-    @Override
-    public void imageNotFound(String imageUri) {
-        eventView.hideProgress();
     }
 
     @Override

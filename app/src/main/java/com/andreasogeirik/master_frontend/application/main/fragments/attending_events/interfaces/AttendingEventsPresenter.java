@@ -17,6 +17,4 @@ public interface AttendingEventsPresenter {
     void findAttendedEvents();
     void successAttendedEvents(Set<Event> events);
     void errorAttendedEvents(int code);
-
-    void findImage(String imageUri);
 }

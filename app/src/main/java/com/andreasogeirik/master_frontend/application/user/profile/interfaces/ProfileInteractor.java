@@ -12,7 +12,6 @@ import java.util.Set;
 public interface ProfileInteractor {
     void findPosts(User user, int start);
     void findFriends(int userId);
-    void findImage(String imageUri, File storagePath);
 
     void findAttendingEvents(User user);
 }
