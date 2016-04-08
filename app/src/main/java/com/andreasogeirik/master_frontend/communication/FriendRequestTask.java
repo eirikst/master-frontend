@@ -1,6 +1,7 @@
 package com.andreasogeirik.master_frontend.communication;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import android.util.Pair;
 
 import com.andreasogeirik.master_frontend.listener.OnFriendRequestedListener;
@@ -24,6 +25,7 @@ import org.springframework.web.client.RestTemplate;
  * Created by eirikstadheim on 06/02/16.
  */
 public class FriendRequestTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntity<String>>> {
+    private String tag = getClass().getSimpleName();
 
     private OnFriendRequestedListener listener;
     private int userId;
@@ -51,11 +53,11 @@ public class FriendRequestTask extends AsyncTask<Void, Void, Pair<Integer, Respo
             return new Pair(Constants.OK, response);
         }
         catch (ResourceAccessException e) {
-            System.out.println("Resource error:" + e);
+            Log.w(tag, "Resource error:" + e);
             return new Pair(Constants.RESOURCE_ACCESS_ERROR, null);
         }
         catch (HttpClientErrorException e) {
-            System.out.println("Client exception:" + e);
+            Log.w(tag, "Client exception:" + e);
 
             if(e.getStatusCode() == HttpStatus.UNAUTHORIZED) {
                 return new Pair(Constants.UNAUTHORIZED, null);
@@ -64,7 +66,7 @@ public class FriendRequestTask extends AsyncTask<Void, Void, Pair<Integer, Respo
             return new Pair(Constants.CLIENT_ERROR, null);
         }
         catch(Exception e) {
-            System.out.println("Some error:" + e);
+            Log.w(tag, "Some error:" + e);
             return new Pair(Constants.SOME_ERROR, null);
         }
     }
@@ -76,7 +78,7 @@ public class FriendRequestTask extends AsyncTask<Void, Void, Pair<Integer, Respo
              listener.onFriendRequestSuccess(new JSONObject(response.second.getBody()));
             }
             catch(JSONException e) {
-                System.out.println("JSON parse error." + e);
+                Log.w(tag, "JSON parse error." + e);
                 listener.onFriendRequestFailure(Constants.JSON_PARSE_ERROR);
             }
         }

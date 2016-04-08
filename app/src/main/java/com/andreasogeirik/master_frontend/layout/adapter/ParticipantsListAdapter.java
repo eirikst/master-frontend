@@ -37,9 +37,7 @@ public class ParticipantsListAdapter extends ArrayAdapter<User> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
-        System.out.println(profileImages);
-
+        
         // Get the data item for this position
         User user = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view

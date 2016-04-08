@@ -1,5 +1,7 @@
 package com.andreasogeirik.master_frontend.application.main.fragments.attending_events;
 
+import android.util.Log;
+
 import com.andreasogeirik.master_frontend.application.main.fragments.attending_events.interfaces.AttendingEventsInteractor;
 import com.andreasogeirik.master_frontend.application.main.fragments.attending_events.interfaces.AttendingEventsPresenter;
 import com.andreasogeirik.master_frontend.communication.GetAttendedEventsTask;
@@ -21,6 +23,8 @@ import java.util.Set;
 public class AttendingEventsInteractorImpl implements AttendingEventsInteractor,
         GetAttendingEventsTask.OnFinishedLoadingAttendingEventsListener,
         GetAttendedEventsTask.OnFinishedLoadingAttendedEventsListener {
+    private String tag = getClass().getSimpleName();
+
     private AttendingEventsPresenter presenter;
 
     public AttendingEventsInteractorImpl(AttendingEventsPresenter presenter) {
@@ -48,7 +52,7 @@ public class AttendingEventsInteractorImpl implements AttendingEventsInteractor,
             presenter.successAttendingEvents(events);
         }
         catch (JSONException e) {
-            System.out.println("JSON error: " + e);
+            Log.w(tag, "JSON error: " + e);
             presenter.errorAttendingEvents(Constants.CLIENT_ERROR);
         }
     }
@@ -68,7 +72,7 @@ public class AttendingEventsInteractorImpl implements AttendingEventsInteractor,
             presenter.successAttendedEvents(events);
         }
         catch (JSONException e) {
-            System.out.println("JSON error: " + e);
+            Log.w(tag, "JSON error: " + e);
             presenter.errorAttendedEvents(Constants.CLIENT_ERROR);
         }
 

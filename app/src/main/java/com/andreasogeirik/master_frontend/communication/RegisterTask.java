@@ -1,6 +1,7 @@
 package com.andreasogeirik.master_frontend.communication;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import android.util.Pair;
 
 import com.andreasogeirik.master_frontend.listener.OnRegisterFinishedListener;
@@ -24,6 +25,7 @@ import org.springframework.web.client.RestTemplate;
  * Created by Andreas on 05.02.2016.
  */
 public class RegisterTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntity<String>>> {
+    private String tag = getClass().getSimpleName();
 
     private JSONObject user;
     private OnRegisterFinishedListener listener;
@@ -45,13 +47,13 @@ public class RegisterTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEn
             response = template.exchange(Constants.BACKEND_URL + "users", HttpMethod.PUT, entity, String.class);
             return new Pair(Constants.OK, response);
         } catch (HttpClientErrorException e) {
-            System.out.println("Client error:" + e);
+            Log.w(tag, "Client error:" + e);
             return new Pair(Constants.CLIENT_ERROR, null);
         } catch (ResourceAccessException e) {
-            System.out.println("Resource error:" + e);
+            Log.w(tag, "Resource error:" + e);
             return new Pair(Constants.RESOURCE_ACCESS_ERROR, null);
         } catch(Exception e) {
-            System.out.println("Some error:" + e);
+            Log.w(tag, "Some error:" + e);
             return new Pair(Constants.SOME_ERROR, null);
         }
     }
@@ -63,7 +65,7 @@ public class RegisterTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEn
                 JSONObject user = new JSONObject(response.second.getBody());
                 listener.onRegisterSuccess(user);
             } catch (JSONException e) {
-                System.out.println("JSON error:" + e);
+                Log.w(tag, "JSON error:" + e);
                 listener.onRegisterError(Constants.JSON_PARSE_ERROR);
             }
 

@@ -57,7 +57,6 @@ public class UserSearchActivity extends AppCompatActivity implements UserSearchV
                 throw new ClassCastException(e + "/nObject in savedInstanceState bundle cannot " +
                         "be cast to User in " + this.toString());
             }
-            System.out.println("Saved instance state restored");
         }
         else {
             presenter = new UserSearchPresenterImpl(this, null);

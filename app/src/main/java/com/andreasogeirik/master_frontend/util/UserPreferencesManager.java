@@ -2,11 +2,14 @@ package com.andreasogeirik.master_frontend.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 /**
  * Created by Andreas on 05.02.2016.
  */
 public class UserPreferencesManager {
+    private String tag = getClass().getSimpleName();
+
     private static UserPreferencesManager instance;
     private SharedPreferences preferences;
 
@@ -23,8 +26,8 @@ public class UserPreferencesManager {
      * This must be called before first usage, preferably from first activity
      */
     public void initialize(Context context){
-        System.out.println("Init sharedpref");
-        preferences = context.getSharedPreferences("session", Context.MODE_PRIVATE);
+        Log.i(tag, "Init sharedpref");
+                preferences = context.getSharedPreferences("session", Context.MODE_PRIVATE);
     }
 
 

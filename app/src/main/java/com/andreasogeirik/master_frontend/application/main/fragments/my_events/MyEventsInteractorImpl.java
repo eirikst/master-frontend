@@ -1,5 +1,7 @@
 package com.andreasogeirik.master_frontend.application.main.fragments.my_events;
 
+import android.util.Log;
+
 import com.andreasogeirik.master_frontend.application.main.fragments.my_events.interfaces.MyEventsInteractor;
 import com.andreasogeirik.master_frontend.application.main.fragments.my_events.interfaces.MyEventsPresenter;
 import com.andreasogeirik.master_frontend.communication.GetMyEventsTask;
@@ -20,6 +22,8 @@ import java.util.Set;
 public class MyEventsInteractorImpl implements MyEventsInteractor,
         GetMyEventsTask.OnFinishedLoadingMyEventsListener,
         GetMyPastEventsTask.OnFinishedLoadingMyPastEventsListener {
+    private String tag = getClass().getSimpleName();
+
     private MyEventsPresenter presenter;
 
     public MyEventsInteractorImpl(MyEventsPresenter presenter) {
@@ -41,7 +45,7 @@ public class MyEventsInteractorImpl implements MyEventsInteractor,
             presenter.successMyEvents(events);
         }
         catch (JSONException e) {
-            System.out.println("JSON error: " + e);
+            Log.w(tag, "JSON error: " + e);
             presenter.errorMyEvents(Constants.CLIENT_ERROR);
         }
     }
@@ -72,7 +76,7 @@ public class MyEventsInteractorImpl implements MyEventsInteractor,
             presenter.successMyPastEvents(events);
         }
         catch (JSONException e) {
-            System.out.println("JSON error: " + e);
+            Log.w(tag, "JSON error: " + e);
             presenter.errorMyEvents(Constants.CLIENT_ERROR);
         }
     }

@@ -1,5 +1,7 @@
 package com.andreasogeirik.master_frontend.application.main.fragments.recommended_events;
 
+import android.util.Log;
+
 import com.andreasogeirik.master_frontend.application.main.fragments.recommended_events.interfaces.RecommendedEventsInteractor;
 import com.andreasogeirik.master_frontend.application.main.fragments.recommended_events.interfaces.RecommendedEventsPresenter;
 import com.andreasogeirik.master_frontend.communication.GetRecommendedEventsTask;
@@ -17,6 +19,8 @@ import java.util.Set;
  */
 public class RecommendedEventsInteractorImpl implements RecommendedEventsInteractor,
         GetRecommendedEventsTask.OnFinishedLoadingRecommendedEventsListener {
+    private String tag = getClass().getSimpleName();
+
     private RecommendedEventsPresenter presenter;
 
     public RecommendedEventsInteractorImpl(RecommendedEventsPresenter presenter) {
@@ -38,7 +42,7 @@ public class RecommendedEventsInteractorImpl implements RecommendedEventsInterac
             presenter.successRecommendedEvents(events);
         }
         catch (JSONException e) {
-            System.out.println("JSON error: " + e);
+            Log.w(tag, "JSON error: " + e);
             presenter.errorRecommendedEvents(Constants.CLIENT_ERROR);
         }
     }

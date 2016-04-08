@@ -110,7 +110,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        System.out.println("USER_SET_SIZE:" + Constants.USER_SET_SIZE + ". Text size:" + textSize);
         if(Constants.USER_SET_SIZE != textSize) {
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                     this);

@@ -1,5 +1,7 @@
 package com.andreasogeirik.master_frontend.communication;
 
+import android.util.Log;
+
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
@@ -17,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
  * Created by Andreas on 05.02.2016.
  */
 public class LogoutTask {
+    private String tag = getClass().getSimpleName();
 
     public void logout() {
         ResponseEntity<String> logoutResponse;
@@ -31,13 +34,13 @@ public class LogoutTask {
                     HttpMethod.POST, entity, String.class);
         }
         catch (HttpClientErrorException clientException) {
-            System.out.println("Logout failed. " + clientException);
+            Log.w(tag, "Logout failed. " + clientException);
         }
         catch (ResourceAccessException resourceException) {
-            System.out.println("Logout failed. " + resourceException);
+            Log.w(tag, "Logout failed. " + resourceException);
         }
         catch(Exception e) {
-            System.out.println("Some error:" + e);
+            Log.w(tag, "Some error:" + e);
         }
     }
 }

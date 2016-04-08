@@ -1,5 +1,7 @@
 package com.andreasogeirik.master_frontend.application.search;
 
+import android.util.Log;
+
 import com.andreasogeirik.master_frontend.application.search.interfaces.UserSearchInteractor;
 import com.andreasogeirik.master_frontend.application.search.interfaces.UserSearchPresenter;
 import com.andreasogeirik.master_frontend.communication.SearchUsersTask;
@@ -17,6 +19,8 @@ import java.util.Set;
  */
 public class UserSearchInteractorImpl implements UserSearchInteractor,
         SearchUsersTask.OnFinishedSearchingUsersListener {
+    private String tag = getClass().getSimpleName();
+
     private UserSearchPresenter presenter;
 
     public UserSearchInteractorImpl(UserSearchPresenter presenter) {
@@ -38,7 +42,7 @@ public class UserSearchInteractorImpl implements UserSearchInteractor,
             presenter.onSuccessUserSearch(users, offset);
         }
         catch (JSONException e) {
-            System.out.println("JSON error: " + e);
+            Log.w(tag, "JSON error: " + e);
             presenter.onFailureUserSearch(Constants.CLIENT_ERROR);
         }
     }

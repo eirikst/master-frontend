@@ -1,6 +1,8 @@
 package com.andreasogeirik.master_frontend.application.user.profile;
 
 
+import android.util.Log;
+
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfileInteractor;
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfilePresenter;
 import com.andreasogeirik.master_frontend.communication.GetAttendingEventsTask;
@@ -27,6 +29,8 @@ public class ProfileInteractorImpl implements ProfileInteractor, OnFinishedLoadi
         OnFinishedLoadingFriendshipsListener, GetAttendingEventsTask.OnFinishedLoadingAttendingEventsListener
 
 {
+    private String tag = getClass().getSimpleName();
+
     private ProfilePresenter presenter;
 
     public ProfileInteractorImpl(ProfilePresenter presenter) {
@@ -83,7 +87,7 @@ public class ProfileInteractorImpl implements ProfileInteractor, OnFinishedLoadi
             }
         }
         catch (JSONException e) {
-            System.out.println("JSON error: " + e);
+            Log.w(tag, "JSON error: " + e);
             presenter.errorFriendsLoad(Constants.CLIENT_ERROR);
         }
 
@@ -110,7 +114,7 @@ public class ProfileInteractorImpl implements ProfileInteractor, OnFinishedLoadi
             presenter.successAttendingEvents(events);
         }
         catch (JSONException e) {
-            System.out.println("JSON error: " + e);
+            Log.w(tag, "JSON error: " + e);
             presenter.failureAttendingEvents(Constants.CLIENT_ERROR);
         }
     }

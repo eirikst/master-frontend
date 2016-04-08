@@ -1,6 +1,6 @@
 package com.andreasogeirik.master_frontend.application.user.profile_others;
 
-import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.andreasogeirik.master_frontend.application.user.profile_others.interfaces.ProfileOthersInteractor;
 import com.andreasogeirik.master_frontend.application.user.profile_others.interfaces.ProfileOthersPresenter;
@@ -17,13 +17,14 @@ import com.andreasogeirik.master_frontend.util.Constants;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 
 /**
  * Created by eirikstadheim on 17/02/16.
  */
 public class ProfileOthersInteractorImpl implements ProfileOthersInteractor,
         OnFriendRequestedListener, OnUnfriendedListener, OnAcceptRequestListener {
+    private String tag = getClass().getSimpleName();
+
     private ProfileOthersPresenter presenter;
 
     public ProfileOthersInteractorImpl(ProfileOthersPresenter presenter) {
@@ -45,7 +46,7 @@ public class ProfileOthersInteractorImpl implements ProfileOthersInteractor,
             presenter.friendRequestSuccess(new Friendship(friendship));
         }
         catch(JSONException e) {
-            System.out.println("JSON parse error. " + e);
+            Log.w(tag, "JSON parse error. " + e);
             presenter.friendRequestFailure(Constants.JSON_PARSE_ERROR);
         }
     }

@@ -80,7 +80,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
                 throw new ClassCastException(e + "/nObject in savedInstanceState bundle cannot " +
                         "be cast to User in " + this.toString());
             }
-            System.out.println("Saved instance state restored");
         }
         else {
             Intent intent = getIntent();
@@ -92,7 +91,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
                 throw new ClassCastException(e + "/nObject in Intent bundle cannot " +
                         "be cast to User in " + this.toString());
             }
-            System.out.println("New instance state from intent");
         }
 
         toolbarPresenter = new ToolbarPresenterImpl(this);

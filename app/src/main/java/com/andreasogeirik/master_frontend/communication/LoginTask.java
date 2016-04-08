@@ -35,6 +35,8 @@ import java.util.Map;
  * Created by Andreas on 28.01.2016.
  */
 public class LoginTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntity<String>>> {
+    private String tag = getClass().getSimpleName();
+
     private MultiValueMap<String, String> credentials;
     private OnLoginFinishedListener listener;
 
@@ -56,15 +58,15 @@ public class LoginTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntit
             return new Pair(Constants.OK, response);
         }
         catch (HttpClientErrorException e) {
-            System.out.println("Client error:" + e);
+            Log.w(tag, "Client error:" + e);
             return new Pair(Constants.CLIENT_ERROR, null);
         }
         catch (ResourceAccessException e) {
-            System.out.println("Resource error:" + e);
+            Log.w(tag, "Resource error:" + e);
             return new Pair(Constants.RESOURCE_ACCESS_ERROR, null);
         }
         catch(Exception e) {
-            System.out.println("Some error:" + e);
+            Log.w(tag, "Some error:" + e);
             return new Pair(Constants.SOME_ERROR, null);
         }
     }
@@ -82,7 +84,7 @@ public class LoginTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntit
                 listener.onLoginSuccess(user, response.second.getHeaders().getFirst("Set-Cookie"));
             }
             catch(JSONException e) {
-                System.out.println("JSON error:" + e);
+                Log.w(tag, "JSON error:" + e);
                 listener.onLoginError(Constants.JSON_PARSE_ERROR);
             }
 

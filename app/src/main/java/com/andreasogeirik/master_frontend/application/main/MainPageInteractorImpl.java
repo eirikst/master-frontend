@@ -1,5 +1,7 @@
 package com.andreasogeirik.master_frontend.application.main;
 
+import android.util.Log;
+
 import com.andreasogeirik.master_frontend.application.main.interfaces.EventInteractor;
 import com.andreasogeirik.master_frontend.application.main.interfaces.EventPresenter;
 import com.andreasogeirik.master_frontend.communication.GetAttendingEventsTask;
@@ -27,6 +29,8 @@ import java.util.Set;
  */
 public class MainPageInteractorImpl implements EventInteractor, OnFinishedLoadingFriendshipsListener ,
         OnFinishedLoadingUserListener {
+    private String tag = getClass().getSimpleName();
+
     private EventPresenter presenter;
 
     public MainPageInteractorImpl(EventPresenter presenter) {
@@ -56,7 +60,7 @@ public class MainPageInteractorImpl implements EventInteractor, OnFinishedLoadin
             }
         }
         catch (JSONException e) {
-            System.out.println("JSON error: " + e);
+            Log.w(tag, "JSON error: " + e);
             presenter.errorFriendshipsLoad(Constants.CLIENT_ERROR);
         }
 
