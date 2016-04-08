@@ -19,4 +19,6 @@ public interface ProfileView {
 
     void displayMessage(String message);
     void setEventButtonText(String text);
+    void updateUserError(String errorMessage);
+    void refreshView();
 }

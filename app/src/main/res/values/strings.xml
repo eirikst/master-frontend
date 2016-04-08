@@ -4,6 +4,7 @@
     // Toolbar
     <string name="create_event">NY AKTIVITET</string>
     <string name="edit_event">ENDRE AKTIVITET</string>
+    <string name="edit_user">ENDRE BRUKER</string>
     <string name="profile">PROFIL</string>
     <string name="settings">INNSTILLINGER</string>
     <string name="search_user">SØK BRUKERE</string>
@@ -72,6 +73,21 @@
     <string name="title_main_page">AKTIVITETER</string>
     <string name="title_user_search">Søk brukere</string>
 
+    // Edit User
+    <string name="user_edit_firstname">FORNAVN</string>
+    <string name="user_edit_lastname">ETTERNAVN</string>
+    <string name="user_edit_location">STED</string>
+    <string name="user_edit_password_btn">ENDRE PASSORD</string>
+    <string name="user_edit_current_password">NÅVÆRENDE PASSORD</string>
+    <string name="user_edit_password">NYTT PASSORD</string>
+    <string name="user_edit_re_password">SKRIV INN PASSORD PÅ NYTT</string>
+    <string name="user_edit_password_save">LAGRE PASSORD</string>
+    <string name="user_edit_submit">LAGRE</string>
+    <string name="user_edit_client_error">Nåværende passord er ikke riktig</string>
+
+    // Password dialog
+    <string name="password_dialog_label">ENDRE PASSORD</string>
+
 
     <!-- Strings related to login -->
     <string name="prompt_email">EMAIL</string>
@@ -102,6 +118,11 @@
     <string name="notifications">Varslinger</string>
     <string name="accept">Godta</string>
     <string name="reject">Avvis</string>
+
+    // Generic error messages
+    <string name="resource_access_error">Fant ikke ressurs. Prøv igjen</string>
+    <string name="some_error">Noe gikk galt, prøv igjen senere</string>
+
 
 
 </resources>

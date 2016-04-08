@@ -23,4 +23,6 @@ public interface EventPresenter {
     void findUserFailure(int code);
 
     void accessNotificationCenter();
+
+    void checkUser();
 }

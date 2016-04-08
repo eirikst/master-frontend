@@ -8,7 +8,7 @@ import java.util.Set;
  */
 public interface EventView {
     void initGUI();
-    void navigateToLogin();
+    void navigateToEntrance();
     void setNotificationCount(int count);
     void displayMessage(String message);
     void showNotificationCenter(Set<Object> notifications);

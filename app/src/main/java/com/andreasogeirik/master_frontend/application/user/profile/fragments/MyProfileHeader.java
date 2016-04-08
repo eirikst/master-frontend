@@ -1,6 +1,7 @@
 package com.andreasogeirik.master_frontend.application.user.profile.fragments;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.application.user.edit.EditUserActivity;
 import com.andreasogeirik.master_frontend.listener.MyProfileHeaderListener;
 
 
@@ -74,7 +76,10 @@ public class MyProfileHeader extends Fragment {
         editProfileText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //start edit profile activity
+                if (getActivity() != null){
+                    Intent i = new Intent(getActivity(), EditUserActivity.class);
+                    startActivity(i);
+                }
             }
         });
 

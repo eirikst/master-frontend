@@ -33,10 +33,6 @@ public class NotificationCenterDialogFragment extends DialogFragment implements 
         void setNotificationCount(int count);
     }
 
-    /**
-     * Create a new instance of NotificationDialogFragment, providing "num"
-     * as an argument.
-     */
     public static NotificationCenterDialogFragment newInstance(HashSet<Object> objects) {
         NotificationCenterDialogFragment f = new NotificationCenterDialogFragment();
 

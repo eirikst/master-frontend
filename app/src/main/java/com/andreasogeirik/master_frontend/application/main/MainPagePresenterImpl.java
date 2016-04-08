@@ -11,7 +11,6 @@ import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
-import com.andreasogeirik.master_frontend.util.LogoutHandler;
 import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
 import java.util.HashSet;
@@ -35,12 +34,12 @@ public class MainPagePresenterImpl extends GeneralPresenter implements EventPres
             Constants.USER_SET_SIZE = Constants.MEDIUM;
         }
 
-        // This is called so that we will have no latency waiting for a 401 of the user is not authenticated
-        if(UserPreferencesManager.getInstance().getCookie() == null) {
-            view.navigateToLogin();
-            return;
-        }
-        findUser();
+//        // This is called so that we will have no latency waiting for a 401 of the user is not authenticated
+//        if(UserPreferencesManager.getInstance().getCookie() == null) {
+//            view.navigateToEntrance();
+//            return;
+//        }
+//        findUser();
     }
 
     @Override
@@ -77,18 +76,18 @@ public class MainPagePresenterImpl extends GeneralPresenter implements EventPres
 
     @Override
     public void errorFriendshipsLoad(int code) {
-        view.navigateToLogin();
+        view.navigateToEntrance();
     }
 
     @Override
     public void findUser() {
-        this.view.showProgress();
+//        this.view.showProgress();
         interactor.findUser();
     }
 
     @Override
     public void findUserSuccess(User user) {
-        this.view.hideProgress();
+//        this.view.hideProgress();
         CurrentUser.getInstance().setUser(user);
         //initDomain();
         view.initGUI();
@@ -96,8 +95,8 @@ public class MainPagePresenterImpl extends GeneralPresenter implements EventPres
 
     @Override
     public void findUserFailure(int code) {
-        this.view.hideProgress();
-        view.navigateToLogin();
+//        this.view.hideProgress();
+        view.navigateToEntrance();
     }
 
     @Override
@@ -113,5 +112,14 @@ public class MainPagePresenterImpl extends GeneralPresenter implements EventPres
         }
 
         view.showNotificationCenter(requests);
+    }
+
+    @Override
+    public void checkUser() {
+        if(UserPreferencesManager.getInstance().getCookie() == null) {
+            view.navigateToEntrance();
+            return;
+        }
+        findUser();
     }
 }
