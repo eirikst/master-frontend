@@ -41,7 +41,7 @@ public class PhotoInteractorImpl implements PhotoInteractor, OnUpdateUserFinishe
     }
 
     @Override
-    public void onUpdateSuccess(JSONObject user) {
+    public void onUpdateUserSuccess(JSONObject user) {
         try {
             CurrentUser.getInstance().setUser(new User(user));
         }
@@ -52,7 +52,7 @@ public class PhotoInteractorImpl implements PhotoInteractor, OnUpdateUserFinishe
     }
 
     @Override
-    public void onUpdateError(int error) {
+    public void onUserUpdateError(int error) {
 
     }
 }

@@ -183,7 +183,8 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
         String name = this.name.getText().toString();
         String location = this.location.getText().toString();
         String description = this.description.getText().toString();
-        this.presenter.editEvent(name, location, description);
+        int difficulty = this.slider.getValue();
+        this.presenter.editEvent(name, location, description, difficulty);
     }
 
     @OnClick(R.id.image_select_button)
@@ -299,12 +300,16 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
     }
 
     @Override
-    public void setEventAttributes(String name, String location, String description, String startDate, String startTime) {
+    public void setEventAttributes(String name, String location, String description,
+                                   String startDate, String startTime, int difficulty) {
         this.name.setText(name);
         this.location.setText(location);
         this.description.setText(description);
         this.startDateBtn.setText(startDate);
         this.startTimeBtn.setText(startTime);
+        int clientDiff = difficulty - 1;
+        this.slider.setValue(clientDiff);
+        setSliderStyle(clientDiff);
     }
 
     @Override
@@ -423,7 +428,24 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
 
     @Override
     public void onValueChanged(int i) {
-        switch (i) {
+        setSliderStyle(i);
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                this.scrollView.setScrollingEnabled(false);
+                break;
+            case MotionEvent.ACTION_UP:
+                this.scrollView.setScrollingEnabled(true);
+                break;
+        }
+        return false;
+    }
+
+    private void setSliderStyle(int difficulty){
+        switch (difficulty) {
             case 0:
                 this.slider.setBackgroundColor(getResources().getColor(R.color.app_blue));
                 this.difficulty.setText(getResources().getText(R.string.event_create_difficulty_easy));
@@ -440,18 +462,5 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
                 this.difficulty.setTextColor(getResources().getColor(R.color.app_red));
                 break;
         }
-    }
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                this.scrollView.setScrollingEnabled(false);
-                break;
-            case MotionEvent.ACTION_UP:
-                this.scrollView.setScrollingEnabled(true);
-                break;
-        }
-        return false;
     }
 }

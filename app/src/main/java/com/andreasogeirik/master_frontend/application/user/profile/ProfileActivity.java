@@ -25,6 +25,7 @@ import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
 import com.andreasogeirik.master_frontend.application.general.ToolbarPresenterImpl;
 import com.andreasogeirik.master_frontend.application.general.interfaces.ToolbarPresenter;
+import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
 import com.andreasogeirik.master_frontend.application.user.profile.fragments.FriendProfileHeader;
 import com.andreasogeirik.master_frontend.application.user.profile.fragments.MyProfileHeader;
 import com.andreasogeirik.master_frontend.layout.adapter.PostListAdapter;
@@ -35,12 +36,7 @@ import com.andreasogeirik.master_frontend.application.user.profile.interfaces.Pr
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.squareup.picasso.Picasso;
-import com.desmond.squarecamera.CameraActivity;
-import com.soundcloud.android.crop.Crop;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -51,7 +47,7 @@ import butterknife.ButterKnife;
  * Created by eirikstadheim on 06/02/16.
  */
 public class ProfileActivity extends AppCompatActivity implements ProfileView,
-        AdapterView.OnItemClickListener, MyProfileHeaderListener, View.OnClickListener {
+        AdapterView.OnItemClickListener, MyProfileHeaderListener {
     private String tag = getClass().getSimpleName();
 
     private ProfilePresenter presenter;
@@ -73,6 +69,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
 
     private final int PICK_IMAGE_REQUEST = 1;
     private final int REQUEST_IMAGE_CAPTURE = 2;
+    private static int EDIT_EVENT_REQUEST = 1;
 
     //fragments
     private MyProfileHeader myProfileHeaderFragment;
@@ -109,38 +106,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
         }
 
         toolbarPresenter = new ToolbarPresenterImpl(this);
-    }
-
-    /**
-     * Retrieves the result after selecting a new profile picture, either by camera, image picker or image cropper
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        // Image picker
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
-            if (data != null && data.getData() != null) {
-                Uri destination = Uri.fromFile(new File(getCacheDir(), "cropped"));
-                Crop.of(data.getData(), destination).asSquare().start(this);
-            } else {
-                Toast.makeText(ProfileActivity.this, "Kunne ikke finne det valgte bildet", Toast.LENGTH_LONG).show();
-            }
-        }
-        // Image cropper
-        else if (requestCode == Crop.REQUEST_CROP) {
-            if (data != null) {
-                updateUser(Crop.getOutput(data));
-            }
-        }
-        // Image capture
-        else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Uri photoUri = data.getData();
-            updateUser(photoUri);
-        }
     }
 
     @Override
@@ -234,7 +199,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
         nameUserText = (TextView) headerView.findViewById(R.id.name_user);
         nameUserText.setText(name);
         imageView = (ImageView) headerView.findViewById(R.id.my_profile_image);
-        imageView.setOnClickListener(this);
 
 
         eventButton = (Button) headerView.findViewById(R.id.participating_events_btn);
@@ -363,64 +327,21 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     }
 
     @Override
-    public void updateUserError(String errorMessage) {
+    public void displayError(String errorMessage) {
         Toast.makeText(ProfileActivity.this, errorMessage, Toast.LENGTH_LONG).show();
     }
 
     @Override
-    public void refreshView() {
-        finish();
-        startActivity(getIntent());
-    }
+    public void onBackPressed() {
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.my_profile_image:
-                PopupMenu popup = new PopupMenu(this, imageView);
-                popup.getMenuInflater().inflate(R.menu.menu_register, popup.getMenu());
-
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.select_image:
-                                existingImage();
-                                return true;
-                            case R.id.capture_image:
-                                newImage();
-                                return true;
-                        }
-                        return false;
-                    }
-                });
-                popup.show();
-                break;
-        }
-    }
-
-    private void existingImage() {
-        Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        i.setType("image/*");
-        startActivityForResult(i, PICK_IMAGE_REQUEST);
-    }
-
-    private void newImage() {
-        Intent startCustomCameraIntent = new Intent(this, CameraActivity.class);
-        try {
-            startActivityForResult(startCustomCameraIntent, REQUEST_IMAGE_CAPTURE);
-        } catch (Exception e) {
-            Toast.makeText(ProfileActivity.this, "Kunne ikke åpne kamera!", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void updateUser(Uri imageUri) {
-        try {
-            InputStream inputStream = getContentResolver().openInputStream(imageUri);
-            this.presenter.updateUser(inputStream);
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        Intent i = getIntent();
+        int requestCode = i.getIntExtra("requestCode", 0);
+        if (requestCode == EDIT_EVENT_REQUEST) {
+            Intent intent = new Intent(this, MainPageActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            super.onBackPressed();
         }
     }
 }

@@ -74,6 +74,7 @@
     <string name="title_user_search">Søk brukere</string>
 
     // Edit User
+    <string name="user_edit_image_info">Trykk på bildet for å endre</string>
     <string name="user_edit_firstname">FORNAVN</string>
     <string name="user_edit_lastname">ETTERNAVN</string>
     <string name="user_edit_location">STED</string>

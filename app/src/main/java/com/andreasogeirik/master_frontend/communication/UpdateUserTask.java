@@ -16,7 +16,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.OkHttpClientHttpRequestFactory;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
@@ -72,14 +71,14 @@ public class UpdateUserTask extends AsyncTask<Void, Void, Pair<Integer, Response
 
             try {
                 JSONObject user = new JSONObject(response.second.getBody());
-                listener.onUpdateSuccess(user);
+                listener.onUpdateUserSuccess(user);
             } catch (JSONException e) {
                 Log.w(tag, "JSON error:" + e);
-                listener.onUpdateError(Constants.JSON_PARSE_ERROR);
+                listener.onUserUpdateError(Constants.JSON_PARSE_ERROR);
             }
 
         } else {
-            listener.onUpdateError(response.first);
+            listener.onUserUpdateError(response.first);
         }
     }
 }

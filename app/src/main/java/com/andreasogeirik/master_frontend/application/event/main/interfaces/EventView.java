@@ -1,7 +1,5 @@
 package com.andreasogeirik.master_frontend.application.event.main.interfaces;
 
-import android.graphics.Bitmap;
-
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.User;
 

@@ -1,6 +1,7 @@
 package com.andreasogeirik.master_frontend.application.user.edit.fragments;
 
 import android.support.v4.app.Fragment;
+import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
