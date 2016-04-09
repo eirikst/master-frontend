@@ -40,7 +40,7 @@ public class UploadImageTask extends AsyncTask<Void, Void, Pair<Integer, Respons
     protected Pair<Integer, ResponseEntity<String>> doInBackground(Void... params) {
         ResponseEntity<String> response;
         RestTemplate template = new RestTemplate();
-        ((OkHttpClientHttpRequestFactory) template.getRequestFactory()).setConnectTimeout(1000 * 10);
+        ((SimpleClientHttpRequestFactory) template.getRequestFactory()).setConnectTimeout(1000 * 10);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Cookie", UserPreferencesManager.getInstance().getCookie());

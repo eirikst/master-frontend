@@ -40,7 +40,7 @@ public class GetFriendsTask extends AsyncTask<Void, Void, Pair<Integer, Response
         ResponseEntity<String> response;
 
         RestTemplate template = new RestTemplate();
-        ((OkHttpClientHttpRequestFactory) template.getRequestFactory()).setConnectTimeout(1000 * 10);
+        ((SimpleClientHttpRequestFactory) template.getRequestFactory()).setConnectTimeout(1000 * 10);
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Cookie", UserPreferencesManager.getInstance().getCookie());

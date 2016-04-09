@@ -23,7 +23,6 @@ public class LoginPresenterImpl implements LoginPresenter {
 
         try {
             Activity activity = (Activity) loginView;
-            UserPreferencesManager.getInstance().initialize(activity);
         }
         catch(ClassCastException e) {
             throw new ClassCastException("loginView must be an activity");

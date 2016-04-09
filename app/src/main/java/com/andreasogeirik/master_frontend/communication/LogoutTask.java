@@ -22,9 +22,8 @@ public class LogoutTask {
     private String tag = getClass().getSimpleName();
 
     public void logout() {
-        ResponseEntity<String> logoutResponse;
         RestTemplate template = new RestTemplate();
-        ((OkHttpClientHttpRequestFactory) template.getRequestFactory()).setConnectTimeout(1000 * 10);
+        ((SimpleClientHttpRequestFactory) template.getRequestFactory()).setConnectTimeout(1000 * 10);
         HttpHeaders headers = new HttpHeaders();
         headers.set("Cookie", UserPreferencesManager.getInstance().getCookie());
         HttpEntity<String> entity = new HttpEntity("{}", headers);
@@ -41,6 +40,9 @@ public class LogoutTask {
         }
         catch(Exception e) {
             Log.w(tag, "Some error:" + e);
+        }
+        finally {
+            UserPreferencesManager.getInstance().deleteCookie();
         }
     }
 }
