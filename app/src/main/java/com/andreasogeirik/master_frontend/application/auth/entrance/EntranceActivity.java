@@ -24,7 +24,6 @@ public class EntranceActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.entrance_activity);
         ButterKnife.bind(this);
-//        UserPreferencesManager.getInstance().initialize(this);
     }
 
     @OnClick(R.id.login)
