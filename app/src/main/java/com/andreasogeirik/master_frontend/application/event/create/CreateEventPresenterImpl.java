@@ -36,8 +36,6 @@ public class CreateEventPresenterImpl extends GeneralPresenter implements Create
     private Pair<Integer, Integer> startTimePair;
     private Pair<Integer, Integer> endTimePair;
 
-    int difficultyLevel;
-
     public CreateEventPresenterImpl(CreateEventView createEventView) {
         super((Activity) createEventView, GeneralPresenter.CHECK_USER_AVAILABLE);
         this.createEventView = createEventView;
@@ -55,9 +53,9 @@ public class CreateEventPresenterImpl extends GeneralPresenter implements Create
         createEventView.hideProgress();
 
         if (error == Constants.CLIENT_ERROR) {
-            createEventView.createEventFailed("En uventet feil oppstod. Prøv igjen.");
+            createEventView.displayError("En uventet feil oppstod. Prøv igjen.");
         } else if (error == Constants.RESOURCE_ACCESS_ERROR) {
-            createEventView.createEventFailed("Fant ikke ressurs. Prøv igjen.");
+            createEventView.displayError("Fant ikke ressurs. Prøv igjen.");
         }
         else if(error == Constants.UNAUTHORIZED) {
             checkAuth();
@@ -198,9 +196,9 @@ public class CreateEventPresenterImpl extends GeneralPresenter implements Create
     public void onSampleError(ImageStatusCode statusCode) {
         createEventView.hideProgress();
         if (statusCode == ImageStatusCode.FILE_NOT_FOUND) {
-            createEventView.setImageError("Finner ikke filen");
+            createEventView.displayError("Finner ikke bildefilen");
         } else if (statusCode == ImageStatusCode.NOT_AN_IMAGE) {
-            createEventView.setImageError("Den valgte bildefilen støttes ikke");
+            createEventView.displayError("Den valgte bildefilen støttes ikke");
         }
     }
 

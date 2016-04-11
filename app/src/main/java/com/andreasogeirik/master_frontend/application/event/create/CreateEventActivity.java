@@ -2,8 +2,6 @@ package com.andreasogeirik.master_frontend.application.event.create;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
@@ -20,7 +18,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.R;
@@ -93,8 +90,6 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     CheckBox checkbox;
 
     // Image
-    @Bind(R.id.image_error)
-    TextView imageError;
     @Bind(R.id.image_select_button)
     ImageView selectImageButton;
     @Bind(R.id.image_view)
@@ -102,7 +97,7 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
 
     // Submit
     @Bind(R.id.error)
-    TextView eventError;
+    TextView error;
     @Bind(R.id.submit_button)
     Button submitBtn;
 
@@ -157,7 +152,7 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        this.imageError.setVisibility(View.GONE);
+        this.error.setVisibility(View.GONE);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
             if (data != null && data.getData() != null) {
                 Uri selectedImage = data.getData();
@@ -165,10 +160,10 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
                     presenter.sampleImage(getContentResolver().openInputStream(selectedImage));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
-                    setImageError("Kunne ikke finne det valgte bildet");
+                    displayError("Kunne ikke finne det valgte bildet");
                 }
             } else {
-                setImageError("Kunne ikke finne det valgte bildet");
+                displayError("Kunne ikke finne det valgte bildet");
             }
         }
     }
@@ -237,10 +232,10 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     }
 
     @Override
-    public void createEventFailed(String error) {
-        eventError.setText(error);
-        eventError.setVisibility(View.VISIBLE);
-        eventError.requestFocus();
+    public void displayError(String error) {
+        this.error.setText(error);
+        this.error.setVisibility(View.VISIBLE);
+        this.error.requestFocus();
     }
 
     @Override
@@ -286,14 +281,6 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         endDateError.setText(error);
         endDateError.setVisibility(View.VISIBLE);
         endDateError.requestFocus();
-    }
-
-    @Override
-    public void setImageError(String error) {
-        imageError.setText(error);
-        imageError.setVisibility(View.VISIBLE);
-        imageError.requestFocus();
-        imageVIew.setImageDrawable(null);
     }
 
     @Override
@@ -366,8 +353,7 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     private void clearValidationMessages() {
         this.startDateError.setVisibility(View.GONE);
         this.endDateError.setVisibility(View.GONE);
-        this.imageError.setVisibility(View.GONE);
-        this.eventError.setVisibility(View.GONE);
+        this.error.setVisibility(View.GONE);
     }
 
     @Override
