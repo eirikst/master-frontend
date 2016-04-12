@@ -41,7 +41,7 @@ public class InputValidation {
             } else if (convertToDate(endDate, endTimePair).before(new Date())) {
                 return new CreateEventValidationContainer(CreateEventStatusCodes.END_DATE_ERROR, "Velg et slutttidspunkt etter nåværende tid");
             } else if (convertToDate(endDate, endTimePair).before(convertToDate(startDate, startTimePair))) {
-                return new CreateEventValidationContainer(CreateEventStatusCodes.END_DATE_ERROR, "Aktiviteten kan ikke slutte før den begynner! Velg et nytt slutttidspunkt");
+                return new CreateEventValidationContainer(CreateEventStatusCodes.END_DATE_ERROR, "Aktiviteten kan ikke slutte før den begynner! Endre ett av tidspunktene");
             }
         } else if (endTimePair != null && endDate == null) {
             return new CreateEventValidationContainer(CreateEventStatusCodes.END_DATE_ERROR, "Veld en sluttdato");

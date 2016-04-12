@@ -72,14 +72,14 @@ public class UpdateUserTask extends AsyncTask<Void, Void, Pair<Integer, Response
 
             try {
                 JSONObject user = new JSONObject(response.second.getBody());
-                listener.onUpdateSuccess(user);
+                listener.onUpdateUserSuccess(user);
             } catch (JSONException e) {
                 Log.w(tag, "JSON error:" + e);
-                listener.onUpdateError(Constants.JSON_PARSE_ERROR);
+                listener.onUserUpdateError(Constants.JSON_PARSE_ERROR);
             }
 
         } else {
-            listener.onUpdateError(response.first);
+            listener.onUserUpdateError(response.first);
         }
     }
 }

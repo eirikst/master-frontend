@@ -1,6 +1,5 @@
 package com.andreasogeirik.master_frontend.application.user.profile.interfaces;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import com.andreasogeirik.master_frontend.model.Event;
@@ -8,7 +7,6 @@ import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.model.UserPost;
 
-import java.io.InputStream;
 import java.util.Set;
 
 /**
@@ -17,6 +15,7 @@ import java.util.Set;
 public interface ProfilePresenter {
     void findUser(int userId);
     void onSuccessUserLoad(User user);
+
     void onFailedUserLoad(int code);
 
     void findPosts();
@@ -36,8 +35,4 @@ public interface ProfilePresenter {
     void failureAttendingEvents(int code);
 
     void accessEvents();
-
-    void updateUser(InputStream inputStream);
-    void userUpdateSuccess();
-    void userUpdateError(int error);
 }

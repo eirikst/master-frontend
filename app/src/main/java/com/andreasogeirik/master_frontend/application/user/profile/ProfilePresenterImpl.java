@@ -2,16 +2,12 @@ package com.andreasogeirik.master_frontend.application.user.profile;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Environment;
 
 import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
 import com.andreasogeirik.master_frontend.application.user.friend.FriendListActivity;
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfileInteractor;
-import com.andreasogeirik.master_frontend.communication.UploadImageTask;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
-import com.andreasogeirik.master_frontend.listener.OnSampleImageFinishedListener;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.UserPost;
@@ -19,10 +15,7 @@ import com.andreasogeirik.master_frontend.application.user.profile.interfaces.Pr
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfileView;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
-import com.andreasogeirik.master_frontend.util.image.ImageStatusCode;
-import com.andreasogeirik.master_frontend.util.image.SampleImageTask;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -176,20 +169,5 @@ public class ProfilePresenterImpl extends GeneralPresenter implements ProfilePre
         Intent intent = new Intent(getActivity(), AttendingEventsActivity.class);
         intent.putExtra("user", user);
         getActivity().startActivity(intent);
-    }
-
-    @Override
-    public void updateUser(InputStream inputStream) {
-        interactor.sampleImage(inputStream);
-    }
-
-    @Override
-    public void userUpdateSuccess() {
-        view.refreshView();
-    }
-
-    @Override
-    public void userUpdateError(int error) {
-
     }
 }

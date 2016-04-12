@@ -44,10 +44,10 @@ public class EditEventPresenterImpl extends GeneralPresenter implements EditEven
         this.interactor = new EditEventInteractorImpl(this);
         this.event = event;
         this.startDate = event.getStartDate();
-        this.startTimePair = new Pair<>(startDate.get(Calendar.HOUR), startDate.get(Calendar.MINUTE));
+        this.startTimePair = new Pair<>(startDate.get(Calendar.HOUR_OF_DAY), startDate.get(Calendar.MINUTE));
         if (event.getEndDate() != null) {
             this.endDate = event.getEndDate();
-            this.endTimePair = new Pair<>(endDate.get(Calendar.HOUR), endDate.get(Calendar.MINUTE));
+            this.endTimePair = new Pair<>(endDate.get(Calendar.HOUR_OF_DAY), endDate.get(Calendar.MINUTE));
         }
     }
 
@@ -111,7 +111,9 @@ public class EditEventPresenterImpl extends GeneralPresenter implements EditEven
 
     @Override
     public void setEventAttributes() {
-        this.editEventView.setEventAttributes(event.getName(), event.getLocation(), event.getDescription(), DateUtility.format(event.getStartDate().getTime()), DateUtility.formatTime(event.getStartDate().getTime()));
+        this.editEventView.setEventAttributes(event.getName(), event.getLocation(),
+                event.getDescription(), DateUtility.format(event.getStartDate().getTime()),
+                DateUtility.formatTime(event.getStartDate().getTime()), event.getDifficulty());
 
         if (this.event.getImageURI() != null && !this.event.getImageURI().isEmpty()) {
             editEventView.setImage(this.event.getImageURI());
@@ -123,7 +125,7 @@ public class EditEventPresenterImpl extends GeneralPresenter implements EditEven
     }
 
     @Override
-    public void editEvent(String name, String location, String description) {
+    public void editEvent(String name, String location, String description, int difficulty) {
 
         CreateEventValidationContainer createEventValidationContainer = InputValidation.validateEvent(name, location, description, startDate, endDate, startTimePair, endTimePair);
         if (createEventValidationContainer.getStatusCode() != CreateEventStatusCodes.OK) {
@@ -159,6 +161,7 @@ public class EditEventPresenterImpl extends GeneralPresenter implements EditEven
             this.event.setLocation(location);
             this.event.setDescription(description);
             this.event.setStartDate(startDateCal);
+            this.event.setDifficulty(difficulty + 1);
 
             // Check if end date and time is chosen
             if (endDate != null && endTimePair != null) {
@@ -220,6 +223,7 @@ public class EditEventPresenterImpl extends GeneralPresenter implements EditEven
     public void deleteEndTimes() {
         this.endDate = null;
         this.endTimePair = null;
+        this.event.setEndDate(null);
     }
 
     private long dateToLong(Calendar eventDate, int hour, int minute) {

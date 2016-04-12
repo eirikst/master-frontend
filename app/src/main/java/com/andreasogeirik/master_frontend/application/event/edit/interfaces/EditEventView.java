@@ -21,7 +21,7 @@ public interface EditEventView {
     void setImageError(String error);
     void setImage(String imageUri);
     void setImage(Bitmap bitmap);
-    void setEventAttributes(String name, String location, String description, String startDate, String startTime);
+    void setEventAttributes(String name, String location, String description, String startDate, String startTime, int difficulty);
     void setEndDate(String endDate, String endTime);
     void onDateSet(Bundle bundle);
     void onTimeSet(Bundle bundle);

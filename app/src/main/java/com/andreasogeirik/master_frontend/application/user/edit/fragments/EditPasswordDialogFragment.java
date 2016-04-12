@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.support.v4.app.DialogFragment;
+import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.user.edit.fragments.interfaces.EditPasswordPresenter;
@@ -79,6 +80,7 @@ public class EditPasswordDialogFragment extends DialogFragment implements EditPa
     @Override
     public void navigateBack() {
         dismiss();
+        Toast.makeText(getActivity(), "Passord endret", Toast.LENGTH_LONG).show();
     }
 
     @Override

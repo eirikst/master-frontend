@@ -48,13 +48,30 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="5dp">
 
+        <ImageView
+            android:id="@+id/profile_image"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:src="@drawable/default_profile"
+            />
+
+        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+            android:id="@+id/image_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/profile_image"
+            android:text="@string/user_edit_image_info"
+            android:layout_centerHorizontal="true"/>
+
         <EditText
             android:id="@+id/firstname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/user_edit_firstname"
             android:maxLines="1"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:layout_below="@id/image_info"
+            />
 
         <EditText
             android:id="@+id/lastname"
@@ -125,16 +142,4 @@
 
 
     </RelativeLayout>
-
-
-
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_centerInParent="true"-->
-            <!--android:text="@string/user_edit_password_btn"-->
-            <!--android:textSize="30dp"-->
-            <!--android:textColor="@color/app_font"-->
-            <!--android:textStyle="bold"/>-->
-
 </RelativeLayout>

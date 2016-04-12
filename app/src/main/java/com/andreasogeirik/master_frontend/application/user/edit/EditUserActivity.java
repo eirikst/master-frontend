@@ -1,10 +1,14 @@
 package com.andreasogeirik.master_frontend.application.user.edit;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,11 +16,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
 import com.andreasogeirik.master_frontend.application.user.edit.fragments.EditPasswordDialogFragment;
 import com.andreasogeirik.master_frontend.application.user.edit.interfaces.EditUserPresenter;
 import com.andreasogeirik.master_frontend.application.user.edit.interfaces.EditUserView;
@@ -24,6 +31,14 @@ import com.andreasogeirik.master_frontend.application.user.profile.ProfileActivi
 import com.andreasogeirik.master_frontend.application.user.profile.ProfilePresenterImpl;
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
 import com.andreasogeirik.master_frontend.model.User;
+import com.andreasogeirik.master_frontend.util.Constants;
+import com.desmond.squarecamera.CameraActivity;
+import com.soundcloud.android.crop.Crop;
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,12 +47,18 @@ import butterknife.OnClick;
 /**
  * Created by Andreas on 07.04.2016.
  */
-public class EditUserActivity extends AppCompatActivity implements EditUserView {
+public class EditUserActivity extends AppCompatActivity implements EditUserView, View.OnClickListener {
 
     // Toolbarimport android.app.FragmentTransaction;
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+    @Bind(R.id.progress)
+    ProgressBar progressBar;
+    @Bind(R.id.attributes_container)
+    View mainContainer;
+    @Bind(R.id.profile_image)
+    ImageView profilePic;
     @Bind(R.id.firstname)
     EditText firstname;
     @Bind(R.id.lastname)
@@ -54,6 +75,10 @@ public class EditUserActivity extends AppCompatActivity implements EditUserView 
     Button submit;
 
 
+    private final int PICK_IMAGE_REQUEST = 1;
+    private final int REQUEST_IMAGE_CAPTURE = 2;
+    private static int EDIT_EVENT_REQUEST = 1;
+
     EditUserPresenter presenter;
     private ProgressBarManager progressBarManager;
 
@@ -61,12 +86,13 @@ public class EditUserActivity extends AppCompatActivity implements EditUserView 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_user_activity);
-
         ButterKnife.bind(this);
         setupToolbar();
         try {
             this.presenter = new EditUserPresenterImpl(this);
             this.presenter.setUserAttributes();
+            this.progressBarManager = new ProgressBarManager(this, mainContainer, progressBar);
+            this.profilePic.setOnClickListener(this);
         } catch (ClassCastException e) {
             throw new ClassCastException(e + "/nObject in Intent bundle cannot " +
                     "be cast to User in " + this.toString());
@@ -124,18 +150,45 @@ public class EditUserActivity extends AppCompatActivity implements EditUserView 
     }
 
     @Override
-    public void setUserAttributes(String firstname, String lastname, String location) {
+    public void updateImage(Bitmap image) {
+        this.profilePic.setImageBitmap(image);
+    }
+
+    @Override
+    public void setUserAttributes(String firstname, String lastname, String location, String imageUri) {
         this.firstname.setText(firstname);
         this.lastname.setText(lastname);
         this.location.setText(location);
+        setImage(imageUri);
+    }
+
+    public void setImage(String imageUri) {
+        //load image
+        if(imageUri != null && !imageUri.isEmpty()) {
+            Picasso.with(this)
+                    .load(imageUri)
+                    .error(R.drawable.default_profile)
+                    .resize(Constants.USER_IMAGE_WIDTH, Constants.USER_IMAGE_HEIGHT)
+                    .centerCrop()
+                    .into(profilePic);
+        }
+        else {
+            Picasso.with(this)
+                    .load(R.drawable.default_profile)
+                    .resize(Constants.USER_IMAGE_WIDTH, Constants.USER_IMAGE_HEIGHT)
+                    .centerCrop()
+                    .into(profilePic);
+        }
     }
 
     @Override
     public void naviagteToProfileView(int userId) {
         Intent i = new Intent(this, ProfileActivity.class);
         i.putExtra("user", userId);
-
+        i.putExtra("requestCode", EDIT_EVENT_REQUEST);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
+        finish();
     }
 
     @Override
@@ -160,5 +213,103 @@ public class EditUserActivity extends AppCompatActivity implements EditUserView 
     public void locationError(String message) {
         location.setError(message);
         location.requestFocus();
+    }
+
+    @Override
+    public void imageError(String message) {
+        this.error.setText(message);
+        this.error.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showProgress() {
+        progressBarManager.showProgress(true);
+    }
+
+    @Override
+    public void hideProgress() {
+        progressBarManager.showProgress(false);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.profile_image:
+                PopupMenu popup = new PopupMenu(this, profilePic);
+                popup.getMenuInflater().inflate(R.menu.menu_register, popup.getMenu());
+
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.select_image:
+                                existingImage();
+                                return true;
+                            case R.id.capture_image:
+                                newImage();
+                                return true;
+                        }
+                        return false;
+                    }
+                });
+                popup.show();
+                break;
+        }
+    }
+
+    private void existingImage() {
+        Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        i.setType("image/*");
+        startActivityForResult(i, PICK_IMAGE_REQUEST);
+    }
+
+    private void newImage() {
+        Intent startCustomCameraIntent = new Intent(this, CameraActivity.class);
+        try {
+            startActivityForResult(startCustomCameraIntent, REQUEST_IMAGE_CAPTURE);
+        } catch (Exception e) {
+            Toast.makeText(EditUserActivity.this, "Kunne ikke åpne kamera!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * Retrieves the result after selecting a new profile picture, either by camera, image picker or image cropper
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        // Image picker
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
+            if (data != null && data.getData() != null) {
+                Uri destination = Uri.fromFile(new File(getCacheDir(), "cropped"));
+                Crop.of(data.getData(), destination).asSquare().start(this);
+            } else {
+                Toast.makeText(EditUserActivity.this, "Kunne ikke finne det valgte bildet", Toast.LENGTH_LONG).show();
+            }
+        }
+        // Image cropper
+        else if (requestCode == Crop.REQUEST_CROP) {
+            if (data != null) {
+                prepareToSample(Crop.getOutput(data));
+            }
+        }
+        // Image capture
+        else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Uri photoUri = data.getData();
+            prepareToSample(photoUri);
+        }
+    }
+
+    private void prepareToSample(Uri imageUri) {
+        try {
+            InputStream inputStream = getContentResolver().openInputStream(imageUri);
+            this.presenter.sampleImage(inputStream);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }

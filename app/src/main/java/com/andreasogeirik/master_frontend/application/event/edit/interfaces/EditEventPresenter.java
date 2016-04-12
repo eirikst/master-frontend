@@ -12,7 +12,7 @@ import java.util.Calendar;
  * Created by Andreas on 10.02.2016.
  */
 public interface EditEventPresenter {
-    void editEvent(String name, String location, String description);
+    void editEvent(String name, String location, String description, int difficulty);
     void editEventSuccess(Event event);
     void editEventError(int error);
     void SampleImage(InputStream inputStream);

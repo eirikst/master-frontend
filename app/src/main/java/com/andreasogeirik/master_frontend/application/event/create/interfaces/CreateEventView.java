@@ -10,7 +10,7 @@ import com.andreasogeirik.master_frontend.model.Event;
  */
 public interface CreateEventView {
     void navigateToEventView(Event event);
-    void createEventFailed(String errorMessage);
+    void displayError(String errorMessage);
     void showProgress();
     void hideProgress();
     void setNameError(String error);
@@ -18,7 +18,6 @@ public interface CreateEventView {
     void setDescriptionError(String error);
     void setStartDateError(String error);
     void setEndDateError(String error);
-    void setImageError(String error);
     void setImage(Bitmap bitmap);
     void onDateSet(Bundle bundle);
     void onTimeSet(Bundle bundle);
