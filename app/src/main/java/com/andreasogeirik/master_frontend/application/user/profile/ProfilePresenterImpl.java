@@ -10,7 +10,7 @@ import com.andreasogeirik.master_frontend.application.user.profile.interfaces.Pr
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.Friendship;
-import com.andreasogeirik.master_frontend.model.UserPost;
+import com.andreasogeirik.master_frontend.model.Post;
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfilePresenter;
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfileView;
 import com.andreasogeirik.master_frontend.model.User;
@@ -83,7 +83,7 @@ public class ProfilePresenterImpl extends GeneralPresenter implements ProfilePre
     }
 
     @Override
-    public void successPostsLoad(Set<UserPost> posts) {
+    public void successPostsLoad(Set<Post> posts) {
         user.addPosts(posts);
         view.addPosts(posts);
     }

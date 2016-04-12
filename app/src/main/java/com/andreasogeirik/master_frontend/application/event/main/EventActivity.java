@@ -2,7 +2,6 @@ package com.andreasogeirik.master_frontend.application.event.main;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,7 +27,7 @@ import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
 import com.andreasogeirik.master_frontend.layout.adapter.EventMainAdapter;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.User;
-import com.andreasogeirik.master_frontend.model.UserPost;
+import com.andreasogeirik.master_frontend.model.Post;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.squareup.picasso.Picasso;
 
@@ -256,7 +255,7 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
         this.mediumDiff = headerView.findViewById(R.id.difficulty_medium);
         this.hardDiff = headerView.findViewById(R.id.difficulty_hard);
 
-        adapter = new EventMainAdapter(this, new ArrayList<UserPost>());
+        adapter = new EventMainAdapter(this, new ArrayList<Post>());
         listView.setAdapter(adapter);
     }
 

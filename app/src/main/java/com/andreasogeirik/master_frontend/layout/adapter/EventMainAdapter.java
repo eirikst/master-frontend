@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.R;
-import com.andreasogeirik.master_frontend.model.UserPost;
+import com.andreasogeirik.master_frontend.model.Post;
 import com.andreasogeirik.master_frontend.util.DateUtility;
 
 import java.util.List;
@@ -17,18 +17,18 @@ import java.util.List;
 /**
  * Created by Andreas on 26.02.2016.
  */
-public class EventMainAdapter extends ArrayAdapter<UserPost> {
+public class EventMainAdapter extends ArrayAdapter<Post> {
 
-    private List<UserPost> posts;
+    private List<Post> posts;
 
-    public EventMainAdapter(Context context, List<UserPost> posts) {
+    public EventMainAdapter(Context context, List<Post> posts) {
         super(context, 0);
         this.posts = posts;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        UserPost post = getItem(position);
+        Post post = getItem(position);
 
 
         // Check if an existing view is being reused, otherwise inflate the view

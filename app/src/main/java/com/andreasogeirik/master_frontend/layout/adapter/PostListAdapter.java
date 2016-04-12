@@ -1,21 +1,27 @@
 package com.andreasogeirik.master_frontend.layout.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.layout.model_wrapper.CommentWrapper;
+import com.andreasogeirik.master_frontend.layout.model_wrapper.PostListElement;
+import com.andreasogeirik.master_frontend.layout.model_wrapper.PostWrapper;
+import com.andreasogeirik.master_frontend.layout.transformation.CircleTransform;
+import com.andreasogeirik.master_frontend.model.Comment;
+import com.andreasogeirik.master_frontend.model.Post;
 import com.andreasogeirik.master_frontend.model.User;
-import com.andreasogeirik.master_frontend.model.UserPost;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.DateUtility;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -23,22 +29,29 @@ import java.util.List;
 /**
  * Created by eirikstadheim on 05/02/16.
  */
-public class PostListAdapter extends ArrayAdapter<UserPost> {
-    public static final int SET_ALL = -1;
-
-    private List<UserPost> posts;
+public class PostListAdapter extends ArrayAdapter<PostListElement> {
     private Comparator comparator;
     private User user;
 
 
-    public PostListAdapter(Context context, List<UserPost> posts, User user) {
-        super(context, 0, posts);
-        this.posts = posts;
+    public PostListAdapter(Context context, List<Post> posts, User user) {
+        super(context, 0, new ArrayList<PostListElement>());
         this.user = user;
 
-        comparator = new Comparator<UserPost>() {
+        List<PostListElement> elements = new ArrayList<>();
+
+        //add all list elements from the posts(posts and comments are list elements)
+        for(Post post: posts) {
+            elements.add(new PostWrapper(post));
+
+            for(Comment comment: post.getComments()) {
+                elements.add(new CommentWrapper(comment, post));
+            }
+        }
+
+        comparator = new Comparator<PostListElement>() {
             @Override
-            public int compare(UserPost lhs, UserPost rhs) {
+            public int compare(PostListElement lhs, PostListElement rhs) {
                 return lhs.compareTo(rhs);
             }
         };
@@ -47,8 +60,18 @@ public class PostListAdapter extends ArrayAdapter<UserPost> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        UserPost post = getItem(position);
+        PostListElement item = getItem(position);
+        if(item.isPost()) {
+            Post post = ((Post)item.getModel());
+            return getPostView(post, position, convertView, parent);
+        }
+        else {
+            Comment comment = ((Comment)item.getModel());
+           return getCommentView(comment, position, convertView, parent);
+        }
+    }
 
+    public View getPostView(Post post, int position, View convertView, ViewGroup parent) {
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(
@@ -56,21 +79,24 @@ public class PostListAdapter extends ArrayAdapter<UserPost> {
         }
 
         // Lookup views
-        ImageView image = (ImageView)convertView.findViewById(R.id.event_image);
+        ImageView image = (ImageView)convertView.findViewById(R.id.post_image);
 
-        if(user.getImageUri() != null && user.getImageUri().isEmpty()) {
+
+        if(user.getImageUri() != null && !user.getImageUri().isEmpty()) {
             Picasso.with(getContext())
                     .load(user.getImageUri())
                     .error(R.drawable.default_profile)
                     .resize(Constants.LIST_IMAGE_WIDTH, Constants.LIST_IMAGE_HEIGHT)
                     .centerCrop()
+                    .transform(new CircleTransform())
                     .into(image);
         }
         else {
             Picasso.with(getContext())
-                    .load(R.drawable.default_profile)
+            .load(R.drawable.default_profile)
                     .resize(Constants.LIST_IMAGE_WIDTH, Constants.LIST_IMAGE_HEIGHT)
                     .centerCrop()
+                    .transform(new CircleTransform())
                     .into(image);
         }
 
@@ -83,29 +109,111 @@ public class PostListAdapter extends ArrayAdapter<UserPost> {
         // Populate the data using the posts
         message.setText(post.getMessage());
         dateCreated.setText(DateUtility.formatFull(post.getCreated()));
-        nrOfComments.setText(posts.get(position).getComments().size() + " comments");
-        nrOfLikes.setText(posts.get(position).getLikers().size() + " likes");
+        if(post.getComments().size() == 1) {
+            nrOfComments.setText("1 kommentar");
+        }
+        else {
+            nrOfComments.setText(post.getComments().size() + " kommentarer");
+        }
+
+        nrOfLikes.setText(post.getLikers().size() + " liker");
+        View likeBtn = (View)convertView.findViewById(R.id.like_btn);
+
+        likeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Klikk, her skal en like addes på post");
+            }
+        });
 
 
         // Return view for rendering
         return convertView;
+
     }
 
-    @Override
-    public void add(UserPost object) {
-        super.add(object);
+    public View getCommentView(Comment comment, int position, View convertView, ViewGroup parent) {
+        // Check if an existing view is being reused, otherwise inflate the view
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(
+                    R.layout.profile_post_list_layout_comment, parent, false);
+        }
+
+        // Lookup views
+        ImageView image = (ImageView)convertView.findViewById(R.id.comment_image);
+
+        if(user.getImageUri() != null && !user.getImageUri().isEmpty()) {
+            Picasso.with(getContext())
+                    .load(user.getImageUri())
+                    .error(R.drawable.default_profile)
+                    .resize(Constants.LIST_IMAGE_WIDTH, Constants.LIST_IMAGE_HEIGHT)
+                    .centerCrop()
+                    .transform(new CircleTransform())
+                    .into(image);
+        }
+        else {
+            Picasso.with(getContext())
+                    .load(R.drawable.default_profile)
+                    .resize(Constants.LIST_IMAGE_WIDTH, Constants.LIST_IMAGE_HEIGHT)
+                    .centerCrop()
+                    .transform(new CircleTransform())
+                    .into(image);
+        }
+
+
+        TextView message = (TextView)convertView.findViewById(R.id.comment_message);
+        TextView dateCreated = (TextView)convertView.findViewById(R.id.comment_date);
+        TextView nrOfLikes = (TextView)convertView.findViewById(R.id.comment_like_nr);
+        View likeBtn = (View)convertView.findViewById(R.id.like_btn);
+
+        // Populate the data using the posts
+        message.setText(comment.getMessage());
+        dateCreated.setText(DateUtility.formatFull(comment.getTimeCreated()));
+        nrOfLikes.setText(comment.getLikers().size() + " liker");
+
+        likeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Klikk, her skal en like addes på comment");
+            }
+        });
+
+
+        // Return view for rendering
+        return convertView;
+
+    }
+
+
+    public void add(Post post) {
+        List<PostListElement> elements = new ArrayList<>();
+        elements.add(new PostWrapper(post));
+
+        for(Comment comment: post.getComments()) {
+            elements.add(new CommentWrapper(comment, post));
+        }
+
+        super.addAll(elements);
+        sort(comparator);
+    }
+
+    public void addPosts(Collection<? extends Post> collection) {
+        List<PostListElement> elements = new ArrayList<>();
+
+        for(Post post: collection) {
+            elements.add(new PostWrapper(post));
+
+            for(Comment comment: post.getComments()) {
+                elements.add(new CommentWrapper(comment, post));
+            }
+        }
+
+        super.addAll(elements);
         sort(comparator);
     }
 
     @Override
-    public void addAll(Collection<? extends UserPost> collection) {
+    public void addAll(Collection<? extends PostListElement> collection) {
         super.addAll(collection);
-        sort(comparator);
-    }
-
-    @Override
-    public void addAll(UserPost... items) {
-        super.addAll(items);
-        sort(comparator);
     }
 }

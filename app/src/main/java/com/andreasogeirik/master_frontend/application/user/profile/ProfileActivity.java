@@ -1,12 +1,8 @@
 package com.andreasogeirik.master_frontend.application.user.profile;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -22,15 +18,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
-import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
 import com.andreasogeirik.master_frontend.application.general.ToolbarPresenterImpl;
 import com.andreasogeirik.master_frontend.application.general.interfaces.ToolbarPresenter;
 import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
 import com.andreasogeirik.master_frontend.application.user.profile.fragments.FriendProfileHeader;
 import com.andreasogeirik.master_frontend.application.user.profile.fragments.MyProfileHeader;
 import com.andreasogeirik.master_frontend.layout.adapter.PostListAdapter;
+import com.andreasogeirik.master_frontend.layout.transformation.CircleTransform;
 import com.andreasogeirik.master_frontend.listener.MyProfileHeaderListener;
-import com.andreasogeirik.master_frontend.model.UserPost;
+import com.andreasogeirik.master_frontend.model.Post;
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfilePresenter;
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfileView;
 import com.andreasogeirik.master_frontend.model.User;
@@ -67,8 +63,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     private Button eventButton;
     private ImageView imageView;
 
-    private final int PICK_IMAGE_REQUEST = 1;
-    private final int REQUEST_IMAGE_CAPTURE = 2;
     private static int EDIT_EVENT_REQUEST = 1;
 
     //fragments
@@ -248,13 +242,17 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
      * Update post list
      */
     @Override
-    public void addPosts(Set<UserPost> posts) {
+    public void addPosts(Set<Post> posts) {
+        for(Post post: posts) {
+            System.out.println(post);
+        }
+
         if (posts.size() < Constants.NUMBER_OF_POSTS_RETURNED) {
             footerBtn.setText("Ingen flere poster");
             footerBtn.setClickable(false);
         }
         if (!posts.isEmpty()) {
-            postListAdapter.addAll(posts);
+            postListAdapter.addPosts(posts);
             postListAdapter.notifyDataSetChanged();
         }
     }
@@ -293,6 +291,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
                     .error(R.drawable.default_profile)
                     .resize(Constants.USER_IMAGE_WIDTH, Constants.USER_IMAGE_HEIGHT)
                     .centerCrop()
+                    .transform(new CircleTransform())
                     .into(headerImage);
         }
         else {
@@ -300,6 +299,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
                     .load(R.drawable.default_profile)
                     .resize(Constants.USER_IMAGE_WIDTH, Constants.USER_IMAGE_HEIGHT)
                     .centerCrop()
+                    .transform(new CircleTransform())
                     .into(headerImage);
         }
     }

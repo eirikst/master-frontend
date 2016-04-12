@@ -1,8 +1,6 @@
 package com.andreasogeirik.master_frontend.application.user.profile.interfaces;
 
-import android.graphics.Bitmap;
-
-import com.andreasogeirik.master_frontend.model.UserPost;
+import com.andreasogeirik.master_frontend.model.Post;
 import com.andreasogeirik.master_frontend.model.User;
 
 import java.util.Set;
@@ -14,7 +12,7 @@ public interface ProfileView {
     void initUser(User user, boolean me);
     void initView();
 
-    void addPosts(Set<UserPost> posts);
+    void addPosts(Set<Post> posts);
     void setFriendCount(int count);
     void setProfileImage(String imageUri);
 

@@ -1,5 +1,7 @@
 package com.andreasogeirik.master_frontend.model;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,22 +14,38 @@ import java.util.Set;
 /**
  * Created by eirikstadheim on 05/02/16.
  */
-public class UserPost implements Serializable {
+public class Post implements Serializable {
+    private final String tag = getClass().getSimpleName();
+
     private int id;
+    private User writer;
     private String message;
     private String imageUri;
     private Date created;
-    private Set<UserPostComment> comments = new HashSet<>();
+    private Set<Comment> comments = new HashSet<>();
     private Set<User> likers = new HashSet<>();
 
-    public UserPost() {
+    public Post() {
     }
 
-    public UserPost(JSONObject post) throws JSONException {
+    public Post(JSONObject post) throws JSONException {
         id = post.getInt("id");
+        writer = new User(post.getJSONObject("writer"));
         message = post.getString("message");
         imageUri = post.getString("imageUri");
         created = new Date(post.getLong("timeCreated"));
+
+        JSONArray commentsJson = post.getJSONArray("comments");
+
+        for(int i = 0; i < commentsJson.length(); i++) {
+            try {
+                comments.add(new Comment(commentsJson.getJSONObject(i)));
+            }
+            catch(JSONException e) {
+                Log.w(tag, "Error loading comment to post " + id + ", " + message);
+            }
+        }
+
 
         JSONArray jsonComments = post.getJSONArray("likers");
         JSONArray jsonLikers = post.getJSONArray("likers");
@@ -38,7 +56,7 @@ public class UserPost implements Serializable {
 
     private void setComments(JSONArray jsonComments) throws JSONException {
         for (int i = 0; i < jsonComments.length(); i++) {
-            UserPostComment comment = new UserPostComment();
+            Comment comment = new Comment();
             comment.setId(jsonComments.getJSONObject(i).getInt("id"));
             comment.setMessage(jsonComments.getJSONObject(i).getString("message"));
             comments.add(comment);
@@ -61,6 +79,14 @@ public class UserPost implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public User getWriter() {
+        return writer;
+    }
+
+    public void setWriter(User writer) {
+        this.writer = writer;
     }
 
     public String getMessage() {
@@ -87,11 +113,11 @@ public class UserPost implements Serializable {
         this.created = created;
     }
 
-    public Set getComments() {
+    public Set<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(Set<UserPostComment> comments) {
+    public void setComments(Set<Comment> comments) {
         this.comments = comments;
     }
 
@@ -115,7 +141,7 @@ public class UserPost implements Serializable {
                 '}';
     }
 
-    public int compareTo(UserPost post) {
+    public int compareTo(Post post) {
         if(this.getCreated().before(post.getCreated())) {
             return 1;
         }

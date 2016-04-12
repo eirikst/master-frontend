@@ -23,7 +23,7 @@ public class User implements Serializable {
     private String imageUri;
     private Set<Friendship> friends = new HashSet<>();
     private Set<Friendship> requests = new HashSet<>();
-    private Set<UserPost> posts = new HashSet<>();
+    private Set<Post> posts = new HashSet<>();
 
     public User() {
     }
@@ -51,7 +51,7 @@ public class User implements Serializable {
         this.imageUri = imageUri;
     }
 
-    //TODO: hvis vi skal laste en bruker med friends eller posts fra json, gjør det i konstruktøren her(se Post/UserPost)
+    //TODO: hvis vi skal laste en bruker med friends eller posts fra json, gjør det i konstruktøren her(se Post/Post)
     public User(JSONObject json) throws JSONException {
         id = json.getInt("id");
         email = json.getString("email");
@@ -177,7 +177,7 @@ public class User implements Serializable {
         }
     }
 
-    public void addPosts(Collection<UserPost> posts) {
+    public void addPosts(Collection<Post> posts) {
         if(posts != null) {
             this.posts.addAll(posts);
         }
@@ -287,11 +287,11 @@ public class User implements Serializable {
         this.requests = requests;
     }
 
-    public Set<UserPost> getPosts() {
+    public Set<Post> getPosts() {
         return posts;
     }
 
-    public void setPosts(Set<UserPost> posts) {
+    public void setPosts(Set<Post> posts) {
         this.posts = posts;
     }
 
