@@ -83,8 +83,9 @@ public class PostListAdapter extends ArrayAdapter<UserPost> {
         // Populate the data using the posts
         message.setText(post.getMessage());
         dateCreated.setText(DateUtility.formatFull(post.getCreated()));
-        nrOfComments.setText("" + posts.get(position).getComments().size() + " comments");
-        nrOfLikes.setText("" + posts.get(position).getLikers().size() + " likes");
+        nrOfComments.setText(posts.get(position).getComments().size() + " comments");
+        nrOfLikes.setText(posts.get(position).getLikers().size() + " likes");
+
 
         // Return view for rendering
         return convertView;

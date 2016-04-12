@@ -9,7 +9,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.OkHttpClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.ResourceAccessException;
@@ -42,7 +41,9 @@ public class LogoutTask {
             Log.w(tag, "Some error:" + e);
         }
         finally {
+            Log.i(tag, "Successfully logged out");
             UserPreferencesManager.getInstance().deleteCookie();
+            Log.i(tag, "Session deleted after logout");
         }
     }
 }
