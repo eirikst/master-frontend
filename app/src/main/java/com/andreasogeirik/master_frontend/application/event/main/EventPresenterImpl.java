@@ -97,8 +97,8 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
             this.eventView.updateEndTime(DateUtility.formatFull(this.event.getEndDate().getTime()));
         }
 
-        if (!this.event.getImageURI().isEmpty()) {
-            eventView.setImage(event.getImageURI());
+        if (!this.event.getImageUri().isEmpty()) {
+            eventView.setImage(event.getImageUri());
         }
 
         User currentUser = CurrentUser.getInstance().getUser();

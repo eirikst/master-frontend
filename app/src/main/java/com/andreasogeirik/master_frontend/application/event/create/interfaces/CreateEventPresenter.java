@@ -1,8 +1,10 @@
 package com.andreasogeirik.master_frontend.application.event.create.interfaces;
 
+import android.graphics.Bitmap;
 import android.util.Pair;
 
 import com.andreasogeirik.master_frontend.model.Event;
+import com.andreasogeirik.master_frontend.util.image.ImageStatusCode;
 
 import java.io.InputStream;
 import java.util.Calendar;
@@ -20,4 +22,8 @@ public interface CreateEventPresenter {
     void setTime(Boolean isStarTime);
     void updateDateModel(Calendar eventDate, Boolean isStartDate);
     void updateTimeModel(Pair<Integer, Integer> hourMinutePair, Boolean isStartTime);
+    void sampleImageSuccess(Bitmap image);
+    void sampleImageError(ImageStatusCode statusCode);
+    void uploadImageError(int error);
 }
+

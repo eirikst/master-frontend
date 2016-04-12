@@ -71,7 +71,13 @@ public class UploadImageTask extends AsyncTask<Void, Void, Pair<Integer, Respons
 
     protected void onPostExecute(Pair<Integer, ResponseEntity<String>> response) {
         if (response.first == Constants.OK) {
-                listener.onImageUploadSuccess(response.second.getBody());
+            try {
+                JSONObject jsonImageUris = new JSONObject(response.second.getBody());
+                listener.onImageUploadSuccess(jsonImageUris);
+            } catch (JSONException e) {
+                Log.w(tag, "JSON error:" + e);
+                listener.onImageUploadError(Constants.JSON_PARSE_ERROR);
+            }
         } else {
             listener.onImageUploadError(response.first);
         }

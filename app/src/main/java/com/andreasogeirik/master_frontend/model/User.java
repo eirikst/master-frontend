@@ -21,6 +21,7 @@ public class User implements Serializable {
     private String lastname;
     private String location;
     private String imageUri;
+    private String thumbUri;
     private Set<Friendship> friends = new HashSet<>();
     private Set<Friendship> requests = new HashSet<>();
     private Set<UserPost> posts = new HashSet<>();
@@ -49,6 +50,7 @@ public class User implements Serializable {
         this.lastname = lastname;
         this.location = location;
         this.imageUri = imageUri;
+        this.thumbUri = thumbUri;
     }
 
     //TODO: hvis vi skal laste en bruker med friends eller posts fra json, gjør det i konstruktøren her(se Post/UserPost)
@@ -60,6 +62,7 @@ public class User implements Serializable {
         lastname = json.getString("lastname");
         location = json.getString("location");
         imageUri = json.getString("imageUri");
+        thumbUri = json.getString("thumbUri");
 
         //json sends null as a string
         if(imageUri.equals("null")) {
@@ -76,6 +79,7 @@ public class User implements Serializable {
         jsonObject.put("lastname", this.lastname);
         jsonObject.put("location", this.location);
         jsonObject.put("imageUri", this.imageUri);
+        jsonObject.put("thumbUri", this.thumbUri);
 
         return jsonObject;
     }
@@ -89,6 +93,8 @@ public class User implements Serializable {
         jsonObject.put("lastname", this.lastname);
         jsonObject.put("location", this.location);
         jsonObject.put("imageUri", this.imageUri);
+        jsonObject.put("thumbUri", this.thumbUri);
+
 
         return jsonObject;
     }
@@ -269,6 +275,14 @@ public class User implements Serializable {
 
     public void setImageUri(String imageUri) {
         this.imageUri = imageUri;
+    }
+
+    public String getThumbUri() {
+        return thumbUri;
+    }
+
+    public void setThumbUri(String thumbUri) {
+        this.thumbUri = thumbUri;
     }
 
     public Set<Friendship> getFriends() {

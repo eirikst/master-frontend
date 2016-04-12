@@ -19,6 +19,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.event.create.fragments.DatePickerFragment;
@@ -93,7 +94,7 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     @Bind(R.id.image_select_button)
     ImageView selectImageButton;
     @Bind(R.id.image_view)
-    ImageView imageVIew;
+    ImageView imageView;
 
     // Submit
     @Bind(R.id.error)
@@ -152,7 +153,6 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        this.error.setVisibility(View.GONE);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
             if (data != null && data.getData() != null) {
                 Uri selectedImage = data.getData();
@@ -172,7 +172,9 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     public void submit() {
         clearValidationMessages();
         View current = getCurrentFocus();
-        if (current != null) current.clearFocus();
+        if (current != null){
+            current.clearFocus();
+        }
         String name = this.name.getText().toString();
         String location = this.location.getText().toString();
         String description = this.description.getText().toString();
@@ -251,8 +253,8 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     @Override
     public void setNameError(String error) {
         name.setError(error);
-        View focusView = name;
-        focusView.requestFocus();
+//        View focusView = name;
+        name.requestFocus();
     }
 
     @Override
@@ -281,12 +283,6 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         endDateError.setText(error);
         endDateError.setVisibility(View.VISIBLE);
         endDateError.requestFocus();
-    }
-
-    @Override
-    public void setImage(Bitmap bitmap) {
-        this.imageContainer.setVisibility(View.VISIBLE);
-        this.imageVIew.setImageBitmap(bitmap);
     }
 
     @Override
@@ -350,6 +346,17 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         this.endDateError.setVisibility(View.GONE);
     }
 
+    @Override
+    public void updateImage(Bitmap image) {
+        this.imageContainer.setVisibility(View.VISIBLE);
+        this.imageView.setImageBitmap(image);
+    }
+
+    @Override
+    public void imageError(String errorMessage) {
+        Toast.makeText(CreateEventActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+    }
+
     private void clearValidationMessages() {
         this.startDateError.setVisibility(View.GONE);
         this.endDateError.setVisibility(View.GONE);
@@ -359,7 +366,6 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     @Override
     public void onDateSelected(Calendar eventDate, Boolean isStartDate) {
         this.presenter.updateDateModel(eventDate, isStartDate);
-
     }
 
     @Override

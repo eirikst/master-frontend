@@ -217,8 +217,7 @@ public class EditUserActivity extends AppCompatActivity implements EditUserView,
 
     @Override
     public void imageError(String message) {
-        this.error.setText(message);
-        this.error.setVisibility(View.VISIBLE);
+        Toast.makeText(EditUserActivity.this, message, Toast.LENGTH_LONG).show();
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.andreasogeirik.master_frontend.application.user.edit;
 
 import android.graphics.Bitmap;
-import android.net.Uri;
 
 import com.andreasogeirik.master_frontend.application.user.edit.interfaces.EditUserInteractor;
 import com.andreasogeirik.master_frontend.application.user.edit.interfaces.EditUserPresenter;
@@ -87,14 +86,28 @@ public class EditUserInteractorImpl implements EditUserInteractor, OnUpdateUserF
     }
 
     @Override
-    public void onImageUploadSuccess(String imageUrl) {
+    public void onImageUploadSuccess(JSONObject jsonImageUris) {
+
+        String imageUri = "";
+        String thumbUri = "";
+
+        try {
+            imageUri = jsonImageUris.getString("imageUri");
+            thumbUri = jsonImageUris.getString("thumbUri");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         JSONObject jsonUser = new JSONObject();
 
         try {
             jsonUser.put("firstname", user.getFirstname());
             jsonUser.put("lastname", user.getLastname());
             jsonUser.put("location", user.getLocation());
-            jsonUser.put("imageUri", imageUrl);
+            if (!imageUri.isEmpty() && !thumbUri.isEmpty()){
+                jsonUser.put("imageUri", imageUri);
+                jsonUser.put("thumbUri", thumbUri);
+            }
             new UpdateUserTask(jsonUser, this).execute();
         } catch (JSONException e) {
             e.printStackTrace();

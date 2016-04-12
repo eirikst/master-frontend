@@ -18,11 +18,12 @@ public interface CreateEventView {
     void setDescriptionError(String error);
     void setStartDateError(String error);
     void setEndDateError(String error);
-    void setImage(Bitmap bitmap);
     void onDateSet(Bundle bundle);
     void onTimeSet(Bundle bundle);
     void updateStartDateView(int day, int month, int year);
     void updateEndDateView(int day, int month, int year);
     void updateStartTimeView(int hour, int minute);
     void updateEndTimeView(int hour, int minute);
+    void updateImage(Bitmap image);
+    void imageError(String errorMessage);
 }

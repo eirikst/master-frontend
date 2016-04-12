@@ -202,9 +202,9 @@ public class EventListAdapter extends ArrayAdapter<Event> {
         ImageView image = (ImageView)convertView.findViewById(R.id.event_image);
 
         //load image
-        if(event.getImageURI() != null && !event.getImageURI().isEmpty()) {
+        if(event.getImageUri() != null && !event.getImageUri().isEmpty()) {
             Picasso.with(context)
-                    .load(event.getImageURI())
+                    .load(event.getImageUri())
                     .error(R.drawable.default_event)
                     .resize(Constants.LIST_IMAGE_WIDTH, Constants.LIST_IMAGE_HEIGHT)
                     .centerCrop()

@@ -23,7 +23,17 @@ public class PhotoInteractorImpl implements PhotoInteractor, OnUpdateUserFinishe
     }
 
     @Override
-    public void updateUser(String imageUri) {
+    public void updateUser(JSONObject jsonImageUris) {
+
+        String imageUri = "";
+        String thumbUri = "";
+
+        try {
+            imageUri = jsonImageUris.getString("imageUri");
+            thumbUri = jsonImageUris.getString("thumbUri");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         User user = CurrentUser.getInstance().getUser();
 
@@ -34,6 +44,7 @@ public class PhotoInteractorImpl implements PhotoInteractor, OnUpdateUserFinishe
             jsonUser.put("lastname", user.getLastname());
             jsonUser.put("location", user.getLocation());
             jsonUser.put("imageUri", imageUri);
+            jsonUser.put("thumbUri", thumbUri);
             new UpdateUserTask(jsonUser, this).execute();
         } catch (JSONException e) {
             e.printStackTrace();

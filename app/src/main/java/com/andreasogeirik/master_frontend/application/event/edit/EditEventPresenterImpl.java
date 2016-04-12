@@ -5,16 +5,15 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Pair;
 
+import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.event.edit.interfaces.EditEventInteractor;
 import com.andreasogeirik.master_frontend.application.event.edit.interfaces.EditEventPresenter;
 import com.andreasogeirik.master_frontend.application.event.edit.interfaces.EditEventView;
 import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
-import com.andreasogeirik.master_frontend.listener.OnSampleImageFinishedListener;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.DateUtility;
 import com.andreasogeirik.master_frontend.util.image.ImageStatusCode;
-import com.andreasogeirik.master_frontend.util.image.SampleImageTask;
 import com.andreasogeirik.master_frontend.util.validation.event.CreateEventStatusCodes;
 import com.andreasogeirik.master_frontend.util.validation.event.CreateEventValidationContainer;
 import com.andreasogeirik.master_frontend.util.validation.event.InputValidation;
@@ -26,10 +25,9 @@ import java.util.GregorianCalendar;
 /**
  * Created by Andreas on 10.02.2016.
  */
-public class EditEventPresenterImpl extends GeneralPresenter implements EditEventPresenter, OnSampleImageFinishedListener {
+public class EditEventPresenterImpl extends GeneralPresenter implements EditEventPresenter {
     EditEventView editEventView;
     private EditEventInteractor interactor;
-    private byte[] byteImage;
     private Event event;
 
     private Calendar startDate;
@@ -61,25 +59,24 @@ public class EditEventPresenterImpl extends GeneralPresenter implements EditEven
         this.editEventView.hideProgress();
 
         if (error == Constants.CLIENT_ERROR) {
-            this.editEventView.editEventFailed("En uventet feil oppstod. Prøv igjen.");
+            this.editEventView.displayError("En uventet feil oppstod. Prøv igjen.");
         } else if (error == Constants.RESOURCE_ACCESS_ERROR) {
-            this.editEventView.editEventFailed("Fant ikke ressurs. Prøv igjen.");
+            this.editEventView.displayError("Fant ikke ressurs. Prøv igjen.");
         }
     }
 
     @Override
     public void SampleImage(InputStream inputStream) {
-        this.editEventView.showProgress();
-        new SampleImageTask(this, inputStream, false).execute();
+        this.interactor.sampleImage(inputStream);
     }
 
     @Override
     public void setTime(Boolean isStarTime) {
         Bundle bundle = new Bundle();
         if (isStarTime) {
-                bundle.putString("time", "start");
-                bundle.putInt("hour", this.startTimePair.first);
-                bundle.putInt("minute", this.startTimePair.second);
+            bundle.putString("time", "start");
+            bundle.putInt("hour", this.startTimePair.first);
+            bundle.putInt("minute", this.startTimePair.second);
         } else {
             bundle.putString("time", "end");
             if (this.endTimePair != null) {
@@ -115,8 +112,8 @@ public class EditEventPresenterImpl extends GeneralPresenter implements EditEven
                 event.getDescription(), DateUtility.format(event.getStartDate().getTime()),
                 DateUtility.formatTime(event.getStartDate().getTime()), event.getDifficulty());
 
-        if (this.event.getImageURI() != null && !this.event.getImageURI().isEmpty()) {
-            editEventView.setImage(this.event.getImageURI());
+        if (this.event.getImageUri() != null && !this.event.getImageUri().isEmpty()) {
+            editEventView.setImage(this.event.getImageUri());
         }
 
         if (event.getEndDate() != null) {
@@ -170,24 +167,43 @@ public class EditEventPresenterImpl extends GeneralPresenter implements EditEven
                 this.event.setEndDate(endDateCal);
             }
             this.editEventView.showProgress();
-            interactor.editEvent(this.event, byteImage);
+            interactor.editEvent(event);
         }
     }
 
     @Override
-    public void onSampleSuccess(Bitmap bitmap, byte[] byteImage) {
-        this.editEventView.hideProgress();
-        this.byteImage = byteImage;
-        this.editEventView.setImage(bitmap);
+    public void sampleImageSuccess(Bitmap image) {
+        this.editEventView.updateImage(image);
     }
 
     @Override
-    public void onSampleError(ImageStatusCode statusCode) {
+    public void sampleImageError(ImageStatusCode statusCode) {
+        switch (statusCode) {
+            case NOT_AN_IMAGE:
+                editEventView.imageError("Den valgte filen var ikke et bilde");
+                break;
+            case FILE_NOT_FOUND:
+                editEventView.imageError("Fant ikke den valgte filen");
+                break;
+        }
+    }
+
+    @Override
+    public void uploadImageError(int error) {
         this.editEventView.hideProgress();
-        if (statusCode == ImageStatusCode.FILE_NOT_FOUND) {
-            this.editEventView.setImageError("Finner ikke filen");
-        } else if (statusCode == ImageStatusCode.NOT_AN_IMAGE) {
-            this.editEventView.setImageError("Den valgte bildefilen støttes ikke");
+        switch (error) {
+            case Constants.RESOURCE_ACCESS_ERROR:
+                this.editEventView.displayError(getActivity().getResources().getString(R.string.resource_access_error));
+                break;
+            case Constants.UNAUTHORIZED:
+                checkAuth();
+                break;
+            // Dette skal ikke skje..
+            case Constants.CLIENT_ERROR:
+                this.editEventView.displayError(getActivity().getResources().getString(R.string.some_error));
+                break;
+            case Constants.SOME_ERROR:
+                this.editEventView.displayError(getActivity().getResources().getString(R.string.some_error));
         }
     }
 

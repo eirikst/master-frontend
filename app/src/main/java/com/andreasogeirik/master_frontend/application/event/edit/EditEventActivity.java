@@ -19,6 +19,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.event.create.fragments.DatePickerFragment;
@@ -93,9 +94,6 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
     @Bind(R.id.checkbox)
     CheckBox checkbox;
 
-    // Image
-    @Bind(R.id.image_error)
-    TextView imageError;
     @Bind(R.id.image_select_button)
     ImageView selectImageButton;
     @Bind(R.id.image_view)
@@ -159,7 +157,6 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        this.imageError.setVisibility(View.GONE);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
             if (data != null && data.getData() != null) {
                 Uri selectedImage = data.getData();
@@ -167,10 +164,10 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
                     presenter.SampleImage(getContentResolver().openInputStream(selectedImage));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
-                    setImageError("Kunne ikke finne det valgte bildet");
+                    imageError("Kunne ikke finne det valgte bildet");
                 }
             } else {
-                setImageError("Kunne ikke finne det valgte bildet");
+                imageError("Kunne ikke finne det valgte bildet");
             }
         }
     }
@@ -240,7 +237,7 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
     }
 
     @Override
-    public void editEventFailed(String error) {
+    public void displayError(String error) {
         eventError.setText(error);
         eventError.setVisibility(View.VISIBLE);
         eventError.requestFocus();
@@ -292,11 +289,8 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
     }
 
     @Override
-    public void setImageError(String error) {
-        imageError.setText(error);
-        imageError.setVisibility(View.VISIBLE);
-        imageError.requestFocus();
-        imageView.setImageDrawable(null);
+    public void imageError(String error) {
+        Toast.makeText(EditEventActivity.this, error, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -322,12 +316,6 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
     }
 
     @Override
-    public void setImage(Bitmap bitmap) {
-        this.imageContainer.setVisibility(View.VISIBLE);
-        this.imageView.setImageBitmap(bitmap);
-    }
-
-    @Override
     public void setImage(String imageUri) {
         this.imageContainer.setVisibility(View.VISIBLE);
         if(imageUri != null && !imageUri.isEmpty()) {
@@ -349,7 +337,6 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
     private void clearValidationMessages() {
         this.startDateError.setVisibility(View.GONE);
         this.endDateError.setVisibility(View.GONE);
-        this.imageError.setVisibility(View.GONE);
         this.eventError.setVisibility(View.GONE);
     }
 
@@ -416,6 +403,12 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
             this.endTimeBtn.setText(hour + ":" + minute);
         }
         this.endDateError.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void updateImage(Bitmap image) {
+        this.imageContainer.setVisibility(View.VISIBLE);
+        this.imageView.setImageBitmap(image);
     }
 
     @Override

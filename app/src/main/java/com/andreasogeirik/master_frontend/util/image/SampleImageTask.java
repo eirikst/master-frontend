@@ -20,15 +20,15 @@ public class SampleImageTask extends AsyncTask<Void, Void, ImageContainer> {
 
     private OnSampleImageFinishedListener listener;
     private InputStream inputStream;
-    private int width = 700;
-    private int height = 700;
+    private int width = 540;
+    private int height = 540;
 
     public SampleImageTask(OnSampleImageFinishedListener listener, InputStream inputStream, boolean isProfileImage) {
         this.listener = listener;
         this.inputStream = inputStream;
         if (!isProfileImage){
-            this.width = 540;
-            this.height = 540;
+            this.width = 700;
+            this.height = 700;
         }
     }
 

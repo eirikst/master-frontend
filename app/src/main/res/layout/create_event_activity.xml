@@ -113,9 +113,11 @@
                 android:id="@+id/start_date_error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:textColor="@color/app_error"
-                android:visibility="gone" />
+                android:visibility="gone"
+                 />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -167,6 +169,7 @@
                 android:id="@+id/end_date_error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:textColor="@color/app_error"
                 android:visibility="gone" />
@@ -258,8 +261,10 @@
                 android:id="@+id/error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:textColor="@color/app_error"
+                android:layout_gravity="center_horizontal"
                 android:visibility="gone" />
 
             <com.andreasogeirik.master_frontend.layout.view.CustomButton

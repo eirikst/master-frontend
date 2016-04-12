@@ -5,15 +5,14 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Pair;
 
+import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventInteractor;
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventPresenter;
 import com.andreasogeirik.master_frontend.application.event.create.interfaces.CreateEventView;
 import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
-import com.andreasogeirik.master_frontend.listener.OnSampleImageFinishedListener;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.image.ImageStatusCode;
-import com.andreasogeirik.master_frontend.util.image.SampleImageTask;
 import com.andreasogeirik.master_frontend.util.validation.event.CreateEventStatusCodes;
 import com.andreasogeirik.master_frontend.util.validation.event.CreateEventValidationContainer;
 import com.andreasogeirik.master_frontend.util.validation.event.InputValidation;
@@ -25,10 +24,9 @@ import java.util.GregorianCalendar;
 /**
  * Created by Andreas on 10.02.2016.
  */
-public class CreateEventPresenterImpl extends GeneralPresenter implements CreateEventPresenter, OnSampleImageFinishedListener {
+public class CreateEventPresenterImpl extends GeneralPresenter implements CreateEventPresenter{
     CreateEventView createEventView;
     private CreateEventInteractor interactor;
-    private byte[] byteImage;
 
     private Calendar startDate;
     private Calendar endDate;
@@ -51,21 +49,25 @@ public class CreateEventPresenterImpl extends GeneralPresenter implements Create
     @Override
     public void createEventError(int error) {
         createEventView.hideProgress();
-
-        if (error == Constants.CLIENT_ERROR) {
-            createEventView.displayError("En uventet feil oppstod. Prøv igjen.");
-        } else if (error == Constants.RESOURCE_ACCESS_ERROR) {
-            createEventView.displayError("Fant ikke ressurs. Prøv igjen.");
-        }
-        else if(error == Constants.UNAUTHORIZED) {
-            checkAuth();
+        switch (error) {
+            case Constants.RESOURCE_ACCESS_ERROR:
+                this.createEventView.displayError(getActivity().getResources().getString(R.string.resource_access_error));
+                break;
+            case Constants.UNAUTHORIZED:
+                checkAuth();
+                break;
+            // Dette skal ikke skje..
+            case Constants.CLIENT_ERROR:
+                this.createEventView.displayError(getActivity().getResources().getString(R.string.some_error));
+                break;
+            case Constants.SOME_ERROR:
+                this.createEventView.displayError(getActivity().getResources().getString(R.string.some_error));
         }
     }
 
     @Override
     public void sampleImage(InputStream inputStream) {
-        createEventView.showProgress();
-        new SampleImageTask(this, inputStream, false).execute();
+        this.interactor.sampleImage(inputStream);
     }
 
     @Override
@@ -141,6 +143,23 @@ public class CreateEventPresenterImpl extends GeneralPresenter implements Create
     }
 
     @Override
+    public void sampleImageSuccess(Bitmap image) {
+        this.createEventView.updateImage(image);
+    }
+
+    @Override
+    public void sampleImageError(ImageStatusCode statusCode) {
+        switch (statusCode) {
+            case NOT_AN_IMAGE:
+                createEventView.imageError("Den valgte filen var ikke et bilde");
+                break;
+            case FILE_NOT_FOUND:
+                createEventView.imageError("Fant ikke den valgte filen");
+                break;
+        }
+    }
+
+    @Override
     public void create(String name, String location, String description, int difficulty) {
 
         CreateEventValidationContainer createEventValidationContainer = InputValidation.validateEvent(name, location, description, startDate, endDate, startTimePair, endTimePair);
@@ -181,24 +200,26 @@ public class CreateEventPresenterImpl extends GeneralPresenter implements Create
                 event.setEndDate(endDateCal);
             }
             createEventView.showProgress();
-            interactor.create(event, byteImage);
+            interactor.create(event);
         }
     }
 
     @Override
-    public void onSampleSuccess(Bitmap bitmap, byte[] byteImage) {
-        createEventView.hideProgress();
-        this.byteImage = byteImage;
-        createEventView.setImage(bitmap);
-    }
-
-    @Override
-    public void onSampleError(ImageStatusCode statusCode) {
-        createEventView.hideProgress();
-        if (statusCode == ImageStatusCode.FILE_NOT_FOUND) {
-            createEventView.displayError("Finner ikke bildefilen");
-        } else if (statusCode == ImageStatusCode.NOT_AN_IMAGE) {
-            createEventView.displayError("Den valgte bildefilen støttes ikke");
+    public void uploadImageError(int error) {
+        this.createEventView.hideProgress();
+        switch (error) {
+            case Constants.RESOURCE_ACCESS_ERROR:
+                this.createEventView.displayError(getActivity().getResources().getString(R.string.resource_access_error));
+                break;
+            case Constants.UNAUTHORIZED:
+                checkAuth();
+                break;
+            // Dette skal ikke skje..
+            case Constants.CLIENT_ERROR:
+                this.createEventView.displayError(getActivity().getResources().getString(R.string.some_error));
+                break;
+            case Constants.SOME_ERROR:
+                this.createEventView.displayError(getActivity().getResources().getString(R.string.some_error));
         }
     }
 

@@ -23,7 +23,8 @@ public class Event implements Serializable {
     private String description;
     private Calendar startDate;
     private Calendar endDate;
-    private String imageUrl;
+    private String imageUri;
+    private String thumbUri;
     private int difficulty  = Constants.EVENT_DIFFICULTY_EASY;
     private User admin;
     private Set<User> users = new HashSet<User>(0);
@@ -48,7 +49,8 @@ public class Event implements Serializable {
             this.endDate = new GregorianCalendar();
             this.endDate.setTimeInMillis(jsonEvent.getLong("timeEnd"));
         }
-        this.imageUrl = jsonEvent.getString("imageUri");
+        this.imageUri = jsonEvent.getString("imageUri");
+        this.thumbUri = jsonEvent.getString("thumbUri");
         this.difficulty = jsonEvent.getInt("difficulty");
         this.admin = new User(jsonEvent.getJSONObject("admin"));
         JSONArray jsonUsers = jsonEvent.getJSONArray("users");
@@ -129,12 +131,20 @@ public class Event implements Serializable {
         this.endDate = endDate;
     }
 
-    public String getImageURI() {
-        return imageUrl;
+    public String getThumbUri() {
+        return thumbUri;
     }
 
-    public void setImageURI(String imageURI) {
-        this.imageUrl = imageURI;
+    public void setThumbUri(String thumbUri) {
+        this.thumbUri = thumbUri;
+    }
+
+    public String getImageUri() {
+        return imageUri;
+    }
+
+    public void setImageUri(String imageUri) {
+        this.imageUri = imageUri;
     }
 
     public int getDifficulty() {
@@ -178,7 +188,7 @@ public class Event implements Serializable {
                 ", description='" + description + '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
-                ", imageUrl='" + imageUrl + '\'' +
+                ", imageUri='" + imageUri + '\'' +
                 ", admin=" + admin +
                 ", users=" + users +
                 ", posts=" + posts +

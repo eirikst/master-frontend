@@ -13,6 +13,9 @@ import com.andreasogeirik.master_frontend.listener.OnSampleImageFinishedListener
 import com.andreasogeirik.master_frontend.util.image.ImageStatusCode;
 import com.andreasogeirik.master_frontend.util.image.SampleImageTask;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
@@ -68,8 +71,8 @@ public class PhotoPresenterImpl extends GeneralPresenter implements PhotoPresent
     }
 
     @Override
-    public void onImageUploadSuccess(String imageUrl) {
-        this.interactor.updateUser(imageUrl);
+    public void onImageUploadSuccess(JSONObject jsonImageUris) {
+        this.interactor.updateUser(jsonImageUris);
     }
 
     @Override

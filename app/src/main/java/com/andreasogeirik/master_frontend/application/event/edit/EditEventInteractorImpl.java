@@ -1,41 +1,53 @@
 package com.andreasogeirik.master_frontend.application.event.edit;
 
+import android.graphics.Bitmap;
+
 import com.andreasogeirik.master_frontend.application.event.edit.interfaces.EditEventInteractor;
 import com.andreasogeirik.master_frontend.application.event.edit.interfaces.EditEventPresenter;
 import com.andreasogeirik.master_frontend.communication.EditEventTask;
 import com.andreasogeirik.master_frontend.communication.UploadImageTask;
 import com.andreasogeirik.master_frontend.listener.OnEditEventFinishedListener;
 import com.andreasogeirik.master_frontend.listener.OnImageUploadFinishedListener;
+import com.andreasogeirik.master_frontend.listener.OnSampleImageFinishedListener;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.util.Constants;
+import com.andreasogeirik.master_frontend.util.image.ImageStatusCode;
+import com.andreasogeirik.master_frontend.util.image.SampleImageTask;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.InputStream;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 /**
  * Created by Andreas on 10.02.2016.
  */
-public class EditEventInteractorImpl implements EditEventInteractor, OnEditEventFinishedListener, OnImageUploadFinishedListener {
+public class EditEventInteractorImpl implements EditEventInteractor, OnSampleImageFinishedListener, OnEditEventFinishedListener, OnImageUploadFinishedListener {
 
     private EditEventPresenter presenter;
     private Event event;
+    private byte[] image;
 
     public EditEventInteractorImpl(EditEventPresenter presenter) {
         this.presenter = presenter;
     }
 
     @Override
-    public void onImageUploadSuccess(String imageUrl) {
-        event.setImageURI(imageUrl);
+    public void onImageUploadSuccess(JSONObject jsonImageUris) {
+        try {
+            event.setImageUri(jsonImageUris.getString("imageUri"));
+            event.setThumbUri(jsonImageUris.getString("thumbUri"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         new EditEventTask(this.event.getId(), eventToJson(event), this).execute();
     }
 
     @Override
     public void onImageUploadError(int error) {
-        presenter.editEventError(error);
+        presenter.uploadImageError(error);
     }
 
     private JSONObject eventToJson(Event event) {
@@ -50,8 +62,9 @@ public class EditEventInteractorImpl implements EditEventInteractor, OnEditEvent
             if (event.getEndDate() != null) {
                 jsonEvent.put("timeEnd", event.getEndDate().getTimeInMillis());
             }
-            if (event.getImageURI() != null) {
-                jsonEvent.put("imageUri", event.getImageURI());
+            if (event.getImageUri() != null) {
+                jsonEvent.put("imageUri", event.getImageUri());
+                jsonEvent.put("thumbUri", event.getThumbUri());
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -65,16 +78,21 @@ public class EditEventInteractorImpl implements EditEventInteractor, OnEditEvent
     }
 
     @Override
-    public void editEvent(Event event, byte[] byteImage) {
+    public void editEvent(Event event) {
         // Saves current event in case of image upload
         this.event = event;
-        if (byteImage != null) {
+        if (image != null) {
             // Execute image upload
-            new UploadImageTask(byteImage, this).execute();
+            new UploadImageTask(image, this).execute();
         } else {
             // No image selected, create event without image
             new EditEventTask(this.event.getId(), eventToJson(event), this).execute();
         }
+    }
+
+    @Override
+    public void sampleImage(InputStream inputStream) {
+        new SampleImageTask(this, inputStream, false).execute();
     }
 
     @Override
@@ -90,5 +108,16 @@ public class EditEventInteractorImpl implements EditEventInteractor, OnEditEvent
     @Override
     public void onEditEventError(int error) {
         presenter.editEventError(error);
+    }
+
+    @Override
+    public void onSampleSuccess(Bitmap bitmap, byte[] byteImage) {
+        this.image = byteImage;
+        this.presenter.sampleImageSuccess(bitmap);
+    }
+
+    @Override
+    public void onSampleError(ImageStatusCode statusCode) {
+        this.presenter.sampleImageError(statusCode);
     }
 }
