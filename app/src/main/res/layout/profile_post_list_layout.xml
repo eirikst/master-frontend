@@ -95,9 +95,9 @@
             >
         <ImageView
             android:id="@+id/comment"
-            android:layout_width="20dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/comment"
+            android:src="@drawable/ic_comment_black_24dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="5dp"
             />
@@ -120,9 +120,9 @@
             >
         <ImageView
             android:id="@+id/like"
-            android:layout_width="20dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/heart"
+            android:src="@drawable/ic_plus_one_black_24dp"
             android:layout_marginRight="5dp"
             />
 

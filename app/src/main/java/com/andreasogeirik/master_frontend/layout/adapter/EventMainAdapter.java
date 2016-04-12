@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.R;
-import com.andreasogeirik.master_frontend.model.EventPost;
+import com.andreasogeirik.master_frontend.model.UserPost;
 import com.andreasogeirik.master_frontend.util.DateUtility;
 
 import java.util.List;
@@ -17,18 +17,18 @@ import java.util.List;
 /**
  * Created by Andreas on 26.02.2016.
  */
-public class EventMainAdapter extends ArrayAdapter<EventPost> {
+public class EventMainAdapter extends ArrayAdapter<UserPost> {
 
-    private List<EventPost> posts;
+    private List<UserPost> posts;
 
-    public EventMainAdapter(Context context, List<EventPost> posts) {
+    public EventMainAdapter(Context context, List<UserPost> posts) {
         super(context, 0);
         this.posts = posts;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        EventPost post = getItem(position);
+        UserPost post = getItem(position);
 
 
         // Check if an existing view is being reused, otherwise inflate the view
@@ -43,7 +43,7 @@ public class EventMainAdapter extends ArrayAdapter<EventPost> {
 
         // Populate the data using the posts
         message.setText(post.getMessage());
-        dateCreated.setText(DateUtility.formatFull(post.getTimeCreated()));
+        dateCreated.setText(DateUtility.formatFull(post.getCreated()));
         nrOfComments.setText("" + posts.get(position).getComments().size() + " comments");
         // TODO Implement likes
 //        nrOfLikes.setText("" + posts.get(position).getLikers().size() + " likes");

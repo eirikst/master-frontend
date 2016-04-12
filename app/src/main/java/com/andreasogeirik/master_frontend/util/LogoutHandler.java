@@ -37,7 +37,6 @@ public class LogoutHandler implements GcmApiService.Listener {
         new Thread()
         {
             public void run() {
-                System.out.println("logger ut");
                 new LogoutTask().logout();
             }
         }.start();

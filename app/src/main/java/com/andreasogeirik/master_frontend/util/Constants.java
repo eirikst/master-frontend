@@ -13,11 +13,12 @@ public class Constants {
     //public static final String BACKEND_URL = "http://10.22.32.31:8080/";
 
     //Eirik NTNU
-    public static final String BACKEND_URL = "http://10.22.43.75:8080/";
+    //public static final String BACKEND_URL = "http://10.22.43.75:8080/";
 
     //Eirik hjemme
     //public static final String BACKEND_URL = "http://10.0.0.99:8080/";
 
+    public static final String BACKEND_URL = "http://129.241.102.163:8080/";
 
 
     //Status codes for Tasks(http communication)

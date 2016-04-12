@@ -27,8 +27,8 @@ import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
 import com.andreasogeirik.master_frontend.layout.adapter.EventMainAdapter;
 import com.andreasogeirik.master_frontend.model.Event;
-import com.andreasogeirik.master_frontend.model.EventPost;
 import com.andreasogeirik.master_frontend.model.User;
+import com.andreasogeirik.master_frontend.model.UserPost;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.squareup.picasso.Picasso;
 
@@ -256,7 +256,7 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
         this.mediumDiff = headerView.findViewById(R.id.difficulty_medium);
         this.hardDiff = headerView.findViewById(R.id.difficulty_hard);
 
-        adapter = new EventMainAdapter(this, new ArrayList<EventPost>());
+        adapter = new EventMainAdapter(this, new ArrayList<UserPost>());
         listView.setAdapter(adapter);
     }
 
