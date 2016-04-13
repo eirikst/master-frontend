@@ -26,10 +26,10 @@ public class SampleImageTask extends AsyncTask<Void, Void, ImageContainer> {
     public SampleImageTask(OnSampleImageFinishedListener listener, InputStream inputStream, boolean isProfileImage) {
         this.listener = listener;
         this.inputStream = inputStream;
-        if (!isProfileImage){
-            this.width = 700;
-            this.height = 700;
-        }
+//        if (!isProfileImage){
+//            this.width = 540;
+//            this.height = 540;
+//        }
     }
 
     protected ImageContainer doInBackground(Void... params) {
