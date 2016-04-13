@@ -5,7 +5,7 @@ import android.os.Bundle;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.User;
-import com.andreasogeirik.master_frontend.model.UserPost;
+import com.andreasogeirik.master_frontend.model.Post;
 
 import java.util.Set;
 
@@ -20,7 +20,14 @@ public interface ProfilePresenter {
 
     void findPosts();
 
-    void successPostsLoad(Set<UserPost> posts);
+    void likePost(int postId);
+    void likeComment(int commentId);
+
+    void unlikePost(int postId);
+    void unlikeComment(int commentId);
+
+
+    void successPostsLoad(Set<Post> posts);
     void errorPostsLoad(int code);
 
     void successFriendsLoad(Set<Friendship> friends);

@@ -1,12 +1,8 @@
 package com.andreasogeirik.master_frontend.application.user.profile;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -22,15 +18,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
-import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
 import com.andreasogeirik.master_frontend.application.general.ToolbarPresenterImpl;
 import com.andreasogeirik.master_frontend.application.general.interfaces.ToolbarPresenter;
 import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
 import com.andreasogeirik.master_frontend.application.user.profile.fragments.FriendProfileHeader;
 import com.andreasogeirik.master_frontend.application.user.profile.fragments.MyProfileHeader;
 import com.andreasogeirik.master_frontend.layout.adapter.PostListAdapter;
+import com.andreasogeirik.master_frontend.layout.transformation.CircleTransform;
 import com.andreasogeirik.master_frontend.listener.MyProfileHeaderListener;
-import com.andreasogeirik.master_frontend.model.UserPost;
+import com.andreasogeirik.master_frontend.model.Post;
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfilePresenter;
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfileView;
 import com.andreasogeirik.master_frontend.model.User;
@@ -47,7 +43,7 @@ import butterknife.ButterKnife;
  * Created by eirikstadheim on 06/02/16.
  */
 public class ProfileActivity extends AppCompatActivity implements ProfileView,
-        AdapterView.OnItemClickListener, MyProfileHeaderListener {
+        AdapterView.OnItemClickListener, MyProfileHeaderListener, PostListAdapter.PostListCallback {
     private String tag = getClass().getSimpleName();
 
     private ProfilePresenter presenter;
@@ -67,8 +63,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     private Button eventButton;
     private ImageView imageView;
 
-    private final int PICK_IMAGE_REQUEST = 1;
-    private final int REQUEST_IMAGE_CAPTURE = 2;
     private static int EDIT_EVENT_REQUEST = 1;
 
     //fragments
@@ -85,16 +79,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
         ButterKnife.bind(this);
 
 
-        //should get a user if not null
-        if (savedInstanceState != null) {
-            try {
-                presenter = new ProfilePresenterImpl(this, savedInstanceState.getInt("user"));
-            } catch (ClassCastException e) {
-                throw new ClassCastException(e + "/nObject in savedInstanceState bundle cannot " +
-                        "be cast to User in " + this.toString());
-            }
-            Log.i(tag, "Saved instance state restored");
-        } else {
             Intent intent = getIntent();
             try {
                 presenter = new ProfilePresenterImpl(this, intent.getIntExtra("user", -1));
@@ -103,7 +87,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
                         "be cast to User in " + this.toString());
             }
             Log.i(tag, "New instance state from intent");
-        }
 
         toolbarPresenter = new ToolbarPresenterImpl(this);
     }
@@ -168,7 +151,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
 
         //set adapter on listview
         postListAdapter = new PostListAdapter(ProfileActivity.this,
-                new ArrayList<>(user.getPosts()), user);
+                new ArrayList<>(user.getPosts()), user, this);
         listView.setAdapter(postListAdapter);
     }
 
@@ -248,13 +231,17 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
      * Update post list
      */
     @Override
-    public void addPosts(Set<UserPost> posts) {
+    public void addPosts(Set<Post> posts) {
+        for(Post post: posts) {
+            System.out.println(post);
+        }
+
         if (posts.size() < Constants.NUMBER_OF_POSTS_RETURNED) {
             footerBtn.setText("Ingen flere poster");
             footerBtn.setClickable(false);
         }
         if (!posts.isEmpty()) {
-            postListAdapter.addAll(posts);
+            postListAdapter.addPosts(posts);
             postListAdapter.notifyDataSetChanged();
         }
     }
@@ -301,6 +288,50 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
                     .resize(Constants.USER_IMAGE_WIDTH, Constants.USER_IMAGE_HEIGHT)
                     .centerCrop()
                     .into(headerImage);
+        }
+    }
+
+    /*
+     * Post list handling
+     */
+
+    @Override
+    public void likeComment(int commentId) {
+        presenter.likeComment(commentId);
+    }
+
+    @Override
+    public void likePost(int postId) {
+        presenter.likePost(postId);
+    }
+
+    @Override
+    public void unlikeComment(int commentId) {
+        presenter.unlikeComment(commentId);
+    }
+
+    @Override
+    public void unlikePost(int postId) {
+        presenter.unlikePost(postId);
+    }
+
+    @Override
+    public void updatePostLike(int id, boolean like) {
+        postListAdapter.updatePost(id, like);
+    }
+
+    @Override
+    public void updateCommentLike(int id, boolean like) {
+        postListAdapter.updateComment(id, like);
+    }
+
+    @Override
+    public void displayLoadPostsButton(boolean display) {
+        if(display) {
+            footerBtn.setVisibility(View.VISIBLE);
+        }
+        else {
+            footerBtn.setVisibility(View.GONE);
         }
     }
 

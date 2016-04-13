@@ -14,11 +14,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainPagerAdapter extends FragmentPagerAdapter {
-    final int ATTENDING = 0;
-    final int RECOMMENDED = 1;
+    final int RECOMMENDED = 0;
+    final int ATTENDING = 1;
     final int MY = 2;
     final int PAGE_COUNT = 3;
-    private String tabTitles[] = new String[] { "Påmeldt", "Anbefalte", "Mine" };
+    private String tabTitles[] = new String[] {"Anbefalte", "Påmeldt", "Mine"};
     private Context context;
     private Map<Integer, Fragment> registeredFragments = new HashMap<>();
 

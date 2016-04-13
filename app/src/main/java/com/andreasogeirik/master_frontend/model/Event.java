@@ -28,7 +28,7 @@ public class Event implements Serializable {
     private int difficulty  = Constants.EVENT_DIFFICULTY_EASY;
     private User admin;
     private Set<User> users = new HashSet<User>(0);
-    private Set<UserPost> posts = new HashSet<UserPost>(0);
+    private Set<Post> posts = new HashSet<Post>(0);
 
     public Event(String name, String location, String description, Calendar startDate, int difficulty) {
         this.name = name;

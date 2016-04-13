@@ -13,7 +13,7 @@ import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingPostsListene
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingUserListener;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.Friendship;
-import com.andreasogeirik.master_frontend.model.UserPost;
+import com.andreasogeirik.master_frontend.model.Post;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
 
@@ -72,15 +72,16 @@ public class ProfileInteractorImpl implements ProfileInteractor, OnFinishedLoadi
 
     @Override
     public void onSuccessPostsLoad(JSONArray jsonPosts) {
-        Set<UserPost> posts = new HashSet<>();
+        Set<Post> posts = new HashSet<>();
 
         try {
             for (int i = 0; i < jsonPosts.length(); i++) {
-                posts.add(new UserPost(jsonPosts.getJSONObject(i)));
+                posts.add(new Post(jsonPosts.getJSONObject(i)));
             }
         }
         catch (JSONException e) {
             Log.w(tag, "JSON error: " + e);
+            e.printStackTrace();
             presenter.errorPostsLoad(Constants.JSON_PARSE_ERROR);
         }
         presenter.successPostsLoad(posts);
