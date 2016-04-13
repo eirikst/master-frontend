@@ -16,9 +16,9 @@ public class Constants {
     //public static final String BACKEND_URL = "http://10.22.43.75:8080/";
 
     //Eirik hjemme
-    //public static final String BACKEND_URL = "http://10.0.0.99:8080/";
+    public static final String BACKEND_URL = "http://10.0.0.99:8080/";
 
-    public static final String BACKEND_URL = "http://129.241.102.163:8080/";
+    //public static final String BACKEND_URL = "http://129.241.102.163:8080/";
 
 
     //Status codes for Tasks(http communication)
@@ -30,7 +30,7 @@ public class Constants {
     public static final int SOME_ERROR = -5;
 
     //Number of posts returned when querying post
-    public static int NUMBER_OF_POSTS_RETURNED = 10;
+    public static int NUMBER_OF_POSTS_RETURNED = 5;
 
     //Number of events returned when querying event
     public static int NUMBER_OF_EVENTS_RETURNED = 5;

@@ -44,7 +44,13 @@ public class EventListAdapter extends ArrayAdapter<Event> {
             Calendar cal = new GregorianCalendar();
             @Override
             public int compare(Event lhs, Event rhs) {
-                if(lhs.getStartDate().before(cal) && rhs.getStartDate().before(cal)) {
+                if(lhs.getStartDate().equals(rhs.getStartDate())) {
+                    if(lhs.getId() < rhs.getId()) {
+                        return 1;
+                    }
+                    return -1;
+                }
+                else if(lhs.getStartDate().before(cal) && rhs.getStartDate().before(cal)) {
                     return lhs.compareTo(rhs);
                 }
                 else if(lhs.getStartDate().after(cal) && rhs.getStartDate().after(cal)) {

@@ -81,6 +81,7 @@ public class ProfileInteractorImpl implements ProfileInteractor, OnFinishedLoadi
         }
         catch (JSONException e) {
             Log.w(tag, "JSON error: " + e);
+            e.printStackTrace();
             presenter.errorPostsLoad(Constants.JSON_PARSE_ERROR);
         }
         presenter.successPostsLoad(posts);

@@ -1,7 +1,5 @@
 package com.andreasogeirik.master_frontend.model;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,7 +21,7 @@ public class Post implements Serializable {
     private String imageUri;
     private Date created;
     private Set<Comment> comments = new HashSet<>();
-    private Set<User> likers = new HashSet<>();
+    private Set<UserSmall> likers = new HashSet<>();
 
     public Post() {
     }
@@ -35,19 +33,8 @@ public class Post implements Serializable {
         imageUri = post.getString("imageUri");
         created = new Date(post.getLong("timeCreated"));
 
-        JSONArray commentsJson = post.getJSONArray("comments");
 
-        for(int i = 0; i < commentsJson.length(); i++) {
-            try {
-                comments.add(new Comment(commentsJson.getJSONObject(i)));
-            }
-            catch(JSONException e) {
-                Log.w(tag, "Error loading comment to post " + id + ", " + message);
-            }
-        }
-
-
-        JSONArray jsonComments = post.getJSONArray("likers");
+        JSONArray jsonComments = post.getJSONArray("comments");
         JSONArray jsonLikers = post.getJSONArray("likers");
 
         setComments(jsonComments);
@@ -56,21 +43,28 @@ public class Post implements Serializable {
 
     private void setComments(JSONArray jsonComments) throws JSONException {
         for (int i = 0; i < jsonComments.length(); i++) {
-            Comment comment = new Comment();
-            comment.setId(jsonComments.getJSONObject(i).getInt("id"));
-            comment.setMessage(jsonComments.getJSONObject(i).getString("message"));
+            Comment comment = new Comment(jsonComments.getJSONObject(i));
             comments.add(comment);
         }
     }
 
     private void setLikers(JSONArray jsonLikers) throws JSONException {
         for (int i = 0; i < jsonLikers.length(); i++) {
-            User liker = new User();
+            UserSmall liker = new UserSmall();
             liker.setId(jsonLikers.getJSONObject(i).getInt("id"));
             liker.setLastname(jsonLikers.getJSONObject(i).getString("lastname"));
             liker.setFirstname(jsonLikers.getJSONObject(i).getString("firstname"));
             likers.add(liker);
         }
+    }
+
+    public boolean likes(User user) {
+        for(UserSmall liker: likers) {
+            if(liker.equals(user)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public int getId() {
@@ -117,16 +111,16 @@ public class Post implements Serializable {
         return comments;
     }
 
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
-    }
-
-    public Set<User> getLikers() {
+    public Set<UserSmall> getLikers() {
         return likers;
     }
 
-    public void setLikers(Set<User> likers) {
+    public void setLikers(Set<UserSmall> likers) {
         this.likers = likers;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
 
     @Override

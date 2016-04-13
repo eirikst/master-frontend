@@ -51,6 +51,7 @@
                     android:background="@drawable/shape_new_friend_background"
                     android:gravity="center"
                     android:visibility="gone"
+                    android:textColor="#FFFFFF"
                     />
 
             </RelativeLayout>

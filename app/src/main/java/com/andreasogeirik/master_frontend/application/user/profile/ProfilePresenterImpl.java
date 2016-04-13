@@ -3,8 +3,11 @@ package com.andreasogeirik.master_frontend.application.user.profile;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
+import com.andreasogeirik.master_frontend.application.post.PostInteractor;
+import com.andreasogeirik.master_frontend.application.post.PostListInteractorImpl;
 import com.andreasogeirik.master_frontend.application.user.friend.FriendListActivity;
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfileInteractor;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
@@ -22,9 +25,11 @@ import java.util.Set;
 /**
  * Created by eirikstadheim on 06/02/16.
  */
-public class ProfilePresenterImpl extends GeneralPresenter implements ProfilePresenter {
+public class ProfilePresenterImpl extends GeneralPresenter implements ProfilePresenter,
+PostListInteractorImpl.Listener {
     private ProfileView view;
     private ProfileInteractor interactor;
+    private PostInteractor postInteractor;
     boolean thisIsMyProfile;
 
     //model
@@ -36,6 +41,7 @@ public class ProfilePresenterImpl extends GeneralPresenter implements ProfilePre
         this.user = new User(userId);
         this.view = view;
         this.interactor = new ProfileInteractorImpl(this);
+        this.postInteractor = new PostListInteractorImpl(this);
 
         //init gui
         thisIsMyProfile = CurrentUser.getInstance().getUser().equals(user);
@@ -86,6 +92,9 @@ public class ProfilePresenterImpl extends GeneralPresenter implements ProfilePre
     public void successPostsLoad(Set<Post> posts) {
         user.addPosts(posts);
         view.addPosts(posts);
+        if(posts.size() < Constants.NUMBER_OF_POSTS_RETURNED) {
+            view.displayLoadPostsButton(false);
+        }
     }
 
     @Override
@@ -95,8 +104,73 @@ public class ProfilePresenterImpl extends GeneralPresenter implements ProfilePre
         }
         else {
             view.displayMessage("Feil ved lasting av poster");
+            Log.w(getClass().getSimpleName(), "Error while loading posts. Code " + code);
         }
     }
+
+    @Override
+    public void likePost(int postId) {
+        postInteractor.likePost(postId);
+    }
+
+    @Override
+    public void likeComment(int commentId) {
+        postInteractor.likeComment(commentId);
+    }
+
+    @Override
+    public void unlikePost(int postId) {
+        postInteractor.unlikePost(postId);
+    }
+
+    @Override
+    public void unlikeComment(int commentId) {
+        postInteractor.unlikeComment(commentId);
+    }
+
+    /*
+     * Interactor listener methods
+     */
+    @Override
+    public void onSuccessPostLike(int id) {
+        view.updatePostLike(id, true);
+    }
+
+    @Override
+    public void onFailurePostLike(int id) {
+        view.displayMessage("Error while liking post");
+    }
+
+    @Override
+    public void onSuccessCommentLike(int id) {
+        view.updateCommentLike(id, true);
+    }
+
+    @Override
+    public void onFailureCommentLike(int id) {
+        view.displayMessage("Error while liking comment");
+    }
+
+    @Override
+    public void onSuccessPostUnlike(int id) {
+        view.updatePostLike(id, false);
+    }
+
+    @Override
+    public void onFailurePostUnlike(int id) {
+        view.displayMessage("Error while unliking post");
+    }
+
+    @Override
+    public void onSuccessCommentUnlike(int id) {
+        view.updateCommentLike(id, false);
+    }
+
+    @Override
+    public void onFailureCommentUnlike(int id) {
+        view.displayMessage("Error while unliking comment");
+    }
+
 
     @Override
     public void findAttendingEvents() {

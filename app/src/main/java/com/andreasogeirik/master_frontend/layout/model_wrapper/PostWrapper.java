@@ -15,6 +15,11 @@ public class PostWrapper extends PostListElement {
     }
 
     @Override
+    public int getId() {
+        return post.getId();
+    }
+
+    @Override
     public int getPostId() {
         return post.getId();
     }

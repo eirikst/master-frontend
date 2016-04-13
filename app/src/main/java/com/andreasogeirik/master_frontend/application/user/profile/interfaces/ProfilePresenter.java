@@ -20,6 +20,13 @@ public interface ProfilePresenter {
 
     void findPosts();
 
+    void likePost(int postId);
+    void likeComment(int commentId);
+
+    void unlikePost(int postId);
+    void unlikeComment(int commentId);
+
+
     void successPostsLoad(Set<Post> posts);
     void errorPostsLoad(int code);
 

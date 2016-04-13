@@ -16,6 +16,11 @@ public interface ProfileView {
     void setFriendCount(int count);
     void setProfileImage(String imageUri);
 
+    void updatePostLike(int id, boolean like);
+    void updateCommentLike(int id, boolean like);
+
+    void displayLoadPostsButton(boolean display);
+
     void displayMessage(String message);
     void setEventButtonText(String text);
     void displayError(String errorMessage);

@@ -18,6 +18,11 @@ public class CommentWrapper extends PostListElement {
     }
 
     @Override
+    public int getId() {
+        return comment.getId();
+    }
+
+    @Override
     public int getPostId() {
         return post.getId();
     }

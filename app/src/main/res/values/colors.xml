@@ -7,6 +7,7 @@
     <color name="app_main">#FFD966</color>
     <color name="app_main2">#B7E1CD</color>
     <color name="teal">#4DB6AC</color>
+    <color name="teal_dark">#26A69A</color>
     <color name="teal_fade">#BB4DB6AC</color>
     <color name="grey">#BDBDBD</color>
     <color name="grey_fade">#BBBDBDBD</color>

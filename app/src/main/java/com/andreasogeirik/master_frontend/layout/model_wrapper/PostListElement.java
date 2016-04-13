@@ -6,6 +6,7 @@ import java.util.Date;
  * Created by eirista on 12.04.2016.
  */
 public abstract class PostListElement {
+    public abstract int getId();
     public abstract int getPostId();
     public abstract Date getPostTimeCreated();
     public abstract Date getTimeCreated();
@@ -13,6 +14,7 @@ public abstract class PostListElement {
     public abstract Object getModel();
 
     public int compareTo(PostListElement object) {
+        System.out.println(object.toString());
         if(this.getPostTimeCreated().equals(object.getPostTimeCreated())) {
             if(this.getPostId() == object.getPostId()) {
                 if(isPost()) {
@@ -30,5 +32,10 @@ public abstract class PostListElement {
             return -1;
         }
         return 1;
+    }
+
+    @Override
+    public String toString() {
+        return getModel().toString();
     }
 }

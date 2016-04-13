@@ -1,5 +1,6 @@
 package com.andreasogeirik.master_frontend.model;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,7 +17,7 @@ public class Comment implements Serializable {
     private User writer;
     private String message;
     private Date timeCreated;
-    private Set<User> likers = new HashSet<>();
+    private Set<UserSmall> likers = new HashSet<>();
 
     public Comment() {
 
@@ -27,6 +28,20 @@ public class Comment implements Serializable {
         writer = new User(comment.getJSONObject("user"));
         message = comment.getString("message");
         timeCreated = new Date(comment.getLong("timeCreated"));
+
+        JSONArray likersJson = comment.getJSONArray("likers");
+        for(int i = 0; i < likersJson.length(); i++) {
+            likers.add(new UserSmall(likersJson.getJSONObject(i)));
+        }
+    }
+
+    public boolean likes(User user) {
+        for(UserSmall liker: likers) {
+            if(liker.equals(user)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public int getId() {
@@ -61,11 +76,11 @@ public class Comment implements Serializable {
         this.timeCreated = timeCreated;
     }
 
-    public Set<User> getLikers() {
+    public Set<UserSmall> getLikers() {
         return likers;
     }
 
-    public void setLikers(Set<User> likers) {
+    public void setLikers(Set<UserSmall> likers) {
         this.likers = likers;
     }
 
