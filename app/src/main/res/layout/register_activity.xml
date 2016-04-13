@@ -88,7 +88,8 @@
                 android:hint="@string/prompt_firstname"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:inputType="textCapSentences"/>
 
 
             <EditText
@@ -98,7 +99,8 @@
                 android:hint="@string/prompt_lastname"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:inputType="textCapSentences"/>
 
             <EditText
                 android:id="@+id/location"
@@ -106,7 +108,8 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_location"
                 android:maxLines="1"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:inputType="textCapSentences"/>
 
 
             <com.andreasogeirik.master_frontend.layout.view.CustomTextView

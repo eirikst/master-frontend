@@ -86,7 +86,7 @@ public class MainPageActivity extends AppCompatActivity implements MainPageView,
         @Override
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
-            String message = intent.getStringExtra("message");
+            String message = intent.getStringExtra("photoMessage");
             Toast.makeText(MainPageActivity.this, message, Toast.LENGTH_LONG).show();
             Log.d("receiver", "Got message: " + message);
         }
@@ -167,7 +167,7 @@ public class MainPageActivity extends AppCompatActivity implements MainPageView,
         setupToolbar();
         progressBarManager = new ProgressBarManager(this, mainContainer, progressView);
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
-                new IntentFilter("custom-event-name"));
+                new IntentFilter("sendPhotoMessage"));
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         pagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), this);

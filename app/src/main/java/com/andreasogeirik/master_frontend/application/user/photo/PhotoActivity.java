@@ -5,25 +5,28 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
 import com.andreasogeirik.master_frontend.application.user.photo.interfaces.PhotoPresenter;
 import com.andreasogeirik.master_frontend.application.user.photo.interfaces.PhotoView;
+import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
 import com.desmond.squarecamera.CameraActivity;
 import com.soundcloud.android.crop.Crop;
 
-import org.apache.commons.io.IOUtils;
-
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 
 import butterknife.Bind;
@@ -32,6 +35,10 @@ import butterknife.OnClick;
 
 public class PhotoActivity extends AppCompatActivity implements PhotoView {
 
+    @Bind(R.id.container)
+    View container;
+    @Bind(R.id.error)
+    TextView error;
     @Bind(R.id.submit)
     Button done;
     @Bind(R.id.my_profile_image)
@@ -39,7 +46,6 @@ public class PhotoActivity extends AppCompatActivity implements PhotoView {
 
     private int PICK_IMAGE_REQUEST = 1;
     static final int REQUEST_IMAGE_CAPTURE = 2;
-    private byte[] byteImage;
 
     PhotoPresenter presenter;
 
@@ -59,27 +65,19 @@ public class PhotoActivity extends AppCompatActivity implements PhotoView {
             if (data != null && data.getData() != null) {
                 beginCrop(data.getData());
             } else {
-                setImageError("Kunne ikke finne det valgte bildet");
+                imageError("Kunne ikke finne det valgte bildet");
             }
         }
         // Image cropper
         else if (requestCode == Crop.REQUEST_CROP) {
             if (data != null){
-                sampleImage(Crop.getOutput(data));
+                prepareToSample(Crop.getOutput(data));
             }
         }
         // Image capture
         else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Uri photoUri = data.getData();
-            try {
-                InputStream stream = getContentResolver().openInputStream(photoUri);
-                this.byteImage = IOUtils.toByteArray(stream);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            this.profilePicView.setImageURI(photoUri);
+            prepareToSample(photoUri);
         }
     }
 
@@ -107,12 +105,7 @@ public class PhotoActivity extends AppCompatActivity implements PhotoView {
 
     @OnClick(R.id.submit)
     public void submit(){
-        if (byteImage != null){
-            this.presenter.uploadPhoto(byteImage);
-        }
-        Intent intent = new Intent(this, MainPageActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
+        this.presenter.submit();
     }
 
     private void existingImage() {
@@ -149,20 +142,34 @@ public class PhotoActivity extends AppCompatActivity implements PhotoView {
     }
 
     @Override
-    public void setImageError(String error) {
-
+    public void imageError(String error) {
+        Toast.makeText(PhotoActivity.this, error, Toast.LENGTH_LONG).show();
     }
 
     @Override
-    public void setImage(byte[] byteImage, Bitmap bitmap) {
-        this.byteImage = byteImage;
+    public void setImage(Bitmap bitmap) {
         this.profilePicView.setImageBitmap(bitmap);
     }
 
     @Override
-    public void sendMessage() {
-        Intent intent = new Intent("custom-event-name");
-        intent.putExtra("message", "Profil oppdatert!");
+    public void sendMessage(String message) {
+        Intent intent = new Intent("sendPhotoMessage");
+        intent.putExtra("photoMessage", message);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    }
+
+    @Override
+    public void updateError(String error) {
+        this.error.setText(error);
+        this.error.setVisibility(View.VISIBLE);
+    }
+
+    private void prepareToSample(Uri imageUri) {
+        try {
+            InputStream inputStream = getContentResolver().openInputStream(imageUri);
+            this.presenter.samplePhoto(inputStream);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -57,11 +57,20 @@ public class EditEventPresenterImpl extends GeneralPresenter implements EditEven
     @Override
     public void editEventError(int error) {
         this.editEventView.hideProgress();
-
-        if (error == Constants.CLIENT_ERROR) {
-            this.editEventView.displayError("En uventet feil oppstod. Prøv igjen.");
-        } else if (error == Constants.RESOURCE_ACCESS_ERROR) {
-            this.editEventView.displayError("Fant ikke ressurs. Prøv igjen.");
+        switch (error) {
+            case Constants.RESOURCE_ACCESS_ERROR:
+                this.editEventView.displayError(getActivity().getResources().getString(R.string.resource_access_error));
+                break;
+            case Constants.UNAUTHORIZED:
+                checkAuth();
+                break;
+            // Dette skal ikke skje..
+            case Constants.CLIENT_ERROR:
+                this.editEventView.displayError(getActivity().getResources().getString(R.string.some_error));
+                break;
+            case Constants.SOME_ERROR:
+                this.editEventView.displayError(getActivity().getResources().getString(R.string.some_error));
+                break;
         }
     }
 
@@ -204,6 +213,7 @@ public class EditEventPresenterImpl extends GeneralPresenter implements EditEven
                 break;
             case Constants.SOME_ERROR:
                 this.editEventView.displayError(getActivity().getResources().getString(R.string.some_error));
+                break;
         }
     }
 

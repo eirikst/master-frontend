@@ -1,19 +1,22 @@
 package com.andreasogeirik.master_frontend.application.user.photo;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 
+import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
+import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
 import com.andreasogeirik.master_frontend.application.user.photo.interfaces.PhotoInteractor;
 import com.andreasogeirik.master_frontend.application.user.photo.interfaces.PhotoPresenter;
 import com.andreasogeirik.master_frontend.application.user.photo.interfaces.PhotoView;
 import com.andreasogeirik.master_frontend.communication.UploadImageTask;
 import com.andreasogeirik.master_frontend.listener.OnImageUploadFinishedListener;
 import com.andreasogeirik.master_frontend.listener.OnSampleImageFinishedListener;
+import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.image.ImageStatusCode;
 import com.andreasogeirik.master_frontend.util.image.SampleImageTask;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
@@ -28,13 +31,23 @@ public class PhotoPresenterImpl extends GeneralPresenter implements PhotoPresent
     private PhotoView photoView;
     private PhotoInteractor interactor;
 
+    private byte[] image;
+
     public PhotoPresenterImpl(PhotoView photoView) {
-        super((Activity)photoView, GeneralPresenter.NO_CHECK);
+        super((Activity) photoView, GeneralPresenter.NO_CHECK);
         this.photoView = photoView;
         this.interactor = new PhotoInteractorImpl(this);
     }
 
-    public void samplePhoto(InputStream inputStream){
+    @Override
+    public void submit() {
+        if (image != null) {
+            uploadPhoto(image);
+        }
+        this.photoView.navigateToMainView();
+    }
+
+    public void samplePhoto(InputStream inputStream) {
         new SampleImageTask(this, inputStream, true).execute();
     }
 
@@ -45,29 +58,32 @@ public class PhotoPresenterImpl extends GeneralPresenter implements PhotoPresent
 
     @Override
     public void userUpdatedSuccess() {
-        photoView.sendMessage();
+        photoView.sendMessage("Profil oppdatert!");
+//        photoView.navigateToMainView();
     }
 
     @Override
     public void userUpdatedError(int error) {
-        checkAuth();
+        photoView.sendMessage("Noe gikk galt under oppdatering av bruker");
     }
 
 
     @Override
     public void onSampleSuccess(Bitmap bitmap, byte[] byteImage) {
-        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, 300, 300, false);
-
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-        byte[] scaledByteImage = stream.toByteArray();
-
-        photoView.setImage(scaledByteImage, scaledBitmap);
+        this.image = byteImage;
+        this.photoView.setImage(bitmap);
     }
 
     @Override
     public void onSampleError(ImageStatusCode statusCode) {
-
+        switch (statusCode) {
+            case NOT_AN_IMAGE:
+                photoView.imageError("Den valgte filen var ikke et bilde");
+                break;
+            case FILE_NOT_FOUND:
+                photoView.imageError("Fant ikke den valgte filen");
+                break;
+        }
     }
 
     @Override
@@ -77,6 +93,7 @@ public class PhotoPresenterImpl extends GeneralPresenter implements PhotoPresent
 
     @Override
     public void onImageUploadError(int error) {
-        checkAuth();
+        photoView.sendMessage("Noe gikk galt under opplasting av bilde");
+
     }
 }

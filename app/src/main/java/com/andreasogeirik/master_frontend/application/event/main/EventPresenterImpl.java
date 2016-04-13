@@ -2,6 +2,7 @@ package com.andreasogeirik.master_frontend.application.event.main;
 
 import android.app.Activity;
 
+import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventInteractor;
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventPresenter;
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventView;
@@ -9,6 +10,7 @@ import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.User;
+import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.DateUtility;
 
 
@@ -16,6 +18,7 @@ import java.util.GregorianCalendar;
 
 import static com.andreasogeirik.master_frontend.util.Constants.CLIENT_ERROR;
 import static com.andreasogeirik.master_frontend.util.Constants.RESOURCE_ACCESS_ERROR;
+import static com.andreasogeirik.master_frontend.util.Constants.SOME_ERROR;
 import static com.andreasogeirik.master_frontend.util.Constants.UNAUTHORIZED;
 
 
@@ -37,20 +40,17 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
 
     @Override
     public void attendEvent() {
-//        this.eventView.showProgress();
         interactor.attendEvent(this.event.getId());
     }
 
 
     @Override
     public void unAttendEvent() {
-//        this.eventView.showProgress();
         interactor.unAttendEvent(this.event.getId());
     }
 
     @Override
     public void attendSuccess(Event event) {
-        this.eventView.hideProgress();
         this.event = event;
         updateView();
     }
@@ -60,7 +60,7 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
         this.eventView.hideProgress();
         switch (error) {
             case CLIENT_ERROR:
-                eventView.showErrorMessage("Du deltar allerede i denne aktiviteten");
+                eventView.showErrorMessage(getActivity().getResources().getString(R.string.some_error));
                 break;
             case RESOURCE_ACCESS_ERROR:
                 eventView.showErrorMessage("Fant ikke ressurs. Prøv igjen");
@@ -68,7 +68,9 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
             case UNAUTHORIZED:
                 checkAuth();
                 break;
-
+            case Constants.SOME_ERROR:
+                this.eventView.showErrorMessage(getActivity().getResources().getString(R.string.some_error));
+                break;
         }
     }
 
@@ -177,9 +179,22 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
         this.eventView.navigateToMain();
     }
 
-    // TODO HANDLE THIS
     @Override
     public void deleteError(int error) {
         this.eventView.hideProgress();
+        switch (error) {
+            case CLIENT_ERROR:
+                eventView.showErrorMessage(getActivity().getResources().getString(R.string.some_error));
+                break;
+            case RESOURCE_ACCESS_ERROR:
+                eventView.showErrorMessage(getActivity().getResources().getString(R.string.resource_access_error));
+                break;
+            case UNAUTHORIZED:
+                checkAuth();
+                break;
+            case Constants.SOME_ERROR:
+                this.eventView.showErrorMessage(getActivity().getResources().getString(R.string.some_error));
+                break;
+        }
     }
 }

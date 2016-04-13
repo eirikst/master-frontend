@@ -7,7 +7,8 @@ import android.graphics.Bitmap;
  */
 public interface PhotoView {
     void navigateToMainView();
-    void setImageError(String error);
-    void setImage(byte[] byteImage, Bitmap bitmap);
-    void sendMessage();
+    void imageError(String error);
+    void setImage(Bitmap bitmap);
+    void sendMessage(String message);
+    void updateError(String error);
 }

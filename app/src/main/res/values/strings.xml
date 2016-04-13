@@ -109,7 +109,8 @@
     </string>
 
     <!-- Strings related to login -->
-    <string name="error_invalid_email">EPOSTEN ER IKKE GYLDIG</string>
+    <string name="error_invalid_email">
+        EPOSTEN ER IKKE GYLDIG</string>
     <string name="title_activity_event">EventActivity</string>
 
     <!-- TODO: Remove or change this placeholder text -->

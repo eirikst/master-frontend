@@ -54,12 +54,19 @@ public class RegisterPresenterImpl implements RegisterPresenter {
     @Override
     public void registerOrLoginError(int error) {
         registerView.hideProgress();
-
-        if (error == Constants.CLIENT_ERROR) {
-            registerView.registrationFailed("E-posten er allerede registrert i systemet. " +
-                    "Vennligst logg inn på denne kontoen.");
-        } else if (error == Constants.RESOURCE_ACCESS_ERROR) {
-            registerView.registrationFailed("Fant ikke ressurs. Prøv igjen.");
+        switch (error) {
+            case Constants.RESOURCE_ACCESS_ERROR:
+                this.registerView.registrationFailed("Fant ikke ressurs. Prøv igjen");
+                break;
+            // This can't happen. Do Nothing
+            case Constants.UNAUTHORIZED:
+                break;
+            case Constants.CLIENT_ERROR:
+                this.registerView.registrationFailed("E-posten er allerede registrert i systemet.");
+                break;
+            case Constants.SOME_ERROR:
+                this.registerView.registrationFailed("Noe gikk galt, prøv igjen senere");
+                break;
         }
     }
 }
