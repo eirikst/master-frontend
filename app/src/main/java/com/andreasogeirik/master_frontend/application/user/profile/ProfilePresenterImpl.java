@@ -11,6 +11,7 @@ import com.andreasogeirik.master_frontend.application.post.PostListInteractorImp
 import com.andreasogeirik.master_frontend.application.user.friend.FriendListActivity;
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfileInteractor;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
+import com.andreasogeirik.master_frontend.model.Comment;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.Post;
@@ -243,5 +244,27 @@ PostListInteractorImpl.Listener {
         Intent intent = new Intent(getActivity(), AttendingEventsActivity.class);
         intent.putExtra("user", user);
         getActivity().startActivity(intent);
+    }
+
+    @Override
+    public void comment(Post post, String message) {
+        postInteractor.comment(post, message);
+    }
+
+    @Override
+    public void onSuccessComment(Post post, Comment comment) {
+        for(Post thisPost: user.getPosts()) {
+            if(thisPost.getId() == post.getId()) {
+                thisPost.getComments().add(comment);
+                break;
+            }
+        }
+        view.addComment(post, comment);
+        view.commentFinished();
+    }
+
+    @Override
+    public void onFailureComment(int code) {
+        view.displayMessage("En feil skjedde. Prøv igjen");
     }
 }

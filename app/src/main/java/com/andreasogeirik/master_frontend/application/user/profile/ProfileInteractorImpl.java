@@ -4,13 +4,16 @@ import android.util.Log;
 
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfileInteractor;
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfilePresenter;
+import com.andreasogeirik.master_frontend.communication.CommentTask;
 import com.andreasogeirik.master_frontend.communication.GetAttendingEventsTask;
 import com.andreasogeirik.master_frontend.communication.GetFriendsTask;
 import com.andreasogeirik.master_frontend.communication.GetPostsTask;
 import com.andreasogeirik.master_frontend.communication.GetUserTask;
+import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingFriendshipsListener;
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingPostsListener;
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingUserListener;
+import com.andreasogeirik.master_frontend.model.Comment;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.Post;

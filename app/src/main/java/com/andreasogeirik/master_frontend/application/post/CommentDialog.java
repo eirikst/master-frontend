@@ -13,22 +13,23 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.model.Post;
 
 import java.util.HashSet;
 
 public class CommentDialog extends DialogFragment {
     public interface Listener {
-        void comment(int postId, String message);
+        void comment(Post post, String message);
     }
 
     private Listener callback;
-    private int postId;
+    private Post post;
 
-    public static CommentDialog newInstance(int postId) {
+    public static CommentDialog newInstance(Post post) {
         CommentDialog f = new CommentDialog();
 
         Bundle bundle = new Bundle();
-        bundle.putSerializable("postId", postId);
+        bundle.putSerializable("post", post);
         f.setArguments(bundle);
 
         return f;
@@ -76,7 +77,12 @@ public class CommentDialog extends DialogFragment {
 
         Bundle bundle = this.getArguments();
         if(bundle != null) {
-            postId = bundle.getInt("postId");
+            try {
+                post = (Post) bundle.getSerializable("post");
+            }
+            catch(ClassCastException e) {
+                throw new ClassCastException("Bundle should contain a post");
+            }
         }
         else {
             throw new RuntimeException("Bundle has no data");
@@ -88,12 +94,8 @@ public class CommentDialog extends DialogFragment {
         commentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(commentBtn.getText().toString() != null && !commentBtn.getText().toString().isEmpty()) {
-                    callback.comment(postId, commentMsg.getText().toString());
-                }
-                else {
-                    //TODO this
-                    Toast.makeText(getContext(), "Du må skrive noe", Toast.LENGTH_SHORT).show();
+                if(commentMsg.getText().toString() != null && !commentMsg.getText().toString().isEmpty()) {
+                    callback.comment(post, commentMsg.getText().toString());
                 }
             }
         });

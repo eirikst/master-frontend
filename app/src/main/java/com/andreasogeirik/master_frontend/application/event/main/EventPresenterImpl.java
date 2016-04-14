@@ -7,27 +7,33 @@ import com.andreasogeirik.master_frontend.application.event.main.interfaces.Even
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventPresenter;
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventView;
 import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
+import com.andreasogeirik.master_frontend.application.post.PostInteractor;
+import com.andreasogeirik.master_frontend.application.post.PostListInteractorImpl;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
+import com.andreasogeirik.master_frontend.model.Comment;
 import com.andreasogeirik.master_frontend.model.Event;
+import com.andreasogeirik.master_frontend.model.Post;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.DateUtility;
 
 
 import java.util.GregorianCalendar;
+import java.util.Set;
 
 import static com.andreasogeirik.master_frontend.util.Constants.CLIENT_ERROR;
 import static com.andreasogeirik.master_frontend.util.Constants.RESOURCE_ACCESS_ERROR;
-import static com.andreasogeirik.master_frontend.util.Constants.SOME_ERROR;
 import static com.andreasogeirik.master_frontend.util.Constants.UNAUTHORIZED;
 
 
 /**
  * Created by Andreas on 10.02.2016.
  */
-public class EventPresenterImpl extends GeneralPresenter implements EventPresenter {
+public class EventPresenterImpl extends GeneralPresenter implements EventPresenter,
+        PostListInteractorImpl.Listener {
     private EventView eventView;
     private EventInteractor interactor;
+    private PostInteractor postInteractor;
     private Event event;
 
 
@@ -35,7 +41,26 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
         super((Activity) eventView, CHECK_USER_AVAILABLE);
         this.eventView = eventView;
         this.interactor = new EventInteractorImpl(this);
+        this.postInteractor = new PostListInteractorImpl(this);
         this.event = event;
+
+        findPosts();
+    }
+
+    @Override
+    public void findPosts() {
+        postInteractor.findPosts(event, event.getPosts().size());
+    }
+
+    @Override
+    public void successPostsLoad(Set<Post> posts) {
+        event.getPosts().addAll(posts);
+        eventView.addPosts(posts);
+    }
+
+    @Override
+    public void errorPostsLoad(int code) {
+        eventView.showErrorMessage("En feil oppsto under lasting av poster");
     }
 
     @Override
@@ -196,5 +221,97 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
                 this.eventView.showErrorMessage(getActivity().getResources().getString(R.string.some_error));
                 break;
         }
+    }
+
+    /*
+     * Comment methods
+     */
+    @Override
+    public void comment(Post post, String message) {
+        postInteractor.comment(post, message);
+    }
+
+    @Override
+    public void onSuccessComment(Post post, Comment comment) {
+        for(Post thisPost: event.getPosts()) {
+            if(thisPost.getId() == post.getId()) {
+                thisPost.getComments().add(comment);
+                break;
+            }
+        }
+        eventView.addComment(post, comment);
+        eventView.commentFinished();
+    }
+
+    @Override
+    public void onFailureComment(int code) {
+        eventView.showErrorMessage("En feil skjedde. Prøv igjen");
+    }
+
+
+    /*
+     * Like methods
+     */
+    @Override
+    public void likePost(int postId) {
+        postInteractor.likePost(postId);
+    }
+
+    @Override
+    public void likeComment(int commentId) {
+        postInteractor.likeComment(commentId);
+    }
+
+    @Override
+    public void unlikePost(int postId) {
+        postInteractor.unlikePost(postId);
+    }
+
+    @Override
+    public void unlikeComment(int commentId) {
+        postInteractor.unlikeComment(commentId);
+    }
+
+    /*
+         * Interactor listener methods
+         */
+    @Override
+    public void onSuccessPostLike(int id) {
+        eventView.updatePostLike(id, true);
+    }
+
+    @Override
+    public void onFailurePostLike(int id) {
+        eventView.showErrorMessage("Error while liking post");
+    }
+
+    @Override
+    public void onSuccessCommentLike(int id) {
+        eventView.updateCommentLike(id, true);
+    }
+
+    @Override
+    public void onFailureCommentLike(int id) {
+        eventView.showErrorMessage("Error while liking comment");
+    }
+
+    @Override
+    public void onSuccessPostUnlike(int id) {
+        eventView.updatePostLike(id, false);
+    }
+
+    @Override
+    public void onFailurePostUnlike(int id) {
+        eventView.showErrorMessage("Error while unliking post");
+    }
+
+    @Override
+    public void onSuccessCommentUnlike(int id) {
+        eventView.updateCommentLike(id, false);
+    }
+
+    @Override
+    public void onFailureCommentUnlike(int id) {
+        eventView.showErrorMessage("Error while unliking comment");
     }
 }

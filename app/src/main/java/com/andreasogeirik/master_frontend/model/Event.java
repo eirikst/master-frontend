@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Set;
@@ -81,6 +82,12 @@ public class Event implements Serializable {
             }
         }
         return false;
+    }
+
+    public void addPosts(Collection<Post> posts) {
+        if(posts != null) {
+            this.posts.addAll(posts);
+        }
     }
 
     public int getId() {
@@ -170,6 +177,16 @@ public class Event implements Serializable {
     public void setUsers(Set<User> users) {
         this.users = users;
     }
+
+    public Set<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(Set<Post> posts) {
+        this.posts = posts;
+    }
+
+
 
     @Override
     public String toString() {

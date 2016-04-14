@@ -12,10 +12,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
+
 /**
  * Created by Andreas on 10.02.2016.
  */
-public class EventInteractorImpl implements EventInteractor, OnAttendEventFinishedListener, OnDeleteEventFinishedListener {
+public class EventInteractorImpl implements EventInteractor, OnAttendEventFinishedListener,
+        OnDeleteEventFinishedListener {
+    private String tag = getClass().getSimpleName();
 
     private EventPresenter presenter;
 
@@ -62,4 +65,6 @@ public class EventInteractorImpl implements EventInteractor, OnAttendEventFinish
     public void onDeleteEventError(int error) {
         this.presenter.deleteError(error);
     }
+
+
 }

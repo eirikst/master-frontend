@@ -278,4 +278,17 @@
 
     </LinearLayout>
 
+    <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+        android:id="@+id/event_posts_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Posts"
+        android:gravity="center_horizontal"
+        android:textSize="40dp"
+        android:background="@drawable/shape_post_background"
+        android:padding="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/event_info_container"
+        />
+
 </RelativeLayout>

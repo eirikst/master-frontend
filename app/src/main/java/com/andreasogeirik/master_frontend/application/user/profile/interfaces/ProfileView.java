@@ -1,5 +1,6 @@
 package com.andreasogeirik.master_frontend.application.user.profile.interfaces;
 
+import com.andreasogeirik.master_frontend.model.Comment;
 import com.andreasogeirik.master_frontend.model.Post;
 import com.andreasogeirik.master_frontend.model.User;
 
@@ -20,6 +21,9 @@ public interface ProfileView {
     void updateCommentLike(int id, boolean like);
 
     void displayLoadPostsButton(boolean display);
+
+    void addComment(Post post, Comment comment);
+    void commentFinished();
 
     void displayMessage(String message);
     void setEventButtonText(String text);

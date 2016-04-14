@@ -23,13 +23,12 @@ import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.general.ToolbarPresenterImpl;
 import com.andreasogeirik.master_frontend.application.general.interfaces.ToolbarPresenter;
 import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
-import com.andreasogeirik.master_frontend.application.main.notification.NotificationCenterDialogFragment;
 import com.andreasogeirik.master_frontend.application.post.CommentDialog;
 import com.andreasogeirik.master_frontend.application.user.profile.fragments.FriendProfileHeader;
 import com.andreasogeirik.master_frontend.application.user.profile.fragments.MyProfileHeader;
 import com.andreasogeirik.master_frontend.layout.adapter.PostListAdapter;
-import com.andreasogeirik.master_frontend.layout.transformation.CircleTransform;
 import com.andreasogeirik.master_frontend.listener.MyProfileHeaderListener;
+import com.andreasogeirik.master_frontend.model.Comment;
 import com.andreasogeirik.master_frontend.model.Post;
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfilePresenter;
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfileView;
@@ -38,7 +37,6 @@ import com.andreasogeirik.master_frontend.util.Constants;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Set;
 
 import butterknife.Bind;
@@ -54,6 +52,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
 
     private ProfilePresenter presenter;
     private ToolbarPresenter toolbarPresenter;
+    private DialogFragment commentFragment;
 
     //Bind view elements
     @Bind(R.id.post_list)
@@ -157,7 +156,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
 
         //set adapter on listview
         postListAdapter = new PostListAdapter(ProfileActivity.this,
-                new ArrayList<>(user.getPosts()), user, this);
+                new ArrayList<>(user.getPosts()), this);
         listView.setAdapter(postListAdapter);
     }
 
@@ -322,7 +321,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     }
 
     @Override
-    public void showComment(int postId) {
+    public void showComment(Post post) {
         // DialogFragment.show() will take care of adding the fragment
         // in a transaction.  We also want to remove any currently showing
         // dialog, so make our own transaction and take care of that here.
@@ -335,8 +334,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
         ft.addToBackStack(null);
 
         // Create and show the dialog.
-        DialogFragment newFragment = CommentDialog.newInstance(postId);
-        newFragment.show(ft, "commentDialog");
+        commentFragment = CommentDialog.newInstance(post);
+        commentFragment.show(ft, "commentDialog");
     }
 
     @Override
@@ -360,8 +359,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     }
 
     @Override
-    public void comment(int postId, String message) {
-        Log.i(tag, "Sender comment: " + message + " på post " + postId);
+    public void comment(Post post, String message) {
+        presenter.comment(post, message);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -403,5 +402,15 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public void addComment(Post post, Comment comment) {
+        postListAdapter.addComment(post, comment);
+    }
+
+    @Override
+    public void commentFinished() {
+        commentFragment.dismiss();
     }
 }

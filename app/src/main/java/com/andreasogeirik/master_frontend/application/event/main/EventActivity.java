@@ -2,6 +2,8 @@ package com.andreasogeirik.master_frontend.application.event.main;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,8 +25,10 @@ import com.andreasogeirik.master_frontend.application.event.main.interfaces.Even
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventView;
 import com.andreasogeirik.master_frontend.application.event.main.participants.ParticipantsActivity;
 import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
+import com.andreasogeirik.master_frontend.application.post.CommentDialog;
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
-import com.andreasogeirik.master_frontend.layout.adapter.EventMainAdapter;
+import com.andreasogeirik.master_frontend.layout.adapter.PostListAdapter;
+import com.andreasogeirik.master_frontend.model.Comment;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.model.Post;
@@ -32,6 +36,7 @@ import com.andreasogeirik.master_frontend.util.Constants;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,7 +44,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class EventActivity extends AppCompatActivity implements EventView, OnClickListener {
+public class EventActivity extends AppCompatActivity implements EventView, OnClickListener,
+        PostListAdapter.PostListCallback, CommentDialog.Listener {
+
+    private DialogFragment commentFragment;
 
     // Containers
     @Bind(R.id.event_progress)
@@ -50,7 +58,7 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
 
     private ImageView imageView;
 
-    private EventMainAdapter adapter;
+    private PostListAdapter adapter;
 
 
     @Bind(R.id.toolbar)
@@ -255,7 +263,7 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
         this.mediumDiff = headerView.findViewById(R.id.difficulty_medium);
         this.hardDiff = headerView.findViewById(R.id.difficulty_hard);
 
-        adapter = new EventMainAdapter(this, new ArrayList<Post>());
+        adapter = new PostListAdapter(this, new ArrayList<Post>(), this);
         listView.setAdapter(adapter);
     }
 
@@ -346,5 +354,77 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
                 presenter.unAttendEvent();
                 break;
         }
+    }
+
+    @Override
+    public void addPosts(Collection<Post> posts) {
+        adapter.addPosts(posts);
+    }
+
+    @Override
+    public void likeComment(int commentId) {
+        presenter.likeComment(commentId);
+    }
+
+    @Override
+    public void likePost(int postId) {
+        presenter.likePost(postId);
+    }
+
+    @Override
+    public void unlikeComment(int commentId) {
+        presenter.unlikeComment(commentId);
+    }
+
+    @Override
+    public void unlikePost(int postId) {
+        presenter.unlikePost(postId);
+    }
+
+    @Override
+    public void showComment(Post post) {
+        // DialogFragment.show() will take care of adding the fragment
+        // in a transaction.  We also want to remove any currently showing
+        // dialog, so make our own transaction and take care of that here.
+        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager()
+                .beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("commentDialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        // Create and show the dialog.
+        commentFragment = CommentDialog.newInstance(post);
+        commentFragment.show(ft, "commentDialog");
+
+    }
+
+    @Override
+    public void updatePostLike(int id, boolean like) {
+        adapter.updatePost(id, like);
+    }
+
+    @Override
+    public void updateCommentLike(int id, boolean like) {
+        adapter.updateComment(id, like);
+    }
+
+    @Override
+    public void addComment(Post post, Comment comment) {
+        adapter.addComment(post, comment);
+    }
+
+    @Override
+    public void commentFinished() {
+        commentFragment.dismiss();
+    }
+
+    /*
+     * CommentDialog
+     */
+    @Override
+    public void comment(Post post, String message) {
+        presenter.comment(post, message);
     }
 }

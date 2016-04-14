@@ -38,20 +38,18 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
         void likePost(int postId);
         void unlikeComment(int commentId);
         void unlikePost(int postId);
-        void showComment(int postId);
+        void showComment(Post post);
     }
 
     private static final int POST = 0;
     private static final int COMMENT = 1;
 
     private Comparator comparator;
-    private User user;
     private PostListCallback callback;
 
 
-    public PostListAdapter(Context context, List<Post> posts, User user, PostListCallback callback) {
+    public PostListAdapter(Context context, List<Post> posts, PostListCallback callback) {
         super(context, 0, new ArrayList<PostListElement>());
-        this.user = user;
         this.callback = callback;
 
         List<PostListElement> elements = new ArrayList<>();
@@ -140,7 +138,7 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
         LinearLayout likeBtn = (LinearLayout)convertView.findViewById(R.id.like_btn);
         LinearLayout commentBtn = (LinearLayout)convertView.findViewById(R.id.comment_btn);
 
-        if(post.likes(user)) {
+        if(post.likes(CurrentUser.getInstance().getUser())) {
             likeBtn.setVisibility(View.GONE);
             unlikeBtn.setVisibility(View.VISIBLE);
         }
@@ -150,6 +148,7 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
         }
 
         name.setText(post.getWriter().getFirstname() + " " + post.getWriter().getLastname());
+        name.append("" + post.getId());
         message.setText(post.getMessage());
         dateCreated.setText(DateUtility.formatFull(post.getCreated()));
         if(post.getComments().size() == 1) {
@@ -178,7 +177,7 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
         commentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callback.showComment(post.getId());
+                callback.showComment(post);
             }
         });
 
@@ -225,7 +224,7 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
         LinearLayout unlikeBtn = (LinearLayout)convertView.findViewById(R.id.unlike_btn);
         LinearLayout likeBtn = (LinearLayout)convertView.findViewById(R.id.like_btn);
 
-        if(comment.likes(user)) {
+        if(comment.likes(CurrentUser.getInstance().getUser())) {
             likeBtn.setVisibility(View.GONE);
             unlikeBtn.setVisibility(View.VISIBLE);
         }
@@ -236,6 +235,7 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
 
         // Populate the data using the posts
         name.setText(comment.getWriter().getFirstname() + " " + comment.getWriter().getLastname());
+        name.append(""+ comment.getId());
         message.setText(comment.getMessage());
         dateCreated.setText(DateUtility.formatFull(comment.getTimeCreated()));
         nrOfLikes.setText(comment.getLikers().size() + " liker");
@@ -292,6 +292,12 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
     @Override
     public void addAll(Collection<? extends PostListElement> collection) {
         super.addAll(collection);
+        sort(comparator);
+    }
+
+    public void addComment(Post post, Comment comment) {
+        super.add(new CommentWrapper(comment, post));
+        sort(comparator);
     }
 
     public void updateComment(int id, boolean like) {

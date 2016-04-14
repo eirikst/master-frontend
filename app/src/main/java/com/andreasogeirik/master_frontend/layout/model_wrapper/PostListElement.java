@@ -12,26 +12,46 @@ public abstract class PostListElement {
     public abstract Date getTimeCreated();
     public abstract boolean isPost();
     public abstract Object getModel();
+    public abstract PostWrapper getPost();
 
+    private static final int BEFORE = -1;
+    private static final int AFTER = 1;
+
+    // -1 means first
     public int compareTo(PostListElement object) {
-        System.out.println(object.toString());
-        if(this.getPostTimeCreated().equals(object.getPostTimeCreated())) {
-            if(this.getPostId() == object.getPostId()) {
-                if(isPost()) {
-                    return -1;
-                }
-                else if(this.getTimeCreated().before(object.getTimeCreated())) {
-                    return -1;
+        if(this.isPost() && object.isPost()) {
+            if(this.getPostTimeCreated().equals(object.getPostTimeCreated())) {
+                if(this.getId() < object.getId()) {
+                    return AFTER;
                 }
                 else {
-                    return 1;
+                    return BEFORE;
                 }
             }
+            else if(this.getPostTimeCreated().before(object.getPostTimeCreated())) {
+                return AFTER;
+            }
+            else {
+                return BEFORE;
+            }
         }
-        else if(this.getPostTimeCreated().before(object.getPostTimeCreated())) {
-            return -1;
+        else if(this.isPost() && !object.isPost()) {
+            return compareTo(object.getPost());
         }
-        return 1;
+        else if(!this.isPost() && object.isPost()) {
+            return -object.compareTo(this.getPost());
+        }
+        else {
+            if (this.getPostId() == object.getPostId()) {
+                if (this.getTimeCreated().before(object.getTimeCreated())) {
+                    return BEFORE;
+                } else {
+                    return AFTER;
+                }
+            } else {
+                return this.getPost().compareTo(object.getPost());
+            }
+        }
     }
 
     @Override

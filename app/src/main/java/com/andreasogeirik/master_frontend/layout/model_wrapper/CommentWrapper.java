@@ -46,4 +46,9 @@ public class CommentWrapper extends PostListElement {
     public Object getModel() {
         return comment;
     }
+
+    @Override
+    public PostWrapper getPost() {
+        return new PostWrapper(post);
+    }
 }

@@ -43,4 +43,10 @@ public class PostWrapper extends PostListElement {
     public Object getModel() {
         return post;
     }
+
+    @Override
+    public PostWrapper getPost() {
+        return this;
+    }
+
 }

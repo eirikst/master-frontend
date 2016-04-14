@@ -1,8 +1,11 @@
 package com.andreasogeirik.master_frontend.application.event.main.interfaces;
 
+import com.andreasogeirik.master_frontend.model.Comment;
 import com.andreasogeirik.master_frontend.model.Event;
+import com.andreasogeirik.master_frontend.model.Post;
 import com.andreasogeirik.master_frontend.model.User;
 
+import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -25,4 +28,9 @@ public interface EventView {
     void navigateToParticipants(Set<User> users);
     void navigateToEditEvent(Event event);
     void navigateToMain();
+    void addPosts(Collection<Post> posts);
+    void updatePostLike(int id, boolean like);
+    void updateCommentLike(int id, boolean like);
+    void addComment(Post post, Comment comment);
+    void commentFinished();
 }

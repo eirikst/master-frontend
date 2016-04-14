@@ -5,7 +5,7 @@ import android.util.Log;
 import android.util.Pair;
 
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingPostsListener;
-import com.andreasogeirik.master_frontend.model.User;
+import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.UserPreferencesManager;
 
@@ -24,17 +24,17 @@ import org.springframework.web.client.RestTemplate;
 /**
  * Created by eirikstadheim on 06/02/16.
  */
-public class GetPostsTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntity<String>>> {
+public class GetEventPostsTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEntity<String>>> {
     private String tag = getClass().getSimpleName();
 
     private OnFinishedLoadingPostsListener listener;
     private int start;
-    private User user;
+    private Event event;
 
-    public GetPostsTask(OnFinishedLoadingPostsListener listener, User user, int start) {
+    public GetEventPostsTask(OnFinishedLoadingPostsListener listener, Event event, int start) {
         this.listener = listener;
         this.start = start;
-        this.user = user;
+        this.event = event;
     }
 
     @Override
@@ -50,7 +50,7 @@ public class GetPostsTask extends AsyncTask<Void, Void, Pair<Integer, ResponseEn
         HttpEntity<String> entity = new HttpEntity(null, headers);
 
         try {
-            response = template.exchange(Constants.BACKEND_URL + "users/" + user.getId() +
+            response = template.exchange(Constants.BACKEND_URL + "events/" + event.getId() +
                             "/posts?start=" + start,
                     HttpMethod.GET, entity, String.class);
             return new Pair(Constants.OK, response);

@@ -2,15 +2,21 @@ package com.andreasogeirik.master_frontend.application.post;
 
 import android.util.Log;
 
+import com.andreasogeirik.master_frontend.communication.CommentTask;
+import com.andreasogeirik.master_frontend.communication.GetEventPostsTask;
 import com.andreasogeirik.master_frontend.communication.GetPostsTask;
 import com.andreasogeirik.master_frontend.communication.LikeTask;
+import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingPostsListener;
+import com.andreasogeirik.master_frontend.model.Comment;
+import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.Post;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -19,10 +25,13 @@ import java.util.Set;
  * Created by eirikstadheim on 13/04/16.
  */
 public class PostListInteractorImpl implements PostInteractor, LikeTask.OnFinishedLikingListener
-, OnFinishedLoadingPostsListener {
+, OnFinishedLoadingPostsListener, CommentTask.OnFinishedCommentingListener {
     public interface Listener {
         void successPostsLoad(Set<Post> posts);
         void errorPostsLoad(int code);
+
+        void onSuccessComment(Post post, Comment comment);
+        void onFailureComment(int code);
 
         void onSuccessPostLike(int id);
         void onFailurePostLike(int id);
@@ -50,6 +59,14 @@ public class PostListInteractorImpl implements PostInteractor, LikeTask.OnFinish
         new GetPostsTask(this, user, start).execute();
     }
 
+    /*
+     * Find posts for events
+     */
+    @Override
+    public void findPosts(Event event, int start) {
+        new GetEventPostsTask(this, event, start).execute();
+    }
+
     @Override
     public void onSuccessPostsLoad(JSONArray jsonPosts) {
         Set<Post> posts = new HashSet<>();
@@ -68,11 +85,38 @@ public class PostListInteractorImpl implements PostInteractor, LikeTask.OnFinish
     }
 
     @Override
-    public void onFailedPostsLoad(int error) {
-        listener.errorPostsLoad(error);
+    public void onFailedPostsLoad(int code) {
+        listener.errorPostsLoad(code);
     }
 
 
+    /*
+     * Comment
+     */
+    @Override
+    public void comment(Post post, String message) {
+        new CommentTask(this, message, post, CurrentUser.getInstance().getUser().getId()).execute();
+    }
+
+    @Override
+    public void onSuccessComment(Post post, JSONObject jsonComment) {
+        try {
+            Comment comment = new Comment(jsonComment);
+            listener.onSuccessComment(post, comment);
+        }
+        catch(JSONException e) {
+            listener.onFailureComment(Constants.JSON_PARSE_ERROR);
+        }
+    }
+
+    @Override
+    public void onFailureComment(int code) {
+        listener.onFailureComment(code);
+    }
+
+    /*
+     * Like
+     */
     @Override
     public void likePost(int postId) {
         new LikeTask(this, postId, LikeTask.POST, LikeTask.LIKE).execute();

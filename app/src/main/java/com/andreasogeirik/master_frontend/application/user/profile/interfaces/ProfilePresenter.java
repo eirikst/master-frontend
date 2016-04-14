@@ -2,6 +2,7 @@ package com.andreasogeirik.master_frontend.application.user.profile.interfaces;
 
 import android.os.Bundle;
 
+import com.andreasogeirik.master_frontend.model.Comment;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.model.User;
@@ -19,6 +20,8 @@ public interface ProfilePresenter {
     void onFailedUserLoad(int code);
 
     void findPosts();
+
+    void comment(Post post, String message);
 
     void likePost(int postId);
     void likeComment(int commentId);

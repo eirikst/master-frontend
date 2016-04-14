@@ -1,5 +1,7 @@
 package com.andreasogeirik.master_frontend.application.post;
 
+import com.andreasogeirik.master_frontend.model.Event;
+import com.andreasogeirik.master_frontend.model.Post;
 import com.andreasogeirik.master_frontend.model.User;
 
 /**
@@ -7,6 +9,9 @@ import com.andreasogeirik.master_frontend.model.User;
  */
 public interface PostInteractor {
     void findPosts(User user, int start);
+    void findPosts(Event event, int start);
+
+    void comment(Post post, String message);
 
     void likePost(int postId);
     void likeComment(int commentId);
