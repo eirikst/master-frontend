@@ -51,7 +51,7 @@ public class NotificationCenterDialogFragment extends DialogFragment implements 
             callback = (NotificationCenterListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement AttendingEventsListener");
+                    + " must implement NotificationListAdapter.Listener");
         }
     }
 

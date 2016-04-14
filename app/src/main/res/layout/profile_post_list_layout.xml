@@ -97,6 +97,7 @@
         >
 
         <LinearLayout
+            android:id="@+id/comment_btn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="6"
@@ -136,7 +137,7 @@
                     android:id="@+id/like"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_plus_one_black_24dp"
+                    android:src="@drawable/ic_mood_black_24dp"
                     android:layout_marginRight="5dp"
                     />
 
@@ -161,7 +162,7 @@
                     android:id="@+id/unlike"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_plus_one_black_24dp"
+                    android:src="@drawable/ic_mood_red_24dp"
                     android:layout_marginRight="5dp"
                     />
 
@@ -171,7 +172,7 @@
                     android:layout_height="match_parent"
                     android:layout_toRightOf="@+id/like"
                     android:text="Liker"
-                    android:textColor="@color/teal"
+                    android:textColor="@color/app_red"
                     />
             </LinearLayout>
         </RelativeLayout>
