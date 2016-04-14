@@ -1,6 +1,8 @@
 package com.andreasogeirik.master_frontend.application.user.profile;
 
 import android.content.Intent;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +23,8 @@ import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.general.ToolbarPresenterImpl;
 import com.andreasogeirik.master_frontend.application.general.interfaces.ToolbarPresenter;
 import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
+import com.andreasogeirik.master_frontend.application.main.notification.NotificationCenterDialogFragment;
+import com.andreasogeirik.master_frontend.application.post.CommentDialog;
 import com.andreasogeirik.master_frontend.application.user.profile.fragments.FriendProfileHeader;
 import com.andreasogeirik.master_frontend.application.user.profile.fragments.MyProfileHeader;
 import com.andreasogeirik.master_frontend.layout.adapter.PostListAdapter;
@@ -34,6 +38,7 @@ import com.andreasogeirik.master_frontend.util.Constants;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 import butterknife.Bind;
@@ -43,7 +48,8 @@ import butterknife.ButterKnife;
  * Created by eirikstadheim on 06/02/16.
  */
 public class ProfileActivity extends AppCompatActivity implements ProfileView,
-        AdapterView.OnItemClickListener, MyProfileHeaderListener, PostListAdapter.PostListCallback {
+        AdapterView.OnItemClickListener, MyProfileHeaderListener, PostListAdapter.PostListCallback,
+        CommentDialog.Listener {
     private String tag = getClass().getSimpleName();
 
     private ProfilePresenter presenter;
@@ -316,6 +322,24 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     }
 
     @Override
+    public void showComment(int postId) {
+        // DialogFragment.show() will take care of adding the fragment
+        // in a transaction.  We also want to remove any currently showing
+        // dialog, so make our own transaction and take care of that here.
+        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager()
+                .beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("commentDialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        // Create and show the dialog.
+        DialogFragment newFragment = CommentDialog.newInstance(postId);
+        newFragment.show(ft, "commentDialog");
+    }
+
+    @Override
     public void updatePostLike(int id, boolean like) {
         postListAdapter.updatePost(id, like);
     }
@@ -333,6 +357,11 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
         else {
             footerBtn.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void comment(int postId, String message) {
+        Log.i(tag, "Sender comment: " + message + " på post " + postId);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

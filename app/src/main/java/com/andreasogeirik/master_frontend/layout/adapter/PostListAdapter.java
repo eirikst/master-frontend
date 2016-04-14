@@ -38,6 +38,7 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
         void likePost(int postId);
         void unlikeComment(int commentId);
         void unlikePost(int postId);
+        void showComment(int postId);
     }
 
     private static final int POST = 0;
@@ -137,6 +138,7 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
         TextView nrOfLikes = (TextView)convertView.findViewById(R.id.like_nr);
         LinearLayout unlikeBtn = (LinearLayout)convertView.findViewById(R.id.unlike_btn);
         LinearLayout likeBtn = (LinearLayout)convertView.findViewById(R.id.like_btn);
+        LinearLayout commentBtn = (LinearLayout)convertView.findViewById(R.id.comment_btn);
 
         if(post.likes(user)) {
             likeBtn.setVisibility(View.GONE);
@@ -173,6 +175,12 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
             }
         });
 
+        commentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callback.showComment(post.getId());
+            }
+        });
 
         // Return view for rendering
         return convertView;
