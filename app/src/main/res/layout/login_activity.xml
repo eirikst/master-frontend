@@ -54,7 +54,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_email"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:maxLength="100"/>
 
                 <EditText
                     android:id="@+id/password"
@@ -66,7 +67,8 @@
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:singleLine="true"/>
+                    android:singleLine="true"
+                    android:maxLength="100"/>
 
             <com.andreasogeirik.master_frontend.layout.view.CustomTextView
                 android:layout_width="wrap_content"
