@@ -97,6 +97,7 @@ public class EditUserPresenterImpl extends GeneralPresenter implements EditUserP
                 break;
             case Constants.SOME_ERROR:
                 this.view.displayUpdateError(getActivity().getResources().getString(R.string.some_error));
+                break;
         }
     }
 
@@ -138,6 +139,7 @@ public class EditUserPresenterImpl extends GeneralPresenter implements EditUserP
                 break;
             case Constants.SOME_ERROR:
                 this.view.displayUpdateError(getActivity().getResources().getString(R.string.some_error));
+                break;
         }
     }
 }

@@ -23,12 +23,21 @@
 
     </android.support.v7.widget.Toolbar>
 
+    <ProgressBar
+        android:id="@+id/progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
         android:orientation="vertical"
-        android:padding="5dp">
+        android:padding="5dp"
+        android:id="@+id/container">
 
         <ImageView
             android:id="@+id/my_profile_image"
@@ -45,6 +54,14 @@
             android:layout_weight="1"
             android:text="Hei! Du har nå opprettet en profil. Hvis du ønsker, kan du legge til et profilbilde ved å trykke på bildet over."
             android:textColor="@color/app_font" />
+
+        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+            android:id="@+id/error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/app_error"
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone"/>
 
         <com.andreasogeirik.master_frontend.layout.view.CustomButton
             android:id="@+id/submit"

@@ -79,6 +79,9 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:layout_weight="8"
+                    android:inputType="textCapSentences"
+                    android:maxLength="50"
+
                     />
 
                 <ImageView
@@ -98,14 +101,20 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/event_edit_location"
                 android:maxLines="1"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:inputType="textCapSentences"
+                android:maxLength="50"/>
 
 
             <EditText
                 android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/event_edit_description" />
+                android:hint="@string/event_create_description"
+                android:inputType="textMultiLine|textCapSentences"
+                android:minLines="1"
+                android:lines="5"
+                android:maxLength="250"/>
 
 
             <com.andreasogeirik.master_frontend.layout.view.CustomTextView

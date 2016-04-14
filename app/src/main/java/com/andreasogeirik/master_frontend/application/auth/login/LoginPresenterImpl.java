@@ -3,6 +3,7 @@ package com.andreasogeirik.master_frontend.application.auth.login;
 import android.app.Activity;
 import android.text.TextUtils;
 
+import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.auth.login.interfaces.LoginInteractor;
 import com.andreasogeirik.master_frontend.application.auth.login.interfaces.LoginPresenter;
 import com.andreasogeirik.master_frontend.application.auth.login.interfaces.LoginView;
@@ -53,12 +54,19 @@ public class LoginPresenterImpl implements LoginPresenter {
     @Override
     public void loginError(int error) {
         loginView.hideProgress();
-
-        if(error == Constants.CLIENT_ERROR) {
-            loginView.loginFailed("Feil brukernavn eller passord");
-        }
-        else if(error == Constants.RESOURCE_ACCESS_ERROR) {
-            loginView.loginFailed("Fant ikke ressurs. Prøv igjen.");
+        switch (error) {
+            case Constants.RESOURCE_ACCESS_ERROR:
+                this.loginView.loginFailed("Fant ikke ressurs. Prøv igjen");
+                break;
+            // This can't happen. Do Nothing
+            case Constants.UNAUTHORIZED:
+                break;
+            case Constants.CLIENT_ERROR:
+                this.loginView.loginFailed("Feil brukernavn eller passord");
+                break;
+            case Constants.SOME_ERROR:
+                this.loginView.loginFailed("Noe gikk galt, prøv igjen senere");
+                break;
         }
     }
 }

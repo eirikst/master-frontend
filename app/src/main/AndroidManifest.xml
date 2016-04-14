@@ -15,7 +15,8 @@
 
     <!--GCM-->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <permission android:name="com.andreasogeirik.master_frontend.permission.C2D_MESSAGE"
+    <permission
+        android:name="com.andreasogeirik.master_frontend.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
     <uses-permission android:name="com.andreasogeirik.master_frontend.permission.C2D_MESSAGE"></uses-permission>
     <!--GCM-->
@@ -33,24 +34,39 @@
         tools:replace="theme">
         <activity
             android:name=".application.auth.entrance.EntranceActivity"
-            android:label="@string/app_name" />
-        <activity android:name=".application.auth.login.LoginActivity" />
-        <activity android:name=".application.main.MainPageActivity">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".application.auth.login.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".application.main.MainPageActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".application.user.profile.ProfileActivity" />
-        <activity android:name=".application.user.friend.FriendListActivity" />
-        <activity android:name=".application.user.profile_others.ProfileOthersActivity" />
-        <activity android:name=".application.auth.register.RegisterActivity" />
+        <activity
+            android:name=".application.user.profile.ProfileActivity" />
+        <activity
+            android:name=".application.user.friend.FriendListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".application.user.profile_others.ProfileOthersActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".application.auth.register.RegisterActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".application.event.create.CreateEventActivity"
-            android:label="" />
+            android:label=""
+            android:screenOrientation="portrait" />
         <activity android:name=".application.settings.SettingsActivity" />
-        <activity android:name=".application.event.main.EventActivity" />
+        <activity
+            android:name=".application.event.main.EventActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.soundcloud.android.crop.CropImageActivity"
             android:screenOrientation="portrait" />
@@ -64,24 +80,30 @@
         <activity
             android:name=".application.event.main.participants.ParticipantsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".application.event.edit.EditEventActivity" />
-        <activity android:name=".application.user.profile.AttendingEventsActivity"/>
-        <activity android:name=".application.user.edit.EditUserActivity"/>
+        <activity
+            android:name=".application.event.edit.EditEventActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".application.user.profile.AttendingEventsActivity" />
+        <activity
+            android:name=".application.user.edit.EditUserActivity"
+            android:screenOrientation="portrait" />
 
         <!--GCM-->
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
                 <category android:name="com.example.gcm" />
             </intent-filter>
         </receiver>
+
         <service
             android:name="com.andreasogeirik.master_frontend.gcm.GcmListenerService"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
@@ -95,9 +117,11 @@
         </service>
 
 
-        <service android:name="com.andreasogeirik.master_frontend.gcm.RegistrationIntentService" android:exported="false">
+        <service
+            android:name="com.andreasogeirik.master_frontend.gcm.RegistrationIntentService"
+            android:exported="false">
             <intent-filter>
-                <action android:name="com.google.android.gms.iid.InstanceID"/>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
         <!--GCM-->

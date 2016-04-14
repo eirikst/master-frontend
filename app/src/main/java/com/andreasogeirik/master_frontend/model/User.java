@@ -42,7 +42,7 @@ public class User implements Serializable {
     }
 
     public User(int id, String email, boolean enabled, String firstname, String lastname, String location,
-                String imageUri) {
+                String imageUri, String thumbUri) {
         this.id = id;
         this.email = email;
         this.enabled = enabled;

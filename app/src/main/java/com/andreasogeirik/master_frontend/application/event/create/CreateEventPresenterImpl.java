@@ -62,6 +62,7 @@ public class CreateEventPresenterImpl extends GeneralPresenter implements Create
                 break;
             case Constants.SOME_ERROR:
                 this.createEventView.displayError(getActivity().getResources().getString(R.string.some_error));
+                break;
         }
     }
 
@@ -220,6 +221,7 @@ public class CreateEventPresenterImpl extends GeneralPresenter implements Create
                 break;
             case Constants.SOME_ERROR:
                 this.createEventView.displayError(getActivity().getResources().getString(R.string.some_error));
+                break;
         }
     }
 
