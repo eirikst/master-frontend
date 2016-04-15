@@ -45,7 +45,6 @@
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
         android:layout_margin="10dp"
-        android:padding="5dp"
         android:background="@drawable/shape_post_background"
 
         >
