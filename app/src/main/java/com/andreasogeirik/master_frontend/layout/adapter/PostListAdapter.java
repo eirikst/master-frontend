@@ -1,7 +1,6 @@
 package com.andreasogeirik.master_frontend.layout.adapter;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import com.andreasogeirik.master_frontend.layout.model_wrapper.PostWrapper;
 import com.andreasogeirik.master_frontend.layout.transformation.CircleTransform;
 import com.andreasogeirik.master_frontend.model.Comment;
 import com.andreasogeirik.master_frontend.model.Post;
-import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.model.UserSmall;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.DateUtility;
@@ -28,8 +26,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
-
-import javax.xml.transform.Transformer;
 
 /**
  * Created by eirikstadheim on 05/02/16.
@@ -106,7 +102,7 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(
-                    R.layout.profile_post_list_layout, parent, false);
+                    R.layout.post_list_layout, parent, false);
         }
 
         // Lookup views

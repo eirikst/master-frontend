@@ -7,7 +7,7 @@
     android:layout_height="100dp"
     android:weightSum="10"
     android:orientation="horizontal"
-    android:background="@drawable/shape_post_background">
+    android:background="@drawable/shape_gen_background">
 
     <ImageView
         android:id="@+id/friend_image"

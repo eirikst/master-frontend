@@ -5,30 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.andreasogeirik.master_frontend.layout.view.CustomTitleTextView
-        android:id="@+id/event_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:gravity="center_horizontal"
-        android:textColor="@color/app_font"
-        android:textStyle="bold"/>
-
     <RelativeLayout
         android:id="@+id/event_image_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/event_name"
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/shape_post_background"
-        android:padding="16dp"
-        android:visibility="gone">
-
+        android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/event_image"
             android:layout_width="match_parent"
-            android:layout_height="180dp"/>
-
+            android:layout_height="wrap_content"
+            android:src="@drawable/russvatnet"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            />
     </RelativeLayout>
 
     <RelativeLayout
@@ -37,9 +25,20 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/event_image_container"
         android:layout_marginBottom="5dp"
-        android:background="@drawable/shape_post_background"
+        android:background="@drawable/shape_gen_background"
         android:orientation="vertical"
         android:padding="16dp">
+
+        <com.andreasogeirik.master_frontend.layout.view.CustomTitleTextView
+            android:id="@+id/event_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center_horizontal"
+            android:textColor="@color/app_font"
+            android:textStyle="bold"
+            />
 
         <com.andreasogeirik.master_frontend.layout.view.CustomButton
             android:id="@+id/event_attend"
@@ -49,7 +48,9 @@
             android:text="@string/event_read_attend"
             android:textColor="@color/app_font"
             android:visibility="gone"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:layout_below="@+id/event_name"
+            />
 
         <com.andreasogeirik.master_frontend.layout.view.CustomButton
             android:id="@+id/event_unattend"
@@ -263,6 +264,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/event_description_panel"
+            android:layout_marginBottom="20dp"
             >
 
             <ImageView
@@ -283,41 +285,33 @@
                 />
         </RelativeLayout>
 
-    </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/event_participants_panel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/shape_post_background"
-        android:layout_below="@+id/event_info_container"
-        >
-
-        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+        <com.andreasogeirik.master_frontend.layout.view.CustomButton
             android:id="@+id/event_participants"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
+            android:layout_weight=".7"
+            android:background="@color/grey"
             android:textColor="@color/app_font"
             android:textStyle="bold"
-            android:text="@string/event_read_participants"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@+id/event_admin_panel"
             />
 
-    </LinearLayout>
+    </RelativeLayout>
 
-    <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+
+
+    <com.andreasogeirik.master_frontend.layout.view.CustomTitleTextView
         android:id="@+id/posts_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Poster"
         android:gravity="center_horizontal"
-        android:textSize="40dp"
-        android:background="@drawable/shape_post_background"
+        android:background="@drawable/shape_gen_background"
         android:padding="10dp"
         android:layout_marginTop="5dp"
-        android:layout_below="@+id/event_participants_panel"
+        android:layout_below="@+id/event_info_container"
+        android:textStyle="bold"
         />
 
 </RelativeLayout>

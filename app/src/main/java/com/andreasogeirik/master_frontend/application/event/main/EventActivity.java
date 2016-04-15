@@ -87,7 +87,7 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
     private TextView eventDescription;
     private TextView eventAdmin;
 
-    private TextView numberOfParticipants;
+    private Button numberOfParticipants;
 
 
     private EventPresenter presenter;
@@ -243,7 +243,7 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
     public void initGui() {
         headerView = getLayoutInflater().inflate(R.layout.event_list_header, null);
         listView.addHeaderView(headerView);
-        this.numberOfParticipants = (TextView) headerView.findViewById(R.id.event_participants);
+        this.numberOfParticipants = (Button) headerView.findViewById(R.id.event_participants);
         this.attendButton = (Button) headerView.findViewById(R.id.event_attend);
         this.unAttendButton = (Button) headerView.findViewById(R.id.event_unattend);
         this.editButton = (Button) headerView.findViewById(R.id.event_edit);

@@ -2,16 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
     android:layout_width="wrap_content"
-    android:background="@drawable/shape_post_background"
+    android:background="@drawable/shape_gen_background"
     >
     <TextView
         android:id="@+id/future_header"
         android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Kommende"
+        android:text="KOMMENDE"
         android:background="@color/teal"
         android:visibility="gone"
+        android:textStyle="bold"
         />
     <TextView
         android:id="@+id/past_header"

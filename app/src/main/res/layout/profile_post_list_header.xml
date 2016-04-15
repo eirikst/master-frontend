@@ -20,7 +20,7 @@
         android:padding="16dp"
         android:orientation="horizontal"
         android:weightSum="20"
-        android:background="@drawable/shape_post_background"
+        android:background="@drawable/shape_gen_background"
         android:layout_marginBottom="5dp"
         android:layout_below="@+id/name_user"
         >
@@ -65,9 +65,8 @@
         android:text="Posts"
         android:gravity="center_horizontal"
         android:textSize="40dp"
-        android:background="@drawable/shape_post_background"
+        android:background="@drawable/shape_gen_background"
         android:padding="10dp"
-        android:layout_marginTop="5dp"
         android:layout_below="@+id/participating_events_btn"
         />
 </RelativeLayout>
