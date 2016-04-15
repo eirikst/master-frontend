@@ -257,38 +257,41 @@
                 />
         </RelativeLayout>
 
-
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/event_participants_panel"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/event_info_container"
+        android:layout_height="wrap_content"
         android:padding="16dp"
         android:layout_marginBottom="5dp"
-        android:background="@drawable/shape_post_background">
+        android:background="@drawable/shape_post_background"
+        android:layout_below="@+id/event_info_container"
+        >
 
         <com.andreasogeirik.master_frontend.layout.view.CustomTextView
             android:id="@+id/event_participants"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:textColor="@color/app_font"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:text="@string/event_read_participants"
+            />
 
     </LinearLayout>
 
     <com.andreasogeirik.master_frontend.layout.view.CustomTextView
-        android:id="@+id/event_posts_header"
+        android:id="@+id/posts_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Posts"
+        android:text="Poster"
         android:gravity="center_horizontal"
         android:textSize="40dp"
         android:background="@drawable/shape_post_background"
         android:padding="10dp"
         android:layout_marginTop="5dp"
-        android:layout_below="@+id/event_info_container"
+        android:layout_below="@+id/event_participants_panel"
         />
 
 </RelativeLayout>

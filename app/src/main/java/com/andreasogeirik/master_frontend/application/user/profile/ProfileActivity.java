@@ -52,7 +52,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
 
     private ProfilePresenter presenter;
     private ToolbarPresenter toolbarPresenter;
-    private DialogFragment commentFragment;
+    private CommentDialog commentFragment;
 
     //Bind view elements
     @Bind(R.id.post_list)
@@ -164,7 +164,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     * Init post list footer
     */
     private void initFooter() {
-        View footer = getLayoutInflater().inflate(R.layout.profile_post_list_footer, null);
+        View footer = getLayoutInflater().inflate(R.layout.post_list_footer, null);
         listView.addFooterView(footer);
 
         //footer click listener
@@ -413,4 +413,11 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     public void commentFinished() {
         commentFragment.dismiss();
     }
+
+
+    @Override
+    public void commentFinishedWithError() {
+        commentFragment.commentButtonEnable(true);
+    }
+
 }

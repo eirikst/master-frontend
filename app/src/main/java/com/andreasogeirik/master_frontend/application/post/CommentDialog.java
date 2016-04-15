@@ -24,6 +24,7 @@ public class CommentDialog extends DialogFragment {
 
     private Listener callback;
     private Post post;
+    private Button commentBtn;
 
     public static CommentDialog newInstance(Post post) {
         CommentDialog f = new CommentDialog();
@@ -88,7 +89,7 @@ public class CommentDialog extends DialogFragment {
             throw new RuntimeException("Bundle has no data");
         }
 
-        final Button commentBtn = (Button)v.findViewById(R.id.comment_btn);
+        commentBtn = (Button)v.findViewById(R.id.comment_btn);
         final EditText commentMsg = (EditText)v.findViewById(R.id.comment_message);
 
         commentBtn.setOnClickListener(new View.OnClickListener() {
@@ -96,10 +97,15 @@ public class CommentDialog extends DialogFragment {
             public void onClick(View v) {
                 if(commentMsg.getText().toString() != null && !commentMsg.getText().toString().isEmpty()) {
                     callback.comment(post, commentMsg.getText().toString());
+                    commentButtonEnable(false);
                 }
             }
         });
 
         return v;
+    }
+
+    public void commentButtonEnable(boolean enabled) {
+        commentBtn.setEnabled(enabled);
     }
 }

@@ -28,9 +28,10 @@ public interface EventView {
     void navigateToParticipants(Set<User> users);
     void navigateToEditEvent(Event event);
     void navigateToMain();
-    void addPosts(Collection<Post> posts);
+    void addPosts(Collection<Post> posts, boolean lastPosts);
     void updatePostLike(int id, boolean like);
     void updateCommentLike(int id, boolean like);
     void addComment(Post post, Comment comment);
-    void commentFinished();
+    void commentFinishedSuccessfully();
+    void commentFinishedWithError();
 }

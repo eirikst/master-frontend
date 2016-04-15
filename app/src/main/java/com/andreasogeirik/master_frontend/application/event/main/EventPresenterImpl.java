@@ -54,8 +54,14 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
 
     @Override
     public void successPostsLoad(Set<Post> posts) {
+        boolean lastPosts = false;
+
+        if(posts.size() < Constants.NUMBER_OF_POSTS_RETURNED) {
+            lastPosts = true;
+        }
+
         event.getPosts().addAll(posts);
-        eventView.addPosts(posts);
+        eventView.addPosts(posts, lastPosts);
     }
 
     @Override
@@ -240,12 +246,13 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
             }
         }
         eventView.addComment(post, comment);
-        eventView.commentFinished();
+        eventView.commentFinishedSuccessfully();
     }
 
     @Override
     public void onFailureComment(int code) {
         eventView.showErrorMessage("En feil skjedde. Prøv igjen");
+        eventView.commentFinishedWithError();
     }
 
 

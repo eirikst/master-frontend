@@ -266,5 +266,6 @@ PostListInteractorImpl.Listener {
     @Override
     public void onFailureComment(int code) {
         view.displayMessage("En feil skjedde. Prøv igjen");
+        view.commentFinishedWithError();
     }
 }

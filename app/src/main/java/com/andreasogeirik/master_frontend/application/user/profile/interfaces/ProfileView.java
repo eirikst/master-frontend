@@ -24,6 +24,7 @@ public interface ProfileView {
 
     void addComment(Post post, Comment comment);
     void commentFinished();
+    void commentFinishedWithError();
 
     void displayMessage(String message);
     void setEventButtonText(String text);

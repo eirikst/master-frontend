@@ -47,7 +47,7 @@ import butterknife.OnClick;
 public class EventActivity extends AppCompatActivity implements EventView, OnClickListener,
         PostListAdapter.PostListCallback, CommentDialog.Listener {
 
-    private DialogFragment commentFragment;
+    private CommentDialog commentFragment;
 
     // Containers
     @Bind(R.id.event_progress)
@@ -55,6 +55,8 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
 
     @Bind(R.id.event_list_view)
     ListView listView;
+
+    private Button loadPostsButton;
 
     private ImageView imageView;
 
@@ -265,6 +267,16 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
 
         adapter = new PostListAdapter(this, new ArrayList<Post>(), this);
         listView.setAdapter(adapter);
+
+        loadPostsButton = (Button)getLayoutInflater().inflate(R.layout.post_list_footer, null);
+        listView.addFooterView(loadPostsButton);
+
+        loadPostsButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.findPosts();
+            }
+        });
     }
 
     @Override
@@ -357,8 +369,11 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
     }
 
     @Override
-    public void addPosts(Collection<Post> posts) {
+    public void addPosts(Collection<Post> posts, boolean lastPosts) {
         adapter.addPosts(posts);
+        if(lastPosts) {
+            loadPostsButton.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -416,13 +431,18 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
     }
 
     @Override
-    public void commentFinished() {
+    public void commentFinishedSuccessfully() {
         commentFragment.dismiss();
     }
 
+    @Override
+    public void commentFinishedWithError() {
+        commentFragment.commentButtonEnable(true);
+    }
+
     /*
-     * CommentDialog
-     */
+         * CommentDialog
+         */
     @Override
     public void comment(Post post, String message) {
         presenter.comment(post, message);
