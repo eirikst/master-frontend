@@ -29,6 +29,8 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.xml.transform.Transformer;
+
 /**
  * Created by eirikstadheim on 05/02/16.
  */
@@ -46,6 +48,7 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
 
     private Comparator comparator;
     private PostListCallback callback;
+    private CircleTransform circleTransform = new CircleTransform();
 
 
     public PostListAdapter(Context context, List<Post> posts, PostListCallback callback) {
@@ -148,7 +151,6 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
         }
 
         name.setText(post.getWriter().getFirstname() + " " + post.getWriter().getLastname());
-        name.append("" + post.getId());
         message.setText(post.getMessage());
         dateCreated.setText(DateUtility.formatFull(post.getCreated()));
         if(post.getComments().size() == 1) {
@@ -198,13 +200,13 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
         ImageView image = (ImageView)convertView.findViewById(R.id.comment_image);
 
 
-        if(comment.getWriter().getImageUri() != null && !comment.getWriter().getImageUri().isEmpty()) {
+        if(comment.getWriter().getThumbUri() != null && !comment.getWriter().getThumbUri().isEmpty()) {
             Picasso.with(getContext())
-                    .load(comment.getWriter().getImageUri())
+                    .load(comment.getWriter().getThumbUri())
                     .error(R.drawable.default_profile)
                     .resize(Constants.LIST_IMAGE_WIDTH, Constants.LIST_IMAGE_HEIGHT)
                     .centerCrop()
-                    .transform(new CircleTransform())
+                    .transform(circleTransform)
                     .into(image);
         }
         else {
@@ -212,7 +214,7 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
                     .load(R.drawable.default_profile)
                     .resize(Constants.LIST_IMAGE_WIDTH, Constants.LIST_IMAGE_HEIGHT)
                     .centerCrop()
-                    .transform(new CircleTransform())
+                    .transform(circleTransform)
                     .into(image);
         }
 
@@ -235,7 +237,6 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
 
         // Populate the data using the posts
         name.setText(comment.getWriter().getFirstname() + " " + comment.getWriter().getLastname());
-        name.append(""+ comment.getId());
         message.setText(comment.getMessage());
         dateCreated.setText(DateUtility.formatFull(comment.getTimeCreated()));
         nrOfLikes.setText(comment.getLikers().size() + " liker");

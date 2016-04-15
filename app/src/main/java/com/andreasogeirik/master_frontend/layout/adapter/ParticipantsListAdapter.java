@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.layout.transformation.CircleTransform;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.squareup.picasso.Picasso;
@@ -27,6 +28,7 @@ public class ParticipantsListAdapter extends ArrayAdapter<User> {
     private Context context;
     private List<User> participants;
     private Map<String, Bitmap> profileImages;
+    private CircleTransform circleTransform = new CircleTransform();
 
     public ParticipantsListAdapter(Context context, List<User> participants) {
         super(context, 0, participants);
@@ -53,12 +55,13 @@ public class ParticipantsListAdapter extends ArrayAdapter<User> {
         // Populate profile image
 
         //add image
-        if(user.getImageUri() != null && !user.getImageUri().isEmpty()) {
+        if(user.getThumbUri() != null && !user.getThumbUri().isEmpty()) {
             Picasso.with(context)
-                    .load(user.getImageUri())
+                    .load(user.getThumbUri())
                     .error(R.drawable.default_profile)
                     .resize(Constants.LIST_IMAGE_WIDTH, Constants.LIST_IMAGE_HEIGHT)
                     .centerCrop()
+                    .transform(circleTransform)
                     .into(image);
         }
         else {
@@ -66,6 +69,7 @@ public class ParticipantsListAdapter extends ArrayAdapter<User> {
                     .load(R.drawable.default_profile)
                     .resize(Constants.LIST_IMAGE_WIDTH, Constants.LIST_IMAGE_HEIGHT)
                     .centerCrop()
+                    .transform(circleTransform)
                     .into(image);
         }
 

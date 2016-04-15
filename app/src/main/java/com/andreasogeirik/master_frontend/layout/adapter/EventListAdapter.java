@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.layout.transformation.CircleTransform;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
@@ -31,6 +32,8 @@ public class EventListAdapter extends ArrayAdapter<Event> {
     private User user;
     private Context context;
     private Comparator<Event> comparator;
+    private CircleTransform circleTransform = new CircleTransform();
+
 
     public EventListAdapter(Context context) {
         super(context, 0);
@@ -44,7 +47,7 @@ public class EventListAdapter extends ArrayAdapter<Event> {
             Calendar cal = new GregorianCalendar();
             @Override
             public int compare(Event lhs, Event rhs) {
-                if(lhs.getStartDate().equals(rhs.getStartDate())) {
+                if(DateUtility.equals(lhs.getStartDate(), rhs.getStartDate())) {
                     if(lhs.getId() < rhs.getId()) {
                         return 1;
                     }
@@ -208,12 +211,13 @@ public class EventListAdapter extends ArrayAdapter<Event> {
         ImageView image = (ImageView)convertView.findViewById(R.id.event_image);
 
         //load image
-        if(event.getImageUri() != null && !event.getImageUri().isEmpty()) {
+        if(event.getThumbUri() != null && !event.getThumbUri().isEmpty()) {
             Picasso.with(context)
-                    .load(event.getImageUri())
+                    .load(event.getThumbUri())
                     .error(R.drawable.default_event)
                     .resize(Constants.LIST_IMAGE_WIDTH, Constants.LIST_IMAGE_HEIGHT)
                     .centerCrop()
+                    .transform(circleTransform)
                     .into(image);
         }
         else {
@@ -221,6 +225,7 @@ public class EventListAdapter extends ArrayAdapter<Event> {
                     .load(R.drawable.default_event)
                     .resize(Constants.LIST_IMAGE_WIDTH, Constants.LIST_IMAGE_HEIGHT)
                     .centerCrop()
+                    .transform(circleTransform)
                     .into(image);
         }
 

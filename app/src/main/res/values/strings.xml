@@ -46,6 +46,7 @@
     <string name="event_read_end">"SLUTT: "</string>
     <string name="event_read_location">"STED: "</string>
     <string name="event_read_description">"BESKRIVELSE: "</string>
+    <string name="event_read_admin">"ADMIN: "</string>
     <string name="event_read_participants">DELTAKERE</string>
     <string name="event_read_difficulty">INTENSITET:</string>
 

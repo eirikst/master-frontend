@@ -237,6 +237,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/event_difficulty_panel"
+            android:layout_marginBottom="20dp"
             >
 
             <ImageView
@@ -254,6 +255,31 @@
                 android:textColor="@color/app_font"
                 android:text="@string/event_read_description"
                 android:layout_toRightOf="@+id/event_description_symbol"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/event_admin_panel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/event_description_panel"
+            >
+
+            <ImageView
+                android:id="@+id/event_admin_symbol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_person_black_24dp"
+                android:layout_gravity="top"
+                android:layout_marginRight="10dp"
+                />
+            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+                android:id="@+id/event_admin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/app_font"
+                android:text="@string/event_read_admin"
+                android:layout_toRightOf="@+id/event_admin_symbol"
                 />
         </RelativeLayout>
 

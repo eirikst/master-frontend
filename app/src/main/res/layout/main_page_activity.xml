@@ -37,7 +37,7 @@
                     android:id="@+id/notification_img"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/ic_person_black_24dp"
+                    android:src="@drawable/ic_people_black_24dp"
                     android:foregroundGravity="center"
                     />
 

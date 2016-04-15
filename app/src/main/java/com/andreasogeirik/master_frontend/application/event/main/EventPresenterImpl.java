@@ -124,7 +124,7 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
         }
 
 
-        this.eventView.setEventAttributes(event.getName(), event.getLocation(), event.getDescription(), DateUtility.formatFull(this.event.getStartDate().getTime()),
+        this.eventView.setEventAttributes(event.getName(), event.getLocation(), event.getDescription(), event.getAdmin().getFirstname() + " " + event.getAdmin().getLastname(), DateUtility.formatFull(this.event.getStartDate().getTime()),
                 participants);
         if (this.event.getEndDate() != null) {
             this.eventView.updateEndTime(DateUtility.formatFull(this.event.getEndDate().getTime()));

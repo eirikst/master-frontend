@@ -85,6 +85,7 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
     private TextView endTime;
     private TextView eventLocation;
     private TextView eventDescription;
+    private TextView eventAdmin;
 
     private TextView numberOfParticipants;
 
@@ -136,7 +137,7 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
     }
 
     @Override
-    public void setEventAttributes(String name, String location, String description, String startTime, String participants) {
+    public void setEventAttributes(String name, String location, String description, String admin, String startTime, String participants) {
 
         this.unAttendButton.setVisibility(View.GONE);
         this.attendButton.setVisibility(View.GONE);
@@ -144,6 +145,7 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
         this.eventName.setText(name);
         this.eventLocation.append(location);
         this.eventDescription.append(description);
+        this.eventAdmin.append(admin);
         this.startTime.append(startTime);
 
         this.numberOfParticipants.setText(participants);
@@ -260,6 +262,7 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
         this.endTimePanel = headerView.findViewById(R.id.event_end_time_panel);
         this.eventLocation = (TextView) headerView.findViewById(R.id.event_location);
         this.eventDescription = (TextView) headerView.findViewById(R.id.event_description);
+        this.eventAdmin = (TextView) headerView.findViewById(R.id.event_admin);
 
         this.easyDiff = headerView.findViewById(R.id.difficulty_easy);
         this.mediumDiff = headerView.findViewById(R.id.difficulty_medium);

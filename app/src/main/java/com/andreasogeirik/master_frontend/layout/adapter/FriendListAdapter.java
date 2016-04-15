@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.layout.transformation.CircleTransform;
 import com.andreasogeirik.master_frontend.model.Friendship;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.squareup.picasso.Picasso;
@@ -26,6 +27,7 @@ public class FriendListAdapter extends ArrayAdapter<Friendship> {
 
     private Context context;
     private List<Friendship> friends;
+    private CircleTransform circleTransform = new CircleTransform();
 
     public FriendListAdapter(Context context, List<Friendship> friends) {
         super(context, 0, friends);
@@ -49,12 +51,13 @@ public class FriendListAdapter extends ArrayAdapter<Friendship> {
 
 
         //load image
-        if(friendship.getFriend().getImageUri() != null && !friendship.getFriend().getImageUri().isEmpty()) {
+        if(friendship.getFriend().getThumbUri() != null && !friendship.getFriend().getThumbUri().isEmpty()) {
             Picasso.with(context)
-                    .load(friendship.getFriend().getImageUri())
+                    .load(friendship.getFriend().getThumbUri())
                     .error(R.drawable.default_profile)
                     .resize(Constants.LIST_IMAGE_WIDTH, Constants.LIST_IMAGE_HEIGHT)
                     .centerCrop()
+                    .transform(circleTransform)
                     .into(image);
         }
         else {
@@ -62,6 +65,7 @@ public class FriendListAdapter extends ArrayAdapter<Friendship> {
                     .load(R.drawable.default_profile)
                     .resize(Constants.LIST_IMAGE_WIDTH, Constants.LIST_IMAGE_HEIGHT)
                     .centerCrop()
+                    .transform(circleTransform)
                     .into(image);
         }
 

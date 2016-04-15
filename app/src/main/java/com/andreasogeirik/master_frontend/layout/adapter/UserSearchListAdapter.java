@@ -50,9 +50,9 @@ public class UserSearchListAdapter extends ArrayAdapter<User> {
 
 
         //load image
-        if(user.getImageUri() != null && !user.getImageUri().isEmpty()) {
+        if(user.getThumbUri() != null && !user.getThumbUri().isEmpty()) {
             Picasso.with(context)
-                    .load(user.getImageUri())
+                    .load(user.getThumbUri())
                     .error(R.drawable.default_profile)
                     .resize(Constants.LIST_IMAGE_WIDTH, Constants.LIST_IMAGE_HEIGHT)
                     .centerCrop()
