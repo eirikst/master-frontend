@@ -1,7 +1,6 @@
 package com.andreasogeirik.master_frontend.application.user.profile;
 
 import android.content.Intent;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +23,7 @@ import com.andreasogeirik.master_frontend.application.general.ToolbarPresenterIm
 import com.andreasogeirik.master_frontend.application.general.interfaces.ToolbarPresenter;
 import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
 import com.andreasogeirik.master_frontend.application.post.CommentDialog;
+import com.andreasogeirik.master_frontend.application.post.PostDialog;
 import com.andreasogeirik.master_frontend.application.user.profile.fragments.FriendProfileHeader;
 import com.andreasogeirik.master_frontend.application.user.profile.fragments.MyProfileHeader;
 import com.andreasogeirik.master_frontend.layout.adapter.PostListAdapter;
@@ -47,12 +47,13 @@ import butterknife.ButterKnife;
  */
 public class ProfileActivity extends AppCompatActivity implements ProfileView,
         AdapterView.OnItemClickListener, MyProfileHeaderListener, PostListAdapter.PostListCallback,
-        CommentDialog.Listener {
+        CommentDialog.Listener, PostDialog.Listener {
     private String tag = getClass().getSimpleName();
 
     private ProfilePresenter presenter;
     private ToolbarPresenter toolbarPresenter;
     private CommentDialog commentFragment;
+    private PostDialog postDialog;
 
     //Bind view elements
     @Bind(R.id.post_list)
@@ -65,8 +66,10 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     private View headerView;
     private Button footerBtn;
     private TextView nameUserText;
+    private TextView locationUser;
     private Button eventButton;
     private ImageView imageView;
+    private Button newPostBtn;
 
     private static int EDIT_EVENT_REQUEST = 1;
 
@@ -119,7 +122,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     @Override
     public void initUser(User user, boolean me) {
         initListView(user);
-        initHeader(user.getFirstname() + " " + user.getLastname(), user.getFriends().size(), me);
+        initHeader(user.getId(), user.getFirstname() + " " + user.getLastname(), user.getLocation(), user.getFriends().size(), me);
     }
 
     @Override
@@ -180,12 +183,16 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     /*
      * Init post list header
      */
-    private void initHeader(String name, int nrOfFriends, boolean myProfile) {
+    private void initHeader(int id, String name, String location,  int nrOfFriends, boolean myProfile) {
         //inflate header
         headerView = getLayoutInflater().inflate(R.layout.profile_post_list_header, null);
         listView.addHeaderView(headerView);
         nameUserText = (TextView) headerView.findViewById(R.id.name_user);
         nameUserText.setText(name);
+
+        locationUser = (TextView) headerView.findViewById(R.id.location_user);
+        locationUser.setText(location);
+
         imageView = (ImageView) headerView.findViewById(R.id.my_profile_image);
 
 
@@ -205,6 +212,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
         //else set FriendProfileHeader fragment
         else {
             initFriendHeader(nrOfFriends);
+
         }
     }
 
@@ -217,6 +225,29 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
         myProfileHeaderFragment = MyProfileHeader.newInstance(nrOfFriends);
         getSupportFragmentManager().beginTransaction().add(fragmentContainer.getId(),
                 myProfileHeaderFragment, "").commit();
+
+        newPostBtn = (Button)headerView.findViewById(R.id.new_post_user);
+        newPostBtn.setVisibility(View.VISIBLE);
+        newPostBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // DialogFragment.show() will take care of adding the fragment
+                // in a transaction.  We also want to remove any currently showing
+                // dialog, so make our own transaction and take care of that here.
+                android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager()
+                        .beginTransaction();
+                Fragment prev = getSupportFragmentManager().findFragmentByTag("postDialog");
+                if (prev != null) {
+                    ft.remove(prev);
+                }
+                ft.addToBackStack(null);
+
+                // Create and show the dialog.
+                postDialog = PostDialog.newInstance();
+                postDialog.show(ft, "postDialog");
+            }
+        });
+
     }
 
     /*
@@ -386,11 +417,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     }
 
     @Override
-    public void displayError(String errorMessage) {
-        Toast.makeText(ProfileActivity.this, errorMessage, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
     public void onBackPressed() {
 
         Intent i = getIntent();
@@ -409,6 +435,10 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
         postListAdapter.addComment(post, comment);
     }
 
+     /*
+      * PostDialog
+      */
+
     @Override
     public void commentFinished() {
         commentFragment.dismiss();
@@ -419,5 +449,24 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     public void commentFinishedWithError() {
         commentFragment.commentButtonEnable(true);
     }
+
+    @Override
+    public void post(String msg) {
+        presenter.post(msg);
+    }
+
+    /*
+     * PostDialog
+    */
+    @Override
+    public void postFinishedSuccessfully() {
+        postDialog.dismiss();
+    }
+
+    @Override
+    public void postFinishedWithError() {
+        postDialog.postButtonEnable(true);
+    }
+
 
 }

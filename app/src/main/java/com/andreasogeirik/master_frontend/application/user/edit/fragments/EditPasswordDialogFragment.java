@@ -56,13 +56,6 @@ public class EditPasswordDialogFragment extends DialogFragment implements EditPa
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        Dialog dialog = getDialog();
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.password_dialog_fragment, container, false);
         this.presenter = new EditPasswordPresenterImpl(this);

@@ -7,4 +7,5 @@ public interface EventInteractor {
     void attendEvent(int eventId);
     void unAttendEvent(int eventId);
     void deleteEvent(int eventId);
+    void post(int eventId, String message);
 }

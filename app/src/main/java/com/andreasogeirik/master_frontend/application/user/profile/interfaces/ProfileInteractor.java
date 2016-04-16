@@ -13,4 +13,6 @@ public interface ProfileInteractor {
     void findFriends(int userId);
 
     void findAttendingEvents(User user);
+
+    void post(int userId, String message);
 }

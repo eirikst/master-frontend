@@ -1,12 +1,18 @@
 package com.andreasogeirik.master_frontend.application.event.main;
 
+import android.util.Log;
+
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventInteractor;
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventPresenter;
 import com.andreasogeirik.master_frontend.communication.AttendEventTask;
 import com.andreasogeirik.master_frontend.communication.DeleteEventTask;
+import com.andreasogeirik.master_frontend.communication.PostTask;
+import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.listener.OnAttendEventFinishedListener;
 import com.andreasogeirik.master_frontend.listener.OnDeleteEventFinishedListener;
 import com.andreasogeirik.master_frontend.model.Event;
+import com.andreasogeirik.master_frontend.model.Post;
+import com.andreasogeirik.master_frontend.util.Constants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,7 +23,7 @@ import org.json.JSONObject;
  * Created by Andreas on 10.02.2016.
  */
 public class EventInteractorImpl implements EventInteractor, OnAttendEventFinishedListener,
-        OnDeleteEventFinishedListener {
+        OnDeleteEventFinishedListener, PostTask.OnFinishedPostingListener {
     private String tag = getClass().getSimpleName();
 
     private EventPresenter presenter;
@@ -39,6 +45,11 @@ public class EventInteractorImpl implements EventInteractor, OnAttendEventFinish
     @Override
     public void deleteEvent(int eventId) {
         new DeleteEventTask(eventId, this).execute();
+    }
+
+    @Override
+    public void post(int eventId, String message) {
+        new PostTask(this, message, eventId, PostTask.EVENT).execute();
     }
 
     @Override
@@ -66,5 +77,20 @@ public class EventInteractorImpl implements EventInteractor, OnAttendEventFinish
         this.presenter.deleteError(error);
     }
 
+    @Override
+    public void onSuccessPost(JSONObject jsonPost) {
+        try {
+            Post post = new Post(jsonPost);
+            presenter.postSuccess(post);
+        }
+        catch(JSONException e) {
+            e.printStackTrace();
+            presenter.postFailure(Constants.JSON_PARSE_ERROR);
+        }
+    }
 
+    @Override
+    public void onFailurePost(int code) {
+        presenter.postFailure(code);
+    }
 }

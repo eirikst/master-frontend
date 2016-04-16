@@ -45,4 +45,8 @@ public interface ProfilePresenter {
     void failureAttendingEvents(int code);
 
     void accessEvents();
+
+    void post(String message);
+    void postSuccess(Post post);
+    void postFailure(int code);
 }

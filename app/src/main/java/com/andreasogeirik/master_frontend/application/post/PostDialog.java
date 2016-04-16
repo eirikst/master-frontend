@@ -10,30 +10,21 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
-import com.andreasogeirik.master_frontend.model.Post;
 
-import java.util.HashSet;
+import java.io.Serializable;
 
-public class CommentDialog extends DialogFragment {
+public class PostDialog extends DialogFragment {
     public interface Listener {
-        void comment(Post post, String message);
+        void post(String msg);
     }
 
     private Listener callback;
-    private Post post;
-    private Button commentBtn;
+    private Button postBtn;
 
-    public static CommentDialog newInstance(Post post) {
-        CommentDialog f = new CommentDialog();
-
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("post", post);
-        f.setArguments(bundle);
-
-        return f;
+    public static PostDialog newInstance() {
+        return new PostDialog();
     }
 
     @Override
@@ -44,7 +35,7 @@ public class CommentDialog extends DialogFragment {
             callback = (Listener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement CommentDialog.Listener");
+                    + " must implement PostDialog.Listener");
         }
     }
 
@@ -69,35 +60,22 @@ public class CommentDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.comment_dialog_fragment, container, false);
+        View v = inflater.inflate(R.layout.post_dialog_fragment, container, false);
 
         Dialog dialog = getDialog();
         if(dialog != null) {
             dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         }
 
-        Bundle bundle = this.getArguments();
-        if(bundle != null) {
-            try {
-                post = (Post) bundle.getSerializable("post");
-            }
-            catch(ClassCastException e) {
-                throw new ClassCastException("Bundle should contain a post");
-            }
-        }
-        else {
-            throw new RuntimeException("Bundle has no data");
-        }
+        postBtn = (Button)v.findViewById(R.id.post_btn);
+        final EditText postMsg = (EditText)v.findViewById(R.id.post_message);
 
-        commentBtn = (Button)v.findViewById(R.id.comment_btn);
-        final EditText commentMsg = (EditText)v.findViewById(R.id.comment_message);
-
-        commentBtn.setOnClickListener(new View.OnClickListener() {
+        postBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(commentMsg.getText().toString() != null && !commentMsg.getText().toString().isEmpty()) {
-                    callback.comment(post, commentMsg.getText().toString());
-                    commentButtonEnable(false);
+                if (postMsg.getText().toString() != null && !postMsg.getText().toString().isEmpty()) {
+                    callback.post(postMsg.getText().toString());
+                    postButtonEnable(false);
                 }
             }
         });
@@ -105,7 +83,7 @@ public class CommentDialog extends DialogFragment {
         return v;
     }
 
-    public void commentButtonEnable(boolean enabled) {
-        commentBtn.setEnabled(enabled);
+    public void postButtonEnable(boolean enabled) {
+        postBtn.setEnabled(enabled);
     }
 }

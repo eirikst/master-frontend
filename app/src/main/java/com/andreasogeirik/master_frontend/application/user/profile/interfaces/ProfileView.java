@@ -28,5 +28,8 @@ public interface ProfileView {
 
     void displayMessage(String message);
     void setEventButtonText(String text);
-    void displayError(String errorMessage);
+
+    void postFinishedSuccessfully();
+    void postFinishedWithError();
+
 }

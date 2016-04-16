@@ -33,12 +33,14 @@ public class Post implements Serializable {
         imageUri = post.getString("imageUri");
         created = new Date(post.getLong("timeCreated"));
 
-
-        JSONArray jsonComments = post.getJSONArray("comments");
-        JSONArray jsonLikers = post.getJSONArray("likers");
-
-        setComments(jsonComments);
-        setLikers(jsonLikers);
+        if(!post.isNull("comments")) {
+            JSONArray jsonComments = post.getJSONArray("comments");
+            setComments(jsonComments);
+        }
+        if(!post.isNull("likers")) {
+            JSONArray jsonLikers = post.getJSONArray("likers");
+            setLikers(jsonLikers);
+        }
     }
 
     private void setComments(JSONArray jsonComments) throws JSONException {

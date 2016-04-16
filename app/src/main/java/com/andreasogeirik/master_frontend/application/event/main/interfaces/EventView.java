@@ -24,7 +24,7 @@ public interface EventView {
     void hideProgress();
     void setDifficultyView(int difficulty);
     void setImage(String imageUri);
-    void initGui();
+    void initGui(Event event);
     void navigateToParticipants(Set<User> users);
     void navigateToEditEvent(Event event);
     void navigateToMain();
@@ -34,4 +34,6 @@ public interface EventView {
     void addComment(Post post, Comment comment);
     void commentFinishedSuccessfully();
     void commentFinishedWithError();
+    void postFinishedSuccessfully();
+    void postFinishedWithError();
 }

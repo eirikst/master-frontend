@@ -26,6 +26,7 @@ import com.andreasogeirik.master_frontend.application.event.main.interfaces.Even
 import com.andreasogeirik.master_frontend.application.event.main.participants.ParticipantsActivity;
 import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
 import com.andreasogeirik.master_frontend.application.post.CommentDialog;
+import com.andreasogeirik.master_frontend.application.post.PostDialog;
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
 import com.andreasogeirik.master_frontend.layout.adapter.PostListAdapter;
 import com.andreasogeirik.master_frontend.model.Comment;
@@ -35,6 +36,7 @@ import com.andreasogeirik.master_frontend.model.Post;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -45,9 +47,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class EventActivity extends AppCompatActivity implements EventView, OnClickListener,
-        PostListAdapter.PostListCallback, CommentDialog.Listener {
+        PostListAdapter.PostListCallback, CommentDialog.Listener, PostDialog.Listener {
 
     private CommentDialog commentFragment;
+    private PostDialog postDialog;
 
     // Containers
     @Bind(R.id.event_progress)
@@ -86,6 +89,8 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
     private TextView eventLocation;
     private TextView eventDescription;
     private TextView eventAdmin;
+
+    private Button newPostBtn;
 
     private Button numberOfParticipants;
 
@@ -240,7 +245,7 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
     }
 
     @Override
-    public void initGui() {
+    public void initGui(final Event event) {
         headerView = getLayoutInflater().inflate(R.layout.event_list_header, null);
         listView.addHeaderView(headerView);
         this.numberOfParticipants = (Button) headerView.findViewById(R.id.event_participants);
@@ -268,6 +273,8 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
         this.mediumDiff = headerView.findViewById(R.id.difficulty_medium);
         this.hardDiff = headerView.findViewById(R.id.difficulty_hard);
 
+        newPostBtn = (Button)headerView.findViewById(R.id.new_post_event);
+
         adapter = new PostListAdapter(this, new ArrayList<Post>(), this);
         listView.setAdapter(adapter);
 
@@ -278,6 +285,26 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
             @Override
             public void onClick(View v) {
                 presenter.findPosts();
+            }
+        });
+
+        newPostBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // DialogFragment.show() will take care of adding the fragment
+                // in a transaction.  We also want to remove any currently showing
+                // dialog, so make our own transaction and take care of that here.
+                android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager()
+                        .beginTransaction();
+                Fragment prev = getSupportFragmentManager().findFragmentByTag("postDialog");
+                if (prev != null) {
+                    ft.remove(prev);
+                }
+                ft.addToBackStack(null);
+
+                // Create and show the dialog.
+                postDialog = PostDialog.newInstance();
+                postDialog.show(ft, "postDialog");
             }
         });
     }
@@ -444,10 +471,29 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
     }
 
     /*
-         * CommentDialog
-         */
+     * CommentDialog
+    */
     @Override
     public void comment(Post post, String message) {
         presenter.comment(post, message);
     }
+
+    @Override
+    public void post(String msg) {
+        presenter.post(msg);
+    }
+
+    /*
+     * PostDialog
+    */
+    @Override
+    public void postFinishedSuccessfully() {
+        postDialog.dismiss();
+    }
+
+    @Override
+    public void postFinishedWithError() {
+        postDialog.postButtonEnable(true);
+    }
+
 }

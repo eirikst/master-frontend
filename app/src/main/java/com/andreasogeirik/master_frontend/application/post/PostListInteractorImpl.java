@@ -24,7 +24,7 @@ import java.util.Set;
 /**
  * Created by eirikstadheim on 13/04/16.
  */
-public class PostListInteractorImpl implements PostInteractor, LikeTask.OnFinishedLikingListener
+public class PostListInteractorImpl implements PostListInteractor, LikeTask.OnFinishedLikingListener
 , OnFinishedLoadingPostsListener, CommentTask.OnFinishedCommentingListener {
     public interface Listener {
         void successPostsLoad(Set<Post> posts);

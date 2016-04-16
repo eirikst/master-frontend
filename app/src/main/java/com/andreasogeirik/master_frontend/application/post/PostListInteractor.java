@@ -7,7 +7,7 @@ import com.andreasogeirik.master_frontend.model.User;
 /**
  * Created by eirikstadheim on 13/04/16.
  */
-public interface PostInteractor {
+public interface PostListInteractor {
     void findPosts(User user, int start);
     void findPosts(Event event, int start);
 

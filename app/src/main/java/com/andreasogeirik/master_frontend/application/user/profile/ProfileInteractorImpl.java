@@ -9,6 +9,7 @@ import com.andreasogeirik.master_frontend.communication.GetAttendingEventsTask;
 import com.andreasogeirik.master_frontend.communication.GetFriendsTask;
 import com.andreasogeirik.master_frontend.communication.GetPostsTask;
 import com.andreasogeirik.master_frontend.communication.GetUserTask;
+import com.andreasogeirik.master_frontend.communication.PostTask;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingFriendshipsListener;
 import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingPostsListener;
@@ -32,7 +33,7 @@ import java.util.Set;
  */
 public class ProfileInteractorImpl implements ProfileInteractor, OnFinishedLoadingPostsListener,
         OnFinishedLoadingFriendshipsListener, GetAttendingEventsTask.OnFinishedLoadingAttendingEventsListener,
-        OnFinishedLoadingUserListener
+        OnFinishedLoadingUserListener, PostTask.OnFinishedPostingListener
 
 {
     private String tag = getClass().getSimpleName();
@@ -150,5 +151,27 @@ public class ProfileInteractorImpl implements ProfileInteractor, OnFinishedLoadi
     @Override
     public void onFailureAttendingEvents(int code) {
         presenter.failureAttendingEvents(code);
+    }
+
+    @Override
+    public void post(int userId, String message) {
+        new PostTask(this, message, userId, PostTask.USER).execute();
+    }
+
+    @Override
+    public void onSuccessPost(JSONObject jsonPost) {
+        try {
+            Post post = new Post(jsonPost);
+            presenter.postSuccess(post);
+        }
+        catch(JSONException e) {
+            e.printStackTrace();
+            presenter.postFailure(Constants.JSON_PARSE_ERROR);
+        }
+    }
+
+    @Override
+    public void onFailurePost(int code) {
+        presenter.postFailure(code);
     }
 }

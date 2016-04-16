@@ -28,9 +28,8 @@
             android:layout_gravity="center"
             android:text="@string/profile"
             android:textColor="@color/app_font"
-            android:textStyle="bold" />
-
-
+            android:textStyle="bold"
+            />
     </android.support.v7.widget.Toolbar>
 
 
@@ -39,11 +38,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
         android:divider="@android:color/transparent"
         android:dividerHeight="10dp"
         android:layout_below="@id/toolbar"
+        android:background="#FFFFFF"
         />
 </RelativeLayout>

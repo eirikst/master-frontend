@@ -9,6 +9,7 @@ import com.andreasogeirik.master_frontend.model.Post;
  */
 public interface EventPresenter {
     void findPosts();
+    void post(String msg);
 
     void comment(Post post, String message);
 
@@ -29,4 +30,7 @@ public interface EventPresenter {
     void deleteEvent();
     void deleteSuccess();
     void deleteError(int error);
+
+    void postSuccess(Post post);
+    void postFailure(int code);
 }

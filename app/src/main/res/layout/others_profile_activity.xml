@@ -4,7 +4,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    >
 
 
     <android.support.v7.widget.Toolbar
@@ -37,14 +39,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
-        >
-        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
-            android:id="@+id/name_user"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:layout_margin="10dp"
-            />
+        android:id="@+id/th">
+
         <LinearLayout
             android:id="@+id/post_list_header"
             android:layout_width="match_parent"
@@ -53,9 +49,7 @@
             android:paddingRight="16dp"
             android:orientation="horizontal"
             android:weightSum="20"
-            android:background="@drawable/shape_gen_background"
             android:layout_marginBottom="5dp"
-            android:layout_below="@id/name_user"
             >
 
             <RelativeLayout
@@ -82,34 +76,142 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 >
-                <com.andreasogeirik.master_frontend.layout.view.CustomTextView
-                    android:id="@+id/are_we_friends_bro"
+
+                <RelativeLayout
+                    android:id="@+id/are_we_friends_panel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Send en venne- forespørsel"
-                    android:layout_margin="10dp"
-                    />
-                <com.andreasogeirik.master_frontend.layout.view.CustomTextView
-                android:id="@+id/are_we_friends_bro2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:layout_margin="10dp"
-                android:layout_below="@+id/are_we_friends_bro"
-                />
+                    android:layout_below="@+id/friend_panel"
+                    android:layout_margin="5dp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/are_we_friends_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_person_add_black_24dp"
+                        android:layout_marginRight="10dp"
+                        />
+
+                    <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+                        android:id="@+id/are_we_friends_bro"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/are_we_friends_image"
+                        android:text="Send en venneforespørsel"
+                        />
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/are_we_friends_panel2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/are_we_friends_panel"
+                    android:layout_margin="5dp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/are_we_friends_image2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_person_black_24dp"
+                        android:layout_marginRight="10dp"
+                        />
+
+                    <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+                        android:id="@+id/are_we_friends_bro2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/are_we_friends_image2"
+                        android:text="Trekk tilbake forespørsel"
+                        />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/are_we_friends_panel3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/are_we_friends_panel2"
+                    android:layout_margin="5dp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/are_we_friends_image3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_person_add_black_24dp"
+                        android:layout_marginRight="10dp"
+                        />
+
+                    <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+                        android:id="@+id/are_we_friends_bro3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/are_we_friends_image3"
+                        android:text="Godta venneforespørsel"
+                        />
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/are_we_friends_panel4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/are_we_friends_panel3"
+                    android:layout_margin="5dp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/are_we_friends_image4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_person_black_24dp"
+                        android:layout_marginRight="10dp"
+                        />
+
+                    <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+                        android:id="@+id/are_we_friends_bro4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/are_we_friends_image4"
+                        android:text="Avslå venneforespørsel"
+                        />
+                </RelativeLayout>
                 </RelativeLayout>
             </RelativeLayout>
 
         </LinearLayout>
 
-        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+        <RelativeLayout
+            android:id="@+id/user_panel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/post_list_header"
+            android:layout_marginLeft="16dp"
+            >
+            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+                android:id="@+id/name_user"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+            <com.andreasogeirik.master_frontend.layout.view.CustomTextViewSmall
+                android:id="@+id/location_user"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/name_user"
+                android:layout_marginBottom="10dp"
+                />
+        </RelativeLayout>
+
+        <com.andreasogeirik.master_frontend.layout.view.CustomTitleTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Bli venner for å se poster"
             android:gravity="center_horizontal"
             android:textSize="40dp"
-            android:layout_below="@+id/post_list_header"
-            android:background="@drawable/shape_gen_background"
+            android:layout_below="@+id/user_panel"
             android:padding="10dp"
             android:layout_marginTop="5dp"
             />

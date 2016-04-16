@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
-import com.andreasogeirik.master_frontend.application.post.PostInteractor;
+import com.andreasogeirik.master_frontend.application.post.PostListInteractor;
 import com.andreasogeirik.master_frontend.application.post.PostListInteractorImpl;
 import com.andreasogeirik.master_frontend.application.user.friend.FriendListActivity;
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfileInteractor;
@@ -21,6 +21,7 @@ import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -30,7 +31,7 @@ public class ProfilePresenterImpl extends GeneralPresenter implements ProfilePre
 PostListInteractorImpl.Listener {
     private ProfileView view;
     private ProfileInteractor interactor;
-    private PostInteractor postInteractor;
+    private PostListInteractor postInteractor;
     boolean thisIsMyProfile;
 
     //model
@@ -268,4 +269,26 @@ PostListInteractorImpl.Listener {
         view.displayMessage("En feil skjedde. Prøv igjen");
         view.commentFinishedWithError();
     }
+
+    @Override
+    public void post(String msg) {
+        interactor.post(user.getId(), msg);
+    }
+
+    @Override
+    public void postSuccess(Post post) {
+        user.getPosts().add(post);
+
+        Set<Post> postsToAdd = new HashSet<>();
+        postsToAdd.add(post);
+        view.addPosts(postsToAdd);
+        view.postFinishedSuccessfully();
+    }
+
+    @Override
+    public void postFailure(int code) {
+        view.displayMessage("En feil skjedde. Prøv igjen.");
+        view.postFinishedWithError();
+    }
+
 }

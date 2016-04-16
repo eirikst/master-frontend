@@ -7,7 +7,7 @@ import com.andreasogeirik.master_frontend.application.event.main.interfaces.Even
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventPresenter;
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventView;
 import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
-import com.andreasogeirik.master_frontend.application.post.PostInteractor;
+import com.andreasogeirik.master_frontend.application.post.PostListInteractor;
 import com.andreasogeirik.master_frontend.application.post.PostListInteractorImpl;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.Comment;
@@ -19,6 +19,7 @@ import com.andreasogeirik.master_frontend.util.DateUtility;
 
 
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.Set;
 
 import static com.andreasogeirik.master_frontend.util.Constants.CLIENT_ERROR;
@@ -33,7 +34,7 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
         PostListInteractorImpl.Listener {
     private EventView eventView;
     private EventInteractor interactor;
-    private PostInteractor postInteractor;
+    private PostListInteractor postInteractor;
     private Event event;
 
 
@@ -50,6 +51,11 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
     @Override
     public void findPosts() {
         postInteractor.findPosts(event, event.getPosts().size());
+    }
+
+    @Override
+    public void post(String msg) {
+        interactor.post(event.getId(), msg);
     }
 
     @Override
@@ -107,7 +113,7 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
 
     @Override
     public void initGui() {
-        this.eventView.initGui();
+        this.eventView.initGui(event);
     }
 
     @Override
@@ -320,5 +326,21 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
     @Override
     public void onFailureCommentUnlike(int id) {
         eventView.showErrorMessage("Error while unliking comment");
+    }
+
+    @Override
+    public void postSuccess(Post post) {
+        event.getPosts().add(post);
+
+        Set<Post> postsToAdd = new HashSet<>();
+        postsToAdd.add(post);
+        eventView.addPosts(postsToAdd, false);
+        eventView.postFinishedSuccessfully();
+    }
+
+    @Override
+    public void postFailure(int code) {
+        eventView.showErrorMessage("En feil skjedde. Prøv igjen.");
+        eventView.postFinishedWithError();
     }
 }
