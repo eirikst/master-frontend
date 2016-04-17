@@ -49,9 +49,9 @@ public class EventListAdapter extends ArrayAdapter<Event> {
             public int compare(Event lhs, Event rhs) {
                 if(DateUtility.equals(lhs.getStartDate(), rhs.getStartDate())) {
                     if(lhs.getId() < rhs.getId()) {
-                        return 1;
+                        return -1;
                     }
-                    return -1;
+                    return 1;
                 }
                 else if(lhs.getStartDate().before(cal) && rhs.getStartDate().before(cal)) {
                     return lhs.compareTo(rhs);

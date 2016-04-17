@@ -63,6 +63,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     @Bind(R.id.home)
     Button homeBtn;
 
+    private TextView noPosts;
     private View headerView;
     private Button footerBtn;
     private TextView nameUserText;
@@ -214,6 +215,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
             initFriendHeader(nrOfFriends);
 
         }
+
+        noPosts = (TextView)headerView.findViewById(R.id.no_posts);
     }
 
     /*
@@ -268,10 +271,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
      */
     @Override
     public void addPosts(Set<Post> posts) {
-        for(Post post: posts) {
-            System.out.println(post);
-        }
-
         if (posts.size() < Constants.NUMBER_OF_POSTS_RETURNED) {
             footerBtn.setText("Ingen flere poster");
             footerBtn.setClickable(false);
@@ -282,7 +281,12 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
         }
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    @Override
+    public void noPostsToShow() {
+        noPosts.setVisibility(View.VISIBLE);
+    }
+
+////////////////////////////////////////////////////////////////////////////////////////////////
     /*
      * Friend list
      */

@@ -14,6 +14,8 @@ public interface ProfileView {
     void initView();
 
     void addPosts(Set<Post> posts);
+    void noPostsToShow();
+
     void setFriendCount(int count);
     void setProfileImage(String imageUri);
 

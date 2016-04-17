@@ -29,6 +29,7 @@ public interface EventView {
     void navigateToEditEvent(Event event);
     void navigateToMain();
     void addPosts(Collection<Post> posts, boolean lastPosts);
+    void noPostsToShow();
     void updatePostLike(int id, boolean like);
     void updateCommentLike(int id, boolean like);
     void addComment(Post post, Comment comment);

@@ -13,9 +13,9 @@
             android:id="@+id/event_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/russvatnet"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
+            android:visibility="gone"
             />
     </RelativeLayout>
 
@@ -206,8 +206,8 @@
 
             <View
                 android:id="@+id/difficulty_easy"
-                android:layout_width="56dp"
-                android:layout_height="18dp"
+                android:layout_width="54dp"
+                android:layout_height="17dp"
                 android:background="@drawable/shape_event_easy_horizontal"
                 android:layout_gravity="center_vertical"
                 android:visibility="visible"
@@ -215,8 +215,8 @@
 
             <View
                 android:id="@+id/difficulty_medium"
-                android:layout_width="56dp"
-                android:layout_height="18dp"
+                android:layout_width="54dp"
+                android:layout_height="17dp"
                 android:background="@drawable/shape_event_medium_horizontal"
                 android:layout_gravity="center_vertical"
                 android:visibility="gone"
@@ -224,8 +224,8 @@
 
             <View
                 android:id="@+id/difficulty_hard"
-                android:layout_width="56dp"
-                android:layout_height="18dp"
+                android:layout_width="54dp"
+                android:layout_height="17dp"
                 android:background="@drawable/shape_event_hard_horizontal"
                 android:layout_gravity="center_vertical"
                 android:visibility="gone"
@@ -297,19 +297,6 @@
             android:layout_below="@+id/event_admin_panel"
             />
 
-        <com.andreasogeirik.master_frontend.layout.view.CustomTitleTextView
-            android:id="@+id/posts_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Poster"
-            android:gravity="center_horizontal"
-            android:background="@drawable/shape_gen_background"
-            android:padding="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_below="@+id/event_participants"
-            android:textStyle="bold"
-            />
-
         <com.andreasogeirik.master_frontend.layout.view.CustomButton
             android:id="@+id/new_post_event"
             android:layout_width="match_parent"
@@ -319,8 +306,32 @@
             android:textColor="@color/app_font"
             android:textStyle="bold"
             android:layout_marginBottom="10dp"
-            android:layout_below="@+id/posts_header"
+            android:layout_below="@+id/event_participants"
             android:text="Skriv post"
             />
+
+        <com.andreasogeirik.master_frontend.layout.view.CustomTitleTextView
+            android:id="@+id/posts_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Poster"
+            android:gravity="center_horizontal"
+            android:background="@drawable/shape_gen_background"
+            android:padding="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/new_post_event"
+            android:textStyle="bold"
+            />
+
+        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+            android:gravity="center_horizontal"
+            android:id="@+id/no_posts"
+            android:text="Her var det tomt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/posts_header"
+            android:visibility="gone"
+            />
+
     </RelativeLayout>
 </RelativeLayout>

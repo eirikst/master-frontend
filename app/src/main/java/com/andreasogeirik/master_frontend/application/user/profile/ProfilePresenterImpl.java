@@ -97,6 +97,9 @@ PostListInteractorImpl.Listener {
         if(posts.size() < Constants.NUMBER_OF_POSTS_RETURNED) {
             view.displayLoadPostsButton(false);
         }
+        if(user.getPosts().isEmpty()) {
+            view.noPostsToShow();
+        }
     }
 
     @Override

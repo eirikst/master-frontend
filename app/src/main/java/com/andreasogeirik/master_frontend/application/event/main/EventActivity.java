@@ -36,7 +36,6 @@ import com.andreasogeirik.master_frontend.model.Post;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.squareup.picasso.Picasso;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -71,6 +70,7 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
     @Bind(R.id.home)
     Button homeBtn;
 
+    private TextView noPosts;
     private View easyDiff;
     private View mediumDiff;
     private View hardDiff;
@@ -273,6 +273,7 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
         this.mediumDiff = headerView.findViewById(R.id.difficulty_medium);
         this.hardDiff = headerView.findViewById(R.id.difficulty_hard);
 
+        noPosts = (TextView)headerView.findViewById(R.id.no_posts);
         newPostBtn = (Button)headerView.findViewById(R.id.new_post_event);
 
         adapter = new PostListAdapter(this, new ArrayList<Post>(), this);
@@ -405,6 +406,12 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
             loadPostsButton.setVisibility(View.GONE);
         }
     }
+
+    @Override
+    public void noPostsToShow() {
+        noPosts.setVisibility(View.VISIBLE);
+    }
+
 
     @Override
     public void likeComment(int commentId) {

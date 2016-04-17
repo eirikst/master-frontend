@@ -19,9 +19,10 @@
         android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tidligere"
+        android:text="TIDLIGERE"
         android:background="@color/teal"
         android:layout_below="@id/future_header"
+        android:textStyle="bold"
         android:visibility="gone"
         />
     <android.support.v4.widget.Space
@@ -149,22 +150,22 @@
 
                 <View
                     android:id="@+id/easy_event"
-                    android:layout_width="18dp"
-                    android:layout_height="56dp"
+                    android:layout_width="17dp"
+                    android:layout_height="54dp"
                     android:background="@drawable/shape_event_easy"
                     android:visibility="visible"
                     />
                 <View
                     android:id="@+id/medium_event"
-                    android:layout_width="18dp"
-                    android:layout_height="56dp"
+                    android:layout_width="17dp"
+                    android:layout_height="54dp"
                     android:background="@drawable/shape_event_medium"
                     android:visibility="gone"
                     />
                 <View
                     android:id="@+id/hard_event"
-                    android:layout_width="18dp"
-                    android:layout_height="56dp"
+                    android:layout_width="17dp"
+                    android:layout_height="54dp"
                     android:background="@drawable/shape_event_hard"
                     android:visibility="gone"
                     />

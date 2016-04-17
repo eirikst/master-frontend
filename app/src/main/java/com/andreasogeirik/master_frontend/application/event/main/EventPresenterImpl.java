@@ -68,6 +68,10 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
 
         event.getPosts().addAll(posts);
         eventView.addPosts(posts, lastPosts);
+
+        if(event.getPosts().isEmpty()) {
+            eventView.noPostsToShow();
+        }
     }
 
     @Override

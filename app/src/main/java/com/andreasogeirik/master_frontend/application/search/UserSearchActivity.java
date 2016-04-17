@@ -1,12 +1,12 @@
 package com.andreasogeirik.master_frontend.application.search;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -15,16 +15,14 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
 import com.andreasogeirik.master_frontend.application.search.interfaces.UserSearchPresenter;
 import com.andreasogeirik.master_frontend.application.search.interfaces.UserSearchView;
-import com.andreasogeirik.master_frontend.application.user.profile.ProfilePresenterImpl;
 import com.andreasogeirik.master_frontend.layout.adapter.UserSearchListAdapter;
 import com.andreasogeirik.master_frontend.model.User;
-import com.andreasogeirik.master_frontend.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,6 +30,8 @@ import butterknife.ButterKnife;
 public class UserSearchActivity extends AppCompatActivity implements UserSearchView {
     @Bind(R.id.user_list)
     ListView userListView;
+    @Bind(R.id.home)
+    Button homebtn;
 
     private EditText searchString;
     private Button searchBtn;
@@ -46,6 +46,7 @@ public class UserSearchActivity extends AppCompatActivity implements UserSearchV
         setContentView(R.layout.user_search_activity);
         ButterKnife.bind(this);
 
+        setupToolbar();
 
         //should get a user if not null
         if(savedInstanceState != null) {
@@ -61,6 +62,17 @@ public class UserSearchActivity extends AppCompatActivity implements UserSearchV
         else {
             presenter = new UserSearchPresenterImpl(this, null);
         }
+    }
+
+    private void setupToolbar() {
+        homebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainPageActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                getApplicationContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -144,5 +156,12 @@ public class UserSearchActivity extends AppCompatActivity implements UserSearchV
         else {
             loadMoreBtn.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
     }
 }

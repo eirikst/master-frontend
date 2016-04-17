@@ -64,29 +64,17 @@
             android:layout_marginBottom="10dp"
             />
 
-    <com.andreasogeirik.master_frontend.layout.view.CustomButton
-        android:id="@+id/participating_events_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight=".7"
-        android:background="@color/grey"
-        android:textColor="@color/app_font"
-        android:textStyle="bold"
-        android:layout_marginBottom="10dp"
-        android:layout_below="@+id/location_user"
-        />
-
-    <com.andreasogeirik.master_frontend.layout.view.CustomTitleTextView
-        android:id="@+id/posts_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Poster"
-        android:gravity="center_horizontal"
-        android:textSize="40dp"
-        android:background="@drawable/shape_gen_background"
-        android:padding="10dp"
-        android:layout_below="@+id/participating_events_btn"
-        />
+        <com.andreasogeirik.master_frontend.layout.view.CustomButton
+            android:id="@+id/participating_events_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight=".7"
+            android:background="@color/grey"
+            android:textColor="@color/app_font"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@+id/location_user"
+            />
 
         <com.andreasogeirik.master_frontend.layout.view.CustomButton
             android:id="@+id/new_post_user"
@@ -97,10 +85,33 @@
             android:textColor="@color/app_font"
             android:textStyle="bold"
             android:layout_marginBottom="10dp"
-            android:layout_below="@+id/posts_header"
             android:text="Skriv post"
             android:visibility="gone"
+            android:layout_below="@+id/participating_events_btn"
             />
+
+        <com.andreasogeirik.master_frontend.layout.view.CustomTitleTextView
+            android:id="@+id/posts_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Poster"
+            android:gravity="center_horizontal"
+            android:textSize="40dp"
+            android:background="@drawable/shape_gen_background"
+            android:padding="10dp"
+            android:layout_below="@+id/new_post_user"
+            />
+
+        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+            android:id="@+id/no_posts"
+            android:text="Her var det tomt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/posts_header"
+            android:visibility="gone"
+            android:gravity="center_horizontal"
+            />
+
     </RelativeLayout>
 
 </RelativeLayout>

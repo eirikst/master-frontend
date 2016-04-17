@@ -6,6 +6,10 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -34,6 +38,9 @@ public class SettingsActivity extends AppCompatActivity {
     @Bind(R.id.submit_text_size)
     TextView submitTextView;
 
+    @Bind(R.id.home)
+    Button homeBtn;
+
     private int textSize;
 
     @Override
@@ -58,6 +65,13 @@ public class SettingsActivity extends AppCompatActivity {
     private void setupToolbar() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        homeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finished();
+            }
+        });
     }
 
     void setupTextSizePanel() {
@@ -80,7 +94,7 @@ public class SettingsActivity extends AppCompatActivity {
         smallTextRadio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked) Constants.USER_SET_SIZE = Constants.SMALL;
+                if (isChecked) Constants.USER_SET_SIZE = Constants.SMALL;
                 updateView();
                 UserPreferencesManager.getInstance().saveTextSize(Constants.USER_SET_SIZE);
             }
@@ -88,7 +102,7 @@ public class SettingsActivity extends AppCompatActivity {
         mediumTextRadio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked) Constants.USER_SET_SIZE = Constants.MEDIUM;
+                if (isChecked) Constants.USER_SET_SIZE = Constants.MEDIUM;
                 updateView();
                 UserPreferencesManager.getInstance().saveTextSize(Constants.USER_SET_SIZE);
             }
@@ -110,6 +124,10 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        finished();
+    }
+
+    private void finished() {
         if(Constants.USER_SET_SIZE != textSize) {
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                     this);
@@ -147,5 +165,12 @@ public class SettingsActivity extends AppCompatActivity {
         else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
     }
 }

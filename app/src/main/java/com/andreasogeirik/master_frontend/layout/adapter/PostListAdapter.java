@@ -109,13 +109,13 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
         ImageView image = (ImageView)convertView.findViewById(R.id.post_image);
 
 
-        if(post.getWriter().getImageUri() != null && !post.getWriter().getImageUri().isEmpty()) {
+        if(post.getWriter().getThumbUri() != null && !post.getWriter().getThumbUri().isEmpty()) {
             Picasso.with(getContext())
-                    .load(post.getWriter().getImageUri())
+                    .load(post.getWriter().getThumbUri())
                     .error(R.drawable.default_profile)
                     .resize(Constants.LIST_IMAGE_WIDTH, Constants.LIST_IMAGE_HEIGHT)
                     .centerCrop()
-                    .transform(new CircleTransform())
+                    .transform(circleTransform)
                     .into(image);
         }
         else {
@@ -123,7 +123,7 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
             .load(R.drawable.default_profile)
                     .resize(Constants.LIST_IMAGE_WIDTH, Constants.LIST_IMAGE_HEIGHT)
                     .centerCrop()
-                    .transform(new CircleTransform())
+                    .transform(circleTransform)
                     .into(image);
         }
 
