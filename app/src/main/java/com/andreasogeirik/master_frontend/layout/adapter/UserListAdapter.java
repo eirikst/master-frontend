@@ -1,8 +1,6 @@
 package com.andreasogeirik.master_frontend.layout.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +15,7 @@ import com.andreasogeirik.master_frontend.util.Constants;
 import com.squareup.picasso.Picasso;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by eirikstadheim on 05/02/16.
@@ -43,7 +38,7 @@ public class UserListAdapter extends ArrayAdapter<User> {
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.user_search_list_layout,
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.user_list_layout,
                     parent, false);
         }
 
@@ -74,7 +69,6 @@ public class UserListAdapter extends ArrayAdapter<User> {
 
         //Populate name
         name.setText(user.getFirstname() + " " + user.getLastname());
-
 
         ImageView adminSymbol = (ImageView)convertView.findViewById(R.id.admin_symbol);
         if(user.isAdmin()) {

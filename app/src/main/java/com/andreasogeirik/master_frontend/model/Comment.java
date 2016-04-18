@@ -17,7 +17,7 @@ public class Comment implements Serializable {
     private User writer;
     private String message;
     private Date timeCreated;
-    private Set<UserSmall> likers = new HashSet<>();
+    private Set<User> likers = new HashSet<>();
 
     public Comment() {
 
@@ -31,12 +31,12 @@ public class Comment implements Serializable {
 
         JSONArray likersJson = comment.getJSONArray("likers");
         for(int i = 0; i < likersJson.length(); i++) {
-            likers.add(new UserSmall(likersJson.getJSONObject(i)));
+            likers.add(new User(likersJson.getJSONObject(i)));
         }
     }
 
     public boolean likes(User user) {
-        for(UserSmall liker: likers) {
+        for(User liker: likers) {
             if(liker.equals(user)) {
                 return true;
             }
@@ -76,11 +76,11 @@ public class Comment implements Serializable {
         this.timeCreated = timeCreated;
     }
 
-    public Set<UserSmall> getLikers() {
+    public Set<User> getLikers() {
         return likers;
     }
 
-    public void setLikers(Set<UserSmall> likers) {
+    public void setLikers(Set<User> likers) {
         this.likers = likers;
     }
 

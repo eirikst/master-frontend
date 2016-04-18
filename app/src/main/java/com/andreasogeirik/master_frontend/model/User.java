@@ -43,7 +43,7 @@ public class User implements Serializable {
     }
 
     public User(int id, String email, boolean enabled, String firstname, String lastname, String location,
-                String imageUri, String thumbUri) {
+                String imageUri, String thumbUri, boolean admin) {
         this.id = id;
         this.email = email;
         this.enabled = enabled;
@@ -52,6 +52,7 @@ public class User implements Serializable {
         this.location = location;
         this.imageUri = imageUri;
         this.thumbUri = thumbUri;
+        this.admin = admin;
     }
 
     public void copy(User user) {

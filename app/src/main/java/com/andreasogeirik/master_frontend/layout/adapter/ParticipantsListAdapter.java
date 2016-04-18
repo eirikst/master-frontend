@@ -76,6 +76,14 @@ public class ParticipantsListAdapter extends ArrayAdapter<User> {
         //Populate name
         participantName.setText(user.getFirstname() + " " + user.getLastname());
 
+        ImageView adminSymbol = (ImageView)convertView.findViewById(R.id.admin_symbol);
+        if(user.isAdmin()) {
+            adminSymbol.setVisibility(View.VISIBLE);
+        }
+        else {
+            adminSymbol.setVisibility(View.GONE);
+        }
+
         // Return the completed view to render on screen
         return convertView;
     }

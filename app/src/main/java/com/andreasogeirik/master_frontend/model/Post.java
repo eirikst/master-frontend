@@ -21,7 +21,7 @@ public class Post implements Serializable {
     private String imageUri;
     private Date created;
     private Set<Comment> comments = new HashSet<>();
-    private Set<UserSmall> likers = new HashSet<>();
+    private Set<User> likers = new HashSet<>();
 
     public Post() {
     }
@@ -52,13 +52,13 @@ public class Post implements Serializable {
 
     private void setLikers(JSONArray jsonLikers) throws JSONException {
         for (int i = 0; i < jsonLikers.length(); i++) {
-            UserSmall liker = new UserSmall(jsonLikers.getJSONObject(i));
+            User liker = new User(jsonLikers.getJSONObject(i));
             likers.add(liker);
         }
     }
 
     public boolean likes(User user) {
-        for(UserSmall liker: likers) {
+        for(User liker: likers) {
             if(liker.equals(user)) {
                 return true;
             }
@@ -110,11 +110,11 @@ public class Post implements Serializable {
         return comments;
     }
 
-    public Set<UserSmall> getLikers() {
+    public Set<User> getLikers() {
         return likers;
     }
 
-    public void setLikers(Set<UserSmall> likers) {
+    public void setLikers(Set<User> likers) {
         this.likers = likers;
     }
 

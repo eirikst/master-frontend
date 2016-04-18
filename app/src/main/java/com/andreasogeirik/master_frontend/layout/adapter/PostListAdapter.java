@@ -19,7 +19,6 @@ import com.andreasogeirik.master_frontend.listener.OnUserClickListener;
 import com.andreasogeirik.master_frontend.model.Comment;
 import com.andreasogeirik.master_frontend.model.Post;
 import com.andreasogeirik.master_frontend.model.User;
-import com.andreasogeirik.master_frontend.model.UserSmall;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.DateUtility;
 import com.squareup.picasso.Picasso;
@@ -199,13 +198,7 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
         nrOfLikes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Set<User> users = new HashSet<User>();
-                for(UserSmall userSmall: post.getLikers()) {
-                    User user = new User(userSmall.getId(), "", true, userSmall.getFirstname(),
-                            userSmall.getLastname(), "", "", userSmall.getThumbUri());
-                    users.add(user);
-                }
-                callback.navigateToLikers(users);
+                callback.navigateToLikers(post.getLikers());
             }
         });
 
@@ -303,13 +296,7 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
         nrOfLikes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Set<User> users = new HashSet<User>();
-                for(UserSmall userSmall: comment.getLikers()) {
-                    User user = new User(userSmall.getId(), "", true, userSmall.getFirstname(),
-                            userSmall.getLastname(), "", "", userSmall.getThumbUri());
-                    users.add(user);
-                }
-                callback.navigateToLikers(users);
+                callback.navigateToLikers(comment.getLikers());
             }
         });
 
@@ -373,11 +360,11 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
             if(!element.isPost() && element.getId() == id) {
                 //like
                 if (like) {
-                    ((Comment) element.getModel()).getLikers().add(new UserSmall(CurrentUser.getInstance().getUser()));
+                    ((Comment) element.getModel()).getLikers().add(CurrentUser.getInstance().getUser());
                 }
                 //unlike
                 else {
-                    ((Comment) element.getModel()).getLikers().remove(new UserSmall(CurrentUser.getInstance().getUser()));
+                    ((Comment) element.getModel()).getLikers().remove(CurrentUser.getInstance().getUser());
                 }
             }
         }
@@ -391,11 +378,11 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
             if(element.isPost() && element.getId() == id) {
                 //like
                 if (like) {
-                    ((Post) element.getModel()).getLikers().add(new UserSmall(CurrentUser.getInstance().getUser()));
+                    ((Post) element.getModel()).getLikers().add(CurrentUser.getInstance().getUser());
                 }
                 //unlike
                 else {
-                    ((Post) element.getModel()).getLikers().remove(new UserSmall(CurrentUser.getInstance().getUser()));
+                    ((Post) element.getModel()).getLikers().remove(CurrentUser.getInstance().getUser());
                 }
             }
         }
