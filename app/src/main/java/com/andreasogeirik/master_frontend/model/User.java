@@ -22,6 +22,7 @@ public class User implements Serializable {
     private String location;
     private String imageUri;
     private String thumbUri;
+    private boolean admin = false;
     private Set<Friendship> friends = new HashSet<>();
     private Set<Friendship> requests = new HashSet<>();
     private Set<Post> posts = new HashSet<>();
@@ -79,6 +80,9 @@ public class User implements Serializable {
         //json sends null as a string
         if(imageUri.equals("null")) {
             imageUri = "";
+        }
+        if(!json.isNull("admin")) {
+            admin = json.getBoolean("admin");
         }
     }
 
@@ -295,6 +299,14 @@ public class User implements Serializable {
 
     public void setThumbUri(String thumbUri) {
         this.thumbUri = thumbUri;
+    }
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
     }
 
     public Set<Friendship> getFriends() {

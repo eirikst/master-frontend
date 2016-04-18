@@ -354,7 +354,7 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
 
     @Override
     public void imageError(String errorMessage) {
-        Toast.makeText(CreateEventActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+        Toast.makeText(CreateEventActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
     }
 
     private void clearValidationMessages() {

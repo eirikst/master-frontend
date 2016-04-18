@@ -113,7 +113,7 @@ public class MyEventsFragment extends Fragment implements MyEventView {
     @Override
     public void displayMessage(String message) {
         if(getActivity() != null) {
-            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
         }
     }
 

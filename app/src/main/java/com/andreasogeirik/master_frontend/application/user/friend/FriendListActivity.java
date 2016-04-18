@@ -118,7 +118,7 @@ public class FriendListActivity extends AppCompatActivity implements FriendListV
 
     @Override
     public void displayMessage(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override

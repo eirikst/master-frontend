@@ -73,7 +73,7 @@ public class CameraActivity extends AppCompatActivity implements CameraView {
             CameraOrientation.setCameraDisplayOrientation(this, FRONT_CAMERA_ID, mCamera);
         }
         catch (RuntimeException e){
-            Toast.makeText(this, "Kan ikke åpne kamera", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Kan ikke åpne kamera", Toast.LENGTH_SHORT).show();
         }
 
         // Create our Preview view and set it as the content of our activity.

@@ -73,7 +73,7 @@ public class EditPasswordDialogFragment extends DialogFragment implements EditPa
     @Override
     public void navigateBack() {
         dismiss();
-        Toast.makeText(getActivity(), "Passord endret", Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), "Passord endret", Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -209,6 +209,14 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
             }
         });
 
+        ImageView adminSymbol = (ImageView)convertView.findViewById(R.id.admin_symbol);
+        if(post.getWriter().isAdmin()) {
+            adminSymbol.setVisibility(View.VISIBLE);
+        }
+        else {
+            adminSymbol.setVisibility(View.GONE);
+        }
+
         // Return view for rendering
         return convertView;
 
@@ -304,6 +312,14 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
                 callback.navigateToLikers(users);
             }
         });
+
+        ImageView adminSymbol = (ImageView)convertView.findViewById(R.id.admin_symbol);
+        if(comment.getWriter().isAdmin()) {
+            adminSymbol.setVisibility(View.VISIBLE);
+        }
+        else {
+            adminSymbol.setVisibility(View.GONE);
+        }
 
 
         // Return view for rendering

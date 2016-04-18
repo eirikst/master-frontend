@@ -52,11 +52,7 @@ public class Post implements Serializable {
 
     private void setLikers(JSONArray jsonLikers) throws JSONException {
         for (int i = 0; i < jsonLikers.length(); i++) {
-            UserSmall liker = new UserSmall();
-            liker.setId(jsonLikers.getJSONObject(i).getInt("id"));
-            liker.setLastname(jsonLikers.getJSONObject(i).getString("lastname"));
-            liker.setFirstname(jsonLikers.getJSONObject(i).getString("firstname"));
-            liker.setThumbUri(jsonLikers.getJSONObject(i).getString("thumbUri"));
+            UserSmall liker = new UserSmall(jsonLikers.getJSONObject(i));
             likers.add(liker);
         }
     }

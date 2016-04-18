@@ -113,7 +113,7 @@ public class RecommendedEventsFragment extends Fragment implements RecommendedEv
     @Override
     public void displayMessage(String message) {
         if(getActivity() != null) {
-            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
         }
     }
 

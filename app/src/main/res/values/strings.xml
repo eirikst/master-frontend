@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Sportydul</string>
+    <string name="app_name">Ludi</string>
 
     // Toolbar
     <string name="create_event">NY AKTIVITET</string>
@@ -56,7 +56,7 @@
     <string name="event_edit_description">BESKRIVELSE</string>
     <string name="event_edit_start_date_label">DATO</string>
     <string name="event_edit_start_time_label">TID</string>
-    <string name="event_edit_checkbox">SLUTTTID (VALGFRITT)</string>
+    <string name="event_edit_checkbox">SLUTT-TID (VALGFRITT)</string>
     <string name="event_edit_end_date_label">DATO</string>
     <string name="event_edit_end_time_label">TID</string>
     <string name="event_edit_select_image">ENDRE BILDE</string>
@@ -105,9 +105,6 @@
     <string name="error_incorrect_password">FEIL PASSORD</string>
     <string name="error_empty_password">FYLL INN PASSORD</string>
     <string name="error_field_required">DETTE FELTET ER PÅKREVD</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
 
     <!-- Strings related to post -->
     <string name="comment">Kommentar</string>
@@ -116,10 +113,8 @@
     <!-- Strings related to login -->
     <string name="error_invalid_email">
         EPOSTEN ER IKKE GYLDIG</string>
-    <string name="title_activity_event">EventActivity</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="submit_text_size">Angi tekststørrelse:</string>
     <string name="search">Søk</string>
     <string name="notifications">Varslinger</string>

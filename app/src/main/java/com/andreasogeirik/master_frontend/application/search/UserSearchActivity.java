@@ -3,6 +3,7 @@ package com.andreasogeirik.master_frontend.application.search;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -33,6 +34,8 @@ public class UserSearchActivity extends AppCompatActivity implements UserSearchV
     ListView userListView;
     @Bind(R.id.home)
     Button homebtn;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
 
     private EditText searchString;
     private Button searchBtn;
@@ -66,6 +69,9 @@ public class UserSearchActivity extends AppCompatActivity implements UserSearchV
     }
 
     private void setupToolbar() {
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         homebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,7 +152,7 @@ public class UserSearchActivity extends AppCompatActivity implements UserSearchV
 
     @Override
     public void displayMessage(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -163,6 +169,8 @@ public class UserSearchActivity extends AppCompatActivity implements UserSearchV
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
+        MenuItem item = menu.findItem(R.id.search_user);
+        item.setVisible(false);
         return true;
     }
 

@@ -143,7 +143,7 @@ public class PhotoActivity extends AppCompatActivity implements PhotoView {
 
     @Override
     public void imageError(String error) {
-        Toast.makeText(PhotoActivity.this, error, Toast.LENGTH_LONG).show();
+        Toast.makeText(PhotoActivity.this, error, Toast.LENGTH_SHORT).show();
     }
 
     @Override

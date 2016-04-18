@@ -23,7 +23,6 @@ import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.general.ToolbarPresenterImpl;
 import com.andreasogeirik.master_frontend.application.general.interfaces.ToolbarPresenter;
 import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
-import com.andreasogeirik.master_frontend.application.main.notification.NotificationCenterDialogFragment;
 import com.andreasogeirik.master_frontend.application.post.CommentDialog;
 import com.andreasogeirik.master_frontend.application.post.LikeDialogFragment;
 import com.andreasogeirik.master_frontend.application.post.PostDialog;
@@ -84,6 +83,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
 
     private PostListAdapter postListAdapter;
 
+    private boolean me = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,8 +109,10 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
-        MenuItem item = menu.findItem(R.id.my_profile);
-        item.setVisible(false);
+        if(me) {
+            MenuItem item = menu.findItem(R.id.my_profile);
+            item.setVisible(false);
+        }
         return true;
     }
 
@@ -127,7 +130,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     @Override
     public void initUser(User user, boolean me) {
         initListView(user);
-        initHeader(user.getId(), user.getFirstname() + " " + user.getLastname(), user.getLocation(), user.getFriends().size(), me);
+        initHeader(user.getId(), user.getFirstname() + " " + user.getLastname(), user.getLocation(), user.getFriends().size(), me, user.isAdmin());
     }
 
     @Override
@@ -188,7 +191,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     /*
      * Init post list header
      */
-    private void initHeader(int id, String name, String location,  int nrOfFriends, boolean myProfile) {
+    private void initHeader(int id, String name, String location,  int nrOfFriends, boolean myProfile, boolean admin) {
         //inflate header
         headerView = getLayoutInflater().inflate(R.layout.profile_post_list_header, null);
         listView.addHeaderView(headerView);
@@ -221,6 +224,12 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
         }
 
         noPosts = (TextView)headerView.findViewById(R.id.no_posts);
+
+
+        ImageView adminSymbol = (ImageView)headerView.findViewById(R.id.admin_symbol);
+        if(admin) {
+            adminSymbol.setVisibility(View.VISIBLE);
+        }
     }
 
     /*
@@ -408,7 +417,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
      */
     @Override
     public void displayMessage(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -498,5 +507,10 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
         DialogFragment newFragment = LikeDialogFragment.newInstance(
                 new HashSet<User>(likers));
         newFragment.show(ft, "likerDialog");
+    }
+
+    @Override
+    public void setMe(boolean me) {
+        this.me = me;
     }
 }

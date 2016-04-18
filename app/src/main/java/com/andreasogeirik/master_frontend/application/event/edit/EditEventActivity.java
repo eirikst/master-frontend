@@ -290,7 +290,7 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
 
     @Override
     public void imageError(String error) {
-        Toast.makeText(EditEventActivity.this, error, Toast.LENGTH_LONG).show();
+        Toast.makeText(EditEventActivity.this, error, Toast.LENGTH_SHORT).show();
     }
 
     @Override

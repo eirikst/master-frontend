@@ -195,7 +195,7 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
 
     @Override
     public void showErrorMessage(String error) {
-        Toast.makeText(EventActivity.this, error, Toast.LENGTH_LONG).show();
+        Toast.makeText(EventActivity.this, error, Toast.LENGTH_SHORT).show();
     }
 
     @Override

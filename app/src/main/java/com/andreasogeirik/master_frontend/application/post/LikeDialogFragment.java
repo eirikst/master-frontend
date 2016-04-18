@@ -59,7 +59,7 @@ public class LikeDialogFragment extends DialogFragment {
         super.onResume();
 
         Dialog dialog = getDialog();
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class LikeDialogFragment extends DialogFragment {
 
         Dialog dialog = getDialog();
         if(dialog != null) {
-            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         }
 
         Bundle bundle = this.getArguments();

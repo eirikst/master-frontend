@@ -34,4 +34,5 @@ public interface ProfileView {
     void postFinishedSuccessfully();
     void postFinishedWithError();
 
+    void setMe(boolean me);
 }

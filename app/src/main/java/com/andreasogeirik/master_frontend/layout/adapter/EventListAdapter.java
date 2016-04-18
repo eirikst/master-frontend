@@ -47,7 +47,7 @@ public class EventListAdapter extends ArrayAdapter<Event> {
             Calendar cal = new GregorianCalendar();
             @Override
             public int compare(Event lhs, Event rhs) {
-                if(DateUtility.equals(lhs.getStartDate(), rhs.getStartDate())) {
+                if(lhs.getStartDate().equals(rhs.getStartDate())) {
                     if(lhs.getId() < rhs.getId()) {
                         return -1;
                     }
@@ -214,10 +214,10 @@ public class EventListAdapter extends ArrayAdapter<Event> {
         if(event.getThumbUri() != null && !event.getThumbUri().isEmpty()) {
             Picasso.with(context)
                     .load(event.getThumbUri())
-                    .error(R.drawable.default_event)
                     .resize(Constants.LIST_IMAGE_WIDTH, Constants.LIST_IMAGE_HEIGHT)
                     .centerCrop()
                     .transform(circleTransform)
+                    .error(R.drawable.default_event)
                     .into(image);
         }
         else {

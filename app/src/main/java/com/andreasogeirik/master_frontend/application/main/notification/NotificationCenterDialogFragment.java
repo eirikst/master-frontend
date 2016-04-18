@@ -123,7 +123,7 @@ public class NotificationCenterDialogFragment extends DialogFragment implements 
 
     @Override
     public void displayMessage(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG);
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT);
     }
 
     @Override

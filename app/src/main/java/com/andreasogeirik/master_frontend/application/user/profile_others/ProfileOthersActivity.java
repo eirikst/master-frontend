@@ -99,6 +99,10 @@ public class ProfileOthersActivity extends AppCompatActivity implements ProfileO
         nameUserText.setText(user.getFirstname() + " " + user.getLastname());
         locationText.setText(user.getLocation());
 
+        if(user.isAdmin()) {
+            ImageView adminSymbol = (ImageView)findViewById(R.id.admin_symbol);
+            adminSymbol.setVisibility(View.VISIBLE);
+        }
 
         areWeFriendsPanel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -200,7 +204,7 @@ public class ProfileOthersActivity extends AppCompatActivity implements ProfileO
     */
     @Override
     public void displayMessage(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override

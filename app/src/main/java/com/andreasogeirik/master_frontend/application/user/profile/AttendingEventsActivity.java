@@ -3,6 +3,7 @@ package com.andreasogeirik.master_frontend.application.user.profile;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,6 +23,8 @@ public class AttendingEventsActivity extends AppCompatActivity implements
         AttendingEventsFragment.AttendingEventsListener {
     @Bind(R.id.home)
     Button homeBtn;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,8 @@ public class AttendingEventsActivity extends AppCompatActivity implements
         getSupportFragmentManager().beginTransaction().add(fragmentContainer.getId(),
                 fragment, "").commit();
 
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
     @OnClick(R.id.home)

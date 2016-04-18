@@ -31,62 +31,33 @@
         android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:theme="@style/Theme.SportyTheme"
-        tools:replace="theme">
-        <activity
-            android:name=".application.auth.entrance.EntranceActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".application.auth.login.LoginActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".application.main.MainPageActivity"
-            android:screenOrientation="portrait">
+        tools:replace="theme"
+        >
+
+        <activity android:name=".application.main.MainPageActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".application.user.profile.ProfileActivity" />
-        <activity
-            android:name=".application.user.friend.FriendListActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".application.user.profile_others.ProfileOthersActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".application.auth.register.RegisterActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".application.event.create.CreateEventActivity"
-            android:label=""
-            android:screenOrientation="portrait" />
-        <activity android:name=".application.settings.SettingsActivity" />
-        <activity
-            android:name=".application.event.main.EventActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.soundcloud.android.crop.CropImageActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.desmond.squarecamera.CameraActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".application.user.photo.PhotoActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".application.search.UserSearchActivity" />
-        <activity
-            android:name=".application.event.main.participants.ParticipantsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".application.event.edit.EditEventActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".application.user.profile.AttendingEventsActivity" />
-        <activity
-            android:name=".application.user.edit.EditUserActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name=".application.auth.entrance.EntranceActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".application.auth.login.LoginActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".application.user.profile.ProfileActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".application.user.friend.FriendListActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".application.user.profile_others.ProfileOthersActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".application.auth.register.RegisterActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".application.event.create.CreateEventActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".application.settings.SettingsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".application.event.main.EventActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".application.user.photo.PhotoActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".application.search.UserSearchActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".application.event.main.participants.ParticipantsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".application.event.edit.EditEventActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".application.user.profile.AttendingEventsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".application.user.edit.EditUserActivity" android:screenOrientation="portrait"/>
+
+        <activity android:name="com.soundcloud.android.crop.CropImageActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.desmond.squarecamera.CameraActivity"/>
 
         <!--GCM-->
         <receiver
@@ -115,7 +86,6 @@
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
-
 
         <service
             android:name="com.andreasogeirik.master_frontend.gcm.RegistrationIntentService"

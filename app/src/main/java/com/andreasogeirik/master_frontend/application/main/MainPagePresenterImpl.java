@@ -70,7 +70,15 @@ public class MainPagePresenterImpl extends GeneralPresenter implements MainPageP
 
     @Override
     public void errorFriendshipsLoad(int code) {
-        view.navigateToEntrance();
+        if(code == Constants.UNAUTHORIZED) {
+            view.navigateToEntrance();
+        }
+        else if(code == Constants.RESOURCE_ACCESS_ERROR) {
+            view.displayMessage("Ingen kontakt med serveren");
+        }
+        else {
+            view.displayMessage("En feil skjedde");
+        }
     }
 
     @Override
@@ -90,7 +98,17 @@ public class MainPagePresenterImpl extends GeneralPresenter implements MainPageP
     @Override
     public void findUserFailure(int code) {
 //        this.view.hideProgress();
-        view.navigateToEntrance();
+        if(code == Constants.UNAUTHORIZED) {
+            view.navigateToEntrance();
+        }
+        else if(code == Constants.RESOURCE_ACCESS_ERROR) {
+            view.displayMessage("Ingen kontakt med serveren");
+            view.initGUI();
+        }
+        else {
+            view.displayMessage("En feil skjedde");
+            view.initGUI();
+        }
     }
 
     @Override

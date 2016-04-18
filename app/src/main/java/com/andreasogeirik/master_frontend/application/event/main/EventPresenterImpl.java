@@ -302,7 +302,7 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
 
     @Override
     public void onFailurePostLike(int id) {
-        eventView.showErrorMessage("Error while liking post");
+        eventView.showErrorMessage("En feil skjedde");
     }
 
     @Override
@@ -312,7 +312,7 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
 
     @Override
     public void onFailureCommentLike(int id) {
-        eventView.showErrorMessage("Error while liking comment");
+        eventView.showErrorMessage("En feil skjedde");
     }
 
     @Override
@@ -322,7 +322,7 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
 
     @Override
     public void onFailurePostUnlike(int id) {
-        eventView.showErrorMessage("Error while unliking post");
+        eventView.showErrorMessage("En feil skjedde");
     }
 
     @Override
@@ -332,7 +332,7 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
 
     @Override
     public void onFailureCommentUnlike(int id) {
-        eventView.showErrorMessage("Error while unliking comment");
+        eventView.showErrorMessage("En feil skjedde");
     }
 
     @Override

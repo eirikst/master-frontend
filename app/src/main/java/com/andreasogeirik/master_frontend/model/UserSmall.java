@@ -17,6 +17,7 @@ public class UserSmall implements Serializable {
     private String firstname;
     private String lastname;
     private String thumbUri;
+    private boolean admin = false;
 
     public UserSmall() {
     }
@@ -41,6 +42,10 @@ public class UserSmall implements Serializable {
         firstname = json.getString("firstname");
         lastname = json.getString("lastname");
         thumbUri = json.getString("thumbUri");
+
+        if(!json.isNull("admin")) {
+            admin = json.getBoolean("admin");
+        }
     }
 
     public UserSmall(User user) {
@@ -48,6 +53,7 @@ public class UserSmall implements Serializable {
         this.firstname = user.getFirstname();
         this.lastname = user.getLastname();
         this.thumbUri = user.getThumbUri();
+        this.admin = user.isAdmin();
     }
 
     public int getId() {

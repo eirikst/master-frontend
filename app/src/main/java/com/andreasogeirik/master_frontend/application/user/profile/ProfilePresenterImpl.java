@@ -46,6 +46,10 @@ PostListInteractorImpl.Listener {
         this.interactor = new ProfileInteractorImpl(this);
         this.postInteractor = new PostListInteractorImpl(this);
 
+        if(CurrentUser.getInstance().getUser().getId() == userId) {
+            view.setMe(true);
+        }
+
         //init gui
         thisIsMyProfile = CurrentUser.getInstance().getUser().equals(user);
         view.initView();
@@ -200,7 +204,7 @@ PostListInteractorImpl.Listener {
 
     @Override
     public void failureAttendingEvents(int code) {
-        view.displayMessage("Error loading user's events");
+        view.displayMessage("En feil skjedde under lasting av aktiviteter");
     }
 
     /*

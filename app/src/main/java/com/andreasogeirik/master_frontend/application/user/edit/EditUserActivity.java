@@ -1,12 +1,19 @@
 package com.andreasogeirik.master_frontend.application.user.edit;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
@@ -79,6 +86,8 @@ public class EditUserActivity extends AppCompatActivity implements EditUserView,
     private final int PICK_IMAGE_REQUEST = 1;
     private final int REQUEST_IMAGE_CAPTURE = 2;
     private static int EDIT_EVENT_REQUEST = 1;
+    private static final int REQUEST_CAMERA = 0;
+    private static final int REQUEST_CAMERA_PERMISSION = 1;
 
     EditUserPresenter presenter;
     private ProgressBarManager progressBarManager;
@@ -218,7 +227,7 @@ public class EditUserActivity extends AppCompatActivity implements EditUserView,
 
     @Override
     public void imageError(String message) {
-        Toast.makeText(EditUserActivity.this, message, Toast.LENGTH_LONG).show();
+        Toast.makeText(EditUserActivity.this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -246,7 +255,7 @@ public class EditUserActivity extends AppCompatActivity implements EditUserView,
                                 existingImage();
                                 return true;
                             case R.id.capture_image:
-                                newImage();
+                                requestForCameraPermission();
                                 return true;
                         }
                         return false;
@@ -272,6 +281,67 @@ public class EditUserActivity extends AppCompatActivity implements EditUserView,
         }
     }
 
+    // Check for camera permission in MashMallow
+    public void requestForCameraPermission() {
+        final String permission = Manifest.permission.CAMERA;
+        if (ContextCompat.checkSelfPermission(EditUserActivity.this, permission)
+                != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(EditUserActivity.this, permission)) {
+                showPermissionRationaleDialog("Vi trenger tilgang til kamera for å legge til bilde", permission);
+            } else {
+                requestForPermission(permission);
+            }
+        } else {
+            launch();
+        }
+    }
+
+    private void showPermissionRationaleDialog(final String message, final String permission) {
+        new AlertDialog.Builder(EditUserActivity.this)
+                .setMessage(message)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        EditUserActivity.this.requestForPermission(permission);
+                    }
+                })
+                .setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .create()
+                .show();
+    }
+
+    private void launch() {
+        Intent startCustomCameraIntent = new Intent(this, CameraActivity.class);
+        startActivityForResult(startCustomCameraIntent, REQUEST_CAMERA);
+    }
+
+    private void requestForPermission(final String permission) {
+        ActivityCompat.requestPermissions(EditUserActivity.this, new String[]{permission}, REQUEST_CAMERA_PERMISSION);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CAMERA_PERMISSION:
+                final int numOfRequest = grantResults.length;
+                final boolean isGranted = numOfRequest == 1
+                        && PackageManager.PERMISSION_GRANTED == grantResults[numOfRequest - 1];
+                if (isGranted) {
+                    launch();
+                }
+                break;
+
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+
     /**
      * Retrieves the result after selecting a new profile picture, either by camera, image picker or image cropper
      *
@@ -288,7 +358,7 @@ public class EditUserActivity extends AppCompatActivity implements EditUserView,
                 Uri destination = Uri.fromFile(new File(getCacheDir(), "cropped"));
                 Crop.of(data.getData(), destination).asSquare().start(this);
             } else {
-                Toast.makeText(EditUserActivity.this, "Kunne ikke finne det valgte bildet", Toast.LENGTH_LONG).show();
+                Toast.makeText(EditUserActivity.this, "Kunne ikke finne det valgte bildet", Toast.LENGTH_SHORT).show();
             }
         }
         // Image cropper
@@ -298,7 +368,7 @@ public class EditUserActivity extends AppCompatActivity implements EditUserView,
             }
         }
         // Image capture
-        else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+        else if (requestCode == REQUEST_CAMERA && resultCode == RESULT_OK) {
             Uri photoUri = data.getData();
             prepareToSample(photoUri);
         }

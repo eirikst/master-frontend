@@ -29,6 +29,10 @@ public class DateUtility {
         return timeFormat.format(date);
     }
 
+    /*
+    This is shit
+    todo:fjern
+
     public static boolean equals(Date lhs, Date rhs) {
         Calendar lhsc = new GregorianCalendar();
         lhsc.setTime(lhs);
@@ -55,5 +59,5 @@ public class DateUtility {
             return true;
         }
         return false;
-    }
+    }*/
 }

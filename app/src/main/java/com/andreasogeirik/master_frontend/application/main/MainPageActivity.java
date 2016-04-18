@@ -87,7 +87,7 @@ public class MainPageActivity extends AppCompatActivity implements MainPageView,
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
             String message = intent.getStringExtra("photoMessage");
-            Toast.makeText(MainPageActivity.this, message, Toast.LENGTH_LONG).show();
+            Toast.makeText(MainPageActivity.this, message, Toast.LENGTH_SHORT).show();
             Log.d("receiver", "Got message: " + message);
         }
     };
@@ -137,6 +137,11 @@ public class MainPageActivity extends AppCompatActivity implements MainPageView,
         }
 
         registerReceiver();
+
+        String msg = getIntent().getStringExtra("msg");
+        if(msg != null) {
+            displayMessage(msg);
+        }
     }
 
     @Override
@@ -255,7 +260,7 @@ public class MainPageActivity extends AppCompatActivity implements MainPageView,
 
     @Override
     public void displayMessage(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
