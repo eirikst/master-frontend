@@ -7,9 +7,7 @@ import android.view.MenuItem;
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.auth.entrance.EntranceActivity;
 import com.andreasogeirik.master_frontend.application.event.create.CreateEventActivity;
-import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
 import com.andreasogeirik.master_frontend.application.search.UserSearchActivity;
-import com.andreasogeirik.master_frontend.application.settings.SettingsActivity;
 import com.andreasogeirik.master_frontend.application.user.profile.ProfileActivity;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.util.LogoutHandler;
@@ -30,10 +28,6 @@ public class Toolbar {
                 return true;
             case R.id.create_event:
                 i = new Intent(context, CreateEventActivity.class);
-                context.startActivity(i);
-                return true;
-            case R.id.settings:
-                i = new Intent(context, SettingsActivity.class);
                 context.startActivity(i);
                 return true;
             case R.id.my_profile:

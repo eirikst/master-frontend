@@ -28,12 +28,6 @@ public class MainPagePresenterImpl extends GeneralPresenter implements MainPageP
         this.view = view;
         this.interactor = new MainPageInteractorImpl(this);
 
-        //init text size
-        Constants.USER_SET_SIZE = UserPreferencesManager.getInstance().getTextSize();
-        if(Constants.USER_SET_SIZE < 1) {
-            Constants.USER_SET_SIZE = Constants.MEDIUM;
-        }
-
         // This is called so that we will have no latency waiting for a 401 if the user is not authenticated
         if(UserPreferencesManager.getInstance().getCookie() == null) {
             view.navigateToEntrance();

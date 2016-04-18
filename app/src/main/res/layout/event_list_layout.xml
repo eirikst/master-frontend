@@ -66,7 +66,7 @@
             >
 
 
-            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+            <TextView
                 android:id="@+id/event_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
                 android:layout_weight="30"
                 />
 
-            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+            <TextView
                 android:id="@+id/event_time_start"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -94,7 +94,7 @@
                 android:layout_below="@+id/event_time_start"
                 >
 
-                <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+                <TextView
                     android:id="@+id/event_friends"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

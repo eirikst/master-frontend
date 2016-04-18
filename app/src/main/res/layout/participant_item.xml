@@ -19,7 +19,7 @@ android:background="@drawable/shape_gen_background">
     android:paddingLeft="5dp"
     />
 
-<com.andreasogeirik.master_frontend.layout.view.CustomTextView
+<TextView
     android:id="@+id/name"
     android:layout_width="0dp"
     android:layout_height="match_parent"

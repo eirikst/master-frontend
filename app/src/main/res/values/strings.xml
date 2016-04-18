@@ -6,7 +6,6 @@
     <string name="edit_event">ENDRE AKTIVITET</string>
     <string name="edit_user">ENDRE BRUKER</string>
     <string name="profile">PROFIL</string>
-    <string name="settings">INNSTILLINGER</string>
     <string name="search_user">SØK BRUKERE</string>
     <string name="friends">VENNER</string>
     <string name="others_profile">PROFIL</string>
@@ -16,7 +15,6 @@
     // Toolbar - dropdown
     <string name="drop_search_user">Søk etter bruker</string>
     <string name="drop_new_activity">Ny aktivitet</string>
-    <string name="drop_settings">Innstillinger</string>
     <string name="drop_my_profile">Min profil</string>
     <string name="drop_sign_out">Logg ut</string>
 
@@ -66,7 +64,6 @@
     <string name="event_edit_difficulty_medium">MODERAT</string>
     <string name="event_edit_difficulty_hard">HØY</string>
 
-    <string name="action_settings">Innstillinger</string>
     <string name="title_activity_login">Logg inn</string>
 
     <string name="title_activity_my_profile">MEG</string>

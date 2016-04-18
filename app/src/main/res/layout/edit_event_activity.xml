@@ -15,13 +15,13 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-        <com.andreasogeirik.master_frontend.layout.view.CustomButton
+        <Button
             android:id="@+id/home"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/ic_home_black_24dp" />
 
-        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -116,7 +116,7 @@
                 android:maxLength="250"/>
 
 
-            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+            <TextView
                 android:id="@+id/start_date_error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -170,7 +170,7 @@
                     />
             </RelativeLayout>
 
-            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+            <TextView
                 android:id="@+id/end_date_error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -219,7 +219,7 @@
 
                 >
 
-                <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+                <TextView
                     android:id="@+id/difficulty_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -235,7 +235,7 @@
                     android:layout_below="@+id/difficulty_label"
                     >
 
-                    <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+                    <TextView
                         android:id="@+id/difficulty"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -261,7 +261,7 @@
 
             </RelativeLayout>
 
-            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+            <TextView
                 android:id="@+id/error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -269,7 +269,7 @@
                 android:textColor="@color/app_error"
                 android:visibility="gone" />
 
-            <com.andreasogeirik.master_frontend.layout.view.CustomButton
+            <Button
                 android:id="@+id/submit_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

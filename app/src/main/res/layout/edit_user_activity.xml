@@ -14,13 +14,13 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-        <com.andreasogeirik.master_frontend.layout.view.CustomButton
+        <Button
             android:id="@+id/home"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/ic_home_black_24dp" />
 
-        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -55,7 +55,7 @@
             android:src="@drawable/default_profile"
             />
 
-        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+        <TextView
             android:id="@+id/image_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -97,7 +97,7 @@
             android:inputType="textCapSentences"
             android:maxLength="50"/>
 
-        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+        <TextView
             android:id="@id/error"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -136,7 +136,7 @@
                 android:layout_marginRight="10dp"
                 />
 
-            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/user_edit_password_btn"

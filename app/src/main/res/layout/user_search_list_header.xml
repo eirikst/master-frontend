@@ -13,7 +13,7 @@
         android:layout_weight="7"
         />
 
-    <com.andreasogeirik.master_frontend.layout.view.CustomButton
+    <Button
         android:id="@+id/user_search_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

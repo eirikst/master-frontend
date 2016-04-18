@@ -28,7 +28,7 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <com.andreasogeirik.master_frontend.layout.view.CustomTitleTextView
+        <TextView
             android:id="@+id/event_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,9 +37,10 @@
             android:gravity="center_horizontal"
             android:textColor="@color/app_font"
             android:textStyle="bold"
+            android:textSize="24dp"
             />
 
-        <com.andreasogeirik.master_frontend.layout.view.CustomButton
+        <Button
             android:id="@+id/event_attend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -51,7 +52,7 @@
             android:layout_below="@+id/event_name"
             />
 
-        <com.andreasogeirik.master_frontend.layout.view.CustomButton
+        <Button
             android:id="@+id/event_unattend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -73,7 +74,7 @@
             android:layout_below="@+id/event_unattend"
             >
 
-            <com.andreasogeirik.master_frontend.layout.view.CustomButton
+            <Button
                 android:id="@+id/event_edit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -84,7 +85,7 @@
                 android:textStyle="bold"
                 android:visibility="gone"/>
 
-            <com.andreasogeirik.master_frontend.layout.view.CustomButton
+            <Button
                 android:id="@+id/event_delete"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -114,7 +115,7 @@
                 android:layout_marginRight="10dp"
                 />
 
-            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+            <TextView
                 android:id="@+id/event_startTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -142,7 +143,7 @@
                 android:layout_marginRight="10dp"
                 />
 
-            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+            <TextView
                 android:id="@+id/event_end_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -168,7 +169,7 @@
                 android:layout_marginRight="10dp"
                 />
 
-            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+            <TextView
                 android:id="@+id/event_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -194,7 +195,7 @@
                 android:layout_marginRight="10dp"
                 />
 
-            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+            <TextView
                 android:id="@+id/event_difficulty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -248,7 +249,7 @@
                 android:layout_gravity="top"
                 android:layout_marginRight="10dp"
                 />
-            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+            <TextView
                 android:id="@+id/event_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -274,7 +275,7 @@
                 android:layout_gravity="top"
                 android:layout_marginRight="10dp"
                 />
-            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+            <TextView
                 android:id="@+id/event_admin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -284,7 +285,7 @@
                 />
         </RelativeLayout>
 
-        <com.andreasogeirik.master_frontend.layout.view.CustomButton
+        <Button
             android:id="@+id/event_participants"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -296,7 +297,7 @@
             android:layout_below="@+id/event_admin_panel"
             />
 
-        <com.andreasogeirik.master_frontend.layout.view.CustomButton
+        <Button
             android:id="@+id/new_post_event"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -309,7 +310,7 @@
             android:text="Skriv post"
             />
 
-        <com.andreasogeirik.master_frontend.layout.view.CustomTitleTextView
+        <TextView
             android:id="@+id/posts_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -320,9 +321,10 @@
             android:layout_marginTop="5dp"
             android:layout_below="@+id/new_post_event"
             android:textStyle="bold"
+            android:textSize="24dp"
             />
 
-        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+        <TextView
             android:gravity="center_horizontal"
             android:id="@+id/no_posts"
             android:text="Her var det tomt"

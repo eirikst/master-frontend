@@ -28,7 +28,7 @@
             android:src="@drawable/default_profile"
             />
 
-        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+        <TextView
             android:id="@+id/notification_friend_text"
             android:layout_width="0dp"
             android:layout_height="match_parent"

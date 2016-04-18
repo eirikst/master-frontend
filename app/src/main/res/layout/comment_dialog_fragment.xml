@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+    <TextView
         android:id="@+id/comment_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
         android:inputType="textMultiLine|textCapSentences"
         android:layout_below="@id/comment_header"
         />
-    <com.andreasogeirik.master_frontend.layout.view.CustomButton
+    <Button
         android:id="@+id/comment_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

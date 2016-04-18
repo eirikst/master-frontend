@@ -47,7 +47,6 @@
         <activity android:name=".application.user.profile_others.ProfileOthersActivity" android:screenOrientation="portrait"/>
         <activity android:name=".application.auth.register.RegisterActivity" android:screenOrientation="portrait"/>
         <activity android:name=".application.event.create.CreateEventActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".application.settings.SettingsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".application.event.main.EventActivity" android:screenOrientation="portrait"/>
         <activity android:name=".application.user.photo.PhotoActivity" android:screenOrientation="portrait"/>
         <activity android:name=".application.search.UserSearchActivity" android:screenOrientation="portrait"/>
