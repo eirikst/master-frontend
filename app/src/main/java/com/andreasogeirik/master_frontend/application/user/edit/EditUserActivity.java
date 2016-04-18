@@ -30,19 +30,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
-import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
 import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
 import com.andreasogeirik.master_frontend.application.user.edit.fragments.EditPasswordDialogFragment;
 import com.andreasogeirik.master_frontend.application.user.edit.interfaces.EditUserPresenter;
 import com.andreasogeirik.master_frontend.application.user.edit.interfaces.EditUserView;
 import com.andreasogeirik.master_frontend.application.user.profile.ProfileActivity;
-import com.andreasogeirik.master_frontend.application.user.profile.ProfilePresenterImpl;
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
-import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.desmond.squarecamera.CameraActivity;
 import com.soundcloud.android.crop.Crop;
 import com.squareup.picasso.Picasso;
+
+
 
 import java.io.File;
 import java.io.FileNotFoundException;
