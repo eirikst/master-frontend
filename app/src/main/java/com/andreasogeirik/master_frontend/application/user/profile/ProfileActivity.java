@@ -1,6 +1,7 @@
 package com.andreasogeirik.master_frontend.application.user.profile;
 
 import android.content.Intent;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,7 +23,9 @@ import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.general.ToolbarPresenterImpl;
 import com.andreasogeirik.master_frontend.application.general.interfaces.ToolbarPresenter;
 import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
+import com.andreasogeirik.master_frontend.application.main.notification.NotificationCenterDialogFragment;
 import com.andreasogeirik.master_frontend.application.post.CommentDialog;
+import com.andreasogeirik.master_frontend.application.post.LikeDialogFragment;
 import com.andreasogeirik.master_frontend.application.post.PostDialog;
 import com.andreasogeirik.master_frontend.application.user.profile.fragments.FriendProfileHeader;
 import com.andreasogeirik.master_frontend.application.user.profile.fragments.MyProfileHeader;
@@ -37,6 +40,7 @@ import com.andreasogeirik.master_frontend.util.Constants;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 import butterknife.Bind;
@@ -472,5 +476,27 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
         postDialog.postButtonEnable(true);
     }
 
+    @Override
+    public void navigateToUser(User user) {
+        presenter.navigateToUser(user);
+    }
 
+    @Override
+    public void navigateToLikers(Set<User> likers) {
+        // DialogFragment.show() will take care of adding the fragment
+        // in a transaction.  We also want to remove any currently showing
+        // dialog, so make our own transaction and take care of that here.
+        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager()
+                .beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("likerDialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        // Create and show the dialog.
+        DialogFragment newFragment = LikeDialogFragment.newInstance(
+                new HashSet<User>(likers));
+        newFragment.show(ft, "likerDialog");
+    }
 }

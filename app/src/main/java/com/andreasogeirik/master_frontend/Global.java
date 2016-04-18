@@ -18,7 +18,7 @@ public class Global extends Application {
         Picasso built = builder
                 .build();
         //built.setIndicatorsEnabled(true);
-        built.setLoggingEnabled(true);
+        //built.setLoggingEnabled(true);
         Picasso.setSingletonInstance(built);
 
         //TODO: MUSTDO: init this

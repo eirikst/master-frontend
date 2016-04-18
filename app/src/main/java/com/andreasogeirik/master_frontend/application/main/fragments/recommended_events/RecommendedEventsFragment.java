@@ -68,7 +68,6 @@ public class RecommendedEventsFragment extends Fragment implements RecommendedEv
         super.onCreate(savedInstanceState);
 
         listAdapter = new EventListAdapter(getActivity().getApplicationContext());
-        presenter = new RecommendedEventsPresenterImpl(this);
     }
 
     /*

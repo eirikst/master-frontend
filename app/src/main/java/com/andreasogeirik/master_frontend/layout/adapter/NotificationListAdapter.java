@@ -13,7 +13,9 @@ import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.layout.transformation.CircleTransform;
+import com.andreasogeirik.master_frontend.listener.OnUserClickListener;
 import com.andreasogeirik.master_frontend.model.Friendship;
+import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.squareup.picasso.Picasso;
 
@@ -29,6 +31,7 @@ public class NotificationListAdapter extends ArrayAdapter<Object> {
     public interface Listener {
         void acceptFriendship(int friendshipId);
         void rejectFriendship(int friendshipId);
+        void navigateToUser(User user);
     }
 
     private Context context;
@@ -106,6 +109,18 @@ public class NotificationListAdapter extends ArrayAdapter<Object> {
                 listener.rejectFriendship(friendship.getId());
             }
         });
+
+        //listen to click on user
+        OnUserClickListener userClickListener = new OnUserClickListener(new OnUserClickListener.Listener() {
+            @Override
+            public void userClicked(User user) {
+                listener.navigateToUser(user);
+            }
+        }, friendship.getFriend());
+
+        image.setOnClickListener(userClickListener);
+        text.setOnClickListener(userClickListener);
+
 
         // Return view for rendering
         return convertView;

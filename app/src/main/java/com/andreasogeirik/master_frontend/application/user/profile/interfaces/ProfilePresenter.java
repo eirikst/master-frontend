@@ -49,4 +49,6 @@ public interface ProfilePresenter {
     void post(String message);
     void postSuccess(Post post);
     void postFailure(int code);
+
+    void navigateToUser(User user);
 }

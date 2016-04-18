@@ -15,7 +15,6 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:visibility="gone"
             />
     </RelativeLayout>
 
@@ -277,7 +276,7 @@
                 />
             <com.andreasogeirik.master_frontend.layout.view.CustomTextView
                 android:id="@+id/event_admin"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/app_font"
                 android:text="@string/event_read_admin"

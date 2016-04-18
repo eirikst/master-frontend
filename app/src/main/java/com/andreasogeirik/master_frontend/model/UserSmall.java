@@ -16,6 +16,7 @@ public class UserSmall implements Serializable {
     private int id;
     private String firstname;
     private String lastname;
+    private String thumbUri;
 
     public UserSmall() {
     }
@@ -39,12 +40,14 @@ public class UserSmall implements Serializable {
         id = json.getInt("id");
         firstname = json.getString("firstname");
         lastname = json.getString("lastname");
+        thumbUri = json.getString("thumbUri");
     }
 
     public UserSmall(User user) {
         this.id = user.getId();
         this.firstname = user.getFirstname();
         this.lastname = user.getLastname();
+        this.thumbUri = user.getThumbUri();
     }
 
     public int getId() {
@@ -78,6 +81,14 @@ public class UserSmall implements Serializable {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
+    }
+
+    public String getThumbUri() {
+        return thumbUri;
+    }
+
+    public void setThumbUri(String thumbUri) {
+        this.thumbUri = thumbUri;
     }
 
     @Override

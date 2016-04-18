@@ -53,6 +53,18 @@ public class User implements Serializable {
         this.thumbUri = thumbUri;
     }
 
+    public void copy(User user) {
+        this.id = user.id;
+        this.email = user.email;
+        this.enabled = user.enabled;
+        this.password = user.password;
+        this.firstname = user.firstname;
+        this.lastname = user.lastname;
+        this.location = user.location;
+        this.imageUri = user.imageUri;
+        this.thumbUri = user.thumbUri;
+    }
+
     //TODO: hvis vi skal laste en bruker med friends eller posts fra json, gjør det i konstruktøren her(se Post/Post)
     public User(JSONObject json) throws JSONException {
         id = json.getInt("id");

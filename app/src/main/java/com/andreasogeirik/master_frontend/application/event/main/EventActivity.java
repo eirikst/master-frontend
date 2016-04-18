@@ -16,6 +16,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,9 +27,11 @@ import com.andreasogeirik.master_frontend.application.event.main.interfaces.Even
 import com.andreasogeirik.master_frontend.application.event.main.participants.ParticipantsActivity;
 import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
 import com.andreasogeirik.master_frontend.application.post.CommentDialog;
+import com.andreasogeirik.master_frontend.application.post.LikeDialogFragment;
 import com.andreasogeirik.master_frontend.application.post.PostDialog;
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
 import com.andreasogeirik.master_frontend.layout.adapter.PostListAdapter;
+import com.andreasogeirik.master_frontend.listener.OnUserClickListener;
 import com.andreasogeirik.master_frontend.model.Comment;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.User;
@@ -89,6 +92,7 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
     private TextView eventLocation;
     private TextView eventDescription;
     private TextView eventAdmin;
+    private RelativeLayout adminPanel;
 
     private Button newPostBtn;
 
@@ -268,6 +272,7 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
         this.eventLocation = (TextView) headerView.findViewById(R.id.event_location);
         this.eventDescription = (TextView) headerView.findViewById(R.id.event_description);
         this.eventAdmin = (TextView) headerView.findViewById(R.id.event_admin);
+        this.adminPanel = (RelativeLayout) headerView.findViewById(R.id.event_admin_panel);
 
         this.easyDiff = headerView.findViewById(R.id.difficulty_easy);
         this.mediumDiff = headerView.findViewById(R.id.difficulty_medium);
@@ -308,6 +313,15 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
                 postDialog.show(ft, "postDialog");
             }
         });
+
+        //listen to click on user
+        OnUserClickListener userClickListener = new OnUserClickListener(new OnUserClickListener.Listener() {
+            @Override
+            public void userClicked(User user) {
+                presenter.navigateToUser(user);
+            }
+        }, event.getAdmin());
+        adminPanel.setOnClickListener(userClickListener);
     }
 
     @Override
@@ -503,4 +517,27 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
         postDialog.postButtonEnable(true);
     }
 
+    @Override
+    public void navigateToUser(User user) {
+        presenter.navigateToUser(user);
+    }
+
+    @Override
+    public void navigateToLikers(Set<User> likers) {
+        // DialogFragment.show() will take care of adding the fragment
+        // in a transaction.  We also want to remove any currently showing
+        // dialog, so make our own transaction and take care of that here.
+        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager()
+                .beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("likerDialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        // Create and show the dialog.
+        DialogFragment newFragment = LikeDialogFragment.newInstance(
+                new HashSet<User>(likers));
+        newFragment.show(ft, "likerDialog");
+    }
 }

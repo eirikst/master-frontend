@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -18,7 +19,7 @@ import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
 import com.andreasogeirik.master_frontend.application.search.interfaces.UserSearchPresenter;
 import com.andreasogeirik.master_frontend.application.search.interfaces.UserSearchView;
-import com.andreasogeirik.master_frontend.layout.adapter.UserSearchListAdapter;
+import com.andreasogeirik.master_frontend.layout.adapter.UserListAdapter;
 import com.andreasogeirik.master_frontend.model.User;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class UserSearchActivity extends AppCompatActivity implements UserSearchV
     private Button loadMoreBtn;
 
     private UserSearchPresenter presenter;
-    private UserSearchListAdapter adapter;
+    private UserListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +78,7 @@ public class UserSearchActivity extends AppCompatActivity implements UserSearchV
 
     @Override
     public void setupView(List<User> users) {
-        adapter = new UserSearchListAdapter(this, new ArrayList<>(users));
+        adapter = new UserListAdapter(this, new ArrayList<>(users));
         userListView.setAdapter(adapter);
 
         View listHeader = getLayoutInflater().inflate(R.layout.user_search_list_header, null);
@@ -162,6 +163,14 @@ public class UserSearchActivity extends AppCompatActivity implements UserSearchV
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (!com.andreasogeirik.master_frontend.layout.Toolbar.onOptionsItemSelected(item, this)) {
+            return super.onOptionsItemSelected(item);
+        }
         return true;
     }
 }

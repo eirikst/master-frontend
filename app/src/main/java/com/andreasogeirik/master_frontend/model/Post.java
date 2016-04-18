@@ -56,6 +56,7 @@ public class Post implements Serializable {
             liker.setId(jsonLikers.getJSONObject(i).getInt("id"));
             liker.setLastname(jsonLikers.getJSONObject(i).getString("lastname"));
             liker.setFirstname(jsonLikers.getJSONObject(i).getString("firstname"));
+            liker.setThumbUri(jsonLikers.getJSONObject(i).getString("thumbUri"));
             likers.add(liker);
         }
     }

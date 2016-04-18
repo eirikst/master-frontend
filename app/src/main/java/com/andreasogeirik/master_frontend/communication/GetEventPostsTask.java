@@ -81,8 +81,6 @@ public class GetEventPostsTask extends AsyncTask<Void, Void, Pair<Integer, Respo
             try {
                 JSONArray posts = new JSONArray(response.second.getBody());
 
-                System.out.println(response.second.getBody());
-
                 listener.onSuccessPostsLoad(posts);
             }
             catch(JSONException e) {

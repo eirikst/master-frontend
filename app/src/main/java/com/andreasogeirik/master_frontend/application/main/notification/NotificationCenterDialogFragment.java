@@ -16,6 +16,7 @@ import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.main.notification.interfaces.NotificationCenterPresenter;
 import com.andreasogeirik.master_frontend.application.main.notification.interfaces.NotificationCenterView;
 import com.andreasogeirik.master_frontend.layout.adapter.NotificationListAdapter;
+import com.andreasogeirik.master_frontend.model.User;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -74,6 +75,8 @@ public class NotificationCenterDialogFragment extends DialogFragment implements 
 
         Dialog dialog = getDialog();
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+        presenter.checkFriendships();//to update if back button is pressed to get into this view
     }
 
     @Override
@@ -127,5 +130,10 @@ public class NotificationCenterDialogFragment extends DialogFragment implements 
     public void setNotifications(Set<Object> notifications) {
         adapter.setNotifications(notifications);
         callback.setNotificationCount(notifications.size());
+    }
+
+    @Override
+    public void navigateToUser(User user) {
+        presenter.navigateToUser(user);
     }
 }

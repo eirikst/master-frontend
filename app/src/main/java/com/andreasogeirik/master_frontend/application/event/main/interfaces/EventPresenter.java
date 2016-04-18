@@ -2,6 +2,7 @@ package com.andreasogeirik.master_frontend.application.event.main.interfaces;
 
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.Post;
+import com.andreasogeirik.master_frontend.model.User;
 
 
 /**
@@ -33,4 +34,6 @@ public interface EventPresenter {
 
     void postSuccess(Post post);
     void postFailure(int code);
+
+    void navigateToUser(User user);
 }

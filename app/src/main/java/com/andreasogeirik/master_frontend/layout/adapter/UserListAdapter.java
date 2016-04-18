@@ -11,10 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.layout.transformation.CircleTransform;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.squareup.picasso.Picasso;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,12 +25,13 @@ import java.util.Set;
 /**
  * Created by eirikstadheim on 05/02/16.
  */
-public class UserSearchListAdapter extends ArrayAdapter<User> {
+public class UserListAdapter extends ArrayAdapter<User> {
 
     private Context context;
     private List<User> users;
+    private CircleTransform circleTransform = new CircleTransform();
 
-    public UserSearchListAdapter(Context context, List<User> users) {
+    public UserListAdapter(Context context, List<User> users) {
         super(context, 0, users);
         this.context = context;
         this.users = users;
@@ -56,6 +59,7 @@ public class UserSearchListAdapter extends ArrayAdapter<User> {
                     .error(R.drawable.default_profile)
                     .resize(Constants.LIST_IMAGE_WIDTH, Constants.LIST_IMAGE_HEIGHT)
                     .centerCrop()
+                    .transform(circleTransform)
                     .into(image);
         }
         else {
@@ -63,6 +67,7 @@ public class UserSearchListAdapter extends ArrayAdapter<User> {
                     .load(R.drawable.default_profile)
                     .resize(Constants.LIST_IMAGE_WIDTH, Constants.LIST_IMAGE_HEIGHT)
                     .centerCrop()
+                    .transform(circleTransform)
                     .into(image);
         }
 
@@ -74,7 +79,7 @@ public class UserSearchListAdapter extends ArrayAdapter<User> {
         return convertView;
     }
 
-    public void setData(List<User> users) {
+    public void setData(Collection<User> users) {
         this.clear();
         this.addAll(users);
     }

@@ -1,6 +1,7 @@
 package com.andreasogeirik.master_frontend.application.event.main;
 
 import android.app.Activity;
+import android.content.Intent;
 
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventInteractor;
@@ -9,6 +10,8 @@ import com.andreasogeirik.master_frontend.application.event.main.interfaces.Even
 import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
 import com.andreasogeirik.master_frontend.application.post.PostListInteractor;
 import com.andreasogeirik.master_frontend.application.post.PostListInteractorImpl;
+import com.andreasogeirik.master_frontend.application.user.profile.ProfileActivity;
+import com.andreasogeirik.master_frontend.application.user.profile_others.ProfileOthersActivity;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.Comment;
 import com.andreasogeirik.master_frontend.model.Event;
@@ -346,5 +349,22 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
     public void postFailure(int code) {
         eventView.showErrorMessage("En feil skjedde. Prøv igjen.");
         eventView.postFinishedWithError();
+    }
+
+    @Override
+    public void navigateToUser(User user) {
+        //if friend or self
+        if (CurrentUser.getInstance().getUser().isFriendWith(user) ||
+                CurrentUser.getInstance().getUser().equals(user)) {
+            Intent intent = new Intent(getActivity(), ProfileActivity.class);
+            intent.putExtra("user", user.getId());
+            getActivity().startActivity(intent);
+        }
+        //or if not friend
+        else {
+            Intent intent = new Intent(getActivity(), ProfileOthersActivity.class);
+            intent.putExtra("user", user);
+            getActivity().startActivity(intent);
+        }
     }
 }

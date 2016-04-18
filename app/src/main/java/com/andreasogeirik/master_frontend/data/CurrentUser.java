@@ -7,7 +7,7 @@ import com.andreasogeirik.master_frontend.model.User;
  */
 public class CurrentUser {
     private static CurrentUser instance;
-    private User user;
+    private User user = new User();
 
     protected CurrentUser() {
     }
@@ -24,6 +24,8 @@ public class CurrentUser {
     }
 
     public void setUser(User user) {
-        this.user = user;
+        //lists stays the same for the user, so that if this is used by the get user task and the
+        // posts has been set before the other user data, the posts will remain
+        this.user.copy(user);
     }
 }

@@ -15,8 +15,10 @@ import com.andreasogeirik.master_frontend.layout.model_wrapper.CommentWrapper;
 import com.andreasogeirik.master_frontend.layout.model_wrapper.PostListElement;
 import com.andreasogeirik.master_frontend.layout.model_wrapper.PostWrapper;
 import com.andreasogeirik.master_frontend.layout.transformation.CircleTransform;
+import com.andreasogeirik.master_frontend.listener.OnUserClickListener;
 import com.andreasogeirik.master_frontend.model.Comment;
 import com.andreasogeirik.master_frontend.model.Post;
+import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.model.UserSmall;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.andreasogeirik.master_frontend.util.DateUtility;
@@ -25,7 +27,9 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by eirikstadheim on 05/02/16.
@@ -37,6 +41,8 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
         void unlikeComment(int commentId);
         void unlikePost(int postId);
         void showComment(Post post);
+        void navigateToUser(User user);
+        void navigateToLikers(Set<User> likers);
     }
 
     private static final int POST = 0;
@@ -179,6 +185,30 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
             }
         });
 
+        //listen to click on user
+        OnUserClickListener userClickListener = new OnUserClickListener(new OnUserClickListener.Listener() {
+            @Override
+            public void userClicked(User user) {
+                callback.navigateToUser(user);
+            }
+        }, post.getWriter());
+
+        image.setOnClickListener(userClickListener);
+        name.setOnClickListener(userClickListener);
+
+        nrOfLikes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Set<User> users = new HashSet<User>();
+                for(UserSmall userSmall: post.getLikers()) {
+                    User user = new User(userSmall.getId(), "", true, userSmall.getFirstname(),
+                            userSmall.getLastname(), "", "", userSmall.getThumbUri());
+                    users.add(user);
+                }
+                callback.navigateToLikers(users);
+            }
+        });
+
         // Return view for rendering
         return convertView;
 
@@ -251,6 +281,29 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
             }
         });
 
+        //listen to click on user
+        OnUserClickListener userClickListener = new OnUserClickListener(new OnUserClickListener.Listener() {
+            @Override
+            public void userClicked(User user) {
+                callback.navigateToUser(user);
+            }
+        }, comment.getWriter());
+
+        image.setOnClickListener(userClickListener);
+        name.setOnClickListener(userClickListener);
+
+        nrOfLikes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Set<User> users = new HashSet<User>();
+                for(UserSmall userSmall: comment.getLikers()) {
+                    User user = new User(userSmall.getId(), "", true, userSmall.getFirstname(),
+                            userSmall.getLastname(), "", "", userSmall.getThumbUri());
+                    users.add(user);
+                }
+                callback.navigateToLikers(users);
+            }
+        });
 
 
         // Return view for rendering

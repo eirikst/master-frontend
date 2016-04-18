@@ -10,6 +10,7 @@ import com.andreasogeirik.master_frontend.application.post.PostListInteractor;
 import com.andreasogeirik.master_frontend.application.post.PostListInteractorImpl;
 import com.andreasogeirik.master_frontend.application.user.friend.FriendListActivity;
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfileInteractor;
+import com.andreasogeirik.master_frontend.application.user.profile_others.ProfileOthersActivity;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
 import com.andreasogeirik.master_frontend.model.Comment;
 import com.andreasogeirik.master_frontend.model.Event;
@@ -294,4 +295,20 @@ PostListInteractorImpl.Listener {
         view.postFinishedWithError();
     }
 
+    @Override
+    public void navigateToUser(User user) {
+        //if friend
+        if (CurrentUser.getInstance().getUser().isFriendWith(user)) {
+            Intent intent = new Intent(getActivity(), ProfileActivity.class);
+            intent.putExtra("user", user.getId());
+            getActivity().startActivity(intent);
+        }
+        //or if not friend
+        else if(!CurrentUser.getInstance().getUser().equals(user)) {
+            Intent intent = new Intent(getActivity(), ProfileOthersActivity.class);
+            intent.putExtra("user", user);
+            getActivity().startActivity(intent);
+        }
+        //if self, do nothing
+    }
 }
