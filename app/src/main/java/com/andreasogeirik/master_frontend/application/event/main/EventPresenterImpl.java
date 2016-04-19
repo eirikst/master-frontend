@@ -8,6 +8,7 @@ import com.andreasogeirik.master_frontend.application.event.main.interfaces.Even
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventPresenter;
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventView;
 import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
+import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
 import com.andreasogeirik.master_frontend.application.post.PostListInteractor;
 import com.andreasogeirik.master_frontend.application.post.PostListInteractorImpl;
 import com.andreasogeirik.master_frontend.application.user.profile.ProfileActivity;
@@ -48,7 +49,36 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
         this.postInteractor = new PostListInteractorImpl(this);
         this.event = event;
 
+        initGui();
+        setEventAttributes();
+
         findPosts();
+    }
+
+    public EventPresenterImpl(EventView eventView, int id) {
+        super((Activity) eventView, CHECK_USER_AVAILABLE);
+        this.eventView = eventView;
+        this.interactor = new EventInteractorImpl(this);
+        this.postInteractor = new PostListInteractorImpl(this);
+
+        interactor.findEvent(id);
+    }
+
+    @Override
+    public void eventSuccess(Event event) {
+        this.event = event;
+
+        initGui();
+        setEventAttributes();
+
+        findPosts();
+    }
+
+    @Override
+    public void eventFailure(int code) {
+        eventView.showErrorMessage("Feil ved lasting av aktivitet");
+        eventView.navigateToMain();
+
     }
 
     @Override

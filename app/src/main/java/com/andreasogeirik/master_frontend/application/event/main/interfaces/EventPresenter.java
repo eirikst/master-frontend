@@ -36,4 +36,7 @@ public interface EventPresenter {
     void postFailure(int code);
 
     void navigateToUser(User user);
+
+    void eventSuccess(Event event);
+    void eventFailure(int code);
 }

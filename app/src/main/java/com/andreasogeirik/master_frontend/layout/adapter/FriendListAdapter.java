@@ -72,6 +72,14 @@ public class FriendListAdapter extends ArrayAdapter<Friendship> {
         //Populate name
         name.setText(friendship.getFriend().getFirstname() + " " + friendship.getFriend().getLastname());
 
+        ImageView adminSymbol = (ImageView)convertView.findViewById(R.id.admin_symbol);
+        if(friendship.getFriend().isAdmin()) {
+            adminSymbol.setVisibility(View.VISIBLE);
+        }
+        else {
+            adminSymbol.setVisibility(View.GONE);
+        }
+
         // Return view for rendering
         return convertView;
     }

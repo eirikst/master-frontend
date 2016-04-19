@@ -92,11 +92,12 @@ public class MyProfileHeader extends Fragment {
      */
     public void updateFriendCount(int count) {
         this.friendCount = count;
-        if(count == 1) {
-            friendText.setText(friendCount + " venn");//hardcoded string
-        }
-        else {
-            friendText.setText(friendCount + " venner");//hardcoded string
+        if(friendText != null) {
+            if (count == 1) {
+                friendText.setText(friendCount + " venn");//hardcoded string
+            } else {
+                friendText.setText(friendCount + " venner");//hardcoded string
+            }
         }
     }
 }

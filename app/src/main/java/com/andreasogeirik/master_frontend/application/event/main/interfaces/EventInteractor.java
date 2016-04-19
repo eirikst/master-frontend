@@ -8,4 +8,6 @@ public interface EventInteractor {
     void unAttendEvent(int eventId);
     void deleteEvent(int eventId);
     void post(int eventId, String message);
+
+    void findEvent(int id);
 }

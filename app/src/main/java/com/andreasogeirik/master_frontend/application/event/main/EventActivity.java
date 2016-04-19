@@ -113,9 +113,17 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
         setupToolbar();
 
         try {
-            this.presenter = new EventPresenterImpl(this, (Event) getIntent().getSerializableExtra("event"));
-            this.presenter.initGui();
-            this.presenter.setEventAttributes();
+            Object object = getIntent().getSerializableExtra("event");
+            if(object != null) {
+                this.presenter = new EventPresenterImpl(this, (Event) object);
+            }
+            else {
+                int eventId = getIntent().getIntExtra("eventId", -1);
+                if(eventId == -1) {
+                    throw new RuntimeException("Neither event nor eventId put in intent");
+                }
+                this.presenter = new EventPresenterImpl(this, eventId);
+            }
         } catch (ClassCastException e) {
             throw new ClassCastException(e + "/nObject in Intent bundle cannot " +
                     "be cast to User in " + this.toString());
