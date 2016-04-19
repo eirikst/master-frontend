@@ -64,7 +64,7 @@
                 android:layout_marginRight="10dp"
                 android:visibility="gone"
                 />
-            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+            <TextView
                 android:id="@+id/name_user"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
                 />
         </RelativeLayout>
 
-        <com.andreasogeirik.master_frontend.layout.view.CustomTextViewSmall
+        <TextView
             android:id="@+id/location_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -80,7 +80,7 @@
             android:layout_marginBottom="10dp"
             />
 
-        <com.andreasogeirik.master_frontend.layout.view.CustomButton
+        <Button
             android:id="@+id/participating_events_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -92,7 +92,7 @@
             android:layout_below="@+id/location_user"
             />
 
-        <com.andreasogeirik.master_frontend.layout.view.CustomButton
+        <Button
             android:id="@+id/new_post_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -106,19 +106,19 @@
             android:layout_below="@+id/participating_events_btn"
             />
 
-        <com.andreasogeirik.master_frontend.layout.view.CustomTitleTextView
+        <TextView
             android:id="@+id/posts_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Poster"
             android:gravity="center_horizontal"
-            android:textSize="40dp"
+            android:textSize="24dp"
             android:background="@drawable/shape_gen_background"
             android:padding="10dp"
             android:layout_below="@+id/new_post_user"
             />
 
-        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+        <TextView
             android:id="@+id/no_posts"
             android:text="Her var det tomt"
             android:layout_width="match_parent"

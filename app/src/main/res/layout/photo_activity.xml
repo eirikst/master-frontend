@@ -13,7 +13,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -47,7 +47,7 @@
             android:layout_weight="1"
             android:src="@drawable/default_profile" />
 
-        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+        <TextView
             android:id="@+id/photo_text"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -55,7 +55,7 @@
             android:text="Hei! Du har nå opprettet en profil. Hvis du ønsker, kan du legge til et profilbilde ved å trykke på bildet over."
             android:textColor="@color/app_font" />
 
-        <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+        <TextView
             android:id="@+id/error"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
             android:layout_gravity="center_horizontal"
             android:visibility="gone"/>
 
-        <com.andreasogeirik.master_frontend.layout.view.CustomButton
+        <Button
             android:id="@+id/submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -20,21 +20,6 @@ public class CustomScrollView extends android.widget.ScrollView {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-
-        //		if(!onInterceptTouchEvent(ev)){
-//        for(int i = 0; i < ((ViewGroup)getChildAt(0)).getChildCount(); i++){
-//            try {
-//                CustomView child =(CustomView) ((ViewGroup)getChildAt(0)).getChildAt(i);
-//                if(child.isLastTouch){
-//                    child.onTouchEvent(ev);
-//                    return true;
-//                }
-//            } catch (ClassCastException e) {
-//            }
-//        }
-////	    }
-//        return super.onTouchEvent(ev);
-
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 if (scrollable){

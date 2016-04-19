@@ -41,7 +41,7 @@ android:background="@drawable/shape_gen_background">
                 android:layout_marginRight="5dp"
                 android:visibility="gone"
                 />
-            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+            <TextView
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

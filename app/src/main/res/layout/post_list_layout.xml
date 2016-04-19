@@ -52,7 +52,7 @@
                         android:layout_marginRight="5dp"
                         android:visibility="gone"
                         />
-                    <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+                    <TextView
                         android:id="@+id/post_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
                         />
                 </RelativeLayout>
 
-                <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+                <TextView
                     android:id="@+id/post_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
                     android:textStyle="italic"
                     />
 
-                <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+                <TextView
                     android:id="@+id/post_message"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
             android:paddingLeft="10dp"
             android:gravity="center_horizontal"
             >
-            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+            <TextView
                 android:id="@+id/like_nr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -99,7 +99,7 @@
                 android:layout_marginRight="10dp"
                 />
 
-            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+            <TextView
                 android:id="@+id/comment_nr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -134,7 +134,7 @@
                 android:layout_marginRight="5dp"
                 />
 
-            <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+            <TextView
                 android:id="@+id/like_post"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -163,7 +163,7 @@
                         android:layout_marginRight="5dp"
                         />
 
-                    <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+                    <TextView
                         android:id="@+id/post_like_text"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -188,7 +188,7 @@
                         android:layout_marginRight="5dp"
                         />
 
-                    <com.andreasogeirik.master_frontend.layout.view.CustomTextView
+                    <TextView
                         android:id="@+id/post_unlike_text"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"

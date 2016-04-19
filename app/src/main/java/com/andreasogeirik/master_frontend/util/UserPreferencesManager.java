@@ -70,22 +70,4 @@ public class UserPreferencesManager {
         return getGcmToken() != null;
     }
 */
-
-    public void saveTextSize(int textSize) {
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("text_size", "" + textSize);
-        editor.commit();
-    }
-
-    /*
-     * -1 if not available
-     */
-    public int getTextSize() {
-        try {
-            return Integer.parseInt(preferences.getString("text_size", null));
-        }
-        catch(NumberFormatException e) {
-            return -1;
-        }
-    }
 }
