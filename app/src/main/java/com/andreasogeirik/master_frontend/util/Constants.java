@@ -8,19 +8,19 @@ public class Constants {
     //public static final String BACKEND_URL = "http://sportydul.azurewebsites.net/";
 
     //Home
-    //public static final String BACKEND_URL = "http://10.0.0.121:8080/";
+//    public static final String BACKEND_URL = "http://10.0.0.181:8080/";
     //NTNU
-    //public static final String BACKEND_URL = "http://129.241.102.250:8080/";
+    public static final String BACKEND_URL = "http://129.241.102.250:8080/";
 
     //Eirik NTNU
-    //public static final String BACKEND_URL = "http://10.22.43.123:8080/";
+    //public static final String BACKEND_URL = "http://10.22.43.196:8080/";
 
     //Eirik hjemme
-    public static final String BACKEND_URL = "http://10.0.0.74:8080/";
+    //public static final String BACKEND_URL = "http://10.0.0.99:8080/";
     //public static final String BACKEND_URL = "http://192.168.1.67:8080/";
 
     //Eirik stasjonær NTNU
-    //public static final String BACKEND_URL = "http://10.22.43.123:8080/";
+//    public static final String BACKEND_URL = "http://10.22.43.123:8080/";
 
 
     //Status codes for Tasks(http communication)
@@ -39,12 +39,6 @@ public class Constants {
 
     //Number of users returned when searcing users
     public static int NUMBER_OF_USERS_RETURNED_SEARCH = 5;
-
-    //Text sizes
-    public static int USER_SET_SIZE = 2;
-    public static final int SMALL = 1;
-    public static final int MEDIUM = 2;
-    public static final int LARGE = 3;
 
     //Event difficulty
     public static final int EVENT_DIFFICULTY_EASY = 1;
