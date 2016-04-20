@@ -115,6 +115,10 @@ public class MainPageActivity extends AppCompatActivity implements MainPageView,
         registerReceiver();
 
         if (checkPlayServices()) {
+            // Start IntentService to register this application with GCM.
+            Intent intent = new Intent(this, RegistrationIntentService.class);
+            startService(intent);
+
             presenter = new MainPagePresenterImpl(this);
         }
         else {
@@ -164,9 +168,6 @@ public class MainPageActivity extends AppCompatActivity implements MainPageView,
     public void initGUI() {
 
         setContentView(R.layout.main_page_activity);
-        // Start IntentService to register this application with GCM.
-        Intent intent = new Intent(this, RegistrationIntentService.class);
-        startService(intent);
 
         ButterKnife.bind(this);
         setupToolbar();
