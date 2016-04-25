@@ -1,11 +1,17 @@
 package com.andreasogeirik.master_frontend.application.user.photo;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.TextViewCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
@@ -19,6 +25,7 @@ import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
+import com.andreasogeirik.master_frontend.application.user.edit.EditUserActivity;
 import com.andreasogeirik.master_frontend.application.user.photo.interfaces.PhotoPresenter;
 import com.andreasogeirik.master_frontend.application.user.photo.interfaces.PhotoView;
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
@@ -46,6 +53,8 @@ public class PhotoActivity extends AppCompatActivity implements PhotoView {
 
     private int PICK_IMAGE_REQUEST = 1;
     static final int REQUEST_IMAGE_CAPTURE = 2;
+    private static final int REQUEST_CAMERA = 0;
+    private static final int REQUEST_CAMERA_PERMISSION = 1;
 
     PhotoPresenter presenter;
 
@@ -94,13 +103,56 @@ public class PhotoActivity extends AppCompatActivity implements PhotoView {
                         existingImage();
                         return true;
                     case R.id.capture_image:
-                        newImage();
+                        requestForCameraPermission();
                         return true;
                 }
                 return false;
             }
         });
         popup.show();
+    }
+
+    // Check for camera permission in MashMallow
+    public void requestForCameraPermission() {
+        final String permission = Manifest.permission.CAMERA;
+        if (ContextCompat.checkSelfPermission(PhotoActivity.this, permission)
+                != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(PhotoActivity.this, permission)) {
+                showPermissionRationaleDialog("Vi trenger tilgang til kamera for å legge til bilde", permission);
+            } else {
+                requestForPermission(permission);
+            }
+        } else {
+            launch();
+        }
+    }
+
+    private void launch() {
+        Intent startCustomCameraIntent = new Intent(this, CameraActivity.class);
+        startActivityForResult(startCustomCameraIntent, REQUEST_CAMERA);
+    }
+
+    private void requestForPermission(final String permission) {
+        ActivityCompat.requestPermissions(PhotoActivity.this, new String[]{permission}, REQUEST_CAMERA_PERMISSION);
+    }
+
+    private void showPermissionRationaleDialog(final String message, final String permission) {
+        new AlertDialog.Builder(PhotoActivity.this)
+                .setMessage(message)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        PhotoActivity.this.requestForPermission(permission);
+                    }
+                })
+                .setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .create()
+                .show();
     }
 
     @OnClick(R.id.submit)

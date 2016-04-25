@@ -270,16 +270,7 @@ public class EditUserActivity extends AppCompatActivity implements EditUserView,
         i.setType("image/*");
         startActivityForResult(i, PICK_IMAGE_REQUEST);
     }
-
-    private void newImage() {
-        Intent startCustomCameraIntent = new Intent(this, CameraActivity.class);
-        try {
-            startActivityForResult(startCustomCameraIntent, REQUEST_IMAGE_CAPTURE);
-        } catch (Exception e) {
-            Toast.makeText(EditUserActivity.this, "Kunne ikke åpne kamera!", Toast.LENGTH_SHORT).show();
-        }
-    }
-
+    
     // Check for camera permission in MashMallow
     public void requestForCameraPermission() {
         final String permission = Manifest.permission.CAMERA;
