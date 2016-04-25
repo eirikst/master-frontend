@@ -83,7 +83,6 @@ public class EditUserActivity extends AppCompatActivity implements EditUserView,
 
 
     private final int PICK_IMAGE_REQUEST = 1;
-    private final int REQUEST_IMAGE_CAPTURE = 2;
     private static int EDIT_EVENT_REQUEST = 1;
     private static final int REQUEST_CAMERA = 0;
     private static final int REQUEST_CAMERA_PERMISSION = 1;
@@ -270,7 +269,7 @@ public class EditUserActivity extends AppCompatActivity implements EditUserView,
         i.setType("image/*");
         startActivityForResult(i, PICK_IMAGE_REQUEST);
     }
-    
+
     // Check for camera permission in MashMallow
     public void requestForCameraPermission() {
         final String permission = Manifest.permission.CAMERA;

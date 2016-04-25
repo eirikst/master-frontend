@@ -74,6 +74,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     private Button eventButton;
     private ImageView imageView;
     private Button newPostBtn;
+    private ImageView headerImage;
 
     private static int EDIT_EVENT_REQUEST = 1;
 
@@ -91,9 +92,10 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_activity);
         ButterKnife.bind(this);
+        headerView = getLayoutInflater().inflate(R.layout.profile_post_list_header, null);
+        headerImage = (ImageView) headerView.findViewById(-R.id.my_profile_image);
 
-
-            Intent intent = getIntent();
+        Intent intent = getIntent();
             try {
                 presenter = new ProfilePresenterImpl(this, intent.getIntExtra("user", -1));
             } catch (ClassCastException e) {
@@ -177,7 +179,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     private void initFooter() {
         View footer = getLayoutInflater().inflate(R.layout.post_list_footer, null);
         listView.addFooterView(footer);
-
         //footer click listener
         footerBtn = (Button) findViewById(R.id.footer_btn);
         footerBtn.setOnClickListener(new View.OnClickListener() {
@@ -193,7 +194,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
      */
     private void initHeader(int id, String name, String location,  int nrOfFriends, boolean myProfile, boolean admin) {
         //inflate header
-        headerView = getLayoutInflater().inflate(R.layout.profile_post_list_header, null);
+
+
         listView.addHeaderView(headerView);
         nameUserText = (TextView) headerView.findViewById(R.id.name_user);
         nameUserText.setText(name);
@@ -324,8 +326,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
      */
     @Override
     public void setProfileImage(String imageUri) {
-        ImageView headerImage = (ImageView)findViewById(R.id.my_profile_image);
-
         //load image
         if(imageUri != null && !imageUri.isEmpty()) {
             Picasso.with(this)

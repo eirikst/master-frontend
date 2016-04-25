@@ -52,7 +52,6 @@ public class PhotoActivity extends AppCompatActivity implements PhotoView {
     ImageView profilePicView;
 
     private int PICK_IMAGE_REQUEST = 1;
-    static final int REQUEST_IMAGE_CAPTURE = 2;
     private static final int REQUEST_CAMERA = 0;
     private static final int REQUEST_CAMERA_PERMISSION = 1;
 
@@ -84,7 +83,7 @@ public class PhotoActivity extends AppCompatActivity implements PhotoView {
             }
         }
         // Image capture
-        else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+        else if (requestCode == REQUEST_CAMERA && resultCode == RESULT_OK) {
             Uri photoUri = data.getData();
             prepareToSample(photoUri);
         }
@@ -164,11 +163,6 @@ public class PhotoActivity extends AppCompatActivity implements PhotoView {
         Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         i.setType("image/*");
         startActivityForResult(i, PICK_IMAGE_REQUEST);
-    }
-
-    private void newImage() {
-        Intent startCustomCameraIntent = new Intent(this, CameraActivity.class);
-        startActivityForResult(startCustomCameraIntent, REQUEST_IMAGE_CAPTURE);
     }
 
     private void beginCrop(Uri source) {
