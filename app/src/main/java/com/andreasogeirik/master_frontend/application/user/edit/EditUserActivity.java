@@ -86,6 +86,9 @@ public class EditUserActivity extends AppCompatActivity implements EditUserView,
     private static int EDIT_EVENT_REQUEST = 1;
     private static final int REQUEST_CAMERA = 0;
     private static final int REQUEST_CAMERA_PERMISSION = 1;
+    private static final int REQUEST_EXTERNAL_STORAGE_WRITE_PERMISSION = 2;
+    private static final int REQUEST_EXTERNAL_STORAGE_READ_PERMISSION = 3;
+
 
     EditUserPresenter presenter;
     private ProgressBarManager progressBarManager;
@@ -278,6 +281,22 @@ public class EditUserActivity extends AppCompatActivity implements EditUserView,
             if (ActivityCompat.shouldShowRequestPermissionRationale(EditUserActivity.this, permission)) {
                 showPermissionRationaleDialog("Vi trenger tilgang til kamera for å legge til bilde", permission);
             } else {
+                requestForPermission(permission);
+            }
+        } else {
+            launch();
+        }
+    }
+
+    // Check for camera permission in MashMallow
+    public void requestForStorageWritePermission() {
+        final String permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+        if (ContextCompat.checkSelfPermission(EditUserActivity.this, permission)
+                != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(EditUserActivity.this, permission)) {
+                showPermissionRationaleDialog("Vi trenger tilgang til filsystemet for å legge til bilde", permission);
+            } else {
+                ActivityCompat.requestPermissions(EditUserActivity.this, new String[]{permission}, REQUEST_CAMERA_PERMISSION);
                 requestForPermission(permission);
             }
         } else {
