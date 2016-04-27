@@ -7,21 +7,8 @@ public class Constants {
     //Azure
     //public static final String BACKEND_URL = "http://sportydul.azurewebsites.net/";
 
-    //Home
-//    public static final String BACKEND_URL = "http://10.0.0.181:8080/";
-    //NTNU
-    //public static final String BACKEND_URL = "http://129.241.102.250:8080/";
-
-    //Eirik NTNU
-    public static final String BACKEND_URL = "http://10.22.42.141:8080/";
-
-    //Eirik hjemme
-    //public static final String BACKEND_URL = "http://10.0.0.99:8080/";
-    //public static final String BACKEND_URL = "http://192.168.1.67:8080/";
-
-    //Eirik stasjonær NTNU
-//    public static final String BACKEND_URL = "http://10.22.43.123:8080/";
-
+    // Docker
+    public static final String BACKEND_URL = "http://78.91.98.234:49183/";
 
     //Status codes for Tasks(http communication)
     public static final int OK = 1;

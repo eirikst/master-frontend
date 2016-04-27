@@ -93,7 +93,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
         setContentView(R.layout.profile_activity);
         ButterKnife.bind(this);
         headerView = getLayoutInflater().inflate(R.layout.profile_post_list_header, null);
-        headerImage = (ImageView) headerView.findViewById(-R.id.my_profile_image);
+        headerImage = (ImageView) headerView.findViewById(R.id.my_profile_image);
 
         Intent intent = getIntent();
             try {
