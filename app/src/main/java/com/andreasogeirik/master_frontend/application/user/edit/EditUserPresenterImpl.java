@@ -66,11 +66,9 @@ public class EditUserPresenterImpl extends GeneralPresenter implements EditUserP
 
         } else {
             this.view.showProgress();
-            User user = new User();
-            user.setFirstname(firstname);
-            user.setLastname(lastname);
-            user.setLocation(location);
-            user.setImageUri(this.user.getImageUri());
+            this.user.setFirstname(firstname);
+            this.user.setLastname(lastname);
+            this.user.setLocation(location);
             this.interactor.updateUser(user);
         }
     }
