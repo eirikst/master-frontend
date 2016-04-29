@@ -89,7 +89,7 @@ public class MyEventsFragment extends Fragment implements MyEventView {
             }
         });
 
-        footer = (Button)inflater.inflate(R.layout.my_events_list_footer, container, false);
+        footer = (Button)inflater.inflate(R.layout.my_events_list_footer, listView, false);
         listView.addFooterView(footer);
 
         footer.setOnClickListener(new View.OnClickListener() {

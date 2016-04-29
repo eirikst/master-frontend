@@ -84,11 +84,13 @@ public class UserSearchActivity extends AppCompatActivity implements UserSearchV
 
     @Override
     public void setupView(List<User> users) {
-        adapter = new UserListAdapter(this, new ArrayList<>(users));
-        userListView.setAdapter(adapter);
 
         View listHeader = getLayoutInflater().inflate(R.layout.user_search_list_header, null);
         userListView.addHeaderView(listHeader);
+
+        adapter = new UserListAdapter(this, new ArrayList<>(users));
+        userListView.setAdapter(adapter);
+
 
         searchString = (EditText)listHeader.findViewById(R.id.user_search_text);
         searchBtn = (Button)listHeader.findViewById(R.id.user_search_btn);
