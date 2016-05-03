@@ -2,7 +2,7 @@
 
 ## master-frontend
 
-## LICENCE
+## LICENSE
 Copyright 2016 Eirik Stadheim, Andreas Næss
 
 Licensed under the Apache License, Version 2.0 (the "License");
