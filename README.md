@@ -1,5 +1,7 @@
-# master-frontend
 Masteroppgave 2016 - Ludi
+==========================
+
+# master-frontend
 
 # LICENCE
 Copyright 2016 Eirik Stadheim, Andreas Næss
