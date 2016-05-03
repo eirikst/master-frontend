@@ -1,0 +1,18 @@
+-----------------------------------------------------------------------------
+                        The MIT License (MIT)
+        applies to: 
+        - SquareCamera, Copyright (c) 2015 Ng Yang Yi,Desmond
+-----------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------
+                         Apache License, Version 2.0
+        applies to: 
+        - Butterknife, Copyright (c) 2013 Jake Wharton
+        - Picasso, Copyright (c) 2013 Square, Inc.
+        - MaterialDesignLibrary, Copyright (c) 2015 Ivan Navas
+        - android-crop, Copyright (c) 2015 SoundCloud
+-----------------------------------------------------------------------------
+
+Modifications have been made to:
+- MaterialDesignLibrary
+- SquareCamera
