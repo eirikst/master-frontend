@@ -91,7 +91,7 @@ public class AttendingEventsFragment extends Fragment implements AttendingEventV
             }
         });
 
-        footer = (Button)inflater.inflate(R.layout.attending_events_list_footer, container, false);
+        footer = (Button)inflater.inflate(R.layout.attending_events_list_footer, listView, false);
         listView.addFooterView(footer);
 
         footer.setOnClickListener(new View.OnClickListener() {

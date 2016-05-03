@@ -43,6 +43,7 @@ public class EditUserInteractorImpl implements EditUserInteractor, OnUpdateUserF
                 jsonUser.put("lastname", user.getLastname());
                 jsonUser.put("location", user.getLocation());
                 jsonUser.put("imageUri", user.getImageUri());
+                jsonUser.put("thumbUri", user.getThumbUri());
                 new UpdateUserTask(jsonUser, this).execute();
             } catch (JSONException e) {
                 e.printStackTrace();

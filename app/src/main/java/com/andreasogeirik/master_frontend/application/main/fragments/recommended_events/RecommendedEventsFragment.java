@@ -89,7 +89,7 @@ public class RecommendedEventsFragment extends Fragment implements RecommendedEv
                 startActivity(intent);
             }
         });
-        footer = (Button)inflater.inflate(R.layout.recommended_events_list_footer, container, false);
+        footer = (Button)inflater.inflate(R.layout.recommended_events_list_footer, listView, false);
         listView.addFooterView(footer);
 
         footer.setOnClickListener(new View.OnClickListener() {
