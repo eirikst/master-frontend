@@ -4,9 +4,6 @@ package com.andreasogeirik.master_frontend.util;
  * Created by Andreas on 26.01.2016.
  */
 public class Constants {
-    //Azure
-    //public static final String BACKEND_URL = "http://sportydul.azurewebsites.net/";
-
     // Docker
     //    public static final String BACKEND_URL = "http://78.91.98.234:49183/";
 
