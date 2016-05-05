@@ -41,6 +41,7 @@
     <string name="event_read_edit">ENDRE AKTIVITET</string>
     <string name="event_read_delete">SLETT</string>
     <string name="event_read_start">"START: "</string>
+    <string name="event_read_activity_type">"TYPE AKTIVITET: "</string>
     <string name="event_read_end">"SLUTT: "</string>
     <string name="event_read_location">"STED: "</string>
     <string name="event_read_description">"BESKRIVELSE: "</string>

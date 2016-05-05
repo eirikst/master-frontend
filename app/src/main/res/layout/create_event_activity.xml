@@ -114,6 +114,33 @@
                 android:lines="5"
                 android:maxLength="250"/>
 
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                >
+
+                <TextView
+                    android:id="@+id/activity_type_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TYPE AKTIVITET: "
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:textStyle="bold"/>
+
+                <Spinner
+                    android:id="@+id/activity_type_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/activity_type_label"/>
+
+
+            </RelativeLayout>
+
+
             <TextView
                 android:id="@+id/start_date_error"
                 android:layout_width="wrap_content"

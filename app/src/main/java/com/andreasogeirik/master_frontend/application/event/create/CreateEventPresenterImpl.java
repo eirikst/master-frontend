@@ -161,7 +161,7 @@ public class CreateEventPresenterImpl extends GeneralPresenter implements Create
     }
 
     @Override
-    public void create(String name, String location, String description, int difficulty) {
+    public void create(String name, String location, String description, int difficulty, long activityTypeId) {
 
         CreateEventValidationContainer createEventValidationContainer = InputValidation.validateEvent(name, location, description, startDate, endDate, startTimePair, endTimePair);
         if (createEventValidationContainer.getStatusCode() != CreateEventStatusCodes.OK) {
@@ -201,7 +201,7 @@ public class CreateEventPresenterImpl extends GeneralPresenter implements Create
                 event.setEndDate(endDateCal);
             }
             createEventView.showProgress();
-            interactor.create(event);
+            interactor.create(event, activityTypeId);
         }
     }
 

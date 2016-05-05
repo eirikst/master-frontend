@@ -14,10 +14,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,6 +65,8 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     EditText location;
     @Bind(R.id.description)
     EditText description;
+    @Bind(R.id.activity_type_spinner)
+    Spinner activityTypeSpinner;
     @Bind(R.id.difficulty)
     TextView difficulty;
 
@@ -117,6 +121,7 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         this.progressBarManager = new ProgressBarManager(this, scrollView, progress);
         setupToolbar();
         setupSlider();
+        setupSpinner();
     }
 
     /*
@@ -131,6 +136,14 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         this.slider.setOnValueChangedListener(this);
         this.slider.setOnTouchListener(this);
 //        this.slider.setValue(0);
+    }
+
+    private void setupSpinner(){
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.activity_types, android.R.layout.simple_spinner_item);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        this.activityTypeSpinner.setAdapter(adapter);
     }
 
 
@@ -179,7 +192,7 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         String location = this.location.getText().toString();
         String description = this.description.getText().toString();
 
-        presenter.create(name, location, description, this.slider.getValue());
+        presenter.create(name, location, description, this.slider.getValue(), this.activityTypeSpinner.getSelectedItemId());
     }
 
     @OnClick(R.id.image_select_button)

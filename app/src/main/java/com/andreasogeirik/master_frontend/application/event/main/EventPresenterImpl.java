@@ -14,6 +14,7 @@ import com.andreasogeirik.master_frontend.application.post.PostListInteractorImp
 import com.andreasogeirik.master_frontend.application.user.profile.ProfileActivity;
 import com.andreasogeirik.master_frontend.application.user.profile_others.ProfileOthersActivity;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
+import com.andreasogeirik.master_frontend.model.ActivityType;
 import com.andreasogeirik.master_frontend.model.Comment;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.Post;
@@ -168,7 +169,10 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
 
 
         this.eventView.setEventAttributes(event.getName(), event.getLocation(), event.getDescription(), event.getAdmin().getFirstname() + " " + event.getAdmin().getLastname(), DateUtility.formatFull(this.event.getStartDate().getTime()),
-                participants);
+                participants, event.getActivityType());
+
+
+
         if (this.event.getEndDate() != null) {
             this.eventView.updateEndTime(DateUtility.formatFull(this.event.getEndDate().getTime()));
         }

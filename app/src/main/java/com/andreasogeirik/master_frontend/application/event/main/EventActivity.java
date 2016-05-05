@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ import com.andreasogeirik.master_frontend.application.post.PostDialog;
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
 import com.andreasogeirik.master_frontend.layout.adapter.PostListAdapter;
 import com.andreasogeirik.master_frontend.listener.OnUserClickListener;
+import com.andreasogeirik.master_frontend.model.ActivityType;
 import com.andreasogeirik.master_frontend.model.Comment;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.User;
@@ -94,6 +96,9 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
     private TextView eventAdmin;
     private RelativeLayout adminPanel;
 
+    private ImageView activityTypeIcon;
+    private TextView activityTypeLabel;
+
     private Button newPostBtn;
 
     private Button numberOfParticipants;
@@ -154,7 +159,7 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
     }
 
     @Override
-    public void setEventAttributes(String name, String location, String description, String admin, String startTime, String participants) {
+    public void setEventAttributes(String name, String location, String description, String admin, String startTime, String participants, ActivityType activityType) {
 
         this.unAttendButton.setVisibility(View.GONE);
         this.attendButton.setVisibility(View.GONE);
@@ -166,6 +171,37 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
         this.startTime.append(startTime);
 
         this.numberOfParticipants.setText(participants);
+
+        switch (activityType) {
+            case WALK:
+                this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_walk_black_24dp));
+                this.activityTypeLabel.append("GÅ");
+                break;
+            case JOG:
+                this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_run_black_24dp));
+                this.activityTypeLabel.append("JOGGE");
+                break;
+            case RUN:
+                this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_run_black_24dp));
+                this.activityTypeLabel.append("LØPE");
+                break;
+            case BIKE:
+                this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_bike_black_24dp));
+                this.activityTypeLabel.append("SYKLE");
+                break;
+            case SKI:
+                this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_ski_24dp));
+                this.activityTypeLabel.append("GÅ PÅ SKI");
+                break;
+            case SWIM:
+                this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_swim_24dp));
+                this.activityTypeLabel.append("SVØMME");
+                break;
+            case OTHER:
+                this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_question_24dp));
+                this.activityTypeLabel.append("ANNET");
+                break;
+        }
     }
 
     @Override
@@ -270,6 +306,9 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
         this.unAttendButton.setOnClickListener(this);
         this.editButton.setOnClickListener(this);
         this.deleteButton.setOnClickListener(this);
+
+        this.activityTypeIcon = (ImageView) headerView.findViewById(R.id.event_activity_type_symbol);
+        this.activityTypeLabel = (TextView) headerView.findViewById(R.id.event_activity_type_label);
 
         this.eventImageContainer = headerView.findViewById(R.id.event_image_container);
         this.imageView = (ImageView) headerView.findViewById(R.id.event_image);

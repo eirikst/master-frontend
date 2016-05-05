@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="activity_types">
+        <item>GÅ</item>
+        <item>JOGGE</item>
+        <item>LØPE</item>
+        <item>SYKLE</item>
+        <item>SVØMME</item>
+        <item>STÅ PÅ SKI</item>
+        <item>ANNET</item>
+    </string-array>
+</resources>

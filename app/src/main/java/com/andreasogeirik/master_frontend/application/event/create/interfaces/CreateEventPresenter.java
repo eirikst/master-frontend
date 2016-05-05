@@ -13,7 +13,7 @@ import java.util.Calendar;
  * Created by Andreas on 10.02.2016.
  */
 public interface CreateEventPresenter {
-    void create(String name, String location, String description, int difficulty);
+    void create(String name, String location, String description, int difficulty, long activityTypeId);
     void createEventSuccess(Event event);
     void createEventError(int error);
     void sampleImage(InputStream inputStream);

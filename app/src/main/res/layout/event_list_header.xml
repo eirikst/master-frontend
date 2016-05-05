@@ -98,12 +98,38 @@
                 android:visibility="gone"/>
         </LinearLayout>
 
+        <RelativeLayout
+            android:id="@+id/event_activity_type_panel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/change_delete_event_panel"
+            android:layout_marginBottom="20dp"
+            >
+
+            <ImageView
+                android:id="@+id/event_activity_type_symbol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                />
+
+            <TextView
+                android:id="@+id/event_activity_type_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/app_font"
+                android:text="@string/event_read_activity_type"
+                android:layout_toRightOf="@+id/event_activity_type_symbol"
+                />
+
+        </RelativeLayout>
+
 
         <RelativeLayout
             android:id="@+id/event_start_time_panel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/change_delete_event_panel"
+            android:layout_below="@+id/event_activity_type_panel"
             android:layout_marginBottom="20dp"
             >
 
