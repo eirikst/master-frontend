@@ -56,6 +56,8 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     // Toolbar
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+    @Bind(R.id.toolbar_header)
+    TextView toolbarHeader;
     @Bind(R.id.home)
     Button homeBtn;
 
@@ -74,9 +76,6 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     EditText description;
     @Bind(R.id.difficulty)
     TextView difficulty;
-
-    @Bind(R.id.image_container)
-    View imageContainer;
 
     @Bind(R.id.end_date_panel)
     View endDatePanel;
@@ -124,7 +123,7 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.create_event_activity);
+        setContentView(R.layout.create_edit_event_activity);
         ButterKnife.bind(this);
 
         presenter = new CreateEventPresenterImpl(this);
@@ -134,6 +133,8 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
 
         ColorStateList csl = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.teal));
         submitBtn.setSupportBackgroundTintList(csl);
+
+        this.typeBtn.setText("Aktivitetstype: Gå");
     }
 
     @OnTouch(R.id.name)
@@ -158,6 +159,7 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     private void setupToolbar() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        this.toolbarHeader.setText("NY AKTIVITET");
     }
 
     private void setupSlider(){
@@ -397,7 +399,7 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
 
     @Override
     public void updateImage(Bitmap image) {
-        this.imageContainer.setVisibility(View.VISIBLE);
+        this.imageView.setVisibility(View.VISIBLE);
         this.imageView.setImageBitmap(image);
     }
 

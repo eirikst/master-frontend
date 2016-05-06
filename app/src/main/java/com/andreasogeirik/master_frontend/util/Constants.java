@@ -8,7 +8,7 @@ public class Constants {
     //    public static final String BACKEND_URL = "http://78.91.98.234:49183/";
 
     // Andreas stasjonær
-    public static final String BACKEND_URL = "http://129.241.102.250:8090/";
+    public static final String BACKEND_URL = "http://129.241.102.250:8080/";
 
 
     //Status codes for Tasks(http communication)

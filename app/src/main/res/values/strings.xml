@@ -27,7 +27,7 @@
     <string name="event_create_checkbox">Sluttid (valgfritt)</string>
     <string name="event_create_end_date_label">Dato</string>
     <string name="event_create_end_time_label">Tid</string>
-    <string name="event_activity_type_label">"Aktivitetstype: Gå"</string>
+    <string name="event_activity_type_label">"Aktivitetstype: "</string>
 
     <string name="event_choose_activity_type">Velg aktivitetstype</string>
     <string name="event_create_difficulty">Dra for å velge intensitet:</string>

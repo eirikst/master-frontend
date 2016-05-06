@@ -83,7 +83,6 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
     private View hardDiff;
 
     private View headerView;
-    private View eventImageContainer;
     private AppCompatButton attendButton;
     private AppCompatButton unAttendButton;
     private AppCompatButton editButton;
@@ -265,16 +264,14 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
             Picasso.with(this)
                     .load(imageUri)
                     .error(R.drawable.default_event)
-                    .resize(Constants.EVENT_IMAGE_WIDTH, Constants.EVENT_IMAGE_HEIGHT)
                     .into(imageView);
         }
         else {
             Picasso.with(this)
                     .load(R.drawable.default_event)
-                    .resize(Constants.EVENT_IMAGE_WIDTH, Constants.EVENT_IMAGE_HEIGHT)
                     .into(imageView);
         }
-        this.eventImageContainer.setVisibility(View.VISIBLE);
+        this.imageView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -328,7 +325,6 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
         this.activityTypeIcon = (ImageView) headerView.findViewById(R.id.event_activity_type_symbol);
         this.activityTypeLabel = (TextView) headerView.findViewById(R.id.event_activity_type_label);
 
-        this.eventImageContainer = headerView.findViewById(R.id.event_image_container);
         this.imageView = (ImageView) headerView.findViewById(R.id.event_image);
         this.eventName = (TextView) headerView.findViewById(R.id.event_name);
         this.startTime = (TextView) headerView.findViewById(R.id.event_startTime);
