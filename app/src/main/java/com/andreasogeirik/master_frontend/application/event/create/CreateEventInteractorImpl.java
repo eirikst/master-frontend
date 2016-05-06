@@ -29,14 +29,14 @@ public class CreateEventInteractorImpl implements CreateEventInteractor, OnCreat
     private CreateEventPresenter presenter;
     private Event event;
     private byte[] image;
-    private long activityTypeId;
+    private int activityTypeId;
 
     public CreateEventInteractorImpl(CreateEventPresenter presenter) {
         this.presenter = presenter;
     }
 
     @Override
-    public void create(Event event, long activityTypeId) {
+    public void create(Event event, int activityTypeId) {
         // Saves current event in case of image upload
         this.event = event;
         this.activityTypeId = activityTypeId;

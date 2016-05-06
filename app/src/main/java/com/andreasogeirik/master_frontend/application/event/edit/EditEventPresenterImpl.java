@@ -36,6 +36,8 @@ public class EditEventPresenterImpl extends GeneralPresenter implements EditEven
     private Pair<Integer, Integer> startTimePair;
     private Pair<Integer, Integer> endTimePair;
 
+    private int activityTypeId = 0;
+
     public EditEventPresenterImpl(EditEventView editEventView, Event event) {
         super((Activity) editEventView, GeneralPresenter.NO_CHECK);
         this.editEventView = editEventView;
@@ -43,6 +45,7 @@ public class EditEventPresenterImpl extends GeneralPresenter implements EditEven
         this.event = event;
         this.startDate = event.getStartDate();
         this.startTimePair = new Pair<>(startDate.get(Calendar.HOUR_OF_DAY), startDate.get(Calendar.MINUTE));
+        this.activityTypeId = event.getActivityType().getId();
         if (event.getEndDate() != null) {
             this.endDate = event.getEndDate();
             this.endTimePair = new Pair<>(endDate.get(Calendar.HOUR_OF_DAY), endDate.get(Calendar.MINUTE));
@@ -105,6 +108,11 @@ public class EditEventPresenterImpl extends GeneralPresenter implements EditEven
             bundle.putString("date", "start");
         } else {
             date = this.endDate;
+            if (this.startDate != null && date == null){
+                bundle.putInt("day", this.startDate.get(Calendar.DAY_OF_MONTH));
+                bundle.putInt("month", this.startDate.get(Calendar.MONTH));
+                bundle.putInt("year", this.startDate.get(Calendar.YEAR));
+            }
             bundle.putString("date", "end");
         }
         if (date != null) {
@@ -119,7 +127,7 @@ public class EditEventPresenterImpl extends GeneralPresenter implements EditEven
     public void setEventAttributes() {
         this.editEventView.setEventAttributes(event.getName(), event.getLocation(),
                 event.getDescription(), DateUtility.format(event.getStartDate().getTime()),
-                DateUtility.formatTime(event.getStartDate().getTime()), event.getDifficulty());
+                DateUtility.formatTime(event.getStartDate().getTime()), event.getDifficulty(), event.getActivityType());
 
         if (this.event.getImageUri() != null && !this.event.getImageUri().isEmpty()) {
             editEventView.setImage(this.event.getImageUri());
@@ -176,7 +184,7 @@ public class EditEventPresenterImpl extends GeneralPresenter implements EditEven
                 this.event.setEndDate(endDateCal);
             }
             this.editEventView.showProgress();
-            interactor.editEvent(event);
+            interactor.editEvent(event, activityTypeId);
         }
     }
 
@@ -215,6 +223,15 @@ public class EditEventPresenterImpl extends GeneralPresenter implements EditEven
                 this.editEventView.displayError(getActivity().getResources().getString(R.string.some_error));
                 break;
         }
+    }
+
+    public int getActivityTypeId() {
+        return activityTypeId;
+    }
+
+    @Override
+    public void updateActivityTypeModel(int checkId) {
+        this.activityTypeId = checkId;
     }
 
     @Override

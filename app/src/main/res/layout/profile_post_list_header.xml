@@ -80,26 +80,19 @@
             android:layout_marginBottom="10dp"
             />
 
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/participating_events_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight=".7"
-            android:background="@color/grey"
-            android:textColor="@color/app_font"
-            android:textStyle="bold"
             android:layout_marginBottom="10dp"
-            android:layout_below="@+id/location_user"
-            />
+            android:layout_below="@+id/location_user"/>
 
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/new_post_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight=".7"
-            android:background="@color/grey"
-            android:textColor="@color/app_font"
-            android:textStyle="bold"
             android:layout_marginBottom="10dp"
             android:text="Skriv post"
             android:visibility="gone"

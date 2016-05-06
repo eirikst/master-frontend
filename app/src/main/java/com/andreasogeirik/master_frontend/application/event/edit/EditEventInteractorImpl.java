@@ -29,6 +29,7 @@ public class EditEventInteractorImpl implements EditEventInteractor, OnSampleIma
     private EditEventPresenter presenter;
     private Event event;
     private byte[] image;
+    private long activityTypeId;
 
     public EditEventInteractorImpl(EditEventPresenter presenter) {
         this.presenter = presenter;
@@ -59,6 +60,8 @@ public class EditEventInteractorImpl implements EditEventInteractor, OnSampleIma
             jsonEvent.put("description", event.getDescription());
             jsonEvent.put("timeStart", event.getStartDate().getTimeInMillis());
             jsonEvent.put("difficulty", event.getDifficulty());
+            jsonEvent.put("activityTypeId", activityTypeId);
+
             if (event.getEndDate() != null) {
                 jsonEvent.put("timeEnd", event.getEndDate().getTimeInMillis());
             }
@@ -78,9 +81,10 @@ public class EditEventInteractorImpl implements EditEventInteractor, OnSampleIma
     }
 
     @Override
-    public void editEvent(Event event) {
+    public void editEvent(Event event, long activityTypeId) {
         // Saves current event in case of image upload
         this.event = event;
+        this.activityTypeId = activityTypeId;
         if (image != null) {
             // Execute image upload
             new UploadImageTask(image, this).execute();

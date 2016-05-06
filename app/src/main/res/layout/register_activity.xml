@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/app_font"
                 android:textSize="40dp"
-                android:text="REGISTRER"
+                android:text="Registrer"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:textStyle="bold"
@@ -69,7 +69,8 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 android:layout_weight="1"
-                android:maxLength="100"/>
+                android:maxLength="100"
+                android:fontFamily="sans-serif"/>
 
 
 
@@ -82,7 +83,8 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 android:layout_weight="1"
-                android:maxLength="100"/>
+                android:maxLength="100"
+                android:fontFamily="sans-serif"/>
 
             <EditText
                 android:id="@+id/firstname"
@@ -127,18 +129,11 @@
                 android:freezesText="true"
                 android:layout_weight="1"/>
 
-            <Button
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/register_button"
-                style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/action_register"
-                android:textStyle="bold"
-                android:background="@color/teal"
-                android:textColor="@color/app_font"
-                android:layout_weight="1"/>
-
+                android:layout_height="wrap_content"
+                android:text="@string/action_register"/>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

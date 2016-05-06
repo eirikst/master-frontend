@@ -34,6 +34,8 @@ public class CreateEventPresenterImpl extends GeneralPresenter implements Create
     private Pair<Integer, Integer> startTimePair;
     private Pair<Integer, Integer> endTimePair;
 
+    private int activityTypeId = 0;
+
     public CreateEventPresenterImpl(CreateEventView createEventView) {
         super((Activity) createEventView, GeneralPresenter.CHECK_USER_AVAILABLE);
         this.createEventView = createEventView;
@@ -86,6 +88,11 @@ public class CreateEventPresenterImpl extends GeneralPresenter implements Create
             bundle.putString("date", "start");
         } else {
             date = this.endDate;
+            if (this.startDate != null && date == null){
+                bundle.putInt("day", this.startDate.get(Calendar.DAY_OF_MONTH));
+                bundle.putInt("month", this.startDate.get(Calendar.MONTH));
+                bundle.putInt("year", this.startDate.get(Calendar.YEAR));
+            }
             bundle.putString("date", "end");
         }
         if (date != null) {
@@ -131,6 +138,11 @@ public class CreateEventPresenterImpl extends GeneralPresenter implements Create
     }
 
     @Override
+    public void updateActivityTypeModel(int checkId) {
+        this.activityTypeId = checkId;
+    }
+
+    @Override
     public void updateTimeModel(Pair<Integer, Integer> hourMinutePair, Boolean isStartTime) {
         int hour = hourMinutePair.first;
         int minute = hourMinutePair.second;
@@ -161,7 +173,7 @@ public class CreateEventPresenterImpl extends GeneralPresenter implements Create
     }
 
     @Override
-    public void create(String name, String location, String description, int difficulty, long activityTypeId) {
+    public void create(String name, String location, String description, int difficulty) {
 
         CreateEventValidationContainer createEventValidationContainer = InputValidation.validateEvent(name, location, description, startDate, endDate, startTimePair, endTimePair);
         if (createEventValidationContainer.getStatusCode() != CreateEventStatusCodes.OK) {
@@ -223,6 +235,10 @@ public class CreateEventPresenterImpl extends GeneralPresenter implements Create
                 this.createEventView.displayError(getActivity().getResources().getString(R.string.some_error));
                 break;
         }
+    }
+
+    public int getActivityTypeId() {
+        return this.activityTypeId;
     }
 
     private long dateToLong(Calendar eventDate, int hour, int minute) {

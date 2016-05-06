@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:minWidth="1000dp">
+
+        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/radio_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true">
+
+            <RadioButton
+                android:id="@+id/walk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/walk"
+                android:checked="true"/>
+
+            <RadioButton
+                android:id="@+id/jog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/walk"
+                android:text="@string/jog" />
+
+            <RadioButton
+                android:id="@+id/run"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/jog"
+                android:text="@string/run" />
+
+            <RadioButton
+                android:id="@+id/bike"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/run"
+                android:text="@string/bike" />
+
+            <RadioButton
+                android:id="@+id/ski"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/bike"
+                android:text="@string/ski" />
+
+            <RadioButton
+                android:id="@+id/swim"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ski"
+                android:text="@string/swim" />
+
+            <RadioButton
+                android:id="@+id/other"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/swim"
+                android:text="@string/other" />
+        </RadioGroup>
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/teal"
+        android:text="OK"
+        android:layout_below="@id/radio_group"/>
+</RelativeLayout>

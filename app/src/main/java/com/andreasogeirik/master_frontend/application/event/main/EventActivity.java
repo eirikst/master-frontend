@@ -2,12 +2,14 @@ package com.andreasogeirik.master_frontend.application.event.main;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -82,10 +84,10 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
 
     private View headerView;
     private View eventImageContainer;
-    private Button attendButton;
-    private Button unAttendButton;
-    private Button editButton;
-    private Button deleteButton;
+    private AppCompatButton attendButton;
+    private AppCompatButton unAttendButton;
+    private AppCompatButton editButton;
+    private AppCompatButton deleteButton;
 
     private TextView eventName;
     private TextView startTime;
@@ -99,15 +101,18 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
     private ImageView activityTypeIcon;
     private TextView activityTypeLabel;
 
-    private Button newPostBtn;
+    private AppCompatButton newPostBtn;
 
-    private Button numberOfParticipants;
+    private AppCompatButton numberOfParticipants;
 
 
     private EventPresenter presenter;
     private ProgressBarManager progressBarManager;
 
     private static int EDIT_EVENT_REQUEST = 1;
+    ColorStateList teal;
+    ColorStateList grey;
+    ColorStateList red;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +121,9 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
         ButterKnife.bind(this);
         this.progressBarManager = new ProgressBarManager(this, listView, progressView);
         setupToolbar();
-
+        teal = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.teal));
+        red = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.app_red));
+        grey = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.grey));
         try {
             Object object = getIntent().getSerializableExtra("event");
             if(object != null) {
@@ -191,7 +198,7 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
                 break;
             case SKI:
                 this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_ski_24dp));
-                this.activityTypeLabel.append("GÅ PÅ SKI");
+                this.activityTypeLabel.append("SKI");
                 break;
             case SWIM:
                 this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_swim_24dp));
@@ -296,11 +303,22 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
     public void initGui(final Event event) {
         headerView = getLayoutInflater().inflate(R.layout.event_list_header, null);
         listView.addHeaderView(headerView);
-        this.numberOfParticipants = (Button) headerView.findViewById(R.id.event_participants);
-        this.attendButton = (Button) headerView.findViewById(R.id.event_attend);
-        this.unAttendButton = (Button) headerView.findViewById(R.id.event_unattend);
-        this.editButton = (Button) headerView.findViewById(R.id.event_edit);
-        this.deleteButton = (Button) headerView.findViewById(R.id.event_delete);
+
+        this.numberOfParticipants = (AppCompatButton) headerView.findViewById(R.id.event_participants);
+        numberOfParticipants.setSupportBackgroundTintList(grey);
+
+        this.attendButton = (AppCompatButton) headerView.findViewById(R.id.event_attend);
+        attendButton.setSupportBackgroundTintList(grey);
+
+        this.unAttendButton = (AppCompatButton) headerView.findViewById(R.id.event_unattend);
+        unAttendButton.setSupportBackgroundTintList(teal);
+
+        this.editButton = (AppCompatButton) headerView.findViewById(R.id.event_edit);
+        editButton.setSupportBackgroundTintList(grey);
+
+        this.deleteButton = (AppCompatButton) headerView.findViewById(R.id.event_delete);
+        deleteButton.setSupportBackgroundTintList(red);
+
         this.numberOfParticipants.setOnClickListener(this);
         this.attendButton.setOnClickListener(this);
         this.unAttendButton.setOnClickListener(this);
@@ -326,7 +344,8 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
         this.hardDiff = headerView.findViewById(R.id.difficulty_hard);
 
         noPosts = (TextView)headerView.findViewById(R.id.no_posts);
-        newPostBtn = (Button)headerView.findViewById(R.id.new_post_event);
+        newPostBtn = (AppCompatButton) headerView.findViewById(R.id.new_post_event);
+        newPostBtn.setSupportBackgroundTintList(grey);
 
         adapter = new PostListAdapter(this, new ArrayList<Post>(), this);
         listView.setAdapter(adapter);

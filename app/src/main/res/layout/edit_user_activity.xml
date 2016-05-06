@@ -109,16 +109,13 @@
             android:visibility="gone"
             />
 
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/error"
             android:text="@string/user_edit_submit"
-            android:background="@color/teal"
-            android:textStyle="bold"
             android:textColor="@color/app_font"/>
-
 
         <RelativeLayout
             android:id="@+id/edit_password_btn"

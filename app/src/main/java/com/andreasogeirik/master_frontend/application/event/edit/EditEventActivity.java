@@ -1,11 +1,13 @@
 package com.andreasogeirik.master_frontend.application.event.edit;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Pair;
@@ -22,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.application.event.create.fragments.ActivityTypeFragment;
 import com.andreasogeirik.master_frontend.application.event.create.fragments.DatePickerFragment;
 import com.andreasogeirik.master_frontend.application.event.create.fragments.TimePickerFragment;
 import com.andreasogeirik.master_frontend.application.event.edit.interfaces.EditEventPresenter;
@@ -31,8 +34,10 @@ import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
 import com.andreasogeirik.master_frontend.layout.view.CustomScrollView;
 import com.andreasogeirik.master_frontend.layout.view.CustomSlider;
+import com.andreasogeirik.master_frontend.listener.OnActivityTypeSet;
 import com.andreasogeirik.master_frontend.listener.OnDateSetListener;
 import com.andreasogeirik.master_frontend.listener.OnTimeSetListener;
+import com.andreasogeirik.master_frontend.model.ActivityType;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.squareup.picasso.Picasso;
@@ -46,7 +51,7 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 public class EditEventActivity extends AppCompatActivity implements EditEventView, OnDateSetListener,
-        OnTimeSetListener, CustomSlider.OnValueChangedListener, CustomSlider.OnTouchListener {
+        OnTimeSetListener, CustomSlider.OnValueChangedListener, CustomSlider.OnTouchListener, OnActivityTypeSet {
 
     // Toolbar
     @Bind(R.id.toolbar)
@@ -99,6 +104,11 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
     @Bind(R.id.image_view)
     ImageView imageView;
 
+    @Bind(R.id.activity_type_label)
+    TextView activityTypeLabel;
+    @Bind(R.id.type)
+    Button typeBtn;
+
     // Submit
     @Bind(R.id.error)
     TextView eventError;
@@ -145,6 +155,28 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    @OnClick(R.id.type)
+    public void selectType(){
+        showActivityTypeCenter();
+    }
+
+    private void showActivityTypeCenter() {
+        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().
+                beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("typeDialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        DialogFragment newFragment = ActivityTypeFragment.newInstance();
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("checkedId", this.presenter.getActivityTypeId());
+        newFragment.setArguments(bundle);
+        newFragment.show(ft, "typeDialog");
     }
 
     @OnClick(R.id.home)
@@ -295,7 +327,7 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
 
     @Override
     public void setEventAttributes(String name, String location, String description,
-                                   String startDate, String startTime, int difficulty) {
+                                   String startDate, String startTime, int difficulty, ActivityType activityType) {
         this.name.setText(name);
         this.location.setText(location);
         this.description.setText(description);
@@ -304,6 +336,32 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
         int clientDiff = difficulty - 1;
         this.slider.setValue(clientDiff);
         setSliderStyle(clientDiff);
+        Resources resources = getResources();
+
+        switch (activityType.getId()) {
+            case 0:
+                this.activityTypeLabel.setText(resources.getString(R.string.event_activity_type_label) + getResources().getString(R.string.walk));
+                break;
+            case 1:
+                this.activityTypeLabel.setText(resources.getString(R.string.event_activity_type_label) + getResources().getString(R.string.jog));
+                break;
+            case 2:
+                this.activityTypeLabel.setText(resources.getString(R.string.event_activity_type_label) + getResources().getString(R.string.run));
+                break;
+            case 3:
+                this.activityTypeLabel.setText(resources.getString(R.string.event_activity_type_label) + getResources().getString(R.string.bike));
+                break;
+            case 4:
+                this.activityTypeLabel.setText(resources.getString(R.string.event_activity_type_label) + getResources().getString(R.string.ski));
+                break;
+            case 5:
+                this.activityTypeLabel.setText(resources.getString(R.string.event_activity_type_label) + getResources().getString(R.string.swim));
+                break;
+            case 6:
+                this.activityTypeLabel.setText(resources.getString(R.string.event_activity_type_label) + getResources().getString(R.string.other));
+                break;
+
+        }
     }
 
     @Override
@@ -453,6 +511,41 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
                 this.slider.setBackgroundColor(getResources().getColor(R.color.app_red));
                 this.difficulty.setText(getResources().getText(R.string.event_create_difficulty_hard));
                 this.difficulty.setTextColor(getResources().getColor(R.color.app_red));
+                break;
+        }
+    }
+
+    @Override
+    public void onActivityTypeSet(int checkedId) {
+        Resources resources = getResources();
+        switch (checkedId) {
+            case R.id.walk:
+                this.presenter.updateActivityTypeModel(ActivityType.WALK.getId());
+                this.activityTypeLabel.setText(resources.getString(R.string.event_activity_type_label) + getResources().getString(R.string.walk));
+                break;
+            case R.id.jog:
+                this.presenter.updateActivityTypeModel(ActivityType.JOG.getId());
+                this.activityTypeLabel.setText(resources.getString(R.string.event_activity_type_label) + getString(R.string.jog));
+                break;
+            case R.id.run:
+                this.presenter.updateActivityTypeModel(ActivityType.RUN.getId());
+                this.activityTypeLabel.setText(getString(R.string.event_activity_type_label) + resources.getString(R.string.run));
+                break;
+            case R.id.bike:
+                this.presenter.updateActivityTypeModel(ActivityType.BIKE.getId());
+                this.activityTypeLabel.setText(getString(R.string.event_activity_type_label) + resources.getString(R.string.bike));
+                break;
+            case R.id.swim:
+                this.presenter.updateActivityTypeModel(ActivityType.SWIM.getId());
+                this.activityTypeLabel.setText(getString(R.string.event_activity_type_label) + resources.getString(R.string.swim));
+                break;
+            case R.id.ski:
+                this.presenter.updateActivityTypeModel(ActivityType.SKI.getId());
+                this.activityTypeLabel.setText(getString(R.string.event_activity_type_label) + resources.getString(R.string.ski));
+                break;
+            case R.id.other:
+                this.presenter.updateActivityTypeModel(ActivityType.OTHER.getId());
+                this.activityTypeLabel.setText(getString(R.string.event_activity_type_label) + resources.getString(R.string.other));
                 break;
         }
     }

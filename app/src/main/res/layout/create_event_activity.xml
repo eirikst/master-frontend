@@ -67,79 +67,152 @@
 
             </RelativeLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:id="@+id/name"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/event_create_name"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:layout_weight="8"
-                    android:inputType="textCapSentences"
-                    android:maxLength="50"
-                    />
-
-                <ImageView
-                    android:id="@+id/image_select_button"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="2"
-                    android:src="@drawable/ic_add_a_photo_black_24dp"
-                    android:layout_toRightOf="@+id/name"
-                    />
-
-            </LinearLayout>
 
             <EditText
-                android:id="@+id/location"
+                android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/event_create_location"
+                android:hint="@string/event_create_name"
                 android:maxLines="1"
                 android:singleLine="true"
+                android:layout_weight="8"
                 android:inputType="textCapSentences"
-                android:maxLength="50"/>
-
-
-            <EditText
-                android:id="@+id/description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/event_create_description"
-                android:inputType="textMultiLine|textCapSentences"
-                android:minLines="1"
-                android:lines="5"
-                android:maxLength="250"/>
-
+                android:maxLength="50"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:drawableRight="@drawable/ic_add_a_photo_black_48dp"
+                />
 
             <RelativeLayout
+                android:id="@+id/location_panel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="29dp"
                 >
 
-                <TextView
-                    android:id="@+id/activity_type_label"
+                <ImageView
+                    android:id="@+id/location_symbol"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TYPE AKTIVITET: "
+                    android:src="@drawable/ic_place_black_24dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"
-                    android:textStyle="bold"/>
+                    />
 
-                <Spinner
-                    android:id="@+id/activity_type_spinner"
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/location"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/activity_type_label"/>
-
-
+                    android:hint="@string/event_create_location"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:inputType="textCapSentences"
+                    android:maxLength="50"
+                    android:layout_toRightOf="@id/location_symbol"
+                    />
             </RelativeLayout>
 
+            <RelativeLayout
+                android:id="@+id/description_panel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="29dp"
+                >
+
+                <ImageView
+                    android:id="@+id/description_symbol"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_description_black_24dp"
+                    android:layout_centerVertical="true"
+                    />
+
+                <EditText
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/event_create_description"
+                    android:inputType="textMultiLine|textCapSentences"
+                    android:minLines="1"
+                    android:lines="5"
+                    android:maxLength="250"
+                    android:layout_toRightOf="@id/description_symbol"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/type_panel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="29dp"
+                >
+
+                <ImageView
+                    android:id="@+id/type_symbol"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_directions_walk_black_24dp"
+                    android:layout_centerVertical="true"
+                    />
+
+                <EditText
+                    android:id="@+id/type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:focusable="false"
+                    android:text="@string/event_activity_type_label"
+                    android:focusableInTouchMode="false"
+                    android:clickable="true"
+                    android:editable="false"
+                    android:layout_toRightOf="@id/type_symbol"
+                    />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/start_date_panel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="29dp"
+                android:orientation="horizontal"
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_access_time_black_24dp"
+                    android:layout_gravity="center_vertical"
+                    />
+
+                <EditText
+                    android:id="@+id/start_date_button"
+
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="5"
+                    android:hint="@string/event_create_start_date_label"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:clickable="true"
+                    android:editable="false"
+                    />
+
+                <EditText
+                    android:id="@+id/start_time_button"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:hint="@string/event_create_start_time_label"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:clickable="true"
+                    android:editable="false"
+                    />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/start_date_error"
@@ -150,38 +223,6 @@
                 android:textColor="@color/app_error"
                 android:visibility="gone"
                  />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/start_date_button"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:layout_weight="5"
-                    android:text="@string/event_create_start_date_label"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:clickable="true"
-                    android:editable="false"
-                    />
-
-                <EditText
-                    android:id="@+id/start_time_button"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="3"
-                    android:text="@string/event_create_start_time_label"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:clickable="true"
-                    android:editable="false"
-                    />
-            </LinearLayout>
 
             <RelativeLayout
                 android:layout_marginTop="10dp"
@@ -206,10 +247,23 @@
                 android:textColor="@color/app_error"
                 android:visibility="gone" />
 
+
             <LinearLayout
+                android:id="@+id/end_date_panel"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="29dp"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_access_time_black_24dp"
+                    android:layout_gravity="center_vertical"
+                    />
 
                 <EditText
                     android:id="@+id/end_date_button"
@@ -217,12 +271,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:layout_weight="5"
-                    android:text="@string/event_create_end_date_label"
+                    android:hint="@string/event_create_end_date_label"
                     android:editable="false"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     android:clickable="true"
-                    android:visibility="gone" />
+                    />
 
                 <EditText
                     android:id="@+id/end_time_button"
@@ -230,21 +284,19 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="3"
-                    android:text="@string/event_create_end_time_label"
+                    android:hint="@string/event_create_end_time_label"
                     android:editable="false"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     android:clickable="true"
-                    android:visibility="gone" />
+                    />
             </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginLeft="5dp"
                 android:layout_marginTop="20dp"
-
                 >
 
                 <TextView
@@ -268,7 +320,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
-                        android:text="ENKEL"
+                        android:text="Lett"
                         android:textColor="@color/app_blue"
                         android:layout_weight=".4"
                         />
@@ -283,8 +335,8 @@
                     android:background="#42A5F5"
                     materialdesign:max="2"
                     materialdesign:min="0"
-                    android:layout_weight=".6"
                     android:layout_below="@+id/difficulty_wrapper"
+                    android:layout_marginRight="4dp"
                     />
 
             </RelativeLayout>
@@ -299,17 +351,13 @@
                 android:layout_gravity="center_horizontal"
                 android:visibility="gone" />
 
-            <Button
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/submit_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
-                android:background="@color/grey"
                 android:text="@string/event_create_submit"
-                android:textColor="@color/app_font"
-                android:textStyle="bold" />
+                android:layout_margin="5dp"/>
+
         </LinearLayout>
     </com.andreasogeirik.master_frontend.layout.view.CustomScrollView>
 </RelativeLayout>

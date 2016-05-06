@@ -3,6 +3,7 @@ package com.andreasogeirik.master_frontend.application.event.edit.interfaces;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
+import com.andreasogeirik.master_frontend.model.ActivityType;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.util.image.ImageStatusCode;
 
@@ -21,7 +22,7 @@ public interface EditEventView {
     void setEndDateError(String error);
     void imageError(String error);
     void setImage(String imageUri);
-    void setEventAttributes(String name, String location, String description, String startDate, String startTime, int difficulty);
+    void setEventAttributes(String name, String location, String description, String startDate, String startTime, int difficulty, ActivityType activityType);
     void setEndDate(String endDate, String endTime);
     void onDateSet(Bundle bundle);
     void onTimeSet(Bundle bundle);

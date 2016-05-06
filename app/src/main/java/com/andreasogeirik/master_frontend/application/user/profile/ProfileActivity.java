@@ -1,10 +1,13 @@
 package com.andreasogeirik.master_frontend.application.user.profile;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -71,9 +74,9 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     private Button footerBtn;
     private TextView nameUserText;
     private TextView locationUser;
-    private Button eventButton;
+    private AppCompatButton eventButton;
     private ImageView imageView;
-    private Button newPostBtn;
+    private AppCompatButton newPostBtn;
     private ImageView headerImage;
 
     private static int EDIT_EVENT_REQUEST = 1;
@@ -86,6 +89,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
 
     private boolean me = false;
 
+    ColorStateList csl;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +99,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
         ButterKnife.bind(this);
         headerView = getLayoutInflater().inflate(R.layout.profile_post_list_header, null);
         headerImage = (ImageView) headerView.findViewById(R.id.my_profile_image);
+        this.csl = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.grey));
+
 
         Intent intent = getIntent();
             try {
@@ -206,7 +213,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
         imageView = (ImageView) headerView.findViewById(R.id.my_profile_image);
 
 
-        eventButton = (Button) headerView.findViewById(R.id.participating_events_btn);
+        eventButton = (AppCompatButton) headerView.findViewById(R.id.participating_events_btn);
+        eventButton.setSupportBackgroundTintList(csl);
 
         eventButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -244,7 +252,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
         getSupportFragmentManager().beginTransaction().add(fragmentContainer.getId(),
                 myProfileHeaderFragment, "").commit();
 
-        newPostBtn = (Button)headerView.findViewById(R.id.new_post_user);
+        newPostBtn = (AppCompatButton)headerView.findViewById(R.id.new_post_user);
+        newPostBtn.setSupportBackgroundTintList(csl);
         newPostBtn.setVisibility(View.VISIBLE);
         newPostBtn.setOnClickListener(new View.OnClickListener() {
             @Override

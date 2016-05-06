@@ -40,27 +40,21 @@
             android:textSize="24dp"
             />
 
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/event_attend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/teal"
             android:text="@string/event_read_attend"
-            android:textColor="@color/app_font"
             android:visibility="gone"
-            android:textStyle="bold"
             android:layout_below="@+id/event_name"
             />
 
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/event_unattend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/teal"
             android:text="@string/event_read_unAttend"
-            android:textColor="@color/app_font"
             android:visibility="gone"
-            android:textStyle="bold"
             android:layout_below="@+id/event_attend"
             />
 
@@ -74,26 +68,20 @@
             android:layout_below="@+id/event_unattend"
             >
 
-            <Button
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/event_edit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".7"
-                android:background="@color/grey"
                 android:text="@string/event_read_edit"
-                android:textColor="@color/app_font"
-                android:textStyle="bold"
                 android:visibility="gone"/>
 
-            <Button
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/event_delete"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".3"
-                android:background="@color/app_red"
                 android:text="@string/event_read_delete"
-                android:textColor="@color/app_font"
-                android:textStyle="bold"
                 android:layout_marginLeft="5dp"
                 android:visibility="gone"/>
         </LinearLayout>
@@ -311,30 +299,22 @@
                 />
         </RelativeLayout>
 
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/event_participants"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight=".7"
-            android:background="@color/grey"
-            android:textColor="@color/app_font"
-            android:textStyle="bold"
             android:layout_marginBottom="10dp"
-            android:layout_below="@+id/event_admin_panel"
-            />
+            android:layout_below="@+id/event_admin_panel" />
 
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/new_post_event"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight=".7"
-            android:background="@color/grey"
-            android:textColor="@color/app_font"
-            android:textStyle="bold"
             android:layout_marginBottom="10dp"
             android:layout_below="@+id/event_participants"
-            android:text="Skriv post"
-            />
+            android:text="Skriv post"/>
 
         <TextView
             android:id="@+id/posts_header"
