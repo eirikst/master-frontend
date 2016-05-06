@@ -99,7 +99,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
         ButterKnife.bind(this);
         headerView = getLayoutInflater().inflate(R.layout.profile_post_list_header, null);
         headerImage = (ImageView) headerView.findViewById(R.id.my_profile_image);
-        this.csl = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.grey));
+        this.csl = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.grey_fade));
 
 
         Intent intent = getIntent();

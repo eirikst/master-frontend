@@ -123,7 +123,7 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
         setupToolbar();
         teal = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.teal));
         red = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.app_red));
-        grey = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.grey));
+        grey = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.grey_fade));
         try {
             Object object = getIntent().getSerializableExtra("event");
             if(object != null) {
