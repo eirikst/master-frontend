@@ -8,6 +8,6 @@ import java.io.InputStream;
  * Created by Andreas on 10.02.2016.
  */
 public interface CreateEventInteractor {
-    void create(Event event);
+    void create(Event event, int activityTypeId);
     void sampleImage(InputStream inputStream);
 }

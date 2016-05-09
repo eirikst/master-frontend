@@ -3,26 +3,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/event_list_header"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
-    <RelativeLayout
-        android:id="@+id/event_image_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/event_image"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="200dp"
             android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
+            android:scaleType="centerCrop"
+            android:visibility="gone"
             />
-    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/event_info_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/event_image_container"
+        android:layout_below="@+id/event_image"
         android:layout_marginBottom="5dp"
         android:background="@drawable/shape_gen_background"
         android:orientation="vertical"
@@ -40,27 +36,21 @@
             android:textSize="24dp"
             />
 
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/event_attend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/teal"
             android:text="@string/event_read_attend"
-            android:textColor="@color/app_font"
             android:visibility="gone"
-            android:textStyle="bold"
             android:layout_below="@+id/event_name"
             />
 
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/event_unattend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/teal"
             android:text="@string/event_read_unAttend"
-            android:textColor="@color/app_font"
             android:visibility="gone"
-            android:textStyle="bold"
             android:layout_below="@+id/event_attend"
             />
 
@@ -74,36 +64,56 @@
             android:layout_below="@+id/event_unattend"
             >
 
-            <Button
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/event_edit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".7"
-                android:background="@color/grey"
                 android:text="@string/event_read_edit"
-                android:textColor="@color/app_font"
-                android:textStyle="bold"
                 android:visibility="gone"/>
 
-            <Button
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/event_delete"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".3"
-                android:background="@color/app_red"
                 android:text="@string/event_read_delete"
-                android:textColor="@color/app_font"
-                android:textStyle="bold"
                 android:layout_marginLeft="5dp"
                 android:visibility="gone"/>
         </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/event_activity_type_panel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/change_delete_event_panel"
+            android:layout_marginBottom="20dp"
+            >
+
+            <ImageView
+                android:id="@+id/event_activity_type_symbol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                />
+
+            <TextView
+                android:id="@+id/event_activity_type_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/app_font"
+                android:text="@string/event_read_activity_type"
+                android:layout_toRightOf="@+id/event_activity_type_symbol"
+                />
+
+        </RelativeLayout>
 
 
         <RelativeLayout
             android:id="@+id/event_start_time_panel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/change_delete_event_panel"
+            android:layout_below="@+id/event_activity_type_panel"
             android:layout_marginBottom="20dp"
             >
 
@@ -285,26 +295,19 @@
                 />
         </RelativeLayout>
 
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/event_participants"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight=".7"
-            android:background="@color/grey"
-            android:textColor="@color/app_font"
-            android:textStyle="bold"
             android:layout_marginBottom="10dp"
-            android:layout_below="@+id/event_admin_panel"
-            />
+            android:layout_below="@+id/event_admin_panel" />
 
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/new_post_event"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight=".7"
-            android:background="@color/grey"
-            android:textColor="@color/app_font"
-            android:textStyle="bold"
             android:layout_marginBottom="10dp"
             android:layout_below="@+id/event_participants"
             android:text="Skriv innlegg"

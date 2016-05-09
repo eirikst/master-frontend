@@ -2,11 +2,14 @@ package com.andreasogeirik.master_frontend.application.event.main;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,6 +35,7 @@ import com.andreasogeirik.master_frontend.application.post.PostDialog;
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
 import com.andreasogeirik.master_frontend.layout.adapter.PostListAdapter;
 import com.andreasogeirik.master_frontend.listener.OnUserClickListener;
+import com.andreasogeirik.master_frontend.model.ActivityType;
 import com.andreasogeirik.master_frontend.model.Comment;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.User;
@@ -79,11 +83,10 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
     private View hardDiff;
 
     private View headerView;
-    private View eventImageContainer;
-    private Button attendButton;
-    private Button unAttendButton;
-    private Button editButton;
-    private Button deleteButton;
+    private AppCompatButton attendButton;
+    private AppCompatButton unAttendButton;
+    private AppCompatButton editButton;
+    private AppCompatButton deleteButton;
 
     private TextView eventName;
     private TextView startTime;
@@ -94,15 +97,21 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
     private TextView eventAdmin;
     private RelativeLayout adminPanel;
 
-    private Button newPostBtn;
+    private ImageView activityTypeIcon;
+    private TextView activityTypeLabel;
 
-    private Button numberOfParticipants;
+    private AppCompatButton newPostBtn;
+
+    private AppCompatButton numberOfParticipants;
 
 
     private EventPresenter presenter;
     private ProgressBarManager progressBarManager;
 
     private static int EDIT_EVENT_REQUEST = 1;
+    ColorStateList teal;
+    ColorStateList grey;
+    ColorStateList red;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +120,9 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
         ButterKnife.bind(this);
         this.progressBarManager = new ProgressBarManager(this, listView, progressView);
         setupToolbar();
-
+        teal = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.teal));
+        red = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.app_red));
+        grey = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.grey_fade));
         try {
             Object object = getIntent().getSerializableExtra("event");
             if(object != null) {
@@ -154,7 +165,7 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
     }
 
     @Override
-    public void setEventAttributes(String name, String location, String description, String admin, String startTime, String participants) {
+    public void setEventAttributes(String name, String location, String description, String admin, String startTime, String participants, ActivityType activityType) {
 
         this.unAttendButton.setVisibility(View.GONE);
         this.attendButton.setVisibility(View.GONE);
@@ -166,6 +177,37 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
         this.startTime.append(startTime);
 
         this.numberOfParticipants.setText(participants);
+
+        switch (activityType) {
+            case WALK:
+                this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_walk_black_24dp));
+                this.activityTypeLabel.append("GÅ");
+                break;
+            case JOG:
+                this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_run_black_24dp));
+                this.activityTypeLabel.append("JOGGE");
+                break;
+            case RUN:
+                this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_run_black_24dp));
+                this.activityTypeLabel.append("LØPE");
+                break;
+            case BIKE:
+                this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_bike_black_24dp));
+                this.activityTypeLabel.append("SYKLE");
+                break;
+            case SKI:
+                this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_ski_24dp));
+                this.activityTypeLabel.append("SKI");
+                break;
+            case SWIM:
+                this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_swim_24dp));
+                this.activityTypeLabel.append("SVØMME");
+                break;
+            case OTHER:
+                this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_question_24dp));
+                this.activityTypeLabel.append("ANNET");
+                break;
+        }
     }
 
     @Override
@@ -222,16 +264,14 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
             Picasso.with(this)
                     .load(imageUri)
                     .error(R.drawable.default_event)
-                    .resize(Constants.EVENT_IMAGE_WIDTH, Constants.EVENT_IMAGE_HEIGHT)
                     .into(imageView);
         }
         else {
             Picasso.with(this)
                     .load(R.drawable.default_event)
-                    .resize(Constants.EVENT_IMAGE_WIDTH, Constants.EVENT_IMAGE_HEIGHT)
                     .into(imageView);
         }
-        this.eventImageContainer.setVisibility(View.VISIBLE);
+        this.imageView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -260,18 +300,31 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
     public void initGui(final Event event) {
         headerView = getLayoutInflater().inflate(R.layout.event_list_header, null);
         listView.addHeaderView(headerView);
-        this.numberOfParticipants = (Button) headerView.findViewById(R.id.event_participants);
-        this.attendButton = (Button) headerView.findViewById(R.id.event_attend);
-        this.unAttendButton = (Button) headerView.findViewById(R.id.event_unattend);
-        this.editButton = (Button) headerView.findViewById(R.id.event_edit);
-        this.deleteButton = (Button) headerView.findViewById(R.id.event_delete);
+
+        this.numberOfParticipants = (AppCompatButton) headerView.findViewById(R.id.event_participants);
+        numberOfParticipants.setSupportBackgroundTintList(grey);
+
+        this.attendButton = (AppCompatButton) headerView.findViewById(R.id.event_attend);
+        attendButton.setSupportBackgroundTintList(grey);
+
+        this.unAttendButton = (AppCompatButton) headerView.findViewById(R.id.event_unattend);
+        unAttendButton.setSupportBackgroundTintList(teal);
+
+        this.editButton = (AppCompatButton) headerView.findViewById(R.id.event_edit);
+        editButton.setSupportBackgroundTintList(grey);
+
+        this.deleteButton = (AppCompatButton) headerView.findViewById(R.id.event_delete);
+        deleteButton.setSupportBackgroundTintList(red);
+
         this.numberOfParticipants.setOnClickListener(this);
         this.attendButton.setOnClickListener(this);
         this.unAttendButton.setOnClickListener(this);
         this.editButton.setOnClickListener(this);
         this.deleteButton.setOnClickListener(this);
 
-        this.eventImageContainer = headerView.findViewById(R.id.event_image_container);
+        this.activityTypeIcon = (ImageView) headerView.findViewById(R.id.event_activity_type_symbol);
+        this.activityTypeLabel = (TextView) headerView.findViewById(R.id.event_activity_type_label);
+
         this.imageView = (ImageView) headerView.findViewById(R.id.event_image);
         this.eventName = (TextView) headerView.findViewById(R.id.event_name);
         this.startTime = (TextView) headerView.findViewById(R.id.event_startTime);
@@ -287,7 +340,8 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
         this.hardDiff = headerView.findViewById(R.id.difficulty_hard);
 
         noPosts = (TextView)headerView.findViewById(R.id.no_posts);
-        newPostBtn = (Button)headerView.findViewById(R.id.new_post_event);
+        newPostBtn = (AppCompatButton) headerView.findViewById(R.id.new_post_event);
+        newPostBtn.setSupportBackgroundTintList(grey);
 
         adapter = new PostListAdapter(this, new ArrayList<Post>(), this);
         listView.setAdapter(adapter);

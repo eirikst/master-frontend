@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -79,7 +81,7 @@ public class EditUserActivity extends AppCompatActivity implements EditUserView,
     @Bind(R.id.error)
     TextView error;
     @Bind(R.id.submit)
-    Button submit;
+    AppCompatButton submit;
 
 
     private final int PICK_IMAGE_REQUEST = 1;
@@ -99,6 +101,8 @@ public class EditUserActivity extends AppCompatActivity implements EditUserView,
         setContentView(R.layout.edit_user_activity);
         ButterKnife.bind(this);
         setupToolbar();
+        ColorStateList csl = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.teal));
+        submit.setSupportBackgroundTintList(csl);
         try {
             this.presenter = new EditUserPresenterImpl(this);
             this.presenter.setUserAttributes();

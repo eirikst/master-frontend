@@ -29,15 +29,17 @@ public class CreateEventInteractorImpl implements CreateEventInteractor, OnCreat
     private CreateEventPresenter presenter;
     private Event event;
     private byte[] image;
+    private int activityTypeId;
 
     public CreateEventInteractorImpl(CreateEventPresenter presenter) {
         this.presenter = presenter;
     }
 
     @Override
-    public void create(Event event) {
+    public void create(Event event, int activityTypeId) {
         // Saves current event in case of image upload
         this.event = event;
+        this.activityTypeId = activityTypeId;
         if (this.image != null) {
             // Execute image upload
             new UploadImageTask(image, this).execute();
@@ -93,6 +95,7 @@ public class CreateEventInteractorImpl implements CreateEventInteractor, OnCreat
             jsonEvent.put("description", event.getDescription());
             jsonEvent.put("timeStart", event.getStartDate().getTimeInMillis());
             jsonEvent.put("difficulty", event.getDifficulty());
+            jsonEvent.put("activityTypeId", activityTypeId);
             if (event.getEndDate() != null) {
                 jsonEvent.put("timeEnd", event.getEndDate().getTimeInMillis());
             }

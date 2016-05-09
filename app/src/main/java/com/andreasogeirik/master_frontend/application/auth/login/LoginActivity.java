@@ -1,12 +1,14 @@
 package com.andreasogeirik.master_frontend.application.auth.login;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -36,7 +38,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @Bind(R.id.login_error)
     TextView errorMessage;
     @Bind(R.id.sign_in_button)
-    Button signInButton;
+    AppCompatButton signInButton;
 
     private LoginPresenter presenter;
     private ProgressBarManager progressBarManager;
@@ -49,6 +51,9 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         this.presenter = new LoginPresenterImpl(this);
         this.progressBarManager = new ProgressBarManager(this, loginFormView, progressView);
         setupToolbar();
+
+        ColorStateList csl = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.teal));
+        signInButton.setSupportBackgroundTintList(csl);
     }
 
     /*

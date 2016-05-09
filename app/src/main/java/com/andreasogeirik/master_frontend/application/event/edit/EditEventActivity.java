@@ -1,12 +1,16 @@
 package com.andreasogeirik.master_frontend.application.event.edit;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.util.Pair;
 import android.view.Menu;
@@ -22,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.application.event.create.fragments.ActivityTypeFragment;
 import com.andreasogeirik.master_frontend.application.event.create.fragments.DatePickerFragment;
 import com.andreasogeirik.master_frontend.application.event.create.fragments.TimePickerFragment;
 import com.andreasogeirik.master_frontend.application.event.edit.interfaces.EditEventPresenter;
@@ -31,8 +36,10 @@ import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
 import com.andreasogeirik.master_frontend.layout.view.CustomScrollView;
 import com.andreasogeirik.master_frontend.layout.view.CustomSlider;
+import com.andreasogeirik.master_frontend.listener.OnActivityTypeSet;
 import com.andreasogeirik.master_frontend.listener.OnDateSetListener;
 import com.andreasogeirik.master_frontend.listener.OnTimeSetListener;
+import com.andreasogeirik.master_frontend.model.ActivityType;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.squareup.picasso.Picasso;
@@ -46,11 +53,13 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 public class EditEventActivity extends AppCompatActivity implements EditEventView, OnDateSetListener,
-        OnTimeSetListener, CustomSlider.OnValueChangedListener, CustomSlider.OnTouchListener {
+        OnTimeSetListener, CustomSlider.OnValueChangedListener, CustomSlider.OnTouchListener, OnActivityTypeSet {
 
     // Toolbar
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+    @Bind(R.id.toolbar_header)
+    TextView toolbarHeader;
     @Bind(R.id.home)
     Button homeBtn;
 
@@ -70,8 +79,8 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
     @Bind(R.id.difficulty)
     TextView difficulty;
 
-    @Bind(R.id.image_container)
-    View imageContainer;
+    @Bind(R.id.end_date_panel)
+    View endDatePanel;
 
     // Date/time
     // Validation
@@ -89,21 +98,24 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
     EditText endDateBtn;
     @Bind(R.id.end_time_button)
     EditText endTimeBtn;
+    @Bind(R.id.type)
+    EditText typeBtn;
 
     // Checkbox
     @Bind(R.id.checkbox)
     CheckBox checkbox;
 
-    @Bind(R.id.image_select_button)
-    ImageView selectImageButton;
+    @Bind(R.id.type_symbol)
+    ImageView activityTypeSymbol;
+
     @Bind(R.id.image_view)
     ImageView imageView;
 
     // Submit
     @Bind(R.id.error)
-    TextView eventError;
+    TextView error;
     @Bind(R.id.submit_button)
-    Button submitBtn;
+    AppCompatButton submitBtn;
 
     EditEventPresenter presenter;
     private ProgressBarManager progressBarManager;
@@ -114,7 +126,7 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.edit_event_activity);
+        setContentView(R.layout.create_edit_event_activity);
         ButterKnife.bind(this);
 
         this.progressBarManager = new ProgressBarManager(this, scrollView, progress);
@@ -137,6 +149,7 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
     private void setupToolbar() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        this.toolbarHeader.setText("ENDRE AKTIVITET");
     }
 
 
@@ -145,6 +158,28 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    @OnClick(R.id.type)
+    public void selectType(){
+        showActivityTypeCenter();
+    }
+
+    private void showActivityTypeCenter() {
+        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().
+                beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("typeDialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        DialogFragment newFragment = ActivityTypeFragment.newInstance();
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("checkedId", this.presenter.getActivityTypeId());
+        newFragment.setArguments(bundle);
+        newFragment.show(ft, "typeDialog");
     }
 
     @OnClick(R.id.home)
@@ -182,13 +217,6 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
         String description = this.description.getText().toString();
         int difficulty = this.slider.getValue();
         this.presenter.editEvent(name, location, description, difficulty);
-    }
-
-    @OnClick(R.id.image_select_button)
-    public void selectImage() {
-        Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        i.setType("image/*");
-        startActivityForResult(i, PICK_IMAGE_REQUEST);
     }
 
     @OnCheckedChanged(R.id.checkbox)
@@ -238,9 +266,9 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
 
     @Override
     public void displayError(String error) {
-        eventError.setText(error);
-        eventError.setVisibility(View.VISIBLE);
-        eventError.requestFocus();
+        this.error.setText(error);
+        this.error.setVisibility(View.VISIBLE);
+        this.error.requestFocus();
     }
 
     @Override
@@ -295,7 +323,7 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
 
     @Override
     public void setEventAttributes(String name, String location, String description,
-                                   String startDate, String startTime, int difficulty) {
+                                   String startDate, String startTime, int difficulty, ActivityType activityType) {
         this.name.setText(name);
         this.location.setText(location);
         this.description.setText(description);
@@ -304,6 +332,41 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
         int clientDiff = difficulty - 1;
         this.slider.setValue(clientDiff);
         setSliderStyle(clientDiff);
+        Resources resources = getResources();
+
+
+
+        switch (activityType.getId()) {
+            case 0:
+                this.typeBtn.setText(resources.getString(R.string.event_activity_type_label) + getResources().getString(R.string.walk));
+                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_walk_black_24dp));
+                break;
+            case 1:
+                this.typeBtn.setText(resources.getString(R.string.event_activity_type_label) + getResources().getString(R.string.jog));
+                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_walk_black_24dp));
+                break;
+            case 2:
+                this.typeBtn.setText(resources.getString(R.string.event_activity_type_label) + getResources().getString(R.string.run));
+                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_run_black_24dp));
+                break;
+            case 3:
+                this.typeBtn.setText(resources.getString(R.string.event_activity_type_label) + getResources().getString(R.string.bike));
+                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_bike_black_24dp));
+                break;
+            case 4:
+                this.typeBtn.setText(resources.getString(R.string.event_activity_type_label) + getResources().getString(R.string.ski));
+                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_ski_24dp));
+                break;
+            case 5:
+                this.typeBtn.setText(resources.getString(R.string.event_activity_type_label) + getResources().getString(R.string.swim));
+                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_swim_24dp));
+                break;
+            case 6:
+                this.typeBtn.setText(resources.getString(R.string.event_activity_type_label) + getResources().getString(R.string.other));
+                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_question_24dp));
+                break;
+
+        }
     }
 
     @Override
@@ -317,18 +380,16 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
 
     @Override
     public void setImage(String imageUri) {
-        this.imageContainer.setVisibility(View.VISIBLE);
+        this.imageView.setVisibility(View.VISIBLE);
         if(imageUri != null && !imageUri.isEmpty()) {
             Picasso.with(this)
                     .load(imageUri)
                     .error(R.drawable.default_event)
-                    .resize(Constants.EVENT_IMAGE_WIDTH, Constants.EVENT_IMAGE_HEIGHT)
                     .into(imageView);
         }
         else {
             Picasso.with(this)
                     .load(R.drawable.default_event)
-                    .resize(Constants.EVENT_IMAGE_WIDTH, Constants.EVENT_IMAGE_HEIGHT)
                     .into(imageView);
         }
 
@@ -337,7 +398,7 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
     private void clearValidationMessages() {
         this.startDateError.setVisibility(View.GONE);
         this.endDateError.setVisibility(View.GONE);
-        this.eventError.setVisibility(View.GONE);
+        this.error.setVisibility(View.GONE);
     }
 
     @Override
@@ -407,7 +468,7 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
 
     @Override
     public void updateImage(Bitmap image) {
-        this.imageContainer.setVisibility(View.VISIBLE);
+        this.imageView.setVisibility(View.VISIBLE);
         this.imageView.setImageBitmap(image);
     }
 
@@ -453,6 +514,48 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
                 this.slider.setBackgroundColor(getResources().getColor(R.color.app_red));
                 this.difficulty.setText(getResources().getText(R.string.event_create_difficulty_hard));
                 this.difficulty.setTextColor(getResources().getColor(R.color.app_red));
+                break;
+        }
+    }
+
+    @Override
+    public void onActivityTypeSet(int checkedId) {
+        Resources resources = getResources();
+        switch (checkedId) {
+            case R.id.walk:
+                this.presenter.updateActivityTypeModel(ActivityType.WALK.getId());
+                this.typeBtn.setText(resources.getString(R.string.event_activity_type_label) + getResources().getString(R.string.walk));
+                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_walk_black_24dp));
+                break;
+            case R.id.jog:
+                this.presenter.updateActivityTypeModel(ActivityType.JOG.getId());
+                this.typeBtn.setText(resources.getString(R.string.event_activity_type_label) + getString(R.string.jog));
+                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_run_black_24dp));
+                break;
+            case R.id.run:
+                this.presenter.updateActivityTypeModel(ActivityType.RUN.getId());
+                this.typeBtn.setText(getString(R.string.event_activity_type_label) + resources.getString(R.string.run));
+                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_run_black_24dp));
+                break;
+            case R.id.bike:
+                this.presenter.updateActivityTypeModel(ActivityType.BIKE.getId());
+                this.typeBtn.setText(getString(R.string.event_activity_type_label) + resources.getString(R.string.bike));
+                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_bike_black_24dp));
+                break;
+            case R.id.swim:
+                this.presenter.updateActivityTypeModel(ActivityType.SWIM.getId());
+                this.typeBtn.setText(getString(R.string.event_activity_type_label) + resources.getString(R.string.swim));
+                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_swim_24dp));
+                break;
+            case R.id.ski:
+                this.presenter.updateActivityTypeModel(ActivityType.SKI.getId());
+                this.typeBtn.setText(getString(R.string.event_activity_type_label) + resources.getString(R.string.ski));
+                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_ski_24dp));
+                break;
+            case R.id.other:
+                this.presenter.updateActivityTypeModel(ActivityType.OTHER.getId());
+                this.typeBtn.setText(getString(R.string.event_activity_type_label) + resources.getString(R.string.other));
+                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_question_24dp));
                 break;
         }
     }

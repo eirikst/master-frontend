@@ -19,21 +19,24 @@
     <string name="drop_sign_out">Logg ut</string>
 
     //Create Event
-    <string name="event_create_name">NAVN PÅ AKTIVITET</string>
-    <string name="event_create_location">STED</string>
-    <string name="event_create_description">BESKRIVELSE</string>
-    <string name="event_create_start_date_label">DATO</string>
-    <string name="event_create_start_time_label">TID</string>
-    <string name="event_create_checkbox">SLUTTTID (VALGFRITT)</string>
-    <string name="event_create_end_date_label">DATO</string>
-    <string name="event_create_end_time_label">TID</string>
-    <string name="event_create_difficulty">DRA FOR Å VELGE INTENSITET:</string>
-    <string name="event_create_difficulty_easy">LETT</string>
-    <string name="event_create_difficulty_medium">MODERAT</string>
-    <string name="event_create_difficulty_hard">HØY</string>
+    <string name="event_create_name">Navn på aktivitet</string>
+    <string name="event_create_location">Sted</string>
+    <string name="event_create_description">Beskrivelse</string>
+    <string name="event_create_start_date_label">Dato</string>
+    <string name="event_create_start_time_label">Tid</string>
+    <string name="event_create_checkbox">Sluttid (valgfritt)</string>
+    <string name="event_create_end_date_label">Dato</string>
+    <string name="event_create_end_time_label">Tid</string>
+    <string name="event_activity_type_label">"Aktivitetstype: "</string>
 
-    <string name="event_create_select_image">VELG BILDE</string>
-    <string name="event_create_submit">OPPRETT AKTIVITET</string>
+    <string name="event_choose_activity_type">Velg aktivitetstype</string>
+    <string name="event_create_difficulty">Dra for å velge intensitet:</string>
+    <string name="event_create_difficulty_easy">Lett</string>
+    <string name="event_create_difficulty_medium">Moderat</string>
+    <string name="event_create_difficulty_hard">Høy</string>
+
+    <string name="event_create_select_image">Velg bilde</string>
+    <string name="event_create_submit">Opprett aktivitet</string>
 
     // Read Event
     <string name="event_read_attend">MELD PÅ</string>
@@ -41,6 +44,7 @@
     <string name="event_read_edit">ENDRE AKTIVITET</string>
     <string name="event_read_delete">SLETT</string>
     <string name="event_read_start">"START: "</string>
+    <string name="event_read_activity_type">"AKTIVITET: "</string>
     <string name="event_read_end">"SLUTT: "</string>
     <string name="event_read_location">"STED: "</string>
     <string name="event_read_description">"BESKRIVELSE: "</string>
@@ -73,15 +77,15 @@
 
     // Edit User
     <string name="user_edit_image_info">Trykk på bildet for å endre</string>
-    <string name="user_edit_firstname">FORNAVN</string>
-    <string name="user_edit_lastname">ETTERNAVN</string>
-    <string name="user_edit_location">STED</string>
-    <string name="user_edit_password_btn">ENDRE PASSORD</string>
-    <string name="user_edit_current_password">NÅVÆRENDE PASSORD</string>
-    <string name="user_edit_password">NYTT PASSORD</string>
-    <string name="user_edit_re_password">SKRIV INN PASSORD PÅ NYTT</string>
-    <string name="user_edit_password_save">LAGRE PASSORD</string>
-    <string name="user_edit_submit">LAGRE</string>
+    <string name="user_edit_firstname">Fornavn</string>
+    <string name="user_edit_lastname">Etternavn</string>
+    <string name="user_edit_location">Sted</string>
+    <string name="user_edit_password_btn">Endre passord</string>
+    <string name="user_edit_current_password">Nåværende passord</string>
+    <string name="user_edit_password">Nytt passord</string>
+    <string name="user_edit_re_password">Skriv inn passord på nytt</string>
+    <string name="user_edit_password_save">Lagre passord</string>
+    <string name="user_edit_submit">Lagre</string>
     <string name="user_edit_client_error">Nåværende passord er ikke riktig</string>
 
     // Password dialog
@@ -89,19 +93,27 @@
 
 
     <!-- Strings related to login -->
-    <string name="prompt_email">EMAIL</string>
-    <string name="prompt_password">PASSORD</string>
-    <string name="prompt_firstname">FORNAVN</string>
-    <string name="prompt_lastname">ETTERNAVN</string>
-    <string name="prompt_location">STED</string>
-    <string name="prompt_re_password">SKRIV INN PASSORD PÅ NYTT</string>
-    <string name="action_sign_in">LOGG INN</string>
-    <string name="action_register">REGISTRER BRUKER</string>
-    <string name="action_sign_in_short">LOGG INN</string>
-    <string name="error_invalid_password">PASSORDET ER FOR KORT</string>
-    <string name="error_incorrect_password">FEIL PASSORD</string>
-    <string name="error_empty_password">FYLL INN PASSORD</string>
-    <string name="error_field_required">DETTE FELTET ER PÅKREVD</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Passord</string>
+    <string name="prompt_firstname">Fornavn</string>
+    <string name="prompt_lastname">Etternavn</string>
+    <string name="prompt_location">Sted</string>
+    <string name="prompt_re_password">Skriv inn passord på nytt</string>
+    <string name="action_sign_in">Logg inn</string>
+    <string name="action_register">Registrer bruker</string>
+    <string name="error_invalid_password">Passordet er for kort</string>
+    <string name="error_incorrect_password">Feil passord</string>
+    <string name="error_empty_password">Fyll inn passord</string>
+    <string name="error_field_required">Dette feltet er påkrevd</string>
+
+    // ActivityType
+    <string name="walk">Gå</string>
+    <string name="jog">Jogge</string>
+    <string name="run">Løpe</string>
+    <string name="bike">Sykle</string>
+    <string name="swim">Svømme</string>
+    <string name="ski">Ski</string>
+    <string name="other">Annet</string>
 
     <!-- Strings related to post -->
     <string name="comment">Kommentar</string>

@@ -1,8 +1,11 @@
 package com.andreasogeirik.master_frontend.application.auth.register;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
@@ -46,7 +49,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     View progressView;
 
     @Bind(R.id.register_button)
-    Button mRegister_button;
+    AppCompatButton mRegister_button;
 
     private RegisterPresenter presenter;
     private ProgressBarManager progressBarManager;
@@ -59,6 +62,9 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
         this.presenter = new RegisterPresenterImpl(this);
         this.progressBarManager = new ProgressBarManager(this, registerFormView, progressView);
         setupToolbar();
+
+        ColorStateList csl = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.teal));
+        mRegister_button.setSupportBackgroundTintList(csl);
     }
 
     /*

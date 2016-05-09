@@ -27,4 +27,6 @@ public interface EditEventPresenter {
     void sampleImageSuccess(Bitmap image);
     void sampleImageError(ImageStatusCode statusCode);
     void uploadImageError(int error);
+    int getActivityTypeId();
+    void updateActivityTypeModel(int checkId);
 }

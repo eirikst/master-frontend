@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -14,6 +15,7 @@ import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.PopupMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,7 +49,7 @@ public class PhotoActivity extends AppCompatActivity implements PhotoView {
     @Bind(R.id.error)
     TextView error;
     @Bind(R.id.submit)
-    Button done;
+    AppCompatButton done;
     @Bind(R.id.my_profile_image)
     ImageView profilePicView;
 
@@ -63,6 +65,8 @@ public class PhotoActivity extends AppCompatActivity implements PhotoView {
         setContentView(R.layout.photo_activity);
         ButterKnife.bind(this);
         this.presenter = new PhotoPresenterImpl(this);
+        ColorStateList csl = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.teal));
+        done.setSupportBackgroundTintList(csl);
     }
 
     @Override

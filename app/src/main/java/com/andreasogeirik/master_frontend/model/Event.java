@@ -27,6 +27,7 @@ public class Event implements Serializable {
     private String imageUri;
     private String thumbUri;
     private int difficulty  = Constants.EVENT_DIFFICULTY_EASY;
+    private ActivityType activityType;
     private User admin;
     private Set<User> users = new HashSet<User>(0);
     private Set<Post> posts = new HashSet<Post>(0);
@@ -37,6 +38,13 @@ public class Event implements Serializable {
         this.description = description;
         this.startDate = startDate;
         this.difficulty = difficulty;
+
+//        for (ActivityType type : ActivityType.values()) {
+//            if (activityTypeId == type.getId()){
+//                this.activityType = type;
+//                break;
+//            }
+//        }
     }
 
     public Event(JSONObject jsonEvent) throws JSONException {
@@ -44,12 +52,14 @@ public class Event implements Serializable {
         this.name = jsonEvent.getString("name");
         this.location = jsonEvent.getString("location");
         this.description = jsonEvent.getString("description");
+        this.activityType = ActivityType.getTypeById(jsonEvent.getInt("activityTypeId"));
         this.startDate = new GregorianCalendar();
         this.startDate.setTimeInMillis(jsonEvent.getLong("timeStart"));
         if (!jsonEvent.isNull("timeEnd")){
             this.endDate = new GregorianCalendar();
             this.endDate.setTimeInMillis(jsonEvent.getLong("timeEnd"));
         }
+
         this.imageUri = jsonEvent.getString("imageUri");
         this.thumbUri = jsonEvent.getString("thumbUri");
         this.difficulty = jsonEvent.getInt("difficulty");
@@ -59,9 +69,6 @@ public class Event implements Serializable {
             this.users.add(new User(jsonUsers.getJSONObject(i)));
         }
         this.difficulty = jsonEvent.getInt("difficulty");
-
-
-        // TODO FIKSE POSTER
     }
 
     public Event() {
@@ -162,6 +169,14 @@ public class Event implements Serializable {
         this.difficulty = difficulty;
     }
 
+    public ActivityType getActivityType() {
+        return activityType;
+    }
+
+    public void setActivityType(ActivityType activityType) {
+        this.activityType = activityType;
+    }
+
     public User getAdmin() {
         return admin;
     }
@@ -195,6 +210,7 @@ public class Event implements Serializable {
                 ", name='" + name + '\'' +
                 ", location='" + location + '\'' +
                 ", description='" + description + '\'' +
+                ", activity type='" + activityType+ '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", imageUri='" + imageUri + '\'' +

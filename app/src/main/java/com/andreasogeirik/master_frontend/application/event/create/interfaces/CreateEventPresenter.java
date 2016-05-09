@@ -21,9 +21,11 @@ public interface CreateEventPresenter {
     void setDate(Boolean isStartDate);
     void setTime(Boolean isStarTime);
     void updateDateModel(Calendar eventDate, Boolean isStartDate);
+    void updateActivityTypeModel(int checkId);
     void updateTimeModel(Pair<Integer, Integer> hourMinutePair, Boolean isStartTime);
     void sampleImageSuccess(Bitmap image);
     void sampleImageError(ImageStatusCode statusCode);
     void uploadImageError(int error);
+    int getActivityTypeId();
 }
 

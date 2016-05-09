@@ -1,12 +1,17 @@
 package com.andreasogeirik.master_frontend.application.event.create;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.util.Pair;
 import android.view.Menu;
@@ -22,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
+import com.andreasogeirik.master_frontend.application.event.create.fragments.ActivityTypeFragment;
 import com.andreasogeirik.master_frontend.application.event.create.fragments.DatePickerFragment;
 import com.andreasogeirik.master_frontend.application.event.create.fragments.TimePickerFragment;
 import com.andreasogeirik.master_frontend.application.event.main.EventActivity;
@@ -31,8 +37,10 @@ import com.andreasogeirik.master_frontend.application.event.create.interfaces.Cr
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
 import com.andreasogeirik.master_frontend.layout.view.CustomScrollView;
 import com.andreasogeirik.master_frontend.layout.view.CustomSlider;
+import com.andreasogeirik.master_frontend.listener.OnActivityTypeSet;
 import com.andreasogeirik.master_frontend.listener.OnDateSetListener;
 import com.andreasogeirik.master_frontend.listener.OnTimeSetListener;
+import com.andreasogeirik.master_frontend.model.ActivityType;
 import com.andreasogeirik.master_frontend.model.Event;
 
 import java.io.FileNotFoundException;
@@ -42,11 +50,14 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
+import butterknife.OnTouch;
 
-public class CreateEventActivity extends AppCompatActivity implements CreateEventView, OnDateSetListener, OnTimeSetListener, CustomSlider.OnValueChangedListener, CustomSlider.OnTouchListener {
+public class CreateEventActivity extends AppCompatActivity implements CreateEventView, OnDateSetListener, OnTimeSetListener, OnActivityTypeSet, CustomSlider.OnValueChangedListener, CustomSlider.OnTouchListener {
     // Toolbar
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+    @Bind(R.id.toolbar_header)
+    TextView toolbarHeader;
     @Bind(R.id.home)
     Button homeBtn;
 
@@ -66,8 +77,8 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     @Bind(R.id.difficulty)
     TextView difficulty;
 
-    @Bind(R.id.image_container)
-    View imageContainer;
+    @Bind(R.id.end_date_panel)
+    View endDatePanel;
 
     // Date/time
     // Validation
@@ -85,14 +96,16 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     EditText endDateBtn;
     @Bind(R.id.end_time_button)
     EditText endTimeBtn;
+    @Bind(R.id.type)
+    EditText typeBtn;
 
     // Checkbox
     @Bind(R.id.checkbox)
     CheckBox checkbox;
 
-    // Image
-    @Bind(R.id.image_select_button)
-    ImageView selectImageButton;
+    @Bind(R.id.type_symbol)
+    ImageView activityTypeSymbol;
+
     @Bind(R.id.image_view)
     ImageView imageView;
 
@@ -100,7 +113,7 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     @Bind(R.id.error)
     TextView error;
     @Bind(R.id.submit_button)
-    Button submitBtn;
+    AppCompatButton submitBtn;
 
     CreateEventPresenter presenter;
     private ProgressBarManager progressBarManager;
@@ -110,13 +123,34 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.create_event_activity);
+        setContentView(R.layout.create_edit_event_activity);
         ButterKnife.bind(this);
 
         presenter = new CreateEventPresenterImpl(this);
         this.progressBarManager = new ProgressBarManager(this, scrollView, progress);
         setupToolbar();
         setupSlider();
+
+        ColorStateList csl = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.teal));
+        submitBtn.setSupportBackgroundTintList(csl);
+
+        this.typeBtn.setText("Aktivitetstype: Gå");
+    }
+
+    @OnTouch(R.id.name)
+    public boolean selectImage(View v, MotionEvent event){
+        final int DRAWABLE_RIGHT = 2;
+
+        if(event.getAction() == MotionEvent.ACTION_UP) {
+            if(event.getRawX() >= (name.getRight() - name.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                i.setType("image/*");
+                startActivityForResult(i, PICK_IMAGE_REQUEST);
+
+                return true;
+            }
+        }
+        return false;
     }
 
     /*
@@ -125,6 +159,7 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     private void setupToolbar() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        this.toolbarHeader.setText("NY AKTIVITET");
     }
 
     private void setupSlider(){
@@ -134,6 +169,9 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
     }
 
 
+
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -141,6 +179,28 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         MenuItem item = menu.findItem(R.id.create_event);
         item.setVisible(false);
         return true;
+    }
+
+    @OnClick(R.id.type)
+    public void selectType(){
+        showActivityTypeCenter();
+    }
+
+    private void showActivityTypeCenter() {
+        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().
+                beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("typeDialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        DialogFragment newFragment = ActivityTypeFragment.newInstance();
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("checkedId", this.presenter.getActivityTypeId());
+        newFragment.setArguments(bundle);
+        newFragment.show(ft, "typeDialog");
     }
 
     @OnClick(R.id.home)
@@ -182,23 +242,14 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         presenter.create(name, location, description, this.slider.getValue());
     }
 
-    @OnClick(R.id.image_select_button)
-    public void selectImage() {
-        Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        i.setType("image/*");
-        startActivityForResult(i, PICK_IMAGE_REQUEST);
-    }
-
     @OnCheckedChanged(R.id.checkbox)
     public void endTimeChecked(boolean checked) {
         if (checked) {
-            endDateBtn.setVisibility(View.VISIBLE);
-            endTimeBtn.setVisibility(View.VISIBLE);
+            this.endDatePanel.setVisibility(View.VISIBLE);
         } else {
-            endDateBtn.setVisibility(View.GONE);
-            endTimeBtn.setVisibility(View.GONE);
-            this.endDateBtn.setText("DATO");
-            this.endTimeBtn.setText("TID");
+            this.endDatePanel.setVisibility(View.GONE);
+            this.endDateBtn.setHint("Dato");
+            this.endTimeBtn.setHint("Tid");
             this.endDateError.setText("");
             this.endDateError.setVisibility(View.GONE);
             this.presenter.deleteEndTimes();
@@ -348,7 +399,7 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
 
     @Override
     public void updateImage(Bitmap image) {
-        this.imageContainer.setVisibility(View.VISIBLE);
+        this.imageView.setVisibility(View.VISIBLE);
         this.imageView.setImageBitmap(image);
     }
 
@@ -413,5 +464,47 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
                 break;
         }
         return false;
+    }
+
+    @Override
+    public void onActivityTypeSet(int checkedId) {
+        Resources resources = getResources();
+        switch (checkedId) {
+            case R.id.walk:
+                this.presenter.updateActivityTypeModel(ActivityType.WALK.getId());
+                this.typeBtn.setText("Aktivitetstype: " + getResources().getString(R.string.walk));
+                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_walk_black_24dp));
+                break;
+            case R.id.jog:
+                this.presenter.updateActivityTypeModel(ActivityType.JOG.getId());
+                this.typeBtn.setText("Aktivitetstype: " + getString(R.string.jog));
+                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_run_black_24dp));
+                break;
+            case R.id.run:
+                this.presenter.updateActivityTypeModel(ActivityType.RUN.getId());
+                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_run_black_24dp));
+                this.typeBtn.setText("Aktivitetstype: " + resources.getString(R.string.run));
+                break;
+            case R.id.bike:
+                this.presenter.updateActivityTypeModel(ActivityType.BIKE.getId());
+                this.typeBtn.setText("Aktivitetstype: " + resources.getString(R.string.bike));
+                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_bike_black_24dp));
+                break;
+            case R.id.swim:
+                this.presenter.updateActivityTypeModel(ActivityType.SWIM.getId());
+                this.typeBtn.setText("Aktivitetstype: " + resources.getString(R.string.swim));
+                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_swim_24dp));
+                break;
+            case R.id.ski:
+                this.presenter.updateActivityTypeModel(ActivityType.SKI.getId());
+                this.typeBtn.setText("Aktivitetstype: " + resources.getString(R.string.ski));
+                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_ski_24dp));
+                break;
+            case R.id.other:
+                this.presenter.updateActivityTypeModel(ActivityType.OTHER.getId());
+                this.typeBtn.setText("Aktivitetstype: " + resources.getString(R.string.other));
+                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_question_24dp));
+                break;
+        }
     }
 }

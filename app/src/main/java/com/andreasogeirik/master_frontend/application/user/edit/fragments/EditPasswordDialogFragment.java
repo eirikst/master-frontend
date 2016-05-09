@@ -2,9 +2,12 @@ package com.andreasogeirik.master_frontend.application.user.edit.fragments;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +68,10 @@ public class EditPasswordDialogFragment extends DialogFragment implements EditPa
         this.rePass = (EditText) v.findViewById(R.id.re_password);
         this.errorMessage = (TextView) v.findViewById(R.id.error);
 
-        Button submit = (Button) v.findViewById(R.id.submit);
+
+        AppCompatButton submit = (AppCompatButton) v.findViewById(R.id.submit);
+        ColorStateList csl = ColorStateList.valueOf(ContextCompat.getColor(getActivity(), R.color.teal));
+        submit.setSupportBackgroundTintList(csl);
         submit.setOnClickListener(this);
         return v;
     }
