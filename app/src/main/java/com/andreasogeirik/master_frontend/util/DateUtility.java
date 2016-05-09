@@ -1,10 +1,15 @@
 package com.andreasogeirik.master_frontend.util;
 
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.Hours;
+import org.joda.time.Minutes;
+import org.joda.time.Seconds;
+import org.joda.time.Years;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 /**
  * Created by eirikstadheim on 05/02/16.
@@ -29,35 +34,54 @@ public class DateUtility {
         return timeFormat.format(date);
     }
 
-    /*
-    This is shit
-    todo:fjern
+    public static String formatTimeDiff(Date date) {
 
-    public static boolean equals(Date lhs, Date rhs) {
-        Calendar lhsc = new GregorianCalendar();
-        lhsc.setTime(lhs);
+        long diff = Math.abs(date.getTime() - System.currentTimeMillis());
 
-        Calendar rhsc = new GregorianCalendar();
-        lhsc.setTime(rhs);
 
-        if (lhsc.get(Calendar.YEAR) == rhsc.get(Calendar.YEAR)
-                && lhsc.get(Calendar.MONTH) == rhsc.get(Calendar.MONTH)
-                && lhsc.get(Calendar.DAY_OF_MONTH) == rhsc.get(Calendar.DAY_OF_MONTH)
-                && lhsc.get(Calendar.HOUR_OF_DAY) == rhsc.get(Calendar.HOUR_OF_DAY)
-                && lhsc.get(Calendar.MINUTE) == rhsc.get(Calendar.MINUTE)) {
-            return true;
+
+
+        DateTime d1 = new DateTime(date.getTime());
+        DateTime d2 = DateTime.now();
+
+        int yearsDiff = Years.yearsBetween(d1, d2).getYears();
+
+        if(yearsDiff < 1) {
+
+            int daysDiff = Days.daysBetween(d1, d2).getDays();
+
+            if (daysDiff < 1) {
+                int hoursDiff = Hours.hoursBetween(d1, d2).getHours();
+
+                if (hoursDiff < 1) {
+                    int minutesDiff = Minutes.minutesBetween(d1, d2).getMinutes();
+
+                    if (minutesDiff < 1) {
+                        int secondsDiff = Seconds.secondsBetween(d1, d2).getSeconds();
+
+                        if (secondsDiff == 1) {
+                            return "1 sekund siden";
+                        } else {
+                            return secondsDiff + " sekunder siden";
+                        }
+                    } else if (minutesDiff == 1) {
+                        return minutesDiff + " minutt siden";
+                    } else {
+                        return minutesDiff + " minutter siden";
+                    }
+                } else {
+                    if (hoursDiff == 1) {
+                        return hoursDiff + " time siden";
+                    } else {
+                        return hoursDiff + " timer siden";
+                    }
+                }
+            } else {
+                return daysDiff + " dager siden";
+            }
         }
-        return false;
+        else {
+            return yearsDiff + " år siden";
+        }
     }
-
-    public static boolean equals(Calendar lhsc, Calendar rhsc) {
-        if (lhsc.get(Calendar.YEAR) == rhsc.get(Calendar.YEAR)
-                && lhsc.get(Calendar.MONTH) == rhsc.get(Calendar.MONTH)
-                && lhsc.get(Calendar.DAY_OF_MONTH) == rhsc.get(Calendar.DAY_OF_MONTH)
-                && lhsc.get(Calendar.HOUR_OF_DAY) == rhsc.get(Calendar.HOUR_OF_DAY)
-                && lhsc.get(Calendar.MINUTE) == rhsc.get(Calendar.MINUTE)) {
-            return true;
-        }
-        return false;
-    }*/
 }

@@ -6,8 +6,10 @@ import com.andreasogeirik.master_frontend.application.user.profile_others.interf
 import com.andreasogeirik.master_frontend.application.user.profile_others.interfaces.ProfileOthersPresenter;
 import com.andreasogeirik.master_frontend.communication.AcceptRequestTask;
 import com.andreasogeirik.master_frontend.communication.FriendRequestTask;
+import com.andreasogeirik.master_frontend.communication.GetUserTask;
 import com.andreasogeirik.master_frontend.communication.UnFriendTask;
 import com.andreasogeirik.master_frontend.listener.OnAcceptRequestListener;
+import com.andreasogeirik.master_frontend.listener.OnFinishedLoadingUserListener;
 import com.andreasogeirik.master_frontend.listener.OnFriendRequestedListener;
 import com.andreasogeirik.master_frontend.listener.OnUnfriendedListener;
 import com.andreasogeirik.master_frontend.model.Friendship;
@@ -22,7 +24,8 @@ import org.json.JSONObject;
  * Created by eirikstadheim on 17/02/16.
  */
 public class ProfileOthersInteractorImpl implements ProfileOthersInteractor,
-        OnFriendRequestedListener, OnUnfriendedListener, OnAcceptRequestListener {
+        OnFriendRequestedListener, OnUnfriendedListener, OnAcceptRequestListener,
+        OnFinishedLoadingUserListener {
     private String tag = getClass().getSimpleName();
 
     private ProfileOthersPresenter presenter;
@@ -30,6 +33,27 @@ public class ProfileOthersInteractorImpl implements ProfileOthersInteractor,
     public ProfileOthersInteractorImpl(ProfileOthersPresenter presenter) {
         this.presenter = presenter;
     }
+
+    @Override
+    public void findUser(int userId) {
+        new GetUserTask(this, userId).execute();
+    }
+
+    @Override
+    public void onLoadingUserSuccess(JSONObject user) {
+        try {
+            presenter.onSuccessUserLoad(new User(user));
+        }
+        catch (JSONException e) {
+            presenter.onFailedUserLoad(Constants.JSON_PARSE_ERROR);
+        }
+    }
+
+    @Override
+    public void onLoadingUserFailure(int code) {
+        presenter.onFailedUserLoad(Constants.CLIENT_ERROR);
+    }
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /*

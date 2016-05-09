@@ -307,14 +307,14 @@
             android:textStyle="bold"
             android:layout_marginBottom="10dp"
             android:layout_below="@+id/event_participants"
-            android:text="Skriv post"
+            android:text="Skriv innlegg"
             />
 
         <TextView
             android:id="@+id/posts_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Poster"
+            android:text="Innlegg"
             android:gravity="center_horizontal"
             android:background="@drawable/shape_gen_background"
             android:padding="10dp"

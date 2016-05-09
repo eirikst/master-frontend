@@ -4,11 +4,7 @@ package com.andreasogeirik.master_frontend.util;
  * Created by Andreas on 26.01.2016.
  */
 public class Constants {
-    // Docker
-    //    public static final String BACKEND_URL = "http://78.91.98.234:49183/";
-
-    // Andreas stasjonær
-    public static final String BACKEND_URL = "http://129.241.102.250:8080/";
+    public static String BACKEND_URL = "http://10.22.43.204:8080/";
 
 
     //Status codes for Tasks(http communication)
@@ -27,6 +23,9 @@ public class Constants {
 
     //Number of users returned when searcing users
     public static int NUMBER_OF_USERS_RETURNED_SEARCH = 5;
+
+    //Number of log elements returned when getting log
+    public static int NUMBER_OF_LOG_ELEMENTS_RETURNED = 15;
 
     //Event difficulty
     public static final int EVENT_DIFFICULTY_EASY = 1;

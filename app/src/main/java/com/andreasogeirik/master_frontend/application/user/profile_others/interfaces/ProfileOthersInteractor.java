@@ -11,4 +11,5 @@ public interface ProfileOthersInteractor {
     void requestFriendship(User user);
     void acceptFriendship(int friendshipId);
     void rejectFriendship(int friendshipId);
+    void findUser(int userId);
 }

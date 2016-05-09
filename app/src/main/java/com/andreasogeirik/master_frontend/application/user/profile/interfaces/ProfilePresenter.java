@@ -16,7 +16,6 @@ import java.util.Set;
 public interface ProfilePresenter {
     void findUser(int userId);
     void onSuccessUserLoad(User user);
-
     void onFailedUserLoad(int code);
 
     void findPosts();

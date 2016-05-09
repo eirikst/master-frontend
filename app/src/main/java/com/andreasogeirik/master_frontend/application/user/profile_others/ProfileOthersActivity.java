@@ -24,6 +24,8 @@ import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -63,8 +65,14 @@ public class ProfileOthersActivity extends AppCompatActivity implements ProfileO
         else {
             Intent intent = getIntent();
             try {
-                presenter = new ProfileOthersPresenterImpl(this,
-                        (User)intent.getSerializableExtra("user"));
+                Serializable ser = intent.getSerializableExtra("user");
+                if(ser != null) {
+                    User user = (User)ser;
+                    presenter = new ProfileOthersPresenterImpl(this, user);
+                }
+                else {
+                    presenter = new ProfileOthersPresenterImpl(this, intent.getIntExtra("userId", -1));
+                }
             }
             catch(ClassCastException e) {
                 throw new ClassCastException(e + "/nObject in Intent bundle cannot " +

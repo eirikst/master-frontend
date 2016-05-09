@@ -148,6 +148,16 @@ public class User implements Serializable {
         return false;
     }
 
+    public boolean isFriendWith(int userId) {
+        Iterator<Friendship> it = friends.iterator();
+        while(it.hasNext()) {
+            if(it.next().getFriend().getId() == userId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /*
      * I requested the other user
      */

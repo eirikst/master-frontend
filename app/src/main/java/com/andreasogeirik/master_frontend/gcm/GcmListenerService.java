@@ -48,9 +48,6 @@ public class GcmListenerService extends com.google.android.gms.gcm.GcmListenerSe
         String message = data.getString("msg");
         String action = data.getString("action");
         String actionIdString = data.getString("actionId");
-        System.out.println(message);
-        System.out.println(action);
-        System.out.println(actionIdString);
 
         if(action.equals(DEFAULT_ACTION)) {
             notifyDefault(message);

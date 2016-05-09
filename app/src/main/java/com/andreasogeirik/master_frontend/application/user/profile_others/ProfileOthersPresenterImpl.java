@@ -2,9 +2,7 @@ package com.andreasogeirik.master_frontend.application.user.profile_others;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Environment;
 
 import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
 import com.andreasogeirik.master_frontend.application.user.profile.ProfileActivity;
@@ -42,6 +40,37 @@ public class ProfileOthersPresenterImpl extends GeneralPresenter implements Prof
         interactor = new ProfileOthersInteractorImpl(this);
         this.user = user;
 
+        setupView();
+    }
+
+    public ProfileOthersPresenterImpl(ProfileOthersView view, int userId) {
+        super((Activity)view, CHECK_USER_AVAILABLE);
+        this.view = view;
+        interactor = new ProfileOthersInteractorImpl(this);
+
+        this.user = new User(userId);
+
+        interactor.findUser(userId);
+    }
+
+    @Override
+    public void onSuccessUserLoad(User user) {
+        this.user.copyUser(user);
+        setupView();
+    }
+
+    @Override
+    public void onFailedUserLoad(int code) {
+        if(code == Constants.UNAUTHORIZED) {
+            checkAuth();
+        }
+        else {
+            view.displayMessage("Feil ved lasting av bruker");
+        }
+    }
+
+
+    private void setupView() {
         //setup gui
         if(CurrentUser.getInstance().getUser().iHaveRequested(user)) {
             view.setupGUI(user, Friendship.I_REQUESTED);

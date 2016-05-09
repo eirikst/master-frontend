@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import com.andreasogeirik.master_frontend.model.Friendship;
+import com.andreasogeirik.master_frontend.model.User;
 
 /**
  * Created by eirikstadheim on 17/02/16.
@@ -22,4 +23,7 @@ public interface ProfileOthersPresenter {
     void rejectRequestFailure(int code);
 
     void saveInstanceState(Bundle savedInstanceState);
+
+    void onSuccessUserLoad(User user);
+    void onFailedUserLoad(int code);
 }

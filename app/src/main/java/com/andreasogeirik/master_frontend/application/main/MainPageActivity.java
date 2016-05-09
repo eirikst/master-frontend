@@ -28,9 +28,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.application.main.fragments.attending_events.AttendingEventsFragment;
+import com.andreasogeirik.master_frontend.application.main.fragments.feed.LogFragment;
 import com.andreasogeirik.master_frontend.application.main.fragments.my_events.MyEventsFragment;
 import com.andreasogeirik.master_frontend.application.auth.entrance.EntranceActivity;
-import com.andreasogeirik.master_frontend.application.main.fragments.recommended_events.RecommendedEventsFragment;
 import com.andreasogeirik.master_frontend.application.main.interfaces.MainPagePresenter;
 import com.andreasogeirik.master_frontend.application.main.interfaces.MainPageView;
 import com.andreasogeirik.master_frontend.R;
@@ -52,7 +52,7 @@ import butterknife.ButterKnife;
 
 public class MainPageActivity extends AppCompatActivity implements MainPageView,
         AttendingEventsFragment.AttendingEventsListener, MyEventsFragment.MyEventsListener,
-        RecommendedEventsFragment.RecommendedEventsListener,
+        LogFragment.LogFragmentListener,
         ViewPager.OnPageChangeListener, NotificationCenterDialogFragment.NotificationCenterListener {
     private String tag = getClass().getSimpleName();
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
@@ -79,8 +79,6 @@ public class MainPageActivity extends AppCompatActivity implements MainPageView,
     private MainPagerAdapter pagerAdapter;
     private ProgressBarManager progressBarManager;
 
-
-    //private AttendingEventsFragment attendingFragment;
 
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
@@ -179,6 +177,7 @@ public class MainPageActivity extends AppCompatActivity implements MainPageView,
         pagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(this);
+        viewPager.setOffscreenPageLimit(2);
 
         // Give the TabLayout the ViewPager
         tabLayout.post(new Runnable() {//TODO:Skrive om denne hvis mulig
@@ -278,8 +277,8 @@ public class MainPageActivity extends AppCompatActivity implements MainPageView,
             if(fragment instanceof AttendingEventsFragment) {
                 ((AttendingEventsFragment) fragment).updateListView();
             }
-            else if(fragment instanceof RecommendedEventsFragment) {
-                ((RecommendedEventsFragment) fragment).updateListView();
+            else if(fragment instanceof LogFragment) {
+                ((LogFragment) fragment).updateListView();
             }
             else if(fragment instanceof MyEventsFragment) {
                 ((MyEventsFragment) fragment).updateListView();

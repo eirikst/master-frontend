@@ -101,7 +101,7 @@
             android:textColor="@color/app_font"
             android:textStyle="bold"
             android:layout_marginBottom="10dp"
-            android:text="Skriv post"
+            android:text="Skriv innlegg"
             android:visibility="gone"
             android:layout_below="@+id/participating_events_btn"
             />
@@ -110,7 +110,7 @@
             android:id="@+id/posts_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Poster"
+            android:text="Innlegg"
             android:gravity="center_horizontal"
             android:textSize="24dp"
             android:background="@drawable/shape_gen_background"
