@@ -292,7 +292,6 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
             easyDiff.setVisibility(View.VISIBLE);
             mediumDiff.setVisibility(View.GONE);
             hardDiff.setVisibility(View.GONE);
-
         }
     }
 
@@ -305,10 +304,10 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
         numberOfParticipants.setSupportBackgroundTintList(grey);
 
         this.attendButton = (AppCompatButton) headerView.findViewById(R.id.event_attend);
-        attendButton.setSupportBackgroundTintList(grey);
+        attendButton.setSupportBackgroundTintList(teal);
 
         this.unAttendButton = (AppCompatButton) headerView.findViewById(R.id.event_unattend);
-        unAttendButton.setSupportBackgroundTintList(teal);
+        unAttendButton.setSupportBackgroundTintList(grey);
 
         this.editButton = (AppCompatButton) headerView.findViewById(R.id.event_edit);
         editButton.setSupportBackgroundTintList(grey);

@@ -1,8 +1,12 @@
 package com.andreasogeirik.master_frontend.application.search;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,6 +14,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,7 +44,7 @@ public class UserSearchActivity extends AppCompatActivity implements UserSearchV
     Toolbar toolbar;
 
     private EditText searchString;
-    private Button searchBtn;
+    private AppCompatButton searchBtn;
     private Button loadMoreBtn;
 
     private UserSearchPresenter presenter;
@@ -66,6 +72,7 @@ public class UserSearchActivity extends AppCompatActivity implements UserSearchV
         else {
             presenter = new UserSearchPresenterImpl(this, null);
         }
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     }
 
     private void setupToolbar() {
@@ -93,7 +100,12 @@ public class UserSearchActivity extends AppCompatActivity implements UserSearchV
 
 
         searchString = (EditText)listHeader.findViewById(R.id.user_search_text);
-        searchBtn = (Button)listHeader.findViewById(R.id.user_search_btn);
+
+        searchBtn = (AppCompatButton)listHeader.findViewById(R.id.user_search_btn);
+
+        ColorStateList csl = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.grey_fade));
+        searchBtn.setSupportBackgroundTintList(csl);
+
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
