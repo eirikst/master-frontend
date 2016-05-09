@@ -25,10 +25,12 @@ public class RegisterPresenterImpl implements RegisterPresenter {
 
     @Override
     public void registerUser(String email, String password, String rePassword, String firstname, String lastname, String location) {
-        if (TextUtils.isEmpty(email)) {
+        String trimmedEmail = email.trim();
+
+        if (TextUtils.isEmpty(trimmedEmail)) {
             registerView.setEmailError("Skriv inn e-post");
         }
-        else if (!EmailValidator.validate(email)){
+        else if (!EmailValidator.validate(trimmedEmail)){
             registerView.setEmailError("Dette er ikke en gyldig e-post");
         }
         else if (TextUtils.isEmpty(password)) {
@@ -45,7 +47,7 @@ public class RegisterPresenterImpl implements RegisterPresenter {
             registerView.setLocationError("Skriv inn et sted");
         } else {
             registerView.showProgress();
-            interactor.registerUser(new User(email, password, firstname, lastname, location));
+            interactor.registerUser(new User(trimmedEmail, password, firstname, lastname, location));
         }
     }
 
