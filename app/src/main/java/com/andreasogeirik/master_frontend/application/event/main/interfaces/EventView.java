@@ -19,7 +19,7 @@ public interface EventView {
     void setParticipants(String participants);
     void setUnAttendButton();
     void setEditButton();
-    void setDeleteButton();
+    void setCancelButton();
     void showErrorMessage(String error);
     void showProgress();
     void hideProgress();

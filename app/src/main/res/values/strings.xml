@@ -42,7 +42,7 @@
     <string name="event_read_attend">MELD PÅ</string>
     <string name="event_read_unAttend">MELD AV</string>
     <string name="event_read_edit">ENDRE AKTIVITET</string>
-    <string name="event_read_delete">SLETT</string>
+    <string name="event_read_cancel">AVLYS</string>
     <string name="event_read_start">"START: "</string>
     <string name="event_read_activity_type">"AKTIVITET: "</string>
     <string name="event_read_end">"SLUTT: "</string>
