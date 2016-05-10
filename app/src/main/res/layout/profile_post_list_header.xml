@@ -90,7 +90,7 @@
             android:id="@+id/info_panel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/post_list_header"
+            android:layout_below="@+id/post_list_header"
             >
 
             <RelativeLayout
@@ -146,11 +146,37 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/edit_panel"
+                android:id="@+id/participating_events_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/friend_panel"
                 android:layout_margin="10dp"
+                >
+
+                <ImageView
+                    android:id="@+id/participating_events_symbol"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_event_black_24dp"
+                    android:layout_marginRight="10dp"
+                    />
+
+                <TextView
+                    android:id="@+id/participating_events_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Deltar på"
+                    android:layout_toRightOf="@id/participating_events_symbol"
+                    android:layout_centerVertical="true"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/edit_panel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_below="@+id/participating_events_btn"
                 >
 
                 <ImageView
@@ -172,7 +198,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/participating_events_btn"
+                android:id="@+id/write_post_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/edit_panel"
@@ -180,19 +206,19 @@
                 >
 
                 <ImageView
-                    android:id="@+id/participating_events_symbol"
+                    android:id="@+id/write_post_symbol"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_event_black_24dp"
+                    android:src="@drawable/ic_mode_edit_black_24dp"
                     android:layout_marginRight="10dp"
                     />
 
                 <TextView
-                    android:id="@+id/participating_events_text"
+                    android:id="@+id/write_post"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Deltar på"
-                    android:layout_toRightOf="@id/participating_events_symbol"
+                    android:text="Skriv innlegg"
+                    android:layout_toRightOf="@id/write_post_symbol"
                     android:layout_centerVertical="true"
                     />
             </RelativeLayout>

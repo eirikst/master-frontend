@@ -101,7 +101,8 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
     private ImageView activityTypeIcon;
     private TextView activityTypeLabel;
 
-    private AppCompatButton newPostBtn;
+    private View newPostBtn;
+    private TextView newPostText;
 
     private TextView numberOfParticipants;
 
@@ -341,8 +342,9 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
         this.hardDiff = headerView.findViewById(R.id.difficulty_hard);
 
         noPosts = (TextView)headerView.findViewById(R.id.no_posts);
-        newPostBtn = (AppCompatButton) headerView.findViewById(R.id.new_post_event);
-        newPostBtn.setSupportBackgroundTintList(grey);
+        newPostBtn = headerView.findViewById(R.id.new_post_event);
+        newPostText = (TextView)headerView.findViewById(R.id.new_post);
+        newPostText.setPaintFlags(newPostText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         adapter = new PostListAdapter(this, new ArrayList<Post>(), this);
         listView.setAdapter(adapter);
