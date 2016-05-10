@@ -61,7 +61,7 @@
                     android:id="@+id/others_profile_image"
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
-                    android:src="@drawable/default_profile"
+                    android:src="@drawable/default_profile_full"
                     />
             </RelativeLayout>
 
@@ -83,6 +83,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/friend_panel"
                     android:layout_margin="5dp"
+                    android:visibility="gone"
                     >
 
                     <ImageView
@@ -109,6 +110,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/are_we_friends_panel"
                     android:layout_margin="5dp"
+                    android:visibility="gone"
                     >
 
                     <ImageView
@@ -134,6 +136,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/are_we_friends_panel2"
                     android:layout_margin="5dp"
+                    android:visibility="gone"
                     >
 
                     <ImageView
@@ -160,6 +163,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/are_we_friends_panel3"
                     android:layout_margin="5dp"
+                    android:visibility="gone"
                     >
 
                     <ImageView

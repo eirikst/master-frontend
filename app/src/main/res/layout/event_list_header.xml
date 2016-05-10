@@ -32,7 +32,6 @@
             android:layout_marginBottom="20dp"
             android:gravity="center_horizontal"
             android:textColor="@color/app_font"
-            android:textStyle="bold"
             android:textSize="24dp"
             />
 
@@ -108,92 +107,11 @@
 
         </RelativeLayout>
 
-
-        <RelativeLayout
-            android:id="@+id/event_start_time_panel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/event_activity_type_panel"
-            android:layout_marginBottom="20dp"
-            >
-
-            <ImageView
-                android:id="@+id/event_time_symbol"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_access_time_black_24dp"
-                android:layout_marginRight="10dp"
-                />
-
-            <TextView
-                android:id="@+id/event_startTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/app_font"
-                android:text="@string/event_read_start"
-                android:layout_toRightOf="@+id/event_time_symbol"
-                />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/event_end_time_panel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/event_start_time_panel"
-            android:visibility="gone"
-            android:layout_marginBottom="20dp"
-            >
-
-            <ImageView
-                android:id="@+id/event_end_time_symbol"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_access_time_black_24dp"
-                android:layout_marginRight="10dp"
-                />
-
-            <TextView
-                android:id="@+id/event_end_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/app_font"
-                android:text="@string/event_read_end"
-                android:layout_toRightOf="@+id/event_end_time_symbol"
-                />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/event_location_panel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/event_end_time_panel"
-            android:layout_marginBottom="20dp"
-            >
-
-            <ImageView
-                android:id="@+id/event_location_symbol"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_place_black_24dp"
-                android:layout_marginRight="10dp"
-                />
-
-            <TextView
-                android:id="@+id/event_location"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/app_font"
-                android:text="@string/event_read_location"
-                android:layout_toRightOf="@+id/event_location_symbol"
-                />
-        </RelativeLayout>
-
         <LinearLayout
             android:id="@+id/event_difficulty_panel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/event_location_panel"
+            android:layout_below="@+id/event_activity_type_panel"
             android:layout_marginBottom="20dp"
             >
 
@@ -212,6 +130,7 @@
                 android:textColor="@color/app_font"
                 android:text="@string/event_read_difficulty"
                 android:layout_marginRight="10dp"
+                android:layout_gravity="center_vertical"
                 />
 
             <View
@@ -244,10 +163,94 @@
         </LinearLayout>
 
         <RelativeLayout
+            android:id="@+id/event_start_time_panel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/event_difficulty_panel"
+            android:layout_marginBottom="20dp"
+            >
+
+            <ImageView
+                android:id="@+id/event_time_symbol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_access_time_black_24dp"
+                android:layout_marginRight="10dp"
+                />
+
+            <TextView
+                android:id="@+id/event_startTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/app_font"
+                android:text="@string/event_read_start"
+                android:layout_toRightOf="@+id/event_time_symbol"
+                android:layout_centerVertical="true"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/event_end_time_panel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/event_start_time_panel"
+            android:visibility="gone"
+            android:layout_marginBottom="20dp"
+            >
+
+            <ImageView
+                android:id="@+id/event_end_time_symbol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_access_time_black_24dp"
+                android:layout_marginRight="10dp"
+                />
+
+            <TextView
+                android:id="@+id/event_end_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/app_font"
+                android:text="@string/event_read_end"
+                android:layout_toRightOf="@+id/event_end_time_symbol"
+                android:layout_centerVertical="true"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/event_location_panel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/event_end_time_panel"
+            android:layout_marginBottom="20dp"
+            >
+
+            <ImageView
+                android:id="@+id/event_location_symbol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_place_black_24dp"
+                android:layout_marginRight="10dp"
+                />
+
+            <TextView
+                android:id="@+id/event_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/app_font"
+                android:text="@string/event_read_location"
+                android:layout_toRightOf="@+id/event_location_symbol"
+                android:layout_centerVertical="true"
+                />
+        </RelativeLayout>
+
+
+        <RelativeLayout
             android:id="@+id/event_description_panel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/event_difficulty_panel"
+            android:layout_below="@+id/event_location_panel"
             android:layout_marginBottom="20dp"
             >
 
@@ -266,6 +269,7 @@
                 android:textColor="@color/app_font"
                 android:text="@string/event_read_description"
                 android:layout_toRightOf="@+id/event_description_symbol"
+                android:layout_centerVertical="true"
                 />
         </RelativeLayout>
 
@@ -275,6 +279,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/event_description_panel"
             android:layout_marginBottom="20dp"
+
             >
 
             <ImageView
@@ -292,16 +297,37 @@
                 android:textColor="@color/app_font"
                 android:text="@string/event_read_admin"
                 android:layout_toRightOf="@+id/event_admin_symbol"
+                android:layout_centerVertical="true"
                 />
         </RelativeLayout>
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/event_participants"
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:id="@+id/event_participants_panel"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight=".7"
-            android:layout_marginBottom="10dp"
-            android:layout_below="@+id/event_admin_panel" />
+            android:layout_below="@+id/event_admin_panel"
+            android:layout_marginBottom="20dp"
+
+            >
+
+            <ImageView
+                android:id="@+id/event_participants_symbol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_people_black_24dp"
+                android:layout_gravity="top"
+                android:layout_marginRight="10dp"
+                />
+            <TextView
+                android:id="@+id/event_participants"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/app_font"
+                android:text="@string/event_read_participants"
+                android:layout_toRightOf="@+id/event_participants_symbol"
+                android:layout_centerVertical="true"
+                />
+        </RelativeLayout>
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/new_post_event"
@@ -309,7 +335,7 @@
             android:layout_height="wrap_content"
             android:layout_weight=".7"
             android:layout_marginBottom="10dp"
-            android:layout_below="@+id/event_participants"
+            android:layout_below="@+id/event_participants_panel"
             android:text="Skriv innlegg"
             />
 

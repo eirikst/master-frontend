@@ -3,6 +3,7 @@ package com.andreasogeirik.master_frontend.application.event.main;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Paint;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -102,7 +103,7 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
 
     private AppCompatButton newPostBtn;
 
-    private AppCompatButton numberOfParticipants;
+    private TextView numberOfParticipants;
 
 
     private EventPresenter presenter;
@@ -173,10 +174,12 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
         this.eventName.setText(name);
         this.eventLocation.append(location);
         this.eventDescription.append(description);
+        this.eventAdmin.setPaintFlags(this.eventAdmin.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         this.eventAdmin.append(admin);
         this.startTime.append(startTime);
 
         this.numberOfParticipants.setText(participants);
+        this.numberOfParticipants.setPaintFlags(this.numberOfParticipants.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         switch (activityType) {
             case WALK:
@@ -300,8 +303,7 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
         headerView = getLayoutInflater().inflate(R.layout.event_list_header, null);
         listView.addHeaderView(headerView);
 
-        this.numberOfParticipants = (AppCompatButton) headerView.findViewById(R.id.event_participants);
-        numberOfParticipants.setSupportBackgroundTintList(grey);
+        this.numberOfParticipants = (TextView) headerView.findViewById(R.id.event_participants);
 
         this.attendButton = (AppCompatButton) headerView.findViewById(R.id.event_attend);
         attendButton.setSupportBackgroundTintList(teal);

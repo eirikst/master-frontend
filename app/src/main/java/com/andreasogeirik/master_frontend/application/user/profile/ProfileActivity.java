@@ -2,6 +2,7 @@ package com.andreasogeirik.master_frontend.application.user.profile;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Paint;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -29,10 +30,9 @@ import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
 import com.andreasogeirik.master_frontend.application.post.CommentDialog;
 import com.andreasogeirik.master_frontend.application.post.LikeDialogFragment;
 import com.andreasogeirik.master_frontend.application.post.PostDialog;
+import com.andreasogeirik.master_frontend.application.user.edit.EditUserActivity;
 import com.andreasogeirik.master_frontend.application.user.profile.fragments.FriendProfileHeader;
-import com.andreasogeirik.master_frontend.application.user.profile.fragments.MyProfileHeader;
 import com.andreasogeirik.master_frontend.layout.adapter.PostListAdapter;
-import com.andreasogeirik.master_frontend.listener.MyProfileHeaderListener;
 import com.andreasogeirik.master_frontend.model.Comment;
 import com.andreasogeirik.master_frontend.model.Post;
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfilePresenter;
@@ -52,7 +52,7 @@ import butterknife.ButterKnife;
  * Created by eirikstadheim on 06/02/16.
  */
 public class ProfileActivity extends AppCompatActivity implements ProfileView,
-        AdapterView.OnItemClickListener, MyProfileHeaderListener, PostListAdapter.PostListCallback,
+        AdapterView.OnItemClickListener, PostListAdapter.PostListCallback,
         CommentDialog.Listener, PostDialog.Listener {
     private String tag = getClass().getSimpleName();
 
@@ -78,12 +78,14 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     private ImageView imageView;
     private AppCompatButton newPostBtn;
     private ImageView headerImage;
+    private View nrOfFriendsView;
+    private TextView nrOfFriendsTextView;
+    private View editProfileView;
+    private TextView editProfileTextView;
+    private View yourFriendView;
+    private TextView yourFriendTextView;
 
     private static int EDIT_EVENT_REQUEST = 1;
-
-    //fragments
-    private MyProfileHeader myProfileHeaderFragment;
-    private FriendProfileHeader friendProfileHeaderFragment;
 
     private PostListAdapter postListAdapter;
 
@@ -246,11 +248,35 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
      * Init post list header. Call this only when own profile is visited, to set the right fragment
      */
     private void initMyHeader(int nrOfFriends) {
-        RelativeLayout fragmentContainer = (RelativeLayout) findViewById(
-                R.id.left_header_fragment_container);
-        myProfileHeaderFragment = MyProfileHeader.newInstance(nrOfFriends);
-        getSupportFragmentManager().beginTransaction().add(fragmentContainer.getId(),
-                myProfileHeaderFragment, "").commit();
+        editProfileTextView = (TextView)headerView.findViewById(R.id.edit_profile);
+        editProfileTextView.setPaintFlags(this.editProfileTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+        editProfileView = headerView.findViewById(R.id.edit_panel);
+
+        editProfileView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                 Intent i = new Intent(ProfileActivity.this, EditUserActivity.class);
+                 startActivity(i);
+            }
+        });
+
+        nrOfFriendsTextView = (TextView)headerView.findViewById(R.id.my_profile_friends);
+        nrOfFriendsTextView.setText(nrOfFriends + " venner");
+        nrOfFriendsTextView.setPaintFlags(this.nrOfFriendsTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+        nrOfFriendsView = headerView.findViewById(R.id.friend_panel);
+        nrOfFriendsView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.friendListSelected();
+            }
+        });
+
+        yourFriendTextView = (TextView)headerView.findViewById(R.id.your_friend);
+        yourFriendTextView.setPaintFlags(this.yourFriendTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        yourFriendView = headerView.findViewById(R.id.your_friend_panel);
+        yourFriendView.setVisibility(View.GONE);
 
         newPostBtn = (AppCompatButton)headerView.findViewById(R.id.new_post_user);
         newPostBtn.setSupportBackgroundTintList(csl);
@@ -275,17 +301,29 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
             }
         });
 
+
     }
 
     /*
     * Init post list header. Call this only when friend's profile is visited, to set the right fragment
     */
     private void initFriendHeader(int nrOfFriends) {
-        RelativeLayout fragmentContainer = (RelativeLayout) findViewById(
-                R.id.left_header_fragment_container);
-        friendProfileHeaderFragment = FriendProfileHeader.newInstance(nrOfFriends);
-        getSupportFragmentManager().beginTransaction().add(fragmentContainer.getId(),
-                friendProfileHeaderFragment, "").commit();
+        editProfileView = headerView.findViewById(R.id.edit_panel);
+        editProfileView.setVisibility(View.GONE);
+
+        yourFriendTextView = (TextView)headerView.findViewById(R.id.your_friend);
+        yourFriendTextView.setPaintFlags(this.yourFriendTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+        nrOfFriendsTextView = (TextView)headerView.findViewById(R.id.my_profile_friends);
+        nrOfFriendsTextView.setText(nrOfFriends + " venner");
+        nrOfFriendsTextView.setPaintFlags(this.nrOfFriendsTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        nrOfFriendsView = headerView.findViewById(R.id.friend_panel);
+        nrOfFriendsView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.friendListSelected();
+            }
+        });
     }
 
 
@@ -317,16 +355,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
 
     @Override
     public void setFriendCount(int count) {
-        if (myProfileHeaderFragment != null) {
-            myProfileHeaderFragment.updateFriendCount(count);
-        } else if (friendProfileHeaderFragment != null) {
-            friendProfileHeaderFragment.updateFriendCount(count);
-        }
-    }
-
-    @Override
-    public void onFriendListSelected() {
-        presenter.friendListSelected();
+        nrOfFriendsTextView.setText(count + " venner");
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -339,14 +368,14 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
         if(imageUri != null && !imageUri.isEmpty()) {
             Picasso.with(this)
                     .load(imageUri)
-                    .error(R.drawable.default_profile)
+                    .error(R.drawable.default_profile_full)
                     .resize(Constants.USER_IMAGE_WIDTH, Constants.USER_IMAGE_HEIGHT)
                     .centerCrop()
                     .into(headerImage);
         }
         else {
             Picasso.with(this)
-                    .load(R.drawable.default_profile)
+                    .load(R.drawable.default_profile_full)
                     .resize(Constants.USER_IMAGE_WIDTH, Constants.USER_IMAGE_HEIGHT)
                     .centerCrop()
                     .into(headerImage);
