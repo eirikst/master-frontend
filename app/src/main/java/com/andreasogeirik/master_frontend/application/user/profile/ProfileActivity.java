@@ -75,13 +75,14 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     private View participatingEventView;
     private TextView participatingEventTextView;
     private ImageView imageView;
-    private AppCompatButton newPostBtn;
     private ImageView headerImage;
     private View nrOfFriendsView;
     private TextView nrOfFriendsTextView;
     private View editProfileView;
     private TextView editProfileTextView;
     private View yourFriendView;
+    private TextView writePostTextView;
+    private View writePostView;
 
     private static int EDIT_EVENT_REQUEST = 1;
 
@@ -275,10 +276,11 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
         yourFriendView = headerView.findViewById(R.id.your_friend_panel);
         yourFriendView.setVisibility(View.GONE);
 
-        newPostBtn = (AppCompatButton)headerView.findViewById(R.id.new_post_user);
-        newPostBtn.setSupportBackgroundTintList(csl);
-        newPostBtn.setVisibility(View.VISIBLE);
-        newPostBtn.setOnClickListener(new View.OnClickListener() {
+        writePostTextView = (TextView)headerView.findViewById(R.id.write_post);
+        writePostTextView.setPaintFlags(this.writePostTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        writePostView = headerView.findViewById(R.id.write_post_btn);
+        writePostView.setVisibility(View.VISIBLE);
+        writePostView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // DialogFragment.show() will take care of adding the fragment
@@ -307,6 +309,9 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     private void initFriendHeader(int nrOfFriends) {
         editProfileView = headerView.findViewById(R.id.edit_panel);
         editProfileView.setVisibility(View.GONE);
+
+        writePostView = headerView.findViewById(R.id.write_post_btn);
+        writePostView.setVisibility(View.GONE);
 
         nrOfFriendsTextView = (TextView)headerView.findViewById(R.id.my_profile_friends);
         nrOfFriendsTextView.setText(nrOfFriends + " venner");
