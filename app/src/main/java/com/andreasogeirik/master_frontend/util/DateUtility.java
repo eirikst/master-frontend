@@ -36,11 +36,6 @@ public class DateUtility {
 
     public static String formatTimeDiff(Date date) {
 
-        long diff = Math.abs(date.getTime() - System.currentTimeMillis());
-
-
-
-
         DateTime d1 = new DateTime(date.getTime());
         DateTime d2 = DateTime.now();
 
@@ -61,8 +56,11 @@ public class DateUtility {
 
                         if (secondsDiff == 1) {
                             return "1 sekund siden";
-                        } else {
+                        } else if (secondsDiff >= 0) {
                             return secondsDiff + " sekunder siden";
+                        } else {
+                            return "Akkurat";
+
                         }
                     } else if (minutesDiff == 1) {
                         return minutesDiff + " minutt siden";

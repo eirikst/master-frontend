@@ -61,7 +61,7 @@ public class LogListAdapter extends ArrayAdapter<LogElement> {
 
         TextView content = (TextView)convertView.findViewById(R.id.content);
         content.setText(Html.fromHtml("<i>" + DateUtility.formatTimeDiff(element.getTime()) +
-                ":</i> " + element.getContent()) + " og klokken er " + DateUtility.formatFull(element.getTime()));
+                ":</i> " + element.getContent()));
 
         ImageView symbol = (ImageView)convertView.findViewById(R.id.log_symbol);
 
