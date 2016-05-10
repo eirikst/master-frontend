@@ -18,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -51,6 +52,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
+import butterknife.OnTouch;
 
 public class EditEventActivity extends AppCompatActivity implements EditEventView, OnDateSetListener,
         OnTimeSetListener, CustomSlider.OnValueChangedListener, CustomSlider.OnTouchListener, OnActivityTypeSet {
@@ -128,12 +130,12 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_edit_event_activity);
         ButterKnife.bind(this);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         this.progressBarManager = new ProgressBarManager(this, scrollView, progress);
         setupToolbar();
         this.slider.setOnValueChangedListener(this);
         this.slider.setOnTouchListener(this);
-
         try {
             this.presenter = new EditEventPresenterImpl(this, (Event) getIntent().getSerializableExtra("event"));
             this.presenter.setEventAttributes();
@@ -141,6 +143,7 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
             throw new ClassCastException(e + "/nObject in Intent bundle cannot " +
                     "be cast to User in " + this.toString());
         }
+        this.submitBtn.setText("Endre aktivitet");
     }
 
     /*
@@ -150,6 +153,22 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         this.toolbarHeader.setText("ENDRE AKTIVITET");
+    }
+
+    @OnTouch(R.id.name)
+    public boolean selectImage(MotionEvent event){
+        final int DRAWABLE_RIGHT = 2;
+
+        if(event.getAction() == MotionEvent.ACTION_UP) {
+            if(event.getRawX() >= (name.getRight() - name.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                i.setType("image/*");
+                startActivityForResult(i, PICK_IMAGE_REQUEST);
+
+                return true;
+            }
+        }
+        return false;
     }
 
 
@@ -222,13 +241,11 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
     @OnCheckedChanged(R.id.checkbox)
     public void endTimeChecked(boolean checked) {
         if (checked) {
-            this.endDateBtn.setVisibility(View.VISIBLE);
-            this.endTimeBtn.setVisibility(View.VISIBLE);
+            this.endDatePanel.setVisibility(View.VISIBLE);
         } else {
-            this.endDateBtn.setVisibility(View.GONE);
-            this.endTimeBtn.setVisibility(View.GONE);
-            this.endDateBtn.setText("DATO");
-            this.endTimeBtn.setText("TID");
+            this.endDatePanel.setVisibility(View.GONE);
+            this.endDateBtn.setText("Dato");
+            this.endTimeBtn.setText("Tid");
             this.endDateError.setText("");
             this.endDateError.setVisibility(View.GONE);
             this.presenter.deleteEndTimes();
@@ -372,8 +389,7 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
     @Override
     public void setEndDate(String endDate, String endTime) {
         this.checkbox.setChecked(true);
-        this.endDateBtn.setVisibility(View.VISIBLE);
-        this.endTimeBtn.setVisibility(View.VISIBLE);
+        this.endDatePanel.setVisibility(View.VISIBLE);
         this.endDateBtn.setText(endDate);
         this.endTimeBtn.setText(endTime);
     }

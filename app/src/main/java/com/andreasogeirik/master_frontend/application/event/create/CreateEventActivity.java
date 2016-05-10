@@ -135,6 +135,7 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
         submitBtn.setSupportBackgroundTintList(csl);
 
         this.typeBtn.setText("Aktivitetstype: Gå");
+        this.submitBtn.setText("Opprett aktivitet");
     }
 
     @OnTouch(R.id.name)

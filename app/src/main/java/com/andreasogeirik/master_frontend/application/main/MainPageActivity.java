@@ -31,6 +31,7 @@ import com.andreasogeirik.master_frontend.application.main.fragments.attending_e
 import com.andreasogeirik.master_frontend.application.main.fragments.feed.LogFragment;
 import com.andreasogeirik.master_frontend.application.main.fragments.my_events.MyEventsFragment;
 import com.andreasogeirik.master_frontend.application.auth.entrance.EntranceActivity;
+import com.andreasogeirik.master_frontend.application.main.fragments.recommended_events.RecommendedEventsFragment;
 import com.andreasogeirik.master_frontend.application.main.interfaces.MainPagePresenter;
 import com.andreasogeirik.master_frontend.application.main.interfaces.MainPageView;
 import com.andreasogeirik.master_frontend.R;
@@ -52,7 +53,7 @@ import butterknife.ButterKnife;
 
 public class MainPageActivity extends AppCompatActivity implements MainPageView,
         AttendingEventsFragment.AttendingEventsListener, MyEventsFragment.MyEventsListener,
-        LogFragment.LogFragmentListener,
+        LogFragment.LogFragmentListener, RecommendedEventsFragment.RecommendedEventsListener,
         ViewPager.OnPageChangeListener, NotificationCenterDialogFragment.NotificationCenterListener {
     private String tag = getClass().getSimpleName();
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
@@ -177,7 +178,7 @@ public class MainPageActivity extends AppCompatActivity implements MainPageView,
         pagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(this);
-        viewPager.setOffscreenPageLimit(2);
+        viewPager.setOffscreenPageLimit(3);
 
         // Give the TabLayout the ViewPager
         tabLayout.post(new Runnable() {//TODO:Skrive om denne hvis mulig
@@ -282,6 +283,9 @@ public class MainPageActivity extends AppCompatActivity implements MainPageView,
             }
             else if(fragment instanceof MyEventsFragment) {
                 ((MyEventsFragment) fragment).updateListView();
+            }
+            else if(fragment instanceof RecommendedEventsFragment) {
+                ((RecommendedEventsFragment) fragment).updateListView();
             }
         }
     }

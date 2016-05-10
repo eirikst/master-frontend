@@ -9,16 +9,18 @@ import android.view.ViewGroup;
 import com.andreasogeirik.master_frontend.application.main.fragments.attending_events.AttendingEventsFragment;
 import com.andreasogeirik.master_frontend.application.main.fragments.feed.LogFragment;
 import com.andreasogeirik.master_frontend.application.main.fragments.my_events.MyEventsFragment;
+import com.andreasogeirik.master_frontend.application.main.fragments.recommended_events.RecommendedEventsFragment;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class MainPagerAdapter extends FragmentPagerAdapter {
     final int FEED = 0;
-    final int ATTENDING = 1;
-    final int MY = 2;
-    final int PAGE_COUNT = 3;
-    private String tabTitles[] = new String[] {"Nyheter", "Påmeldt", "Mine"};
+    final int RECOMMENDED = 1;
+    final int ATTENDING = 2;
+    final int MY = 3;
+    final int PAGE_COUNT = 4;
+    private String tabTitles[] = new String[] {"Nyheter", "Anbefalt", "Påmeldt", "Mine"};
     private Context context;
     private Map<Integer, Fragment> registeredFragments = new HashMap<>();
 
@@ -54,6 +56,8 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
         switch(position) {
             case FEED:
                 return LogFragment.newInstance();
+            case RECOMMENDED:
+                return RecommendedEventsFragment.newInstance();
             case ATTENDING:
                 return AttendingEventsFragment.newInstance();
             case MY:
