@@ -68,163 +68,164 @@
             <RelativeLayout
                 android:layout_weight="10"
                 android:layout_width="0dp"
-                android:layout_height="match_parent">
-
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_height="match_parent"
+                android:gravity="center"
                 >
 
                 <RelativeLayout
-                    android:id="@+id/are_we_friends_panel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/friend_panel"
-                    android:layout_margin="5dp"
-                    android:visibility="gone"
                     >
-
                     <ImageView
-                        android:id="@+id/are_we_friends_image"
+                        android:id="@+id/admin_symbol"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_person_add_black_24dp"
+                        android:src="@drawable/ic_star_border_black_24dp"
+                        android:layout_gravity="top"
                         android:layout_marginRight="10dp"
+                        android:visibility="gone"
                         />
-
-                    <TextView
-                        android:id="@+id/are_we_friends_bro"
+                    <RelativeLayout
+                        android:id="@+id/name_user_panel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/are_we_friends_image"
-                        android:text="Send en venneforespørsel"
-                        />
-                </RelativeLayout>
+                        android:layout_toRightOf="@+id/admin_symbol"
+                        >
 
+                        <TextView
+                            android:id="@+id/name_user"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            />
+                        <TextView
+                            android:id="@+id/location_user"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/name_user"
+                            />
 
-                <RelativeLayout
-                    android:id="@+id/are_we_friends_panel2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/are_we_friends_panel"
-                    android:layout_margin="5dp"
-                    android:visibility="gone"
-                    >
+                    </RelativeLayout>
 
-                    <ImageView
-                        android:id="@+id/are_we_friends_image2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_person_black_24dp"
-                        android:layout_marginRight="10dp"
-                        />
-
-                    <TextView
-                        android:id="@+id/are_we_friends_bro2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/are_we_friends_image2"
-                        android:text="Trekk tilbake forespørsel"
-                        />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/are_we_friends_panel3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/are_we_friends_panel2"
-                    android:layout_margin="5dp"
-                    android:visibility="gone"
-                    >
-
-                    <ImageView
-                        android:id="@+id/are_we_friends_image3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_person_add_black_24dp"
-                        android:layout_marginRight="10dp"
-                        />
-
-                    <TextView
-                        android:id="@+id/are_we_friends_bro3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/are_we_friends_image3"
-                        android:text="Godta venneforespørsel"
-                        />
-                </RelativeLayout>
-
-
-                <RelativeLayout
-                    android:id="@+id/are_we_friends_panel4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/are_we_friends_panel3"
-                    android:layout_margin="5dp"
-                    android:visibility="gone"
-                    >
-
-                    <ImageView
-                        android:id="@+id/are_we_friends_image4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_person_black_24dp"
-                        android:layout_marginRight="10dp"
-                        />
-
-                    <TextView
-                        android:id="@+id/are_we_friends_bro4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/are_we_friends_image4"
-                        android:text="Avslå venneforespørsel"
-                        />
-                </RelativeLayout>
                 </RelativeLayout>
             </RelativeLayout>
 
-        </LinearLayout>
+    </LinearLayout>
 
         <RelativeLayout
-            android:id="@+id/user_panel"
-            android:layout_width="match_parent"
+            android:id="@+id/friend_request_panel"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_below="@+id/post_list_header"
-            android:layout_marginLeft="16dp"
             >
+
             <RelativeLayout
-                android:id="@+id/name_user_panel"
+                android:id="@+id/are_we_friends_panel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/friend_panel"
+                android:layout_margin="5dp"
+                android:visibility="gone"
                 >
 
                 <ImageView
-                    android:id="@+id/admin_symbol"
+                    android:id="@+id/are_we_friends_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_star_border_black_24dp"
-                    android:layout_gravity="top"
+                    android:src="@drawable/ic_person_add_black_24dp"
                     android:layout_marginRight="10dp"
-                    android:visibility="gone"
                     />
+
                 <TextView
-                    android:id="@+id/name_user"
-                    android:layout_width="match_parent"
+                    android:id="@+id/are_we_friends_bro"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/admin_symbol"
+                    android:layout_toRightOf="@id/are_we_friends_image"
+                    android:text="Send en venneforespørsel"
                     />
             </RelativeLayout>
 
-            <TextView
-                android:id="@+id/location_user"
-                android:layout_width="match_parent"
+
+            <RelativeLayout
+                android:id="@+id/are_we_friends_panel2"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/name_user_panel"
-                android:layout_marginBottom="10dp"
-                />
+                android:layout_below="@+id/are_we_friends_panel"
+                android:layout_margin="5dp"
+                android:visibility="gone"
+                >
+
+                <ImageView
+                    android:id="@+id/are_we_friends_image2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_person_black_24dp"
+                    android:layout_marginRight="10dp"
+                    />
+
+                <TextView
+                    android:id="@+id/are_we_friends_bro2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/are_we_friends_image2"
+                    android:text="Trekk tilbake forespørsel"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/are_we_friends_panel3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/are_we_friends_panel2"
+                android:layout_margin="5dp"
+                android:visibility="gone"
+                >
+
+                <ImageView
+                    android:id="@+id/are_we_friends_image3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_person_add_black_24dp"
+                    android:layout_marginRight="10dp"
+                    />
+
+                <TextView
+                    android:id="@+id/are_we_friends_bro3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/are_we_friends_image3"
+                    android:text="Godta venneforespørsel"
+                    />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/are_we_friends_panel4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/are_we_friends_panel3"
+                android:layout_margin="5dp"
+                android:visibility="gone"
+                >
+
+                <ImageView
+                    android:id="@+id/are_we_friends_image4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_person_black_24dp"
+                    android:layout_marginRight="10dp"
+                    />
+
+                <TextView
+                    android:id="@+id/are_we_friends_bro4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/are_we_friends_image4"
+                    android:text="Avslå venneforespørsel"
+                    />
+            </RelativeLayout>
         </RelativeLayout>
+
 
         <TextView
             android:layout_width="match_parent"
@@ -232,10 +233,9 @@
             android:text="Bli venner for å se innlegg"
             android:gravity="center_horizontal"
             android:textSize="24dp"
-            android:layout_below="@+id/user_panel"
             android:padding="10dp"
             android:layout_marginTop="5dp"
+            android:layout_below="@+id/friend_request_panel"
             />
-
     </RelativeLayout>
 </RelativeLayout>

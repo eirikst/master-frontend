@@ -7,7 +7,7 @@
         android:id="@+id/post_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Skriv en post"
+        android:text="Skriv et innlegg"
         android:gravity="center_horizontal"
         android:layout_margin="10dp"
         />

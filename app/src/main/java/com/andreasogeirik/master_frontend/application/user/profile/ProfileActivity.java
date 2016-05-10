@@ -19,7 +19,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +30,6 @@ import com.andreasogeirik.master_frontend.application.post.CommentDialog;
 import com.andreasogeirik.master_frontend.application.post.LikeDialogFragment;
 import com.andreasogeirik.master_frontend.application.post.PostDialog;
 import com.andreasogeirik.master_frontend.application.user.edit.EditUserActivity;
-import com.andreasogeirik.master_frontend.application.user.profile.fragments.FriendProfileHeader;
 import com.andreasogeirik.master_frontend.layout.adapter.PostListAdapter;
 import com.andreasogeirik.master_frontend.model.Comment;
 import com.andreasogeirik.master_frontend.model.Post;
@@ -74,7 +72,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     private Button footerBtn;
     private TextView nameUserText;
     private TextView locationUser;
-    private AppCompatButton eventButton;
+    private View participatingEventView;
+    private TextView participatingEventTextView;
     private ImageView imageView;
     private AppCompatButton newPostBtn;
     private ImageView headerImage;
@@ -83,7 +82,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     private View editProfileView;
     private TextView editProfileTextView;
     private View yourFriendView;
-    private TextView yourFriendTextView;
 
     private static int EDIT_EVENT_REQUEST = 1;
 
@@ -215,10 +213,11 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
         imageView = (ImageView) headerView.findViewById(R.id.my_profile_image);
 
 
-        eventButton = (AppCompatButton) headerView.findViewById(R.id.participating_events_btn);
-        eventButton.setSupportBackgroundTintList(csl);
+        participatingEventTextView = (TextView) headerView.findViewById(R.id.participating_events_text);
+        participatingEventView = headerView.findViewById(R.id.participating_events_btn);
+        participatingEventTextView.setPaintFlags(this.participatingEventTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
-        eventButton.setOnClickListener(new View.OnClickListener() {
+        participatingEventView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 presenter.accessEvents();
@@ -256,8 +255,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
         editProfileView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 Intent i = new Intent(ProfileActivity.this, EditUserActivity.class);
-                 startActivity(i);
+                Intent i = new Intent(ProfileActivity.this, EditUserActivity.class);
+                startActivity(i);
             }
         });
 
@@ -273,8 +272,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
             }
         });
 
-        yourFriendTextView = (TextView)headerView.findViewById(R.id.your_friend);
-        yourFriendTextView.setPaintFlags(this.yourFriendTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         yourFriendView = headerView.findViewById(R.id.your_friend_panel);
         yourFriendView.setVisibility(View.GONE);
 
@@ -310,9 +307,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     private void initFriendHeader(int nrOfFriends) {
         editProfileView = headerView.findViewById(R.id.edit_panel);
         editProfileView.setVisibility(View.GONE);
-
-        yourFriendTextView = (TextView)headerView.findViewById(R.id.your_friend);
-        yourFriendTextView.setPaintFlags(this.yourFriendTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         nrOfFriendsTextView = (TextView)headerView.findViewById(R.id.my_profile_friends);
         nrOfFriendsTextView.setText(nrOfFriends + " venner");
@@ -468,7 +462,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
 
     @Override
     public void setEventButtonText(String text) {
-        eventButton.setText(text);
+        participatingEventTextView.setText(text);
     }
 
     @Override

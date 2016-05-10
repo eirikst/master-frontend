@@ -4,6 +4,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.Hours;
 import org.joda.time.Minutes;
+import org.joda.time.Months;
 import org.joda.time.Seconds;
 import org.joda.time.Years;
 
@@ -43,39 +44,55 @@ public class DateUtility {
 
         if(yearsDiff < 1) {
 
-            int daysDiff = Days.daysBetween(d1, d2).getDays();
+            int monthsDiff = Months.monthsBetween(d1, d2).getMonths();
 
-            if (daysDiff < 1) {
-                int hoursDiff = Hours.hoursBetween(d1, d2).getHours();
+            if(monthsDiff < 1) {
+                int daysDiff = Days.daysBetween(d1, d2).getDays();
 
-                if (hoursDiff < 1) {
-                    int minutesDiff = Minutes.minutesBetween(d1, d2).getMinutes();
+                if (daysDiff < 1) {
+                    int hoursDiff = Hours.hoursBetween(d1, d2).getHours();
 
-                    if (minutesDiff < 1) {
-                        int secondsDiff = Seconds.secondsBetween(d1, d2).getSeconds();
+                    if (hoursDiff < 1) {
+                        int minutesDiff = Minutes.minutesBetween(d1, d2).getMinutes();
 
-                        if (secondsDiff == 1) {
-                            return "1 sekund siden";
-                        } else if (secondsDiff >= 0) {
-                            return secondsDiff + " sekunder siden";
+                        if (minutesDiff < 1) {
+                            int secondsDiff = Seconds.secondsBetween(d1, d2).getSeconds();
+
+                            if (secondsDiff == 1) {
+                                return "1 sekund siden";
+                            } else if (secondsDiff >= 0) {
+                                return secondsDiff + " sekunder siden";
+                            } else {
+                                return "Akkurat";
+
+                            }
+                        } else if (minutesDiff == 1) {
+                            return minutesDiff + " minutt siden";
                         } else {
-                            return "Akkurat";
-
+                            return minutesDiff + " minutter siden";
                         }
-                    } else if (minutesDiff == 1) {
-                        return minutesDiff + " minutt siden";
                     } else {
-                        return minutesDiff + " minutter siden";
+                        if (hoursDiff == 1) {
+                            return hoursDiff + " time siden";
+                        } else {
+                            return hoursDiff + " timer siden";
+                        }
                     }
                 } else {
-                    if (hoursDiff == 1) {
-                        return hoursDiff + " time siden";
+                    if (daysDiff == 1) {
+                        return "1 dag siden";
                     } else {
-                        return hoursDiff + " timer siden";
+                        return daysDiff + " dager siden";
                     }
                 }
-            } else {
-                return daysDiff + " dager siden";
+            }
+            else {
+                if(monthsDiff == 1) {
+                    return "1 måned siden";
+                }
+                else {
+                    return monthsDiff + " måneder siden";
+                }
             }
         }
         else {

@@ -50,37 +50,37 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     >
+                    <ImageView
+                        android:id="@+id/admin_symbol"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_star_border_black_24dp"
+                        android:layout_gravity="top"
+                        android:layout_marginRight="10dp"
+                        android:visibility="gone"
+                        />
                     <RelativeLayout
                         android:id="@+id/name_user_panel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/admin_symbol"
                         >
 
-                        <ImageView
-                            android:id="@+id/admin_symbol"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_star_border_black_24dp"
-                            android:layout_gravity="top"
-                            android:layout_marginRight="10dp"
-                            android:visibility="gone"
-                            />
+
                         <TextView
                             android:id="@+id/name_user"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toRightOf="@+id/admin_symbol"
-                            android:text="Eirik Stadheim"
                             />
+                        <TextView
+                            android:id="@+id/location_user"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/name_user"
+                            />
+
                     </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/location_user"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/name_user_panel"
-                    android:text="Trondheim"
-                    />
                 </RelativeLayout>
 
             </RelativeLayout>
@@ -93,12 +93,38 @@
             android:layout_below="@id/post_list_header"
             >
 
+            <RelativeLayout
+                android:id="@+id/your_friend_panel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                >
+
+                <ImageView
+                    android:id="@+id/your_friend_symbol"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_person_black_24dp"
+                    android:layout_marginRight="10dp"
+                    />
+
+                <TextView
+                    android:id="@+id/your_friend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Din venn"
+                    android:layout_toRightOf="@id/your_friend_symbol"
+                    android:layout_centerVertical="true"
+                    />
+            </RelativeLayout>
+
 
             <RelativeLayout
                 android:id="@+id/friend_panel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:layout_below="@+id/your_friend_panel"
                 >
 
                 <ImageView
@@ -115,6 +141,7 @@
                     android:layout_height="wrap_content"
                     android:text="0 venner"
                     android:layout_toRightOf="@+id/event_friend_symbol"
+                    android:layout_centerVertical="true"
                     />
             </RelativeLayout>
 
@@ -140,11 +167,12 @@
                     android:layout_height="wrap_content"
                     android:text="Endre profil"
                     android:layout_toRightOf="@id/event_edit_symbol"
+                    android:layout_centerVertical="true"
                     />
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/your_friend_panel"
+                android:id="@+id/participating_events_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/edit_panel"
@@ -152,32 +180,25 @@
                 >
 
                 <ImageView
-                    android:id="@+id/your_friend_symbol"
+                    android:id="@+id/participating_events_symbol"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_person_black_24dp"
+                    android:src="@drawable/ic_event_black_24dp"
                     android:layout_marginRight="10dp"
                     />
 
                 <TextView
-                    android:id="@+id/your_friend"
+                    android:id="@+id/participating_events_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Din venn"
-                    android:layout_toRightOf="@id/your_friend_symbol"
+                    android:text="Deltar på"
+                    android:layout_toRightOf="@id/participating_events_symbol"
+                    android:layout_centerVertical="true"
                     />
             </RelativeLayout>
         </RelativeLayout>
 
 
-
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/participating_events_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight=".7"
-            android:layout_marginBottom="10dp"
-            android:layout_below="@+id/info_panel"/>
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/new_post_user"
@@ -187,7 +208,7 @@
             android:layout_marginBottom="10dp"
             android:text="Skriv innlegg"
             android:visibility="gone"
-            android:layout_below="@+id/participating_events_btn"
+            android:layout_below="@+id/info_panel"
             />
 
         <TextView

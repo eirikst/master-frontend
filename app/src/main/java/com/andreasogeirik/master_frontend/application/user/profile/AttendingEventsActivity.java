@@ -13,7 +13,6 @@ import android.widget.RelativeLayout;
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
 import com.andreasogeirik.master_frontend.application.main.fragments.attending_events.AttendingEventsFragment;
-import com.andreasogeirik.master_frontend.application.user.profile.fragments.MyProfileHeader;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

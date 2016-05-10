@@ -1,6 +1,7 @@
 package com.andreasogeirik.master_frontend.application.user.profile_others;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -41,6 +42,11 @@ public class ProfileOthersActivity extends AppCompatActivity implements ProfileO
     @Bind(R.id.are_we_friends_panel2)RelativeLayout areWeFriendsPanel2;
     @Bind(R.id.are_we_friends_panel3)RelativeLayout areWeFriendsPanel3;
     @Bind(R.id.are_we_friends_panel4)RelativeLayout areWeFriendsPanel4;
+    @Bind(R.id.are_we_friends_bro)TextView areWeFriendsText;
+    @Bind(R.id.are_we_friends_bro2)TextView areWeFriendsText2;
+    @Bind(R.id.are_we_friends_bro3)TextView areWeFriendsText3;
+    @Bind(R.id.are_we_friends_bro4)TextView areWeFriendsText4;
+
     @Bind(R.id.name_user)TextView nameUserText;
     @Bind(R.id.location_user)TextView locationText;
 
@@ -139,6 +145,11 @@ public class ProfileOthersActivity extends AppCompatActivity implements ProfileO
                 presenter.rejectRequest();//reject
             }
         });
+
+        areWeFriendsText.setPaintFlags(this.areWeFriendsText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        areWeFriendsText2.setPaintFlags(this.areWeFriendsText2.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        areWeFriendsText3.setPaintFlags(this.areWeFriendsText3.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        areWeFriendsText4.setPaintFlags(this.areWeFriendsText4.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
     }
 
     /*
@@ -193,14 +204,14 @@ public class ProfileOthersActivity extends AppCompatActivity implements ProfileO
         if(imageUri != null && !imageUri.isEmpty()) {
             Picasso.with(this)
                     .load(imageUri)
-                    .error(R.drawable.default_profile)
+                    .error(R.drawable.default_profile_full)
                     .resize(Constants.USER_IMAGE_WIDTH, Constants.USER_IMAGE_HEIGHT)
                     .centerCrop()
                     .into(profileImage);
         }
         else {
             Picasso.with(this)
-                    .load(R.drawable.default_profile)
+                    .load(R.drawable.default_profile_full)
                     .resize(Constants.USER_IMAGE_WIDTH, Constants.USER_IMAGE_HEIGHT)
                     .centerCrop()
                     .into(profileImage);
