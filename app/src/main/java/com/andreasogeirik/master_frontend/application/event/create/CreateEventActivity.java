@@ -476,11 +476,6 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
                 this.typeBtn.setText("Aktivitetstype: " + getResources().getString(R.string.walk));
                 this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_walk_red_400_24dp));
                 break;
-            case R.id.jog:
-                this.presenter.updateActivityTypeModel(ActivityType.JOG.getId());
-                this.typeBtn.setText("Aktivitetstype: " + getString(R.string.jog));
-                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_run_orange_300_24dp));
-                break;
             case R.id.run:
                 this.presenter.updateActivityTypeModel(ActivityType.RUN.getId());
                 this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_run_orange_300_24dp));

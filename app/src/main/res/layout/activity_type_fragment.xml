@@ -18,17 +18,10 @@
                 android:checked="true"/>
 
             <RadioButton
-                android:id="@+id/jog"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/walk"
-                android:text="@string/jog" />
-
-            <RadioButton
                 android:id="@+id/run"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/jog"
+                android:layout_below="@id/walk"
                 android:text="@string/run" />
 
             <RadioButton
