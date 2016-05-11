@@ -72,11 +72,11 @@
                 android:visibility="gone"/>
 
             <android.support.v7.widget.AppCompatButton
-                android:id="@+id/event_delete"
+                android:id="@+id/event_cancel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".3"
-                android:text="@string/event_read_delete"
+                android:text="@string/event_read_cancel"
                 android:layout_marginLeft="5dp"
                 android:visibility="gone"/>
         </LinearLayout>

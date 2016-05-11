@@ -8,13 +8,11 @@ import com.andreasogeirik.master_frontend.application.event.main.interfaces.Even
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventPresenter;
 import com.andreasogeirik.master_frontend.application.event.main.interfaces.EventView;
 import com.andreasogeirik.master_frontend.application.general.GeneralPresenter;
-import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
 import com.andreasogeirik.master_frontend.application.post.PostListInteractor;
 import com.andreasogeirik.master_frontend.application.post.PostListInteractorImpl;
 import com.andreasogeirik.master_frontend.application.user.profile.ProfileActivity;
 import com.andreasogeirik.master_frontend.application.user.profile_others.ProfileOthersActivity;
 import com.andreasogeirik.master_frontend.data.CurrentUser;
-import com.andreasogeirik.master_frontend.model.ActivityType;
 import com.andreasogeirik.master_frontend.model.Comment;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.Post;
@@ -211,7 +209,16 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
             eventView.setImage(event.getImageUri());
         }
 
+        eventView.setDifficultyView(event.getDifficulty());
+
         User currentUser = CurrentUser.getInstance().getUser();
+
+        if (currentUser.getId() == this.event.getAdmin().getId() && this.event.getStartDate().after(new GregorianCalendar())){
+            this.eventView.setEditButton();
+            this.eventView.setCancelButton();
+            return;
+        }
+
         boolean userInEvent = false;
 
         if (this.event.getStartDate().after(new GregorianCalendar())){
@@ -226,14 +233,6 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
                 this.eventView.setAttendButton();
             }
         }
-
-        if (currentUser.getId() == this.event.getAdmin().getId() && this.event.getStartDate().after(new GregorianCalendar())){
-            this.eventView.setEditButton();
-            this.eventView.setDeleteButton();
-        }
-
-        eventView.setDifficultyView(event.getDifficulty());
-
     }
 
     @Override
@@ -276,7 +275,7 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
     }
 
     @Override
-    public void deleteEvent() {
+    public void cancelEvent() {
         this.eventView.showProgress();
         this.interactor.deleteEvent(this.event.getId());
     }

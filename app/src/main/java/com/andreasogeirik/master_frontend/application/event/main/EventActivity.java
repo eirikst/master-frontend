@@ -88,7 +88,7 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
     private AppCompatButton attendButton;
     private AppCompatButton unAttendButton;
     private AppCompatButton editButton;
-    private AppCompatButton deleteButton;
+    private AppCompatButton cancelButton;
 
     private TextView eventName;
     private TextView startTime;
@@ -243,8 +243,8 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
     }
 
     @Override
-    public void setDeleteButton() {
-        this.deleteButton.setVisibility(View.VISIBLE);
+    public void setCancelButton() {
+        this.cancelButton.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -321,14 +321,14 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
         this.editButton = (AppCompatButton) headerView.findViewById(R.id.event_edit);
         editButton.setSupportBackgroundTintList(grey);
 
-        this.deleteButton = (AppCompatButton) headerView.findViewById(R.id.event_delete);
-        deleteButton.setSupportBackgroundTintList(red);
+        this.cancelButton = (AppCompatButton) headerView.findViewById(R.id.event_cancel);
+        cancelButton.setSupportBackgroundTintList(red);
 
         this.numberOfParticipants.setOnClickListener(this);
         this.attendButton.setOnClickListener(this);
         this.unAttendButton.setOnClickListener(this);
         this.editButton.setOnClickListener(this);
-        this.deleteButton.setOnClickListener(this);
+        this.cancelButton.setOnClickListener(this);
 
         this.activityTypeIcon = (ImageView) headerView.findViewById(R.id.event_activity_type_symbol);
         this.activityTypeLabel = (TextView) headerView.findViewById(R.id.event_activity_type_label);
@@ -442,12 +442,12 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.event_delete:
+            case R.id.event_cancel:
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
                 // set dialog message
                 alertDialogBuilder
-                        .setMessage("Vil du slette denne aktiviteten?")
+                        .setMessage("Vil du avlyse denne aktiviteten?")
                         .setCancelable(false)
                         .setPositiveButton("Nei", new DialogInterface.OnClickListener() {//this is really negative, wanted to change sides
                             public void onClick(DialogInterface dialog, int id) {
@@ -460,7 +460,7 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
                             public void onClick(DialogInterface dialog, int id) {//this is really positive, wanted to change sides
                                 // if this button is clicked, close
                                 // current activity
-                                presenter.deleteEvent();
+                                presenter.cancelEvent();
                             }
                         });
                 // create alert dialog
