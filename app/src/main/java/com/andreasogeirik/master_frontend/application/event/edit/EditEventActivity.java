@@ -536,7 +536,6 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
             case R.id.walk:
                 this.presenter.updateActivityTypeModel(ActivityType.WALK.getId());
                 this.typeBtn.setText(resources.getString(R.string.event_activity_type_label) + getResources().getString(R.string.walk));
-                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_walk_black_24dp));
                 this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_walk_red_400_24dp));
                 break;
             case R.id.run:

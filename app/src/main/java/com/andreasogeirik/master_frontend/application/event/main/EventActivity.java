@@ -188,7 +188,7 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
         this.numberOfParticipants.setText(participants);
         this.numberOfParticipants.setPaintFlags(this.numberOfParticipants.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
-        switch (activityType) {
+            switch (activityType) {
             case WALK:
                 this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_walk_red_400_24dp));
                 this.activityTypeLabel.append("GÅ");

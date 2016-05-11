@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.layout.transformation.CircleTransform;
+import com.andreasogeirik.master_frontend.model.ActivityType;
 import com.andreasogeirik.master_frontend.model.Event;
 import com.andreasogeirik.master_frontend.model.User;
 import com.andreasogeirik.master_frontend.util.Constants;
@@ -70,6 +71,9 @@ public class EventListAdapter extends ArrayAdapter<Event> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Event event = getItem(position);
+        System.out.println("------------------------------------");
+        System.out.println(event);
+        System.out.println("------------------------------------");
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
@@ -102,6 +106,8 @@ public class EventListAdapter extends ArrayAdapter<Event> {
                         R.drawable.ic_swim_226));
                 break;
             case OTHER:
+                activityTypeImage.setImageDrawable(ContextCompat.getDrawable(getContext(),
+                        R.drawable.ic_swim_226));
                 break;
         }
 
