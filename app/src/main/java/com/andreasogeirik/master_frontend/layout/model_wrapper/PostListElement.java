@@ -1,5 +1,7 @@
 package com.andreasogeirik.master_frontend.layout.model_wrapper;
 
+import com.andreasogeirik.master_frontend.model.Comment;
+
 import java.util.Date;
 
 /**

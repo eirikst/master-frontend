@@ -47,6 +47,7 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
     private static final int POST = 0;
     private static final int COMMENT = 1;
 
+    private List<PostListElement> postListElements = new ArrayList<>();
     private Comparator comparator;
     private PostListCallback callback;
     private CircleTransform circleTransform = new CircleTransform();
@@ -56,16 +57,17 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
         super(context, 0, new ArrayList<PostListElement>());
         this.callback = callback;
 
-        List<PostListElement> elements = new ArrayList<>();
 
         //add all list elements from the posts(posts and comments are list elements)
         for(Post post: posts) {
-            elements.add(new PostWrapper(post));
+            postListElements.add(new PostWrapper(post));
 
             for(Comment comment: post.getComments()) {
-                elements.add(new CommentWrapper(comment, post));
+                postListElements.add(new CommentWrapper(comment, post));
             }
         }
+
+        super.addAll(postListElements);
 
         comparator = new Comparator<PostListElement>() {
             @Override
@@ -322,7 +324,7 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
         for(Comment comment: post.getComments()) {
             elements.add(new CommentWrapper(comment, post));
         }
-
+        postListElements.addAll(elements);
         super.addAll(elements);
         sort(comparator);
     }
@@ -338,6 +340,7 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
             }
         }
 
+        postListElements.addAll(elements);
         super.addAll(elements);
         sort(comparator);
     }
@@ -345,11 +348,14 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
     @Override
     public void addAll(Collection<? extends PostListElement> collection) {
         super.addAll(collection);
+        postListElements.addAll(collection);
         sort(comparator);
     }
 
     public void addComment(Post post, Comment comment) {
-        super.add(new CommentWrapper(comment, post));
+        CommentWrapper commentWrapper = new CommentWrapper(comment, post);
+        super.add(commentWrapper);
+        postListElements.add(commentWrapper);
         sort(comparator);
     }
 
@@ -387,5 +393,23 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
             }
         }
         notifyDataSetChanged();
+    }
+
+    public PostListElement getPost(int postId) {
+        for(PostListElement element: postListElements) {
+            if(element.getId() == postId && element.isPost()) {
+                return element;
+            }
+        }
+        return null;
+    }
+
+    public PostListElement getComment(int commentId) {
+        for(PostListElement element: postListElements) {
+            if(element.getId() == commentId && !element.isPost()) {
+                return element;
+            }
+        }
+        return null;
     }
 }

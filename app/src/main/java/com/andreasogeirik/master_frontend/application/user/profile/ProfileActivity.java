@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -31,6 +30,7 @@ import com.andreasogeirik.master_frontend.application.post.LikeDialogFragment;
 import com.andreasogeirik.master_frontend.application.post.PostDialog;
 import com.andreasogeirik.master_frontend.application.user.edit.EditUserActivity;
 import com.andreasogeirik.master_frontend.layout.adapter.PostListAdapter;
+import com.andreasogeirik.master_frontend.layout.model_wrapper.PostListElement;
 import com.andreasogeirik.master_frontend.model.Comment;
 import com.andreasogeirik.master_frontend.model.Post;
 import com.andreasogeirik.master_frontend.application.user.profile.interfaces.ProfilePresenter;
@@ -105,7 +105,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
 
         Intent intent = getIntent();
             try {
-                presenter = new ProfilePresenterImpl(this, intent.getIntExtra("user", -1));
+                presenter = new ProfilePresenterImpl(this, intent.getIntExtra("user", -1),
+                        intent.getIntExtra("post", 0), intent.getIntExtra("comment", 0));
             } catch (ClassCastException e) {
                 throw new ClassCastException(e + "/nObject in Intent bundle cannot " +
                         "be cast to User in " + this.toString());
@@ -549,5 +550,27 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     @Override
     public void setMe(boolean me) {
         this.me = me;
+    }
+
+    @Override
+    public void focusPost(int postId) {
+        PostListElement element = postListAdapter.getPost(postId);
+        if(element != null) {
+            int position = postListAdapter.getPosition(element);
+            if(position != -1) {
+                listView.setSelection(position+1);//+1 because of header
+            }
+        }
+    }
+
+    @Override
+    public void focusComment(int commentId) {
+        PostListElement element = postListAdapter.getComment(commentId);
+        if(element != null) {
+            int position = postListAdapter.getPosition(element);
+            if(position != -1) {
+                listView.setSelection(position+1);//+1 because of header
+            }
+        }
     }
 }

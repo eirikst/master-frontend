@@ -38,4 +38,6 @@ public interface EventView {
     void commentFinishedWithError();
     void postFinishedSuccessfully();
     void postFinishedWithError();
+    void focusPost(int postId);
+    void focusComment(int commentId);
 }

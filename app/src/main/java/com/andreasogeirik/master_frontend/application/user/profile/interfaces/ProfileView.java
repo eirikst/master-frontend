@@ -35,4 +35,7 @@ public interface ProfileView {
     void postFinishedWithError();
 
     void setMe(boolean me);
+
+    void focusPost(int postId);
+    void focusComment(int commentId);
 }

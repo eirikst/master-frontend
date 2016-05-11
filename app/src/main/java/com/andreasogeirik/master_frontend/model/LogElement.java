@@ -14,6 +14,7 @@ public class LogElement {
     private String content;
     private ContentType type;
     private int contentId;
+    private int refId;
 
 
     public LogElement() {
@@ -25,6 +26,7 @@ public class LogElement {
         this.content = obj.getString("content");
         this.type = ContentType.fromInt(obj.getInt("type"));
         this.contentId = obj.getInt("contentId");
+        this.refId = obj.getInt("refId");
     }
 
     public int getId() {
@@ -65,6 +67,14 @@ public class LogElement {
 
     public void setContentId(int contentId) {
         this.contentId = contentId;
+    }
+
+    public int getRefId() {
+        return refId;
+    }
+
+    public void setRefId(int refId) {
+        this.refId = refId;
     }
 
     @Override

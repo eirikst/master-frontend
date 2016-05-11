@@ -64,17 +64,30 @@ public class LogPresenterImpl extends GeneralPresenter implements LogPresenter,
     @Override
     public void elementChosen(LogElement element) {
         if(element.getType() == ContentType.CREATE_EVENT || element.getType() == ContentType.
-                MODIFY_EVENT || element.getType() == ContentType.PARTICIPATE_EVENT ||
-                element.getType() == ContentType.POST_EVENT || element.getType() ==
-                ContentType.COMMENT_EVENT || element.getType() == ContentType.LIKE_EVENT_COMMENT ||
-                element.getType() == ContentType.LIKE_EVENT_POST) {
+                MODIFY_EVENT || element.getType() == ContentType.PARTICIPATE_EVENT) {
             startEventActivity(element.getContentId());
         }
-        else if(element.getType() == ContentType.POST_USER || element.getType() ==
-                ContentType.COMMENT_USER || element.getType() == ContentType.FRIENDSHIP ||
-                element.getType() == ContentType.USER_REGISTERED || element.getType() ==
-                ContentType.LIKE_USER_COMMENT || element.getType() == ContentType.LIKE_USER_POST) {
+        else if(element.getType() == ContentType.POST_EVENT || element.getType() ==
+                ContentType.LIKE_EVENT_POST) {
+            startEventActivityFocusPost(element.getContentId(), element.getRefId());
+        }
+        else if(element.getType() == ContentType.COMMENT_EVENT || element.getType() ==
+                ContentType.LIKE_EVENT_COMMENT) {
+            startEventActivityFocusComment(element.getContentId(), element.getRefId());
+        }
+        else if(element.getType() == ContentType.FRIENDSHIP || element.getType() ==
+                ContentType.USER_REGISTERED) {
             startProfileActivity(element.getContentId());
+        }
+        else if(element.getType() == ContentType.POST_USER || element.getType() ==
+                ContentType.LIKE_USER_POST) {
+            startProfileActivityFocusPost(element.getContentId(), element.getRefId());
+
+        }
+        else if(element.getType() == ContentType.COMMENT_USER || element.getType() ==
+                ContentType.LIKE_USER_COMMENT) {
+            startProfileActivityFocusComment(element.getContentId(), element.getRefId());
+
         }
     }
 
@@ -84,11 +97,57 @@ public class LogPresenterImpl extends GeneralPresenter implements LogPresenter,
         getActivity().startActivity(intent);
     }
 
+    private void startEventActivityFocusPost(int eventId, int refId) {
+        Intent intent = new Intent(getActivity(), EventActivity.class);
+        intent.putExtra("eventId", eventId);
+        intent.putExtra("post", refId);
+        getActivity().startActivity(intent);
+    }
+
+    private void startEventActivityFocusComment(int eventId, int refId) {
+        Intent intent = new Intent(getActivity(), EventActivity.class);
+        intent.putExtra("eventId", eventId);
+        intent.putExtra("comment", refId);
+        getActivity().startActivity(intent);
+    }
+
     private void startProfileActivity(int userId) {
         if (CurrentUser.getInstance().getUser().isFriendWith(userId) ||
                 CurrentUser.getInstance().getUser().getId() == userId) {
             Intent intent = new Intent(getActivity(), ProfileActivity.class);
             intent.putExtra("user", userId);
+            getActivity().startActivity(intent);
+        }
+        //or if not friend
+        else {
+            Intent intent = new Intent(getActivity(), ProfileOthersActivity.class);
+            intent.putExtra("userId", userId);
+            getActivity().startActivity(intent);
+        }
+    }
+
+    private void startProfileActivityFocusPost(int userId, int postId) {
+        if (CurrentUser.getInstance().getUser().isFriendWith(userId) ||
+                CurrentUser.getInstance().getUser().getId() == userId) {
+            Intent intent = new Intent(getActivity(), ProfileActivity.class);
+            intent.putExtra("user", userId);
+            intent.putExtra("post", postId);
+            getActivity().startActivity(intent);
+        }
+        //or if not friend
+        else {
+            Intent intent = new Intent(getActivity(), ProfileOthersActivity.class);
+            intent.putExtra("userId", userId);
+            getActivity().startActivity(intent);
+        }
+    }
+
+    private void startProfileActivityFocusComment(int userId, int commentId) {
+        if (CurrentUser.getInstance().getUser().isFriendWith(userId) ||
+                CurrentUser.getInstance().getUser().getId() == userId) {
+            Intent intent = new Intent(getActivity(), ProfileActivity.class);
+            intent.putExtra("user", userId);
+            intent.putExtra("comment", commentId);
             getActivity().startActivity(intent);
         }
         //or if not friend

@@ -4,7 +4,7 @@ package com.andreasogeirik.master_frontend.util;
  * Created by Andreas on 26.01.2016.
  */
 public class Constants {
-    public static String BACKEND_URL = "http://10.0.0.73:8080/";
+    public static String BACKEND_URL = "http://10.22.40.242:8080/";
 
 
     //Status codes for Tasks(http communication)

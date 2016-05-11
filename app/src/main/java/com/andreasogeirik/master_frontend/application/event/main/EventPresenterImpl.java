@@ -41,14 +41,19 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
     private EventInteractor interactor;
     private PostListInteractor postInteractor;
     private Event event;
+    private int postId;
+    private int commentId;
 
 
-    public EventPresenterImpl(EventView eventView, Event event) {
+
+    public EventPresenterImpl(EventView eventView, Event event, int postId, int commentId) {
         super((Activity) eventView, CHECK_USER_AVAILABLE);
         this.eventView = eventView;
         this.interactor = new EventInteractorImpl(this);
         this.postInteractor = new PostListInteractorImpl(this);
         this.event = event;
+        this.postId = postId;
+        this.commentId = commentId;
 
         initGui();
         setEventAttributes();
@@ -56,11 +61,14 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
         findPosts();
     }
 
-    public EventPresenterImpl(EventView eventView, int id) {
+    public EventPresenterImpl(EventView eventView, int id, int postId, int commentId) {
         super((Activity) eventView, CHECK_USER_AVAILABLE);
         this.eventView = eventView;
         this.interactor = new EventInteractorImpl(this);
         this.postInteractor = new PostListInteractorImpl(this);
+        this.postId = postId;
+        this.commentId = commentId;
+
 
         interactor.findEvent(id);
     }
@@ -106,6 +114,28 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
         if(event.getPosts().isEmpty()) {
             eventView.noPostsToShow();
         }
+
+        if(postId > 0) {
+            for (Post post : posts) {
+                if (post.getId() == postId) {
+                    eventView.focusPost(postId);
+                }
+            }
+        }
+        else if(commentId > 0) {
+            for (Post post : posts) {
+                for(Comment comment: post.getComments()) {
+                    if(comment.getId() == commentId) {
+                        eventView.focusComment(commentId);
+                    }
+                }
+            }
+        }
+
+        //reset variables so they are not focused on after loading more posts
+        postId = 0;
+        commentId = 0;
+
     }
 
     @Override

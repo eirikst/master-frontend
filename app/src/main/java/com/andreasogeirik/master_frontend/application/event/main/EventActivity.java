@@ -35,6 +35,7 @@ import com.andreasogeirik.master_frontend.application.post.LikeDialogFragment;
 import com.andreasogeirik.master_frontend.application.post.PostDialog;
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
 import com.andreasogeirik.master_frontend.layout.adapter.PostListAdapter;
+import com.andreasogeirik.master_frontend.layout.model_wrapper.PostListElement;
 import com.andreasogeirik.master_frontend.listener.OnUserClickListener;
 import com.andreasogeirik.master_frontend.model.ActivityType;
 import com.andreasogeirik.master_frontend.model.Comment;
@@ -125,17 +126,22 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
         teal = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.teal));
         red = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.app_red));
         grey = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.grey_fade));
+
+        Intent intent = getIntent();
         try {
             Object object = getIntent().getSerializableExtra("event");
             if(object != null) {
-                this.presenter = new EventPresenterImpl(this, (Event) object);
+                this.presenter = new EventPresenterImpl(this, (Event) object,
+                        intent.getIntExtra("post", 0), intent.getIntExtra("comment", 0));
             }
             else {
                 int eventId = getIntent().getIntExtra("eventId", -1);
                 if(eventId == -1) {
                     throw new RuntimeException("Neither event nor eventId put in intent");
                 }
-                this.presenter = new EventPresenterImpl(this, eventId);
+                this.presenter = new EventPresenterImpl(this, eventId,
+                        intent.getIntExtra("post", 0), intent.getIntExtra("comment", 0));
+
             }
         } catch (ClassCastException e) {
             throw new ClassCastException(e + "/nObject in Intent bundle cannot " +
@@ -604,5 +610,44 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
         DialogFragment newFragment = LikeDialogFragment.newInstance(
                 new HashSet<User>(likers));
         newFragment.show(ft, "likerDialog");
+    }
+
+    @Override
+    public void focusPost(int postId) {
+        System.out.println("focus post " + postId);
+        PostListElement element = adapter.getPost(postId);
+        System.out.println("element " + element);
+
+        if(element != null) {
+            int position = adapter.getPosition(element);
+            System.out.println("position " + position);
+
+            if(position != -1) {
+                listView.setSelection(position+1);//+1 because of header
+            }
+        }
+        else {
+            System.out.println("element null");
+        }
+    }
+
+    @Override
+    public void focusComment(int commentId) {
+        System.out.println("focus comment " + commentId);
+        PostListElement element = adapter.getComment(commentId);
+        System.out.println("element " + element);
+
+        if(element != null) {
+            int position = adapter.getPosition(element);
+            System.out.println("position " + position);
+
+            if(position != -1) {
+                listView.setSelection(position+1);//+1 because of header
+            }
+        }
+        else {
+            System.out.println("element null");
+        }
+
     }
 }

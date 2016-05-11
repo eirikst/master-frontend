@@ -48,5 +48,4 @@ public class PostWrapper extends PostListElement {
     public PostWrapper getPost() {
         return this;
     }
-
 }

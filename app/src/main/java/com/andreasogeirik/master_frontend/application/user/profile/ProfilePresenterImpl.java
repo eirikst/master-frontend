@@ -33,18 +33,22 @@ PostListInteractorImpl.Listener {
     private ProfileView view;
     private ProfileInteractor interactor;
     private PostListInteractor postInteractor;
-    boolean thisIsMyProfile;
+    private boolean thisIsMyProfile;
+    private int postId;
+    private int commentId;
 
     //model
     private User user;
 
-    public ProfilePresenterImpl(ProfileView view, int userId) {
+    public ProfilePresenterImpl(ProfileView view, int userId, int postId, int commentId) {
         super((Activity)view, CHECK_USER_AVAILABLE);
 
         this.user = new User(userId);
         this.view = view;
         this.interactor = new ProfileInteractorImpl(this);
         this.postInteractor = new PostListInteractorImpl(this);
+        this.postId = postId;
+        this.commentId = commentId;
 
         if(CurrentUser.getInstance().getUser().getId() == userId) {
             view.setMe(true);
@@ -92,11 +96,13 @@ PostListInteractorImpl.Listener {
      */
     @Override
     public void findPosts() {
+        System.out.println("find post nå");
         interactor.findPosts(user, user.getPosts().size());
     }
 
     @Override
     public void successPostsLoad(Set<Post> posts) {
+        System.out.println("find post ferdig");
         user.addPosts(posts);
         view.addPosts(posts);
         if(posts.size() < Constants.NUMBER_OF_POSTS_RETURNED) {
@@ -105,6 +111,27 @@ PostListInteractorImpl.Listener {
         if(user.getPosts().isEmpty()) {
             view.noPostsToShow();
         }
+
+        if(postId > 0) {
+            for (Post post : posts) {
+                if (post.getId() == postId) {
+                    view.focusPost(postId);
+                }
+            }
+        }
+        else if(commentId > 0) {
+            for (Post post : posts) {
+                for(Comment comment: post.getComments()) {
+                    if(comment.getId() == commentId) {
+                        view.focusComment(commentId);
+                    }
+                }
+            }
+        }
+
+        //reset variables so they are not focused on after loading more posts
+        postId = 0;
+        commentId = 0;
     }
 
     @Override
