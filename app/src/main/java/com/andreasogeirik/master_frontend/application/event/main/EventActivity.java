@@ -254,6 +254,16 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
     }
 
     @Override
+    public void setCanceled() {
+        this.attendButton.setVisibility(View.GONE);
+        this.unAttendButton.setVisibility(View.GONE);
+        this.cancelButton.setVisibility(View.GONE);
+        this.editButton.setVisibility(View.GONE);
+
+        findViewById(R.id.event_cancel_text).setVisibility(View.VISIBLE);
+    }
+
+    @Override
     public void showErrorMessage(String error) {
         Toast.makeText(EventActivity.this, error, Toast.LENGTH_SHORT).show();
     }

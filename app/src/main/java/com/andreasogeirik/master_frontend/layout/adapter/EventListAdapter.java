@@ -1,6 +1,7 @@
 package com.andreasogeirik.master_frontend.layout.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,29 +77,35 @@ public class EventListAdapter extends ArrayAdapter<Event> {
                     R.layout.event_list_layout, parent, false);
         }
 
-        /*
-         * Sets the difficulty level drawables based on the event
-         */
-        View easyEvent = convertView.findViewById(R.id.easy_event);
-        View mediumEvent = convertView.findViewById(R.id.medium_event);
-        View hardEvent = convertView.findViewById(R.id.hard_event);
+        //Set activity type
+        ImageView activityTypeImage = (ImageView)convertView.findViewById(R.id.activity_type);
 
-        if(event.getDifficulty() == Constants.EVENT_DIFFICULTY_EASY) {
-            easyEvent.setVisibility(View.VISIBLE);
-            mediumEvent.setVisibility(View.GONE);
-            hardEvent.setVisibility(View.GONE);
+        switch (event.getActivityType()) {
+            case WALK:
+                activityTypeImage.setImageDrawable(ContextCompat.getDrawable(getContext(),
+                        R.drawable.ic_directions_walk_black_24dp));
+                break;
+            case RUN:
+            activityTypeImage.setImageDrawable(ContextCompat.getDrawable(getContext(),
+                    R.drawable.ic_directions_run_black_24dp));
+                break;
+            case SKI:
+                activityTypeImage.setImageDrawable(ContextCompat.getDrawable(getContext(),
+                        R.drawable.ic_ski_24dp));
+                break;
+            case BIKE:
+                activityTypeImage.setImageDrawable(ContextCompat.getDrawable(getContext(),
+                        R.drawable.ic_directions_bike_black_24dp));
+                break;
+            case SWIM:
+                activityTypeImage.setImageDrawable(ContextCompat.getDrawable(getContext(),
+                        R.drawable.ic_swim_24dp));
+                break;
+            case OTHER:
+                activityTypeImage.setImageDrawable(ContextCompat.getDrawable(getContext(),
+                        R.drawable.ic_question_24dp));
+                break;
         }
-        else if(event.getDifficulty() == Constants.EVENT_DIFFICULTY_MEDIUM) {
-            easyEvent.setVisibility(View.GONE);
-            mediumEvent.setVisibility(View.VISIBLE);
-            hardEvent.setVisibility(View.GONE);
-        }
-        else if(event.getDifficulty() == Constants.EVENT_DIFFICULTY_HARD) {
-            easyEvent.setVisibility(View.GONE);
-            mediumEvent.setVisibility(View.GONE);
-            hardEvent.setVisibility(View.VISIBLE);
-        }
-
 
         /*
          * Adds a past view on the first list element with an event from the past
@@ -206,6 +213,13 @@ public class EventListAdapter extends ArrayAdapter<Event> {
         timeStart.setText(DateUtility.formatFull(event.getStartDate().getTime()));
         participants.setText(event.getUsers().size() + "");
 
+        //if cancelled
+        if(!event.isEnabled()) {
+            convertView.findViewById(R.id.cancel_panel).setVisibility(View.VISIBLE);
+        }
+        else {
+            convertView.findViewById(R.id.cancel_panel).setVisibility(View.GONE);
+        }
 
         // Setup imageview
         ImageView image = (ImageView)convertView.findViewById(R.id.event_image);

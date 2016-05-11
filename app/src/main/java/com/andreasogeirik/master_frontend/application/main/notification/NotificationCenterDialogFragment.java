@@ -73,9 +73,6 @@ public class NotificationCenterDialogFragment extends DialogFragment implements 
     public void onResume() {
         super.onResume();
 
-        Dialog dialog = getDialog();
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-
         presenter.checkFriendships();//to update if back button is pressed to get into this view
     }
 
@@ -108,6 +105,7 @@ public class NotificationCenterDialogFragment extends DialogFragment implements 
 
         notificationList.setAdapter(adapter);
 
+
         return v;
     }
 
@@ -130,6 +128,11 @@ public class NotificationCenterDialogFragment extends DialogFragment implements 
     public void setNotifications(Set<Object> notifications) {
         adapter.setNotifications(notifications);
         callback.setNotificationCount(notifications.size());
+
+        if(notifications.isEmpty()) {
+            notificationList.addHeaderView(getActivity().getLayoutInflater().inflate(R.layout.notifications_header, null));
+        }
+
     }
 
     @Override

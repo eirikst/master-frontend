@@ -126,7 +126,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="submit_text_size">Angi tekststørrelse:</string>
     <string name="search">Søk</string>
-    <string name="notifications">Varslinger</string>
+    <string name="notifications">Venneforespørsler</string>
     <string name="accept">Godta</string>
     <string name="reject">Avvis</string>
 

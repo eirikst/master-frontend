@@ -35,13 +35,26 @@
             android:textSize="24dp"
             />
 
+        <TextView
+            android:id="@+id/event_cancel_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/app_red"
+            android:text="Denne aktiviteten er avlyst"
+            android:layout_below="@+id/event_name"
+            android:gravity="center_horizontal"
+            android:visibility="gone"
+            />
+
+
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/event_attend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/event_read_attend"
             android:visibility="gone"
-            android:layout_below="@+id/event_name"
+            android:layout_below="@+id/event_cancel_text"
             />
 
         <android.support.v7.widget.AppCompatButton

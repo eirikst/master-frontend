@@ -28,6 +28,7 @@ public class Event implements Serializable {
     private String thumbUri;
     private int difficulty  = Constants.EVENT_DIFFICULTY_EASY;
     private ActivityType activityType;
+    private boolean enabled = true;
     private User admin;
     private Set<User> users = new HashSet<User>(0);
     private Set<Post> posts = new HashSet<Post>(0);
@@ -69,6 +70,7 @@ public class Event implements Serializable {
             this.users.add(new User(jsonUsers.getJSONObject(i)));
         }
         this.difficulty = jsonEvent.getInt("difficulty");
+        this.enabled = jsonEvent.getBoolean("enabled");
     }
 
     public Event() {
@@ -175,6 +177,14 @@ public class Event implements Serializable {
 
     public void setActivityType(ActivityType activityType) {
         this.activityType = activityType;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public User getAdmin() {

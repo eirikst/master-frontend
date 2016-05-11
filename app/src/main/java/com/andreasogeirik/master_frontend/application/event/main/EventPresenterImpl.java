@@ -211,27 +211,33 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
 
         eventView.setDifficultyView(event.getDifficulty());
 
-        User currentUser = CurrentUser.getInstance().getUser();
 
-        if (currentUser.getId() == this.event.getAdmin().getId() && this.event.getStartDate().after(new GregorianCalendar())){
-            this.eventView.setEditButton();
-            this.eventView.setCancelButton();
-            return;
-        }
+        if(event.isEnabled()) {
+            User currentUser = CurrentUser.getInstance().getUser();
 
-        boolean userInEvent = false;
+            if (currentUser.getId() == this.event.getAdmin().getId() && this.event.getStartDate().after(new GregorianCalendar())) {
+                this.eventView.setEditButton();
+                this.eventView.setCancelButton();
+                return;
+            }
 
-        if (this.event.getStartDate().after(new GregorianCalendar())){
-            for (User user : this.event.getUsers()) {
-                if (currentUser.getId() == user.getId()) {
-                    userInEvent = true;
-                    this.eventView.setUnAttendButton();
-                    break;
+            boolean userInEvent = false;
+
+            if (this.event.getStartDate().after(new GregorianCalendar())) {
+                for (User user : this.event.getUsers()) {
+                    if (currentUser.getId() == user.getId()) {
+                        userInEvent = true;
+                        this.eventView.setUnAttendButton();
+                        break;
+                    }
+                }
+                if (!userInEvent) {
+                    this.eventView.setAttendButton();
                 }
             }
-            if (!userInEvent) {
-                this.eventView.setAttendButton();
-            }
+        }
+        else {
+            this.eventView.setCanceled();
         }
     }
 

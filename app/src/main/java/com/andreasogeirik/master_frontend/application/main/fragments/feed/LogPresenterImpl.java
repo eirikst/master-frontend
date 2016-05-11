@@ -64,7 +64,8 @@ public class LogPresenterImpl extends GeneralPresenter implements LogPresenter,
     @Override
     public void elementChosen(LogElement element) {
         if(element.getType() == ContentType.CREATE_EVENT || element.getType() == ContentType.
-                MODIFY_EVENT || element.getType() == ContentType.PARTICIPATE_EVENT) {
+                MODIFY_EVENT || element.getType() == ContentType.PARTICIPATE_EVENT ||
+                element.getType() == ContentType.DELETE_EVENT) {
             startEventActivity(element.getContentId());
         }
         else if(element.getType() == ContentType.POST_EVENT || element.getType() ==

@@ -46,13 +46,14 @@
             android:id="@+id/event_image"
             android:layout_weight="8"
             android:layout_width="0dp"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:scaleType="fitStart"
             android:adjustViewBounds="true"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
             android:paddingLeft="5dp"
             android:src="@drawable/default_event"
+            android:layout_gravity="center_vertical"
             />
 
         <RelativeLayout
@@ -61,8 +62,7 @@
             android:layout_weight="24"
             android:layout_marginRight="5dp"
             android:layout_marginLeft="5dp"
-            android:layout_marginBottom="5dp"
-
+            android:layout_gravity="center_vertical"
             >
 
 
@@ -104,16 +104,18 @@
                     />
 
             </RelativeLayout>
+
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="8"
+            android:layout_gravity="center_vertical"
             >
             <RelativeLayout
                 android:id="@+id/nr_panel"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:layout_marginBottom="5dp"
@@ -136,44 +138,50 @@
                     android:layout_marginLeft="2dp"
                     android:textStyle="italic"
                     android:layout_toRightOf="@+id/participants_number_image"
-                    android:textSize="20dp"
+                    android:textSize="16dp"
+                    android:layout_centerVertical="true"
                     />
 
             </RelativeLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/activity_type"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@drawable/ic_ski_24dp"
                 android:layout_below="@+id/nr_panel"
-                android:gravity="center_horizontal"
-                >
+                />
 
-                <View
-                    android:id="@+id/easy_event"
-                    android:layout_width="17dp"
-                    android:layout_height="54dp"
-                    android:background="@drawable/shape_event_easy"
-                    android:visibility="visible"
-                    />
-                <View
-                    android:id="@+id/medium_event"
-                    android:layout_width="17dp"
-                    android:layout_height="54dp"
-                    android:background="@drawable/shape_event_medium"
-                    android:visibility="gone"
-                    />
-                <View
-                    android:id="@+id/hard_event"
-                    android:layout_width="17dp"
-                    android:layout_height="54dp"
-                    android:background="@drawable/shape_event_hard"
-                    android:visibility="gone"
-                    />
-            </RelativeLayout>
         </RelativeLayout>
 
 
     </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/cancel_panel"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/post_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"
+        >
+        <ImageView
+            android:id="@+id/cancel_symbol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_cancel_black_24dp"
+            android:layout_marginRight="5dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AVLYST"
+            android:textColor="@color/app_red"
+            android:layout_toRightOf="@id/cancel_symbol"
+            android:layout_centerVertical="true"
+            />
+    </RelativeLayout>
 </RelativeLayout>
 
 
