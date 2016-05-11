@@ -75,31 +75,26 @@ public class ActivityTypeFragment extends DialogFragment {
                 currentSelection = R.id.walk;
                 break;
             case 1:
-                rBtn = (RadioButton) v.findViewById(R.id.jog);
-                rBtn.setChecked(true);
-                currentSelection = R.id.jog;
-                break;
-            case 2:
                 rBtn = (RadioButton) v.findViewById(R.id.run);
                 rBtn.setChecked(true);
                 currentSelection = R.id.run;
                 break;
-            case 3:
+            case 2:
                 rBtn = (RadioButton) v.findViewById(R.id.bike);
                 rBtn.setChecked(true);
                 currentSelection = R.id.bike;
                 break;
-            case 4:
+            case 3:
                 rBtn = (RadioButton) v.findViewById(R.id.ski);
                 rBtn.setChecked(true);
                 currentSelection = R.id.ski;
                 break;
-            case 5:
+            case 4:
                 rBtn = (RadioButton) v.findViewById(R.id.swim);
                 rBtn.setChecked(true);
                 currentSelection = R.id.swim;
                 break;
-            case 6:
+            case 5:
                 rBtn = (RadioButton) v.findViewById(R.id.other);
                 rBtn.setChecked(true);
                 currentSelection = R.id.other;

@@ -108,7 +108,6 @@
 
     // ActivityType
     <string name="walk">Gå</string>
-    <string name="jog">Jogge</string>
     <string name="run">Løpe</string>
     <string name="bike">Sykle</string>
     <string name="swim">Svømme</string>

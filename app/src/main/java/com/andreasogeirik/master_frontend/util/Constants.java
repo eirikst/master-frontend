@@ -4,8 +4,8 @@ package com.andreasogeirik.master_frontend.util;
  * Created by Andreas on 26.01.2016.
  */
 public class Constants {
-    public static String BACKEND_URL = "http://10.22.40.242:8080/";
 
+    public static String BACKEND_URL = "http://129.241.102.250:8080/";
 
     //Status codes for Tasks(http communication)
     public static final int OK = 1;
