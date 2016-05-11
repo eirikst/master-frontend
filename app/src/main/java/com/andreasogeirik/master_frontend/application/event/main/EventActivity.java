@@ -190,27 +190,27 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
 
         switch (activityType) {
             case WALK:
-                this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_walk_black_24dp));
+                this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_walk_red_400_24dp));
                 this.activityTypeLabel.append("GÅ");
                 break;
             case JOG:
-                this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_run_black_24dp));
+                this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_run_orange_300_24dp));
                 this.activityTypeLabel.append("JOGGE");
                 break;
             case RUN:
-                this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_run_black_24dp));
+                this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_run_orange_300_24dp));
                 this.activityTypeLabel.append("LØPE");
                 break;
             case BIKE:
-                this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_bike_black_24dp));
+                this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_bike_blue_24dp));
                 this.activityTypeLabel.append("SYKLE");
                 break;
             case SKI:
-                this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_ski_24dp));
+                this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_ski_510));
                 this.activityTypeLabel.append("SKI");
                 break;
             case SWIM:
-                this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_swim_24dp));
+                this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_swim_226));
                 this.activityTypeLabel.append("SVØMME");
                 break;
             case OTHER:

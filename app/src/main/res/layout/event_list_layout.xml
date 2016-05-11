@@ -25,13 +25,7 @@
         android:textStyle="bold"
         android:visibility="gone"
         />
-    <android.support.v4.widget.Space
-        android:id="@+id/space"
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:color="@android:color/transparent"
-        android:layout_below="@+id/past_header"
-        />
+
 
     <LinearLayout
         android:id="@+id/post_layout"
@@ -39,7 +33,7 @@
         android:layout_height="wrap_content"
         android:weightSum="40"
         android:orientation="horizontal"
-        android:layout_below="@+id/space"
+        android:layout_below="@+id/past_header"
         >
 
         <ImageView
@@ -148,7 +142,6 @@
                 android:id="@+id/activity_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_ski_24dp"
                 android:layout_below="@+id/nr_panel"
                 />
 

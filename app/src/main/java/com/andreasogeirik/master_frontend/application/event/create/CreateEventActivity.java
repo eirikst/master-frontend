@@ -474,32 +474,32 @@ public class CreateEventActivity extends AppCompatActivity implements CreateEven
             case R.id.walk:
                 this.presenter.updateActivityTypeModel(ActivityType.WALK.getId());
                 this.typeBtn.setText("Aktivitetstype: " + getResources().getString(R.string.walk));
-                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_walk_black_24dp));
+                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_walk_red_400_24dp));
                 break;
             case R.id.jog:
                 this.presenter.updateActivityTypeModel(ActivityType.JOG.getId());
                 this.typeBtn.setText("Aktivitetstype: " + getString(R.string.jog));
-                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_run_black_24dp));
+                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_run_orange_300_24dp));
                 break;
             case R.id.run:
                 this.presenter.updateActivityTypeModel(ActivityType.RUN.getId());
-                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_run_black_24dp));
+                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_run_orange_300_24dp));
                 this.typeBtn.setText("Aktivitetstype: " + resources.getString(R.string.run));
                 break;
             case R.id.bike:
                 this.presenter.updateActivityTypeModel(ActivityType.BIKE.getId());
                 this.typeBtn.setText("Aktivitetstype: " + resources.getString(R.string.bike));
-                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_bike_black_24dp));
+                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_bike_blue_24dp));
                 break;
             case R.id.swim:
                 this.presenter.updateActivityTypeModel(ActivityType.SWIM.getId());
                 this.typeBtn.setText("Aktivitetstype: " + resources.getString(R.string.swim));
-                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_swim_24dp));
+                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_swim_226));
                 break;
             case R.id.ski:
                 this.presenter.updateActivityTypeModel(ActivityType.SKI.getId());
                 this.typeBtn.setText("Aktivitetstype: " + resources.getString(R.string.ski));
-                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_ski_24dp));
+                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_ski_510));
                 break;
             case R.id.other:
                 this.presenter.updateActivityTypeModel(ActivityType.OTHER.getId());

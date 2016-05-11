@@ -31,6 +31,7 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
+        System.out.println("instantiate me " + position);
         Fragment fragment = (Fragment) super.instantiateItem(container, position);
         registeredFragments.put(position, fragment);
         return fragment;
@@ -38,9 +39,12 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
+        System.out.println("destroy me " +position);
         registeredFragments.remove(position);
         super.destroyItem(container, position, object);
     }
+
+
 
     public Fragment getRegisteredFragment(int position) {
         return registeredFragments.get(position);

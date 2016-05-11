@@ -26,6 +26,7 @@ public class NotificationCenterDialogFragment extends DialogFragment implements 
         NotificationListAdapter.Listener {
     private ListView notificationList;
     private NotificationListAdapter adapter;
+    private View headerView;
 
     private NotificationCenterPresenter presenter;
     private NotificationCenterListener callback;
@@ -102,6 +103,10 @@ public class NotificationCenterDialogFragment extends DialogFragment implements 
 
         notificationList = (ListView)v.findViewById(R.id.notification_list);
 
+        headerView = getActivity().getLayoutInflater().inflate(R.layout.notifications_header, null);
+        notificationList.addHeaderView(headerView);
+        headerView.setVisibility(View.GONE);
+
 
         notificationList.setAdapter(adapter);
 
@@ -129,10 +134,13 @@ public class NotificationCenterDialogFragment extends DialogFragment implements 
         adapter.setNotifications(notifications);
         callback.setNotificationCount(notifications.size());
 
-        if(notifications.isEmpty()) {
-            notificationList.addHeaderView(getActivity().getLayoutInflater().inflate(R.layout.notifications_header, null));
+        if(headerView != null) {
+            if (notifications.isEmpty()) {
+                headerView.setVisibility(View.VISIBLE);
+            } else {
+                headerView.setVisibility(View.GONE);
+            }
         }
-
     }
 
     @Override

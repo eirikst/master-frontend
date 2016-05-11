@@ -310,7 +310,7 @@ public class MainPageActivity extends AppCompatActivity implements MainPageView,
     void notifyMe() {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_directions_run_black_24dp)
+                        .setSmallIcon(R.drawable.ic_directions_run_orange_300_24dp)
                         .setContentTitle("My notification")
                         .setContentText("Hello World!");
 // Creates an explicit intent for an Activity in your app

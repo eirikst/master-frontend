@@ -27,7 +27,7 @@ public class Global extends Application {
         Picasso.setSingletonInstance(built);
 
         //setup handler for uncaught exceptions
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+        /*Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread thread, Throwable e) {
                 String stacktrace = "";
@@ -41,7 +41,7 @@ public class Global extends Application {
 
                 //restart();
             }
-        });
+        });*/
     }
 
     //TODO:starter mainactivity to ganger, er vel ikke så viktig...

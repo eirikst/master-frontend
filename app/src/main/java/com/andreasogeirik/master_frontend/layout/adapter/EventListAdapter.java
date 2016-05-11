@@ -83,27 +83,25 @@ public class EventListAdapter extends ArrayAdapter<Event> {
         switch (event.getActivityType()) {
             case WALK:
                 activityTypeImage.setImageDrawable(ContextCompat.getDrawable(getContext(),
-                        R.drawable.ic_directions_walk_black_24dp));
+                        R.drawable.ic_directions_walk_red_400_24dp));
                 break;
             case RUN:
             activityTypeImage.setImageDrawable(ContextCompat.getDrawable(getContext(),
-                    R.drawable.ic_directions_run_black_24dp));
+                    R.drawable.ic_directions_run_orange_300_24dp));
                 break;
             case SKI:
                 activityTypeImage.setImageDrawable(ContextCompat.getDrawable(getContext(),
-                        R.drawable.ic_ski_24dp));
+                        R.drawable.ic_ski_510));
                 break;
             case BIKE:
                 activityTypeImage.setImageDrawable(ContextCompat.getDrawable(getContext(),
-                        R.drawable.ic_directions_bike_black_24dp));
+                        R.drawable.ic_directions_bike_blue_24dp));
                 break;
             case SWIM:
                 activityTypeImage.setImageDrawable(ContextCompat.getDrawable(getContext(),
-                        R.drawable.ic_swim_24dp));
+                        R.drawable.ic_swim_226));
                 break;
             case OTHER:
-                activityTypeImage.setImageDrawable(ContextCompat.getDrawable(getContext(),
-                        R.drawable.ic_question_24dp));
                 break;
         }
 
