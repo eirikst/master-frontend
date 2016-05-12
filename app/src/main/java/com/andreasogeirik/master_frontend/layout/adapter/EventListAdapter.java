@@ -102,6 +102,10 @@ public class EventListAdapter extends ArrayAdapter<Event> {
                 activityTypeImage.setImageDrawable(ContextCompat.getDrawable(getContext(),
                         R.drawable.ic_swim_226));
                 break;
+            case GROUP_WORKOUT:
+                activityTypeImage.setImageDrawable(ContextCompat.getDrawable(getContext(),
+                        R.drawable.ic_gruppetrening_24dp));
+                break;
             case OTHER:
                 activityTypeImage.setImageDrawable(null);
                 break;

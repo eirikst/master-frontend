@@ -210,6 +210,10 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
                 this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_swim_226));
                 this.activityTypeLabel.append("SVØMME");
                 break;
+            case GROUP_WORKOUT:
+                this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_gruppetrening_24dp));
+                this.activityTypeLabel.append("GRUPPETRENING");
+                break;
             case OTHER:
                 this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_question_24dp));
                 this.activityTypeLabel.append("ANNET");

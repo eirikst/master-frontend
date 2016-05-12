@@ -95,6 +95,11 @@ public class ActivityTypeFragment extends DialogFragment {
                 currentSelection = R.id.swim;
                 break;
             case 5:
+                rBtn = (RadioButton) v.findViewById(R.id.group_workout);
+                rBtn.setChecked(true);
+                currentSelection = R.id.group_workout;
+                break;
+            default:
                 rBtn = (RadioButton) v.findViewById(R.id.other);
                 rBtn.setChecked(true);
                 currentSelection = R.id.other;

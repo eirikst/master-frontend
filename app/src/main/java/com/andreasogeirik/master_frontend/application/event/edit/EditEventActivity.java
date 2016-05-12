@@ -352,32 +352,35 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
 
 
 
-        switch (activityType.getId()) {
-            case 0:
+        switch (activityType) {
+            case WALK:
                 this.typeBtn.setText(resources.getString(R.string.event_activity_type_label) + getResources().getString(R.string.walk));
                 this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_walk_red_400_24dp));
                 break;
-            case 1:
+            case RUN:
                 this.typeBtn.setText(resources.getString(R.string.event_activity_type_label) + getResources().getString(R.string.run));
                 this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_run_orange_300_24dp));
                 break;
-            case 2:
+            case BIKE:
                 this.typeBtn.setText(resources.getString(R.string.event_activity_type_label) + getResources().getString(R.string.bike));
                 this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_bike_blue_24dp));
                 break;
-            case 3:
+            case SKI:
                 this.typeBtn.setText(resources.getString(R.string.event_activity_type_label) + getResources().getString(R.string.ski));
                 this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_ski_510));
                 break;
-            case 4:
+            case SWIM:
                 this.typeBtn.setText(resources.getString(R.string.event_activity_type_label) + getResources().getString(R.string.swim));
                 this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_swim_226));
                 break;
-            case 5:
+            case GROUP_WORKOUT:
+                this.typeBtn.setText(resources.getString(R.string.event_activity_type_label) + getResources().getString(R.string.group_workout));
+                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_gruppetrening_24dp));
+                break;
+            default:
                 this.typeBtn.setText(resources.getString(R.string.event_activity_type_label) + getResources().getString(R.string.other));
                 this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_question_24dp));
                 break;
-
         }
     }
 
@@ -557,6 +560,11 @@ public class EditEventActivity extends AppCompatActivity implements EditEventVie
                 this.presenter.updateActivityTypeModel(ActivityType.SKI.getId());
                 this.typeBtn.setText(getString(R.string.event_activity_type_label) + resources.getString(R.string.ski));
                 this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_ski_510));
+                break;
+            case R.id.group_workout:
+                this.presenter.updateActivityTypeModel(ActivityType.GROUP_WORKOUT.getId());
+                this.typeBtn.setText(getString(R.string.event_activity_type_label) + resources.getString(R.string.group_workout));
+                this.activityTypeSymbol.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_gruppetrening_24dp));
                 break;
             case R.id.other:
                 this.presenter.updateActivityTypeModel(ActivityType.OTHER.getId());

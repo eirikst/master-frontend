@@ -112,6 +112,7 @@
     <string name="bike">Sykle</string>
     <string name="swim">Svømme</string>
     <string name="ski">Ski</string>
+    <string name="group_workout">Gruppetrening</string>
     <string name="other">Annet</string>
 
     <!-- Strings related to post -->
