@@ -46,10 +46,17 @@
                 android:text="@string/swim" />
 
             <RadioButton
-                android:id="@+id/other"
+                android:id="@+id/group_workout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/swim"
+                android:text="@string/group_workout" />
+
+            <RadioButton
+                android:id="@+id/other"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/group_workout"
                 android:text="@string/other" />
         </RadioGroup>
 
