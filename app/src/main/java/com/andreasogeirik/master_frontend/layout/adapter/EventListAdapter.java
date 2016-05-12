@@ -107,6 +107,10 @@ public class EventListAdapter extends ArrayAdapter<Event> {
                         R.drawable.ic_gruppetrening_24dp));
                 break;
             case OTHER:
+                activityTypeImage.setImageDrawable(null);
+                break;
+            default:
+                activityTypeImage.setImageDrawable(null);
                 break;
         }
 

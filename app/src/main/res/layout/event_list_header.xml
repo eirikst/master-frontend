@@ -107,6 +107,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
+                android:src="@drawable/ic_directions_bike_blue_24dp"
                 />
 
             <TextView
@@ -116,6 +117,7 @@
                 android:textColor="@color/app_font"
                 android:text="@string/event_read_activity_type"
                 android:layout_toRightOf="@+id/event_activity_type_symbol"
+                android:layout_centerVertical="true"
                 />
 
         </RelativeLayout>
