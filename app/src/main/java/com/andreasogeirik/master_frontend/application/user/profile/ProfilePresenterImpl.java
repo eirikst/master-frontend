@@ -242,7 +242,13 @@ PostListInteractorImpl.Listener {
     @Override
     public void successFriendsLoad(Set<Friendship> friends) {
         user.addFriends(friends);
-        view.setFriendCount(user.getFriends().size());
+
+        Set<User> users = new HashSet<>();
+
+        for(Friendship friendship: friends) {
+            users.add(friendship.getFriend());
+        }
+        view.setFriends(users);
     }
 
     @Override
@@ -327,7 +333,7 @@ PostListInteractorImpl.Listener {
     @Override
     public void navigateToUser(User user) {
         //if friend
-        if (CurrentUser.getInstance().getUser().isFriendWith(user)) {
+        if (CurrentUser.getInstance().getUser().isFriendWith(user) || CurrentUser.getInstance().getUser().equals(user)) {
             Intent intent = new Intent(getActivity(), ProfileActivity.class);
             intent.putExtra("user", user.getId());
             getActivity().startActivity(intent);

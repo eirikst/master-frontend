@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile project(':squarecamera')
     compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'org.springframework.android:spring-android-rest-template:2.0.0.M3'
     compile 'com.jakewharton:butterknife:7.0.1'
@@ -14,7 +15,6 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.android.support:support-v4:23.2.1'
     compile 'joda-time:joda-time:2.1'
-    compile project(':squarecamera')
 }
 
 
@@ -52,5 +52,6 @@ android {
         exclude 'META-INF/notice.txt'
     }
 }
+
 
 apply plugin: 'com.google.gms.google-services'

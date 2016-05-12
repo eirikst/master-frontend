@@ -51,6 +51,8 @@ public class UserSearchPresenterImpl extends GeneralPresenter implements UserSea
         else {
             view.showLoadMore(false);
         }
+
+        searchForUser("");
     }
 
     /*

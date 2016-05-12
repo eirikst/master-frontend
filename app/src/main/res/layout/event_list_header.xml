@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/event_list_header"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -318,11 +319,11 @@
 
         <RelativeLayout
             android:id="@+id/event_participants_panel"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/event_admin_panel"
             android:layout_marginBottom="20dp"
-
+            android:background="@color/grey"
             >
 
             <ImageView
@@ -344,11 +345,21 @@
                 />
         </RelativeLayout>
 
+        <fragment android:name="com.andreasogeirik.master_frontend.application.user.friend.friend_list_widget.UserGridFragment"
+            android:id="@+id/participants_fragment"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:layout="@layout/fragment_user_grid"
+            android:layout_below="@id/event_participants_panel"
+            />
+
         <RelativeLayout
             android:id="@+id/new_post_event"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/event_participants_panel"
+            android:layout_below="@+id/participants_fragment"
+            android:layout_marginTop="40dp"
             >
 
             <ImageView

@@ -4,6 +4,8 @@ import com.andreasogeirik.master_frontend.model.Comment;
 import com.andreasogeirik.master_frontend.model.Post;
 import com.andreasogeirik.master_frontend.model.User;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -16,7 +18,7 @@ public interface ProfileView {
     void addPosts(Set<Post> posts);
     void noPostsToShow();
 
-    void setFriendCount(int count);
+    void setFriends(Collection<User> users);
     void setProfileImage(String imageUri);
 
     void updatePostLike(int id, boolean like);

@@ -33,6 +33,7 @@ import com.andreasogeirik.master_frontend.application.main.MainPageActivity;
 import com.andreasogeirik.master_frontend.application.post.CommentDialog;
 import com.andreasogeirik.master_frontend.application.post.LikeDialogFragment;
 import com.andreasogeirik.master_frontend.application.post.PostDialog;
+import com.andreasogeirik.master_frontend.application.user.friend.friend_list_widget.UserGridFragment;
 import com.andreasogeirik.master_frontend.layout.ProgressBarManager;
 import com.andreasogeirik.master_frontend.layout.adapter.PostListAdapter;
 import com.andreasogeirik.master_frontend.layout.model_wrapper.PostListElement;
@@ -55,7 +56,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class EventActivity extends AppCompatActivity implements EventView, OnClickListener,
-        PostListAdapter.PostListCallback, CommentDialog.Listener, PostDialog.Listener {
+        PostListAdapter.PostListCallback, CommentDialog.Listener, PostDialog.Listener, UserGridFragment.OnFragmentInteractionListener {
 
     private CommentDialog commentFragment;
     private PostDialog postDialog;
@@ -173,7 +174,7 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
     }
 
     @Override
-    public void setEventAttributes(String name, String location, String description, String admin, String startTime, String participants, ActivityType activityType) {
+    public void setEventAttributes(String name, String location, String description, String admin, String startTime, String participants, ActivityType activityType, Collection<User> participantCollection) {
 
         this.unAttendButton.setVisibility(View.GONE);
         this.attendButton.setVisibility(View.GONE);
@@ -214,6 +215,8 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
                 this.activityTypeLabel.append("ANNET");
                 break;
         }
+
+        ((UserGridFragment)getSupportFragmentManager().findFragmentById(R.id.participants_fragment)).setList(new ArrayList<User>(participantCollection));
     }
 
     @Override
@@ -223,8 +226,18 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
     }
 
     @Override
-    public void setParticipants(String participants) {
+    public void setParticipants(Set<User> users) {
+        String participants = "";
+
+        if (users.size() == 1){
+            participants = "1 DELTAKER";
+        }
+        else{
+            participants = users.size() + " DELTAKERE";
+        }
+
         this.numberOfParticipants.setText(participants);
+        ((UserGridFragment)getSupportFragmentManager().findFragmentById(R.id.participants_fragment)).setList(new ArrayList<User>(users));
     }
 
     @Override

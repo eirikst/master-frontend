@@ -8,12 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.andreasogeirik.master_frontend.R;
-
-import java.io.Serializable;
 
 public class PostDialog extends DialogFragment {
     public interface Listener {
@@ -79,6 +78,9 @@ public class PostDialog extends DialogFragment {
                 }
             }
         });
+
+        postMsg.requestFocus();
+        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
         return v;
     }

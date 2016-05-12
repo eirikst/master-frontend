@@ -29,6 +29,7 @@ import com.andreasogeirik.master_frontend.application.post.CommentDialog;
 import com.andreasogeirik.master_frontend.application.post.LikeDialogFragment;
 import com.andreasogeirik.master_frontend.application.post.PostDialog;
 import com.andreasogeirik.master_frontend.application.user.edit.EditUserActivity;
+import com.andreasogeirik.master_frontend.application.user.friend.friend_list_widget.UserGridFragment;
 import com.andreasogeirik.master_frontend.layout.adapter.PostListAdapter;
 import com.andreasogeirik.master_frontend.layout.model_wrapper.PostListElement;
 import com.andreasogeirik.master_frontend.model.Comment;
@@ -40,7 +41,9 @@ import com.andreasogeirik.master_frontend.util.Constants;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import butterknife.Bind;
@@ -51,7 +54,7 @@ import butterknife.ButterKnife;
  */
 public class ProfileActivity extends AppCompatActivity implements ProfileView,
         AdapterView.OnItemClickListener, PostListAdapter.PostListCallback,
-        CommentDialog.Listener, PostDialog.Listener {
+        CommentDialog.Listener, PostDialog.Listener, UserGridFragment.OnFragmentInteractionListener {
     private String tag = getClass().getSimpleName();
 
     private ProfilePresenter presenter;
@@ -354,8 +357,10 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
      */
 
     @Override
-    public void setFriendCount(int count) {
-        nrOfFriendsTextView.setText(count + " venner");
+    public void setFriends(Collection<User> users) {
+        nrOfFriendsTextView.setText(users.size() + " venner");
+
+        ((UserGridFragment)getSupportFragmentManager().findFragmentById(R.id.participants_fragment)).setList(new ArrayList<User>(users));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

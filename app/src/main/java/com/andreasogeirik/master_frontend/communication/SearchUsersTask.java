@@ -56,8 +56,8 @@ public class SearchUsersTask extends AsyncTask<Void, Void, Pair<Integer, Respons
         HttpEntity<String> entity = new HttpEntity(null, headers);
 
         try {
-            response = template.exchange(Constants.BACKEND_URL + "users/search/" + searchString +
-                            "/" + offset, HttpMethod.GET, entity, String.class);
+            response = template.exchange(Constants.BACKEND_URL + "users/search?name=" + searchString +
+                            "&offset=" + offset, HttpMethod.GET, entity, String.class);
             return new Pair(Constants.OK, response);
         }
         catch (ResourceAccessException e) {

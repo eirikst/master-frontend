@@ -197,7 +197,7 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
 
 
         this.eventView.setEventAttributes(event.getName(), event.getLocation(), event.getDescription(), event.getAdmin().getFirstname() + " " + event.getAdmin().getLastname(), DateUtility.formatFull(this.event.getStartDate().getTime()),
-                participants, event.getActivityType());
+                participants, event.getActivityType(), event.getUsers());
 
 
 
@@ -257,17 +257,7 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
             this.eventView.setAttendButton();
         }
 
-        String participants = "";
-
-        int NoOfParticipants = this.event.getUsers().size();
-        if (NoOfParticipants == 1){
-            participants = "1 DELTAKER";
-        }
-        else{
-            participants = NoOfParticipants + " DELTAKERE";
-        }
-
-        this.eventView.setParticipants(participants);
+        this.eventView.setParticipants(event.getUsers());
     }
 
     @Override

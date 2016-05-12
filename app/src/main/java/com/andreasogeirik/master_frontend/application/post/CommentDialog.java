@@ -8,14 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.andreasogeirik.master_frontend.R;
 import com.andreasogeirik.master_frontend.model.Post;
-
-import java.util.HashSet;
 
 public class CommentDialog extends DialogFragment {
     public interface Listener {
@@ -101,6 +99,10 @@ public class CommentDialog extends DialogFragment {
                 }
             }
         });
+
+        commentMsg.requestFocus();
+        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
 
         return v;
     }

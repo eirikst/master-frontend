@@ -13,10 +13,10 @@ import java.util.Set;
  * Created by Andreas on 10.02.2016.
  */
 public interface EventView {
-    void setEventAttributes(String name, String location, String description, String admin, String startTime, String participants, ActivityType activityType);
+    void setEventAttributes(String name, String location, String description, String admin, String startTime, String participants, ActivityType activityType, Collection<User> participantList);
     void updateEndTime(String endTime);
     void setAttendButton();
-    void setParticipants(String participants);
+    void setParticipants(Set<User> users);
     void setUnAttendButton();
     void setEditButton();
     void setCancelButton();
