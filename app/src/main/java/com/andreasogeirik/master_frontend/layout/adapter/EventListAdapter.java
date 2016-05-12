@@ -103,6 +103,10 @@ public class EventListAdapter extends ArrayAdapter<Event> {
                         R.drawable.ic_swim_226));
                 break;
             case OTHER:
+                activityTypeImage.setImageDrawable(null);
+                break;
+            default:
+                activityTypeImage.setImageDrawable(null);
                 break;
         }
 
