@@ -620,40 +620,27 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
 
     @Override
     public void focusPost(int postId) {
-        System.out.println("focus post " + postId);
         PostListElement element = adapter.getPost(postId);
-        System.out.println("element " + element);
 
         if(element != null) {
             int position = adapter.getPosition(element);
-            System.out.println("position " + position);
 
             if(position != -1) {
                 listView.setSelection(position+1);//+1 because of header
             }
-        }
-        else {
-            System.out.println("element null");
         }
     }
 
     @Override
     public void focusComment(int commentId) {
-        System.out.println("focus comment " + commentId);
         PostListElement element = adapter.getComment(commentId);
-        System.out.println("element " + element);
 
         if(element != null) {
             int position = adapter.getPosition(element);
-            System.out.println("position " + position);
 
             if(position != -1) {
                 listView.setSelection(position+1);//+1 because of header
             }
         }
-        else {
-            System.out.println("element null");
-        }
-
     }
 }

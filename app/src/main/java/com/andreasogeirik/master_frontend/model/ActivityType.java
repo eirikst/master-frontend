@@ -28,6 +28,11 @@ public enum ActivityType {
     }
 
     public static ActivityType getTypeById(int id) {
-        return idToTypeMap.get(Integer.valueOf(id));
+        ActivityType type = idToTypeMap.get(Integer.valueOf(id));
+
+        if(type != null) {
+            return type;
+        }
+        return ActivityType.OTHER;
     }
 }

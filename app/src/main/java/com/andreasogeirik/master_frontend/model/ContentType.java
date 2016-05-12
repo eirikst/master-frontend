@@ -27,6 +27,13 @@ public enum ContentType {
     }
 
     public static ContentType fromInt(int i) {
-        return intToTypeMap.get(Integer.valueOf(i));
+        ContentType type = intToTypeMap.get(Integer.valueOf(i));
+
+        if(type != null) {
+            return type;
+        }
+        else {
+            return ContentType.USER_REGISTERED;
+        }
     }
 }

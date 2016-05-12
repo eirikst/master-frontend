@@ -96,13 +96,11 @@ PostListInteractorImpl.Listener {
      */
     @Override
     public void findPosts() {
-        System.out.println("find post nå");
         interactor.findPosts(user, user.getPosts().size());
     }
 
     @Override
     public void successPostsLoad(Set<Post> posts) {
-        System.out.println("find post ferdig");
         user.addPosts(posts);
         view.addPosts(posts);
         if(posts.size() < Constants.NUMBER_OF_POSTS_RETURNED) {
