@@ -56,16 +56,16 @@ public class LoginPresenterImpl implements LoginPresenter {
         loginView.hideProgress();
         switch (error) {
             case Constants.RESOURCE_ACCESS_ERROR:
-                this.loginView.loginFailed("Fant ikke ressurs. Prøv igjen");
+                this.loginView.loginFailed("Could not find the requested resource. Please try again.");
                 break;
             // This can't happen. Do Nothing
             case Constants.UNAUTHORIZED:
                 break;
             case Constants.CLIENT_ERROR:
-                this.loginView.loginFailed("Feil brukernavn eller passord");
+                this.loginView.loginFailed("Wrong username or password");
                 break;
             case Constants.SOME_ERROR:
-                this.loginView.loginFailed("Noe gikk galt, prøv igjen senere");
+                this.loginView.loginFailed("Something went wrong. Please try again later.");
                 break;
         }
     }

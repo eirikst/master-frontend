@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="PROFILBILDE"
+            android:text="Welcome"
             android:textColor="@color/app_font"
             android:textStyle="bold" />
 
@@ -52,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="Hei! Du har nå opprettet en profil. Hvis du ønsker, kan du legge til et profilbilde ved å trykke på bildet over."
+            android:text="Hi! You have now created a user profile. If you want to, you can add a profile image by clicking the image above."
             android:textColor="@color/app_font" />
 
         <TextView
@@ -67,6 +67,6 @@
             android:id="@+id/submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ferdig"/>
+            android:text="Finish"/>
     </LinearLayout>
 </RelativeLayout>

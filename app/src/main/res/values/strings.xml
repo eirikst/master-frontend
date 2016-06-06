@@ -2,137 +2,137 @@
     <string name="app_name">Ludi</string>
 
     // Toolbar
-    <string name="create_event">NY AKTIVITET</string>
-    <string name="edit_event">ENDRE AKTIVITET</string>
-    <string name="edit_user">ENDRE BRUKER</string>
-    <string name="profile">PROFIL</string>
-    <string name="search_user">SØK BRUKERE</string>
-    <string name="friends">VENNER</string>
-    <string name="others_profile">PROFIL</string>
-    <string name="events">AKTIVITETER</string>
-    <string name="event_read">AKTIVITET</string>
+    <string name="create_event">New Activity</string>
+    <string name="edit_event">Edit Activity</string>
+    <string name="edit_user">Edit User</string>
+    <string name="profile">Profile</string>
+    <string name="search_user">User Search</string>
+    <string name="friends">Friends</string>
+    <string name="others_profile">Profile</string>
+    <string name="events">Activities</string>
+    <string name="event_read">Activity</string>
 
     // Toolbar - dropdown
-    <string name="drop_search_user">Søk etter bruker</string>
-    <string name="drop_new_activity">Ny aktivitet</string>
-    <string name="drop_my_profile">Min profil</string>
-    <string name="drop_sign_out">Logg ut</string>
+    <string name="drop_search_user">Find a user</string>
+    <string name="drop_new_activity">New activity</string>
+    <string name="drop_my_profile">My profile</string>
+    <string name="drop_sign_out">Sign out</string>
 
     //Create Event
-    <string name="event_create_name">Navn på aktivitet</string>
-    <string name="event_create_location">Sted</string>
-    <string name="event_create_description">Beskrivelse</string>
-    <string name="event_create_start_date_label">Dato</string>
-    <string name="event_create_start_time_label">Tid</string>
-    <string name="event_create_checkbox">Sluttid (valgfritt)</string>
-    <string name="event_create_end_date_label">Dato</string>
-    <string name="event_create_end_time_label">Tid</string>
-    <string name="event_activity_type_label">"Aktivitetstype: "</string>
+    <string name="event_create_name">Name</string>
+    <string name="event_create_location">Location</string>
+    <string name="event_create_description">Description</string>
+    <string name="event_create_start_date_label">Date</string>
+    <string name="event_create_start_time_label">Time</string>
+    <string name="event_create_checkbox">End Time (optional)</string>
+    <string name="event_create_end_date_label">Date</string>
+    <string name="event_create_end_time_label">Time</string>
+    <string name="event_activity_type_label">"Activity Type: "</string>
 
-    <string name="event_choose_activity_type">Velg aktivitetstype</string>
-    <string name="event_create_difficulty">Dra for å velge intensitet:</string>
-    <string name="event_create_difficulty_easy">Lett</string>
-    <string name="event_create_difficulty_medium">Moderat</string>
-    <string name="event_create_difficulty_hard">Høy</string>
+    <string name="event_choose_activity_type">Chose an activity type</string>
+    <string name="event_create_difficulty">Slide to select the intensity:</string>
+    <string name="event_create_difficulty_easy">Easy</string>
+    <string name="event_create_difficulty_medium">Intermediate</string>
+    <string name="event_create_difficulty_hard">Hard</string>
 
-    <string name="event_create_select_image">Velg bilde</string>
-    <string name="event_create_submit">Opprett aktivitet</string>
+    <string name="event_create_select_image">Select Image</string>
+    <string name="event_create_submit">Create</string>
 
     // Read Event
-    <string name="event_read_attend">MELD PÅ</string>
-    <string name="event_read_unAttend">MELD AV</string>
-    <string name="event_read_edit">ENDRE AKTIVITET</string>
-    <string name="event_read_cancel">AVLYS</string>
-    <string name="event_read_start">"START: "</string>
-    <string name="event_read_activity_type">"AKTIVITET: "</string>
-    <string name="event_read_end">"SLUTT: "</string>
-    <string name="event_read_location">"STED: "</string>
-    <string name="event_read_description">"BESKRIVELSE: "</string>
+    <string name="event_read_attend">Sign Up</string>
+    <string name="event_read_unAttend">Sign Off</string>
+    <string name="event_read_edit">Edit Activity</string>
+    <string name="event_read_cancel">Cancel</string>
+    <string name="event_read_start">"Start: "</string>
+    <string name="event_read_activity_type">"Activity: "</string>
+    <string name="event_read_end">"End: "</string>
+    <string name="event_read_location">"Location: "</string>
+    <string name="event_read_description">"Description: "</string>
     <string name="event_read_admin">"ADMIN: "</string>
-    <string name="event_read_participants">DELTAKERE</string>
-    <string name="event_read_difficulty">INTENSITET:</string>
+    <string name="event_read_participants">Participants</string>
+    <string name="event_read_difficulty">Intensity:</string>
 
     // Edit Event
-    <string name="event_edit_name">NAVN PÅ AKTIVITET</string>
-    <string name="event_edit_location">STED</string>
-    <string name="event_edit_description">BESKRIVELSE</string>
-    <string name="event_edit_start_date_label">DATO</string>
-    <string name="event_edit_start_time_label">TID</string>
-    <string name="event_edit_checkbox">SLUTT-TID (VALGFRITT)</string>
-    <string name="event_edit_end_date_label">DATO</string>
-    <string name="event_edit_end_time_label">TID</string>
-    <string name="event_edit_select_image">ENDRE BILDE</string>
-    <string name="event_edit_submit">LAGRE AKTIVITET</string>
-    <string name="event_edit_difficulty">DRA FOR Å VELGE INTENSITET:</string>
-    <string name="event_edit_difficulty_easy">LETT</string>
-    <string name="event_edit_difficulty_medium">MODERAT</string>
-    <string name="event_edit_difficulty_hard">HØY</string>
+    <string name="event_edit_name">Name</string>
+    <string name="event_edit_location">Location</string>
+    <string name="event_edit_description">Description</string>
+    <string name="event_edit_start_date_label">Date</string>
+    <string name="event_edit_start_time_label">Time</string>
+    <string name="event_edit_checkbox">End Time (optional)</string>
+    <string name="event_edit_end_date_label">Date</string>
+    <string name="event_edit_end_time_label">Time</string>
+    <string name="event_edit_select_image">Edit Image</string>
+    <string name="event_edit_submit">Save</string>
+    <string name="event_edit_difficulty">Slide to select the intensity:</string>
+    <string name="event_edit_difficulty_easy">Easy</string>
+    <string name="event_edit_difficulty_medium">Intermediate</string>
+    <string name="event_edit_difficulty_hard">Hard</string>
 
-    <string name="title_activity_login">Logg inn</string>
+    <string name="title_activity_login">Sign In</string>
 
-    <string name="title_activity_my_profile">MEG</string>
-    <string name="title_activity_others_profile">Profil</string>
-    <string name="title_main_page">AKTIVITETER</string>
-    <string name="title_user_search">Søk brukere</string>
+    <string name="title_activity_my_profile">Me</string>
+    <string name="title_activity_others_profile">Profile</string>
+    <string name="title_main_page">Activities</string>
+    <string name="title_user_search">User Search</string>
 
     // Edit User
-    <string name="user_edit_image_info">Trykk på bildet for å endre</string>
-    <string name="user_edit_firstname">Fornavn</string>
-    <string name="user_edit_lastname">Etternavn</string>
-    <string name="user_edit_location">Sted</string>
-    <string name="user_edit_password_btn">Endre passord</string>
-    <string name="user_edit_current_password">Nåværende passord</string>
-    <string name="user_edit_password">Nytt passord</string>
-    <string name="user_edit_re_password">Skriv inn passord på nytt</string>
-    <string name="user_edit_password_save">Lagre passord</string>
-    <string name="user_edit_submit">Lagre</string>
-    <string name="user_edit_client_error">Nåværende passord er ikke riktig</string>
+    <string name="user_edit_image_info">Click the image to edit</string>
+    <string name="user_edit_firstname">First Name</string>
+    <string name="user_edit_lastname">Surname</string>
+    <string name="user_edit_location">Location</string>
+    <string name="user_edit_password_btn">Edit password</string>
+    <string name="user_edit_current_password">Current Password</string>
+    <string name="user_edit_password">New Password</string>
+    <string name="user_edit_re_password">Enter the new password again</string>
+    <string name="user_edit_password_save">Save</string>
+    <string name="user_edit_submit">Save</string>
+    <string name="user_edit_client_error">Current password is not correct</string>
 
     // Password dialog
-    <string name="password_dialog_label">ENDRE PASSORD</string>
+    <string name="password_dialog_label">Edit Password</string>
 
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Passord</string>
-    <string name="prompt_firstname">Fornavn</string>
-    <string name="prompt_lastname">Etternavn</string>
-    <string name="prompt_location">Sted</string>
-    <string name="prompt_re_password">Skriv inn passord på nytt</string>
-    <string name="action_sign_in">Logg inn</string>
-    <string name="action_register">Registrer bruker</string>
-    <string name="error_invalid_password">Passordet er for kort</string>
-    <string name="error_incorrect_password">Feil passord</string>
-    <string name="error_empty_password">Fyll inn passord</string>
-    <string name="error_field_required">Dette feltet er påkrevd</string>
+    <string name="prompt_password">Password</string>
+    <string name="prompt_firstname">First Name</string>
+    <string name="prompt_lastname">Surname</string>
+    <string name="prompt_location">Location</string>
+    <string name="prompt_re_password">Enter the password again</string>
+    <string name="action_sign_in">Sign In</string>
+    <string name="action_register">Register</string>
+    <string name="error_invalid_password">The password is too short</string>
+    <string name="error_incorrect_password">Wrong password</string>
+    <string name="error_empty_password">Enter a password</string>
+    <string name="error_field_required">This field is required</string>
 
     // ActivityType
-    <string name="walk">Gå</string>
-    <string name="run">Løpe</string>
-    <string name="bike">Sykle</string>
-    <string name="swim">Svømme</string>
+    <string name="walk">Walk</string>
+    <string name="run">Run</string>
+    <string name="bike">Bike</string>
+    <string name="swim">Swim</string>
     <string name="ski">Ski</string>
-    <string name="group_workout">Gruppetrening</string>
-    <string name="other">Annet</string>
+    <string name="group_workout">Group Exercise</string>
+    <string name="other">Other</string>
 
     <!-- Strings related to post -->
-    <string name="comment">Kommentar</string>
-    <string name="comment_this">Kommenter</string>
+    <string name="comment">Comment</string>
+    <string name="comment_this">Comment</string>
 
     <!-- Strings related to login -->
     <string name="error_invalid_email">
-        EPOSTEN ER IKKE GYLDIG</string>
+        The email is not valid</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="submit_text_size">Angi tekststørrelse:</string>
-    <string name="search">Søk</string>
-    <string name="notifications">Venneforespørsler</string>
-    <string name="accept">Godta</string>
-    <string name="reject">Avvis</string>
+    <string name="submit_text_size">Select text size:</string>
+    <string name="search">Search</string>
+    <string name="notifications">Friend Requests</string>
+    <string name="accept">Accept</string>
+    <string name="reject">Decline</string>
 
     // Generic error messages
-    <string name="resource_access_error">Fant ikke ressurs. Prøv igjen</string>
-    <string name="some_error">Noe gikk galt, prøv igjen senere</string>
+    <string name="resource_access_error">Could not find the requested resource. Please try again.</string>
+    <string name="some_error">Something went wrong. Please try again later.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

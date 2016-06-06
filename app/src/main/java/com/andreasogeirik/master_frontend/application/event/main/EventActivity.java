@@ -3,6 +3,7 @@ package com.andreasogeirik.master_frontend.application.event.main;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.graphics.Paint;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -189,34 +190,35 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
         this.numberOfParticipants.setText(participants);
         this.numberOfParticipants.setPaintFlags(this.numberOfParticipants.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
-            switch (activityType) {
+        Resources resources = getResources();
+        switch (activityType) {
             case WALK:
                 this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_walk_red_400_24dp));
-                this.activityTypeLabel.append("GÅ");
+                this.activityTypeLabel.append(resources.getString(R.string.walk));
                 break;
             case RUN:
                 this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_run_orange_300_24dp));
-                this.activityTypeLabel.append("LØPE");
+                this.activityTypeLabel.append(resources.getString(R.string.run));
                 break;
             case BIKE:
                 this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_directions_bike_blue_24dp));
-                this.activityTypeLabel.append("SYKLE");
+                this.activityTypeLabel.append(resources.getString(R.string.bike));
                 break;
             case SKI:
                 this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_ski_510));
-                this.activityTypeLabel.append("SKI");
+                this.activityTypeLabel.append(resources.getString(R.string.ski));
                 break;
             case SWIM:
                 this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_swim_226));
-                this.activityTypeLabel.append("SVØMME");
+                this.activityTypeLabel.append(resources.getString(R.string.swim));
                 break;
             case GROUP_WORKOUT:
                 this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_gruppetrening_24dp));
-                this.activityTypeLabel.append("GRUPPETRENING");
+                this.activityTypeLabel.append(resources.getString(R.string.group_workout));
                 break;
             case OTHER:
                 this.activityTypeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_question_24dp));
-                this.activityTypeLabel.append("ANNET");
+                this.activityTypeLabel.append(resources.getString(R.string.other));
                 break;
         }
 
@@ -234,10 +236,10 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
         String participants = "";
 
         if (users.size() == 1){
-            participants = "1 DELTAKER";
+            participants = "1 Participant";
         }
         else{
-            participants = users.size() + " DELTAKERE";
+            participants = users.size() + " Participants";
         }
 
         this.numberOfParticipants.setText(participants);
@@ -470,16 +472,16 @@ public class EventActivity extends AppCompatActivity implements EventView, OnCli
 
                 // set dialog message
                 alertDialogBuilder
-                        .setMessage("Vil du avlyse denne aktiviteten?")
+                        .setMessage("Are you sure you want to cancel this activity?")
                         .setCancelable(false)
-                        .setPositiveButton("Nei", new DialogInterface.OnClickListener() {//this is really negative, wanted to change sides
+                        .setPositiveButton("No", new DialogInterface.OnClickListener() {//this is really negative, wanted to change sides
                             public void onClick(DialogInterface dialog, int id) {
                                 // if this button is clicked, just close
                                 // the dialog box and do nothing
                                 dialog.cancel();
                             }
                         })
-                        .setNegativeButton("Ja", new DialogInterface.OnClickListener() {
+                        .setNegativeButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {//this is really positive, wanted to change sides
                                 // if this button is clicked, close
                                 // current activity

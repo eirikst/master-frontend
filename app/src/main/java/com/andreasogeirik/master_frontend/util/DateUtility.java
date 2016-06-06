@@ -59,44 +59,44 @@ public class DateUtility {
                             int secondsDiff = Seconds.secondsBetween(d1, d2).getSeconds();
 
                             if (secondsDiff == 1) {
-                                return "1 sekund siden";
+                                return "A second ago";
                             } else if (secondsDiff >= 0) {
-                                return secondsDiff + " sekunder siden";
+                                return secondsDiff + " seconds ago";
                             } else {
-                                return "Akkurat";
+                                return "Right now";
 
                             }
                         } else if (minutesDiff == 1) {
-                            return minutesDiff + " minutt siden";
+                            return minutesDiff + " minute ago";
                         } else {
-                            return minutesDiff + " minutter siden";
+                            return minutesDiff + " minutes ago";
                         }
                     } else {
                         if (hoursDiff == 1) {
-                            return hoursDiff + " time siden";
+                            return hoursDiff + " hour ago";
                         } else {
-                            return hoursDiff + " timer siden";
+                            return hoursDiff + " hours ago";
                         }
                     }
                 } else {
                     if (daysDiff == 1) {
-                        return "1 dag siden";
+                        return "A day ago";
                     } else {
-                        return daysDiff + " dager siden";
+                        return daysDiff + " days ago";
                     }
                 }
             }
             else {
                 if(monthsDiff == 1) {
-                    return "1 måned siden";
+                    return "A month ago";
                 }
                 else {
-                    return monthsDiff + " måneder siden";
+                    return monthsDiff + " months ago";
                 }
             }
         }
         else {
-            return yearsDiff + " år siden";
+            return yearsDiff + " year ago";
         }
     }
 }

@@ -7,7 +7,7 @@
         android:id="@+id/post_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Skriv et innlegg"
+        android:text="Write a post"
         android:gravity="center_horizontal"
         android:layout_margin="10dp"
         />
@@ -27,7 +27,7 @@
         android:id="@+id/post_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Publiser"
+        android:text="Publish"
         android:layout_below="@+id/post_message"
         />
 

@@ -98,7 +98,7 @@ public class ProfileOthersPresenterImpl extends GeneralPresenter implements Prof
     public void friendRequestSuccess(Friendship friendship) {
         CurrentUser.getInstance().getUser().addRequest(friendship);
 
-        view.displayMessage("Venneforespørsel sendt");
+        view.displayMessage("Friend request sent");
         view.setIHaveRequestedView();
     }
 
@@ -108,7 +108,7 @@ public class ProfileOthersPresenterImpl extends GeneralPresenter implements Prof
             checkAuth();
         }
         else {
-            view.displayMessage("En feil skjedde under forespørsel");
+            view.displayMessage("An error occurred when sending the friend request");
         }
     }
 
@@ -134,7 +134,7 @@ public class ProfileOthersPresenterImpl extends GeneralPresenter implements Prof
         CurrentUser.getInstance().getUser().goFromRequestToFriend(friendshipId);
         Friendship friendship = CurrentUser.getInstance().getUser().findFriend(friendshipId);
 
-        view.displayMessage("Venneforespørsel akseptert");
+        view.displayMessage("Friend request accepted");
 
         Intent intent = new Intent(getActivity(), ProfileActivity.class);
         intent.putExtra("user", friendship.getFriend().getId());
@@ -173,7 +173,7 @@ public class ProfileOthersPresenterImpl extends GeneralPresenter implements Prof
     public void rejectRequestSuccess(int friendshipId) {
         CurrentUser.getInstance().getUser().removeFriendship(friendshipId);
 
-        view.displayMessage("Vennskap fjernet");
+        view.displayMessage("Friendship removed");
         view.setRequestFriendButton();
 
     }

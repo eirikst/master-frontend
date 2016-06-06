@@ -111,7 +111,7 @@
                     android:id="@+id/your_friend"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Din venn"
+                    android:text="Your friend"
                     android:layout_toRightOf="@id/your_friend_symbol"
                     android:layout_centerVertical="true"
                     />
@@ -137,7 +137,7 @@
                     android:id="@+id/participating_events_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Deltar på"
+                    android:text="Attends"
                     android:layout_toRightOf="@id/participating_events_symbol"
                     android:layout_centerVertical="true"
                     />
@@ -163,7 +163,7 @@
                     android:id="@+id/edit_profile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Endre profil"
+                    android:text="Edit profile"
                     android:layout_toRightOf="@id/event_edit_symbol"
                     android:layout_centerVertical="true"
                     />
@@ -193,7 +193,7 @@
                     android:id="@+id/my_profile_friends"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0 venner"
+                    android:text="0 friends"
                     android:layout_toRightOf="@+id/event_friend_symbol"
                     android:layout_centerVertical="true"
                     />
@@ -229,7 +229,7 @@
                     android:id="@+id/write_post"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Skriv innlegg"
+                    android:text="Write a post"
                     android:layout_toRightOf="@id/write_post_symbol"
                     android:layout_centerVertical="true"
                     />
@@ -244,7 +244,7 @@
             android:layout_height="wrap_content"
             android:layout_weight=".7"
             android:layout_marginBottom="10dp"
-            android:text="Skriv innlegg"
+            android:text="Write a post"
             android:visibility="gone"
             android:layout_below="@+id/info_panel"
             />
@@ -253,7 +253,7 @@
             android:id="@+id/posts_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Innlegg"
+            android:text="Posts"
             android:gravity="center_horizontal"
             android:textSize="24dp"
             android:background="@drawable/shape_gen_background"
@@ -263,7 +263,7 @@
 
         <TextView
             android:id="@+id/no_posts"
-            android:text="Her var det tomt"
+            android:text="Nothing here"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/posts_header"

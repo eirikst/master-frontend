@@ -266,7 +266,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
         });
 
         nrOfFriendsTextView = (TextView)headerView.findViewById(R.id.my_profile_friends);
-        nrOfFriendsTextView.setText(nrOfFriends + " venner");
+        nrOfFriendsTextView.setText(nrOfFriends + " friends");
         nrOfFriendsTextView.setPaintFlags(this.nrOfFriendsTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         nrOfFriendsView = headerView.findViewById(R.id.friend_panel);
@@ -318,7 +318,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
         writePostView.setVisibility(View.GONE);
 
         nrOfFriendsTextView = (TextView)headerView.findViewById(R.id.my_profile_friends);
-        nrOfFriendsTextView.setText(nrOfFriends + " venner");
+        nrOfFriendsTextView.setText(nrOfFriends + " friends");
         nrOfFriendsTextView.setPaintFlags(this.nrOfFriendsTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         nrOfFriendsView = headerView.findViewById(R.id.friend_panel);
         nrOfFriendsView.setOnClickListener(new View.OnClickListener() {
@@ -337,7 +337,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
     @Override
     public void addPosts(Set<Post> posts) {
         if (posts.size() < Constants.NUMBER_OF_POSTS_RETURNED) {
-            footerBtn.setText("Ingen flere poster");
+            footerBtn.setText("No more posts");
             footerBtn.setClickable(false);
         }
         if (!posts.isEmpty()) {
@@ -358,7 +358,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView,
 
     @Override
     public void setFriends(Collection<User> users) {
-        nrOfFriendsTextView.setText(users.size() + " venner");
+        nrOfFriendsTextView.setText(users.size() + " friends");
 
         ((UserGridFragment)getSupportFragmentManager().findFragmentById(R.id.participants_fragment)).setList(new ArrayList<User>(users));
     }

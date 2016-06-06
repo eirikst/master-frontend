@@ -92,7 +92,7 @@ public class NotificationListAdapter extends ArrayAdapter<Object> {
 
         //Populate name
         text.setText(friendship.getFriend().getFirstname() + " " + friendship.getFriend()
-                .getLastname() + " ønsker å bli din venn");
+                .getLastname() + " wants to be your friend");
 
         Button acceptBtn = (Button)convertView.findViewById(R.id.accept_friend);
         acceptBtn.setOnClickListener(new View.OnClickListener() {

@@ -390,13 +390,13 @@ public class CustomSlider extends CustomView {
 
                 switch (value) {
                     case 0:
-                        numberIndicator.numberIndicator.setText("ENKEL");
+                        numberIndicator.numberIndicator.setText("Easy");
                         break;
                     case 1:
-                        numberIndicator.numberIndicator.setText("MODERAT");
+                        numberIndicator.numberIndicator.setText("Intermediate");
                         break;
                     case 2:
-                        numberIndicator.numberIndicator.setText("HØY");
+                        numberIndicator.numberIndicator.setText("Hard");
                         break;
                     default:
                         numberIndicator.numberIndicator.setText(value + "");

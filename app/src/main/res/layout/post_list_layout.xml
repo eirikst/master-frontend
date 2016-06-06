@@ -95,7 +95,7 @@
                 android:id="@+id/like_nr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0 liker"
+                android:text="0 Likes"
                 android:layout_marginRight="10dp"
                 />
 
@@ -104,7 +104,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/like_nr"
-                android:text="0 kommentarer"
+                android:text="0 Comments"
                 android:layout_marginRight="10dp"
                 />
         </RelativeLayout>
@@ -140,7 +140,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/comment"
-                    android:text="Kommenter"
+                    android:text="Comment"
                     android:layout_marginRight="10dp"
                     android:layout_gravity="center_vertical"
                     />
@@ -171,7 +171,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/like"
-                        android:text="Lik"
+                        android:text="Like"
                         android:layout_gravity="center_vertical"
                         />
 
@@ -198,7 +198,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/like"
-                        android:text="Liker"
+                        android:text="Likes"
                         android:textColor="@color/app_red"
                         android:layout_gravity="center_vertical"
                         />

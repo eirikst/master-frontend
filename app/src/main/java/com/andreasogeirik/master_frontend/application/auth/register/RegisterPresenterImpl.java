@@ -28,23 +28,23 @@ public class RegisterPresenterImpl implements RegisterPresenter {
         String trimmedEmail = email.trim();
 
         if (TextUtils.isEmpty(trimmedEmail)) {
-            registerView.setEmailError("Skriv inn e-post");
+            registerView.setEmailError("Enter an email address");
         }
         else if (!EmailValidator.validate(trimmedEmail)){
-            registerView.setEmailError("Dette er ikke en gyldig e-post");
+            registerView.setEmailError("This is not a valid email address");
         }
         else if (TextUtils.isEmpty(password)) {
-            registerView.setPasswordError("Skriv inn et passord");
+            registerView.setPasswordError("Enter a password");
         } else if (password.length() < 3) {
-            registerView.setPasswordError("Passordet må være minst 3 tegn langt");
+            registerView.setPasswordError("The password must be at least 3 characters");
         } else if (!TextUtils.equals(password, rePassword)) {
-            registerView.setPasswordError("Passordene matcher ikke");
+            registerView.setPasswordError("The password don't match");
         } else if (TextUtils.isEmpty(firstname)) {
-            registerView.setFirstnameError("Skriv inn et fornavn");
+            registerView.setFirstnameError("Enter a first name");
         } else if (TextUtils.isEmpty(lastname)) {
-            registerView.setLastnameError("Skriv inn et etternavn");
+            registerView.setLastnameError("Enter a surname");
         } else if (TextUtils.isEmpty(location)) {
-            registerView.setLocationError("Skriv inn et sted");
+            registerView.setLocationError("Enter a location");
         } else {
             registerView.showProgress();
             interactor.registerUser(new User(trimmedEmail, password, firstname, lastname, location));
@@ -62,16 +62,16 @@ public class RegisterPresenterImpl implements RegisterPresenter {
         registerView.hideProgress();
         switch (error) {
             case Constants.RESOURCE_ACCESS_ERROR:
-                this.registerView.registrationFailed("Fant ikke ressurs. Prøv igjen");
+                this.registerView.registrationFailed("Could not find the requested resource. Please try again.");
                 break;
             // This can't happen. Do Nothing
             case Constants.UNAUTHORIZED:
                 break;
             case Constants.CLIENT_ERROR:
-                this.registerView.registrationFailed("E-posten er allerede registrert i systemet.");
+                this.registerView.registrationFailed("This email is already registered.");
                 break;
             case Constants.SOME_ERROR:
-                this.registerView.registrationFailed("Noe gikk galt, prøv igjen senere");
+                this.registerView.registrationFailed("Something went wrong. Please try again later.");
                 break;
         }
     }

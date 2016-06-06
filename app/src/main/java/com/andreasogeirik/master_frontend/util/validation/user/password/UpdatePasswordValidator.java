@@ -9,15 +9,15 @@ public class UpdatePasswordValidator {
 
     public static UpdatePasswordStatusCodeContainer validate(String currentPass, String newPass, String rePass) {
         if (TextUtils.isEmpty(currentPass)) {
-            return new UpdatePasswordStatusCodeContainer(UpdatePasswordStatusCodes.CURRENT_PASS_ERROR, "Skriv inn ditt nåværende passord");
+            return new UpdatePasswordStatusCodeContainer(UpdatePasswordStatusCodes.CURRENT_PASS_ERROR, "Enter your current password");
         } else if (TextUtils.isEmpty(newPass)) {
-            return new UpdatePasswordStatusCodeContainer(UpdatePasswordStatusCodes.NEW_PASS_ERROR, "Skriv inn et nytt passord");
+            return new UpdatePasswordStatusCodeContainer(UpdatePasswordStatusCodes.NEW_PASS_ERROR, "Enter a new password");
         } else if (TextUtils.isEmpty(rePass)) {
-            return new UpdatePasswordStatusCodeContainer(UpdatePasswordStatusCodes.RE_PASS_ERROR, "Skriv inn det nye passordet en gang til");
+            return new UpdatePasswordStatusCodeContainer(UpdatePasswordStatusCodes.RE_PASS_ERROR, "Enter the new password one more time");
         } else if (newPass.length() < 3) {
-            return new UpdatePasswordStatusCodeContainer(UpdatePasswordStatusCodes.NEW_PASS_ERROR, "Passordet må være minst 3 tegn");
+            return new UpdatePasswordStatusCodeContainer(UpdatePasswordStatusCodes.NEW_PASS_ERROR, "The password must be at least 3 characters long");
         } else if (!TextUtils.equals(newPass, rePass)) {
-            return new UpdatePasswordStatusCodeContainer(UpdatePasswordStatusCodes.NEW_PASS_ERROR, "Passordene matcher ikke");
+            return new UpdatePasswordStatusCodeContainer(UpdatePasswordStatusCodes.NEW_PASS_ERROR, "The passwords don't match");
         }
         return new UpdatePasswordStatusCodeContainer(UpdatePasswordStatusCodes.OK);
     }

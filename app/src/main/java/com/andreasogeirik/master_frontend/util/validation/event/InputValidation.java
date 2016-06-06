@@ -21,30 +21,32 @@ public class InputValidation {
         // Mandatory inputs
 
         if (TextUtils.isEmpty(name)) {
-            return new CreateEventValidationContainer(CreateEventStatusCodes.NAME_ERROR, "Sett et navn");
+            return new CreateEventValidationContainer(CreateEventStatusCodes.NAME_ERROR, "Enter a name");
         } else if (TextUtils.isEmpty(location)) {
-            return new CreateEventValidationContainer(CreateEventStatusCodes.LOCATION_ERROR, "Velg et sted");
+            return new CreateEventValidationContainer(CreateEventStatusCodes.LOCATION_ERROR, "Enter a location");
         } else if (TextUtils.isEmpty(description)) {
-            return new CreateEventValidationContainer(CreateEventStatusCodes.DESCRIPTION_ERROR, "Skriv en kort beskrivelse");
+            return new CreateEventValidationContainer(CreateEventStatusCodes.DESCRIPTION_ERROR, "Enter a short description");
         } else if (startDate == null) {
-            return new CreateEventValidationContainer(CreateEventStatusCodes.START_DATE_ERROR, "Velg en dato");
+            return new CreateEventValidationContainer(CreateEventStatusCodes.START_DATE_ERROR, "Select a date");
         } else if (startTimePair == null) {
-            return new CreateEventValidationContainer(CreateEventStatusCodes.START_TIME_ERROR, "Velg et tidspunkt");
+            return new CreateEventValidationContainer(CreateEventStatusCodes.START_TIME_ERROR, "Select a time");
         } else if (convertToDate(startDate, startTimePair).before(new Date())) {
-            return new CreateEventValidationContainer(CreateEventStatusCodes.START_DATE_ERROR, "Velg et tidspunkt etter nåværende tid");
+            return new CreateEventValidationContainer(CreateEventStatusCodes.START_DATE_ERROR, "Select a start time after current time");
         }
 
         // Optional inputs
         if (endDate != null) {
             if (endTimePair == null) {
-                return new CreateEventValidationContainer(CreateEventStatusCodes.END_TIME_ERROR, "Sett et slutttidspunkt");
+                return new CreateEventValidationContainer(CreateEventStatusCodes.END_TIME_ERROR, "Select an end time");
             } else if (convertToDate(endDate, endTimePair).before(new Date())) {
-                return new CreateEventValidationContainer(CreateEventStatusCodes.END_DATE_ERROR, "Velg et slutttidspunkt etter nåværende tid");
+                return new CreateEventValidationContainer(CreateEventStatusCodes.END_DATE_ERROR, "Select an end time after current time");
             } else if (convertToDate(endDate, endTimePair).before(convertToDate(startDate, startTimePair))) {
-                return new CreateEventValidationContainer(CreateEventStatusCodes.END_DATE_ERROR, "Aktiviteten kan ikke slutte før den begynner! Endre ett av tidspunktene");
+                return new CreateEventValidationContainer(CreateEventStatusCodes.END_DATE_ERROR,
+                        "The activity cannot start before it begins! Edit one of the time fields");
             }
         } else if (endTimePair != null && endDate == null) {
-            return new CreateEventValidationContainer(CreateEventStatusCodes.END_DATE_ERROR, "Veld en sluttdato");
+            return new CreateEventValidationContainer(CreateEventStatusCodes.END_DATE_ERROR,
+                    "Select an end date");
         }
 
         return new CreateEventValidationContainer(CreateEventStatusCodes.OK);

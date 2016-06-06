@@ -189,10 +189,10 @@ public class EventPresenterImpl extends GeneralPresenter implements EventPresent
 
         int NoOfParticipants = this.event.getUsers().size();
         if (NoOfParticipants == 1){
-            participants = "1 DELTAKER";
+            participants = "1 Participant";
         }
         else{
-            participants = NoOfParticipants + " DELTAKERE";
+            participants = NoOfParticipants + " Participants";
         }
 
 

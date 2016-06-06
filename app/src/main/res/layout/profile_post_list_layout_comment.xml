@@ -125,7 +125,7 @@ android:orientation="horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/like"
-                        android:text="Lik"
+                        android:text="Like"
                         android:layout_gravity="center_vertical"
                         />
                 </LinearLayout>
@@ -150,7 +150,7 @@ android:orientation="horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/like"
-                        android:text="Liker"
+                        android:text="Likes"
                         android:textColor="@color/app_red"
                         android:layout_gravity="center_vertical"
                         />

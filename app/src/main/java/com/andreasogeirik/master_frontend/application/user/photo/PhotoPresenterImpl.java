@@ -58,13 +58,13 @@ public class PhotoPresenterImpl extends GeneralPresenter implements PhotoPresent
 
     @Override
     public void userUpdatedSuccess() {
-        photoView.sendMessage("Profil oppdatert!");
+        photoView.sendMessage("Profile updated!");
 //        photoView.navigateToMainView();
     }
 
     @Override
     public void userUpdatedError(int error) {
-        photoView.sendMessage("Noe gikk galt under oppdatering av bruker");
+        photoView.sendMessage("Something went wrong during the user update");
     }
 
 
@@ -78,10 +78,10 @@ public class PhotoPresenterImpl extends GeneralPresenter implements PhotoPresent
     public void onSampleError(ImageStatusCode statusCode) {
         switch (statusCode) {
             case NOT_AN_IMAGE:
-                photoView.imageError("Den valgte filen var ikke et bilde");
+                photoView.imageError("The selected file is not an image");
                 break;
             case FILE_NOT_FOUND:
-                photoView.imageError("Fant ikke den valgte filen");
+                photoView.imageError("Did not find the select file");
                 break;
         }
     }
@@ -93,7 +93,7 @@ public class PhotoPresenterImpl extends GeneralPresenter implements PhotoPresent
 
     @Override
     public void onImageUploadError(int error) {
-        photoView.sendMessage("Noe gikk galt under opplasting av bilde");
+        photoView.sendMessage("Something went wrong during the image upload");
 
     }
 }

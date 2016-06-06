@@ -157,13 +157,13 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
         message.setText(post.getMessage());
         dateCreated.setText(DateUtility.formatFull(post.getCreated()));
         if(post.getComments().size() == 1) {
-            nrOfComments.setText("1 kommentar");
+            nrOfComments.setText("1 comment");
         }
         else {
-            nrOfComments.setText(post.getComments().size() + " kommentarer");
+            nrOfComments.setText(post.getComments().size() + " Comments");
         }
 
-        nrOfLikes.setText(post.getLikers().size() + " liker");
+        nrOfLikes.setText(post.getLikers().size() + " Likes");
 
         likeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -268,7 +268,7 @@ public class PostListAdapter extends ArrayAdapter<PostListElement> {
         name.setText(comment.getWriter().getFirstname() + " " + comment.getWriter().getLastname());
         message.setText(comment.getMessage());
         dateCreated.setText(DateUtility.formatFull(comment.getTimeCreated()));
-        nrOfLikes.setText(comment.getLikers().size() + " liker");
+        nrOfLikes.setText(comment.getLikers().size() + " Likes");
 
         likeBtn.setOnClickListener(new View.OnClickListener() {
             @Override

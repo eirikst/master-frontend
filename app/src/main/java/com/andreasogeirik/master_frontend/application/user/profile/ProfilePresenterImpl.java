@@ -215,15 +215,15 @@ PostListInteractorImpl.Listener {
     @Override
     public void successAttendingEvents(Set<Event> events) {
         if(events.size() == 0) {
-            view.setEventButtonText("Se aktiviteter");
+            view.setEventButtonText("Browse activities");
         }
         else if(events.size() == 1) {
             for(Event e: events) {
-                view.setEventButtonText("Deltar på " + e.getName());
+                view.setEventButtonText("Attending " + e.getName());
             }
         }
         else {
-            view.setEventButtonText("Deltar på " + events.size() + " aktiviteter");
+            view.setEventButtonText("Attending " + events.size() + " activities");
         }
     }
 
@@ -257,7 +257,7 @@ PostListInteractorImpl.Listener {
             checkAuth();
         }
         else {
-            view.displayMessage("Feil ved lasting av venner");
+            view.displayMessage("An error occurred when loading friends");
         }
     }
 

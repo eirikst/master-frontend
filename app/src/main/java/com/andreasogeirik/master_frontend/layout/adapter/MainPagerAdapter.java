@@ -20,7 +20,7 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
     final int ATTENDING = 2;
     final int MY = 3;
     final int PAGE_COUNT = 4;
-    private String tabTitles[] = new String[] {"Nyheter", "Anbefalt", "Påmeldt", "Mine"};
+    private String tabTitles[] = new String[] {"News", "Recommended", "Attend ing", "Mine"};
     private Context context;
     private Map<Integer, Fragment> registeredFragments = new HashMap<>();
 

@@ -167,28 +167,28 @@ public class EventListAdapter extends ArrayAdapter<Event> {
             boolean userAttendsEvent = event.attends(user);
 
             //Litt weird, men ok...
-            String participate = "deltar";
+            String participate = "attend";
 
 
             if(event.getStartDate().getTime().before(now)) {
-                participate = "deltok";
+                participate = "attended";
             }
 
             if (friendCount > 2) {
                 if(!userAttendsEvent) {
-                    friends.setText(friendNames.get(0) + " og " + (friendCount - 1) + " andre venner " + participate);
+                    friends.setText(friendNames.get(0) + " and " + (friendCount - 1) + " other friends" + participate);
                 }
                 else {
-                    friends.setText("Du og " + (friendCount) + " venner " + participate);
+                    friends.setText("You and " + (friendCount) + " friends " + participate);
                 }
                 friends.setVisibility(View.VISIBLE);
             }
             else if(friendCount == 2) {
                 if(!userAttendsEvent) {
-                    friends.setText(friendNames.get(0) + " og " + friendNames.get(1) + " " + participate);
+                    friends.setText(friendNames.get(0) + " and " + friendNames.get(1) + " " + participate);
                 }
                 else {
-                    friends.setText("Du og to venner " + participate);
+                    friends.setText("You and two friends " + participate);
                 }
                 friends.setVisibility(View.VISIBLE);
             }
@@ -197,13 +197,13 @@ public class EventListAdapter extends ArrayAdapter<Event> {
                     friends.setText(friendNames.get(0) + " " + participate);
                 }
                 else {
-                    friends.setText("Du og " + friendNames.get(0) + " " + participate);
+                    friends.setText("You and " + friendNames.get(0) + " " + participate);
                 }
                 friends.setVisibility(View.VISIBLE);
             }
             else {
                 if(userAttendsEvent) {
-                    friends.setText("Du " + participate);
+                    friends.setText("You " + participate);
                     friends.setVisibility(View.VISIBLE);
                 }
                 else {
