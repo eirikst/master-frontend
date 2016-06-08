@@ -108,6 +108,10 @@ public class RecommendedEventsFragment extends Fragment implements RecommendedEv
     public void onResume() {
         super.onResume();
         presenter = new RecommendedEventsPresenterImpl(this);
+
+        if(footer != null) {
+            footer.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

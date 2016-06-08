@@ -162,10 +162,10 @@ public class LogPresenterImpl extends GeneralPresenter implements LogPresenter,
 
 
     /*
-     * Update log each minute
+     * Update log each half minute
      */
     private void startUpdateLogTimer() {
-        timer = new CountDownTimer(5000, 5000) {
+        timer = new CountDownTimer(30000, 30000) {
             @Override
             public void onTick(long millisUntilFinished) {
 

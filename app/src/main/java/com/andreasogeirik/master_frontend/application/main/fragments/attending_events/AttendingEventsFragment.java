@@ -113,6 +113,10 @@ public class AttendingEventsFragment extends Fragment implements AttendingEventV
 
         User user = (User)getActivity().getIntent().getSerializableExtra("user");
         presenter = new AttendingEventsPresenterImpl(this, user);
+
+        if(footer != null) {
+            footer.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

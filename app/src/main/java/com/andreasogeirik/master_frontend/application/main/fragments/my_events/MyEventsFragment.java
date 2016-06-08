@@ -108,6 +108,10 @@ public class MyEventsFragment extends Fragment implements MyEventView {
     public void onResume() {
         super.onResume();
         presenter = new MyEventsPresenterImpl(this);
+
+        if(footer != null) {
+            footer.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
